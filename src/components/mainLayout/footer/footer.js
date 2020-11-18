@@ -8,7 +8,6 @@ class Footer extends Component{
   render(){
     return(
       <div className="display-grid background-fusion">
-        Footer
       </div>
     )
   }
