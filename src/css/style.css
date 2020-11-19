@@ -20,6 +20,7 @@ li > a {
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
+  font-weight: bold;
 }
 
 li a:hover:not(.active) {
@@ -27,7 +28,7 @@ li a:hover:not(.active) {
 }
 
 .active {
-  background-color: #24e959;
+  background-color: #e5e5e5;
 }
 
 .div-inline{
@@ -50,6 +51,10 @@ li a:hover:not(.active) {
 .logo-size{
   width: 480px;
   margin: 25px auto 0px auto;
+}
+
+.logo-size-header{
+
 }
 
 .square{
@@ -97,7 +102,7 @@ li a:hover:not(.active) {
 .button-fixed{
   background-color: #24e959; /* Green */
   border: none;
-  color: white;
+  color: #ffffff;
   padding: 25px;
   text-align: center;
   text-decoration: none;
@@ -112,8 +117,18 @@ li a:hover:not(.active) {
   box-shadow: 4px 4px 4px  #158B35;
 }
 
-.button-fixed:active{
+button#btn-buy:hover{
   box-shadow: 0 0;
+}
+
+button#btn-buy:active{
+  background-color: #19A33E;
+  color:#e5e5e5;
+}
+
+button#btn-buy:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 .container{
