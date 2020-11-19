@@ -19,6 +19,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
+    "delete-map-files": "find ./build/static/js -name '*.map' -delete",
+    "production": "GENERATE_SOURCEMAP=false react-scripts build && npm run delete-map-files && node server.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
