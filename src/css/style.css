@@ -1,3 +1,46 @@
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltiptext {
+    font-size: 8px;
+    visibility: hidden;
+    width: 36px;
+    background-color: #444444;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    z-index: 2;
+    position: absolute;
+    cursor: pointer;
+}
+
+.tooltiptext.top{
+  /* Position the tooltip */
+  /* margin-left determin position : center =>width/2 */
+  bottom: 100%;
+  left: 50%;
+  margin-left: -18px;
+}
+.tooltiptext.right{
+  bottom: 100%;
+  left: 50%;
+  margin-left: 0px;
+}
+.tooltiptext.left{
+  bottom: 100%;
+  left: 50%;
+  margin-left: -36px;
+}
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+
+
 #navbar {
   list-style-type: none;
   margin: 0;
@@ -7,7 +50,7 @@
   position: sticky;
   top: 0;
   width: 100%;
-  z-index: 5;
+  z-index: 999;
 }
 
 #navbar > li {
@@ -31,6 +74,8 @@ li a:hover:not(.active) {
   background-color: #e5e5e5;
 }
 
+
+
 .div-inline{
   display: inline-flex;
   margin: 0 auto;
@@ -44,9 +89,12 @@ li a:hover:not(.active) {
   background-image:linear-gradient(90deg, #000000, #383428),repeating-linear-gradient(-45deg, #7cd4cf, #7cd4cf 1.5px, #49c8c1 2px, #49c8c1 4px);
 }
 
+
+
 .slogan{
   color:#ffffff;
 }
+
 
 
 .logo-size{
@@ -57,6 +105,8 @@ li a:hover:not(.active) {
 .logo-size-header{
 
 }
+
+
 
 .square{
   width:10px;
@@ -73,32 +123,7 @@ li a:hover:not(.active) {
   z-index: 1;/* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
 
-.tooltip {
-    position: relative;
-    display: inline-block;
-    border-bottom: 1px dotted black;
-}
 
-.tooltip .tooltiptext {
-    visibility: hidden;
-    width: 60px;
-    background-color: #444444;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-
-    /* Position the tooltip */
-    position: absolute;
-    z-index: 2;
-    bottom: 100%;
-    left: 50%;
-    margin-left: -60px;
-}
-
-.tooltip:hover .tooltiptext {
-    visibility: visible;
-}
 
 .button-fixed{
   background-color: #24e959; /* Green */
@@ -132,6 +157,8 @@ button#btn-buy:focus {
   box-shadow: none;
 }
 
+
+
 .container{
   /* width: 1360px !important; */
   text-align: center;
@@ -140,14 +167,4 @@ button#btn-buy:focus {
 .container2{
   width: 1350px !important;
   max-width: none !important;
-}
-
-.table-fix{
-  table-layout:fixed;
-  width: 100%;
-}
-
-.table-fix td{
-  border:solid 0.5px black !important;
-  overflow: hidden;
 }

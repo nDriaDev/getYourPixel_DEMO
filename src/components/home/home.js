@@ -8,7 +8,7 @@ class Home extends Component{
     return(
       <>
         <Logo/>
-        <Square/>
+        <Square rows="264" cols="152"/>
         <BuyButton/>
       </>
     )
