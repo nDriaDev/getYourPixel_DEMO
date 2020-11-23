@@ -4,12 +4,14 @@ import {useHistory} from 'react-router-dom';
 function BuyButton(){
   const history = useHistory();
   return(
-    <button
-      id="btn-buy"
-      className="button-fixed"
-      onClick={()=>history.push('/buy')}>
-      Buy
-    </button>
+    <div className="display-button">
+      <button
+        id="btn-buy"
+        className="button-fixed"
+        onClick={()=>history.push('/buy')}>
+        BUY
+      </button>
+    </div>
   )
 }
 

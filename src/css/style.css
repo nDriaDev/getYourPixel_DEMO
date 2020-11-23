@@ -1,9 +1,17 @@
-.tooltip {
+.overlay-div {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index:999;
+}
+
+
+
+.my-tooltip {
     position: relative;
     display: inline-block;
     border-bottom: 1px dotted black;
 }
-
 .tooltiptext {
     font-size: 8px;
     visibility: hidden;
@@ -17,7 +25,6 @@
     position: absolute;
     cursor: pointer;
 }
-
 .tooltiptext.top{
   /* Position the tooltip */
   /* margin-left determin position : center =>width/2 */
@@ -35,7 +42,7 @@
   left: 50%;
   margin-left: -36px;
 }
-.tooltip:hover .tooltiptext {
+.my-tooltip:hover .tooltiptext {
     visibility: visible;
 }
 
@@ -47,29 +54,26 @@
   padding: 0;
   overflow: hidden;
   background-color: #333;
-  position: sticky;
+  position: relative;
   top: 0;
   width: 100%;
-  z-index: 5;
+  /* z-index: 150; */
 }
-
 #navbar > li {
   float: left;
 }
-
 li > a {
   display: block;
   color: white;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
+  font-family: 'Minecraftia';
   font-weight: bold;
 }
-
 li a:hover:not(.active) {
   background-color: #111;
 }
-
 .active {
   background-color: #e5e5e5;
 }
@@ -80,44 +84,77 @@ li a:hover:not(.active) {
   display: inline-flex;
   margin: 0 auto;
 }
-
 .display-grid{
   display: grid;
 }
-
+.display-error{
+  width: 100%;
+  padding-top: 10%;
+}
+.display-title{
+  height: 156px;
+  white-space: nowrap;
+}
+.display-logo{
+  width: 75%;
+  display: inline-block;
+  text-align: center;
+  padding-left: 28%;
+}
+.display-button{
+  display: inline-block;
+  padding-left: 10%;
+}
+.display-grid-blank-20{
+  display: grid;
+  height: 20px !important;
+}
+.display-grid-blank-40{
+  display: grid;
+  height: 40px !important;
+}
+.display-grid-blank-60{
+  display: grid;
+  height: 60px !important;
+}
 .background-fusion{
-  background-image:linear-gradient(90deg, #000000, #383428),repeating-linear-gradient(-45deg, #7cd4cf, #7cd4cf 1.5px, #49c8c1 2px, #49c8c1 4px);
+  background: black !important;
+}
+.background-Mobile {
+  background: black !important;
 }
 
 
 
-.slogan{
+.slogan-h1{
+  font-size: 70px;
+  color:#24e959;
+  font-family: 'Minecraftia';
+}
+.slogan-h2{
   color:#ffffff;
+  font-family: 'Minecraftia';
+  margin-top:15px;
 }
-
-
-
 .logo-size{
   width: 480px;
   margin: 25px auto 0px auto;
 }
-
 .logo-size-header{
-
+  width: 30px;
 }
 
 
 
 .square{
-  width:10px;
-  height:10px;
+  width: 10px;
+  height: 10px;
   background: white;
   transition: transform .2s;
-  margin: 0 auto;
+  margin: 0 0;
   border:solid 0.2px black !important;
   display: inline-block;
 }
-
 .square:hover {
   transform: scale(2.0);
   z-index: 1;/* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
@@ -134,24 +171,20 @@ li a:hover:not(.active) {
   text-decoration: none;
   display: inline-block;
   font-weight: 900;
+  font-family: 'Minecraftia';
   font-size: 18px;
   cursor: pointer;
-  position: fixed;
-  top: 90%;
-  left: 92%;
-  border-radius: 50%;
+  vertical-align: text-bottom;
+  border-radius: 0%;
   box-shadow: 4px 4px 4px  #158B35;
 }
-
 button#btn-buy:hover{
   box-shadow: 0 0;
 }
-
 button#btn-buy:active{
   background-color: #19A33E;
   color:#e5e5e5;
 }
-
 button#btn-buy:focus {
   outline: none;
   box-shadow: none;
@@ -159,12 +192,182 @@ button#btn-buy:focus {
 
 
 
-.container{
-  /* width: 1360px !important; */
-  text-align: center;
+@font-face {font-family: 'Minecraftia'; src: url('./font/Minecraftia.ttf');}
+.error-page-font{
+  font-family: Minecraftia;
+  color: #000000;
+  font-size: 52px;
+}
+.text-appear {
+  animation: blinker 1s linear infinite;
+}
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+/* Firefox old*/
+@-moz-keyframes blink {
+    0% {
+        opacity:1;
+    }
+    50% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
 }
 
-.container2{
-  width: 1350px !important;
-  max-width: none !important;
+@-webkit-keyframes blink {
+    0% {
+        opacity:1;
+    }
+    50% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+}
+/* IE */
+@-ms-keyframes blink {
+    0% {
+        opacity:1;
+    }
+    50% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+}
+/* Opera and prob css3 final iteration */
+@keyframes blink {
+    0% {
+        opacity:1;
+    }
+    50% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+}
+.blink-image {
+    padding-bottom: 1.5%;
+    -moz-animation: blink normal 1s infinite ease-in-out; /* Firefox */
+    -webkit-animation: blink normal 1s infinite ease-in-out; /* Webkit */
+    -ms-animation: blink normal 1s infinite ease-in-out; /* IE */
+    animation: blink normal 1s infinite ease-in-out; /* Opera and prob css3 final iteration */
+}
+
+/* da usare con overflow-auto e mx-auto */
+.div-container-square{
+  width: 1520px;
+  height: 2808;
+  max-width: 100%;
+  max-height: 100%;
+}
+.span-rows-square{
+  display: inline-grid;
+}
+.span-cols-square{
+  display: inline-flex;
+}
+.span-square{
+  width: 10px;
+  height: 10px;
+  background: #FFFFFF;
+  transition: transform .2s;
+  margin: 0 auto;
+  border:solid 0.2px black !important;
+  display: inline-block;
+}
+.span-square:hover {
+  transform: scale(2.0);
+  z-index: 1;/* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
+.border-input{
+  border:none !important;
+  padding: 0 0 0 0;
+}
+
+.border-input:focus{
+  box-shadow: none;
+  background: #f7f7f7;
+  background-color: #f7f7f7;
+  border: none;
+}
+
+.border-input:active{
+  background: #f7f7f7;
+  background-color: #f7f7f7;
+  border: none;
+}
+
+/*----------------------------------------------------------------------------*/
+/* ---------------------------- CONTACT FORM ---------------------------------*/
+.container-form{
+  width: 50%;
+  min-width: 270px;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 2%;
+  margin-top:1%;
+}
+.form-title{
+  display: block;
+  width: 100%;
+  font-family: Montserrat-Black;
+  font-size: 39px;
+  color: #333333;
+  line-height: 1.2;
+  text-align: center;
+  padding-bottom: 20px;
+  font-family: 'Minecraftia';
+  font-weight: 'bold';
+}
+.form-input{
+  width: 100%;
+  position: relative;
+  border: 1px solid #e6e6e6;
+  border-radius: 13px;
+  padding: 3px 0 0 8px;
+  margin-bottom: 0px;
+  background-color: #f7f7f7;
+}
+.form-input2{
+  display: block;
+  width: 100%;
+  height: 27px;
+  background: transparent;
+  font-family: Montserrat-SemiBold;
+  font-size: 18px;
+  color: #555555;
+  line-height: 1.2;
+  padding-right: 15px;
+}
+.btn-contact{
+  display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    width: 100%;
+    height: 50px;
+    background-color: #333333;
+    border-radius: 25px;
+    font-family: Montserrat-Medium;
+    font-size: 16px;
+    color: #fff;
+    line-height: 1.2;
+    transition: all 0.4s;
+    border-color: #333333;
+}
+
+.btn-contact:hover{
+  background-color: #24e959;
+  border-color: #24e959;
 }

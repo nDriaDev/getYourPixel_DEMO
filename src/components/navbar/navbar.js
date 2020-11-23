@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
-import Img from './../../images/logo-header.png';
+import Img from './../../images/navBar.png';
+import Const from './../../util/Costanti.js';
 
-class Navbar extends Component{
+class NavbarCustom extends Component{
   constructor(props){
     super(props);
     let pathname = window.location.pathname;
-    pathname = pathname === '/' ? '' : (pathname === '/buy' ? 'buy' : (pathname === '/contact' ? 'contact' : ''));
+    pathname = pathname === Const.PATH_ERROR ? 'error' : (pathname === '/' ? '' : (pathname === Const.PATH_BUY ? 'buy' : (pathname === Const.PATH_CONTACT ? 'contact' : '')));
     this.state = {
-      active: pathname === '' ? 1 : (pathname === 'buy' ? 2 : 3)
+      active: pathname === 'error' ? 0 : (pathname === '' ? 1 : (pathname === 'buy' ? 2 : 3))
     }
     this.changeActive = this.changeActive.bind(this);
   }
@@ -20,33 +21,48 @@ class Navbar extends Component{
 
   render(){
     return(
-      <ul id="navbar">
-        <li>
-          <a
-            className={this.state.active === 1 ? 'active' : ''}
-            href="/" onClick={()=>this.changeActive(1)}>
-            <img src={Img} alt="Logo" className="logo-size-header"></img>
-          </a>
-        </li>
-        <li>
-          <a
-            className={this.state.active === 2 ? 'active' : ''}
-            href="buy"
-            onClick={()=>this.changeActive(2)}>
-              Buy
-          </a>
-        </li>
-        <li>
-          <a
-            className={this.state.active === 3 ? 'active' : ''}
-            href="contact"
-            onClick={()=>this.changeActive(3)}>
-              Contact
-          </a>
-        </li>
-      </ul>
+      <nav className="navbar navbar-expand-lg navbar-dark primary-color">
+        <a className="navbar-brand" href="/" onClick={()=>this.changeActive(1)}>
+          <img src={Img} alt="Logo" className="logo-size-header"></img>
+        </a>
+        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+          aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="basicExampleNav">
+          <ul className="navbar-nav mr-auto">
+            <li className={"nav-item " + this.state.active === 1 ? 'active' : ''}>
+              <a
+                className="nav-link"
+                href="/"
+                style={{float:'left'}}
+                onClick={()=>this.changeActive(1)}>
+                Home
+              </a>
+            </li>
+            <li className={"nav-item " + this.state.active === 2 ? 'active' : ''}>
+              <a
+                className="nav-link"
+                href="buy"
+                style={{float:'left'}}
+                onClick={()=>this.changeActive(2)}>
+                Buy
+              </a>
+            </li>
+            <li className={"nav-item " + this.state.active === 3 ? 'active' : ''}>
+              <a
+                className="nav-link"
+                href="contact"
+                style={{float:'left'}}
+                onClick={()=>this.changeActive(3)}>
+                Contact
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
     )
   }
 }
 
-export default Navbar;
+export default NavbarCustom;

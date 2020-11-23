@@ -1,18 +1,14 @@
-import React , {Component} from 'react';
+import React from 'react';
 import Square from './../square/square';
-import Logo from './../logo/logo';
-import BuyButton from './../buyButton/buyButton';
 
-class Home extends Component{
-  render(){
+function Home() {
+
     return(
       <>
-        <Logo/>
+        <div className="display-grid-blank-60 "></div>
         <Square rows="264" cols="152"/>
-        <BuyButton/>
       </>
     )
-  }
 }
 
 export default Home;
