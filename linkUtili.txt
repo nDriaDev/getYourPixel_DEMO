@@ -2,6 +2,13 @@
 https://reactjs.org/docs/optimizing-performance.html
 
 
+########### REACT WEBPACK ###########
+https://dev.to/kedar9/creating-a-node-app-with-react-webpack-4-babel-7-express-and-sass-3mae
+
+
+########### REACT USING ENV VARIABLE ###########
+https://medium.com/@trekinbami/using-environment-variables-in-react-6b0a99d83cf5
+
 ########### BOOTSRAP ###########
 https://mdbootstrap.com/docs/jquery/navigation/navbar/
 https://react-bootstrap.github.io/components/overlays/

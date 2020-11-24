@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.1.2",
     "@testing-library/user-event": "^12.2.2",
+    "axios": "^0.21.0",
     "bootstrap": "^4.5.3",
     "compression": "^1.7.4",
     "express": "^4.17.1",
@@ -23,7 +24,7 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "npm run delete-map-files && node server.js",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "delete-map-files": "find ./build/static/js -name '*.map' -delete",
     "production": "GENERATE_SOURCEMAP=false react-scripts build && npm run delete-map-files && node server.js",
@@ -47,5 +48,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {}
 }
