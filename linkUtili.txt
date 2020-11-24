@@ -1,0 +1,29 @@
+########### REACT PERFORMANCE ###########
+https://reactjs.org/docs/optimizing-performance.html
+
+
+########### BOOTSRAP ###########
+https://mdbootstrap.com/docs/jquery/navigation/navbar/
+https://react-bootstrap.github.io/components/overlays/
+https://react-bootstrap.github.io/components/overlays/#tooltips
+https://blog.logrocket.com/how-to-use-bootstrap-with-react-a354715d1121/
+https://react-bootstrap.github.io/components/forms/?#forms-layout-group
+https://react-bootstrap.netlify.app/components/forms/#forms-controls
+https://getbootstrap.com/docs/4.0/components/navbar/
+https://getbootstrap.com/docs/4.0/getting-started/introduction/
+
+
+########### NAVBAR STICKY (FISSA TOP) ##########
+https://www.codeply.com/go/QeJOvbYswd
+
+
+########### REACT USE REF ##########
+https://dev.to/renatobentorocha/how-to-use-react-forwardref-1h2l
+
+
+########### REACT DEPLOY HEROKU ##########
+https://www.paolodellaguzzo.com/blog/2017/11/10/reactjs-build-e-rilascio-in-produzione-con-express/
+
+
+########### REACT CHANGE PROPS FROM PROPS.CHILDREN ##########
+https://frontarm.com/james-k-nelson/passing-data-props-children/

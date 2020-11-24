@@ -1,17 +1,20 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Header from './../header/header';
 import Footer from './../footer/footer';
 
-class MainTemplate extends Component{
-  render(){
-    return(
-      <div className="display-grid">
-        <Header/>
-        {this.props.children}
-        <Footer/>
-      </div>
-    )
-  }
+const MainTemplate = (props) => {
+  let isShowed = props.isHome && props.show;
+  return(
+    <div className="display-grid" style={{
+        visibility: isShowed ? 'hidden' : 'visible',
+        position: isShowed ? 'absolute' : '',
+        zIndex: isShowed ? '1' : '2'
+      }}>
+      <Header/>
+      {props.children}
+      <Footer/>
+    </div>
+  )
 }
 
 export default MainTemplate;

@@ -17,7 +17,6 @@ server.use(favicon(__dirname + '/build/favicon.ico'));
 server.use(express.static(path.join(__dirname, 'build')));
 
 server.get('*', (req, res) => {
-  console.log("err");
 
   if (req.url.indexOf("/external/") === 0 || req.url.indexOf("/css/") === 0 || req.url.indexOf("/media/") === 0
   || req.url.indexOf("/js/") === 0 || req.url.indexOf(".js") === 0 || req.url.indexOf(".css") === 0
@@ -30,7 +29,6 @@ server.get('*', (req, res) => {
 });
 
 server.post('/sendMail', (req, res, next)=> {
-  console.log("data",JSON.stringify(req.body));
   try {
     const name = req.body.name;
     const email = req.body.email;
@@ -115,7 +113,7 @@ server.post('/sendMail', (req, res, next)=> {
       +                    'Soggetto: ' + subject +
       +                  '</td>' +
       +                '</tr><tr style="font-family: \'Helvetica Neue\',\'Helvetica\',\'Arial\',\'sans-serif\'; box-sizing: border-box; font-size: 14px; margin: 0;"><td class="content-block" style="font-family: \'Helvetica Neue\',\'Helvetica\',\'Arial\',\'sans-serif\'; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">' +
-      +                    'Messaggio: ' + text +
+      +                    'Messaggio: ' + message +
       +                  '</td>' +
       +                '</tr><tr style="font-family: \'Helvetica Neue\',\'Helvetica\',\'Arial\',\'sans-serif\'; box-sizing: border-box; font-size: 14px; margin: 0;"><td class="content-block" style="font-family: \'Helvetica Neue\',\'Helvetica\',\'Arial\',\'sans-serif\'; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">' +
       +                    '<a href="mailto:"' + email + 'class="btn-primary" style="font-family: \'Helvetica Neue\',\'Helvetica\',\'Arial\',\'sans-serif\'; box-sizing: border-box; font-size: 14px; color: #FFF; text-decoration: none; line-height: 2em; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: capitalize; background-color: #348eda; margin: 0; border-color: #348eda; border-style: solid; border-width: 10px 20px;">Rispondi</a>' +

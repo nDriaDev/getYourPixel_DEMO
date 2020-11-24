@@ -15,7 +15,7 @@
 .tooltiptext {
     font-size: 8px;
     visibility: hidden;
-    width: 36px;
+    width: 50px;
     background-color: #444444;
     color: #fff;
     text-align: center;
@@ -30,7 +30,7 @@
   /* margin-left determin position : center =>width/2 */
   bottom: 100%;
   left: 50%;
-  margin-left: -18px;
+  margin-left: -25px;
 }
 .tooltiptext.right{
   bottom: 100%;
@@ -40,7 +40,7 @@
 .tooltiptext.left{
   bottom: 100%;
   left: 50%;
-  margin-left: -36px;
+  margin-left: -50px;
 }
 .my-tooltip:hover .tooltiptext {
     visibility: visible;
@@ -192,11 +192,12 @@ button#btn-buy:focus {
 
 
 
-@font-face {font-family: 'Minecraftia'; src: url('./font/Minecraftia.ttf');}
+@font-face {font-family: 'Minecraftia'; src: url('./font/Minecraftia.woff2');}
 .error-page-font{
   font-family: Minecraftia;
   color: #000000;
   font-size: 52px;
+  font-display: swap;
 }
 .text-appear {
   animation: blinker 1s linear infinite;
