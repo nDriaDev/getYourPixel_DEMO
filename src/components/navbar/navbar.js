@@ -58,6 +58,24 @@ class NavbarCustom extends Component{
                 Contact
               </a>
             </li>
+            <li className={"nav-item " + this.state.active === 4 ? 'active' : ''}>
+              <a
+                className="nav-link"
+                href="https://www.iubenda.com/privacy-policy/80858552"
+                style={{float:'left'}}
+                onClick={()=>this.changeActive(4)}>
+                Privacy policy
+              </a>
+            </li>
+            <li className={"nav-item " + this.state.active === 5 ? 'active' : ''}>
+              <a
+                className="nav-link"
+                href="https://www.iubenda.com/privacy-policy/80858552/cookie-policy"
+                style={{float:'left'}}
+                onClick={()=>this.changeActive(5)}>
+                Cookie policy
+              </a>
+            </li>
           </ul>
         </div>
       </nav>

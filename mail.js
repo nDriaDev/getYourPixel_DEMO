@@ -5,8 +5,8 @@ var handlebars = require('handlebars');
 
 var auth = {
   auth:{
-    api_key:process.env.MAILGUN_API_KEY,
-    domain:process.env.MAILGUN_DOMAIN
+    api_key:process.env.MAILGUN_API_KEY ? process.env.MAILGUN_API_KEY : '<your API KEY>',
+    domain:process.env.MAILGUN_DOMAIN ? process.env.MAILGUN_DOMAIN : '<your domain>',
   }
 }
 
