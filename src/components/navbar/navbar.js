@@ -61,7 +61,7 @@ class NavbarCustom extends Component{
             <li className={"nav-item " + this.state.active === 4 ? 'active' : ''}>
               <a
                 className="nav-link"
-                href="https://www.iubenda.com/privacy-policy/80858552"
+                href={Const.PRIVACY_POLICY_LINK}
                 style={{float:'left'}}
                 onClick={()=>this.changeActive(4)}>
                 Privacy policy
@@ -70,7 +70,7 @@ class NavbarCustom extends Component{
             <li className={"nav-item " + this.state.active === 5 ? 'active' : ''}>
               <a
                 className="nav-link"
-                href="https://www.iubenda.com/privacy-policy/80858552/cookie-policy"
+                href ={Const.COOKIE_POLICY_LINK}
                 style={{float:'left'}}
                 onClick={()=>this.changeActive(5)}>
                 Cookie policy

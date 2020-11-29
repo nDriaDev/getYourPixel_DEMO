@@ -20,7 +20,8 @@ let Const = {
     }
     return false;
   },
-
+  PRIVACY_POLICY_LINK : "https://www.iubenda.com/privacy-policy/80858552",
+  COOKIE_POLICY_LINK : "https://www.iubenda.com/privacy-policy/80858552/cookie-policy"
 }
 
 
