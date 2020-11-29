@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import MainTemplate from './components/mainLayout/template/mainTemplate';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Home from './components/home/home';
 import Buy from './components/buy/buy';
 import Contact from './components/contact/contact';
@@ -14,7 +16,14 @@ class App extends Component {
     this.state = {
       show: true,
     }
-    this.isHome = window.location.pathname === Const.PATH_HOME ? true : false;
+    this.disableSpinner = this.disableSpinner.bind(this);
+    this.enableSpinner = this.enableSpinner.bind(this);
+  }
+
+  enableSpinner(){
+    this.setState({
+      show: true,
+    })
   }
 
   disableSpinner(){
@@ -24,32 +33,44 @@ class App extends Component {
   }
 
   componentDidMount(){
-    if(this.isHome){
-      this.timerId = setInterval(
-        () => this.disableSpinner(),
-        10000);
-    }
+    console.log("APP - RENDER FINISHED");
+    setTimeout(()=>{
+      this.disableSpinner();
+    }, 5000)
   }
 
-  componentWillUnmount() {
-    if(this.timerId !== undefined){
-      clearInterval(this.timerId);
-    }
-  }
 
   render(){
       return(
         <BrowserRouter>
-          <Spinner isHome={this.isHome} show={this.state.show} />
-          <MainTemplate isHome={this.isHome} show={this.state.show}>
-               <Switch>
-                 <Route exact path='/' component={Home}/>
-                 <Route exact path='/buy' component={Buy}/>
-                 <Route exact path='/contact' component={Contact}/>
-                 <Route exact path='/error' component={ErrorPage}/>
-                 <Redirect to="/error" component={ErrorPage}/>
-               </Switch>
-            </MainTemplate>
+          <ToastContainer
+            position="top-center"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover={false}
+          />
+          <Spinner show={this.state.show} />
+          <MainTemplate show={this.state.show}>
+            <Switch>
+              <Route exact path='/' component={Home}/>
+              <Route exact path='/buy' component={Buy}/>
+                <Route
+                  path='/contact'
+                  render={(props) => (
+                    <Contact {...props}
+                      enableSpinner={this.enableSpinner}
+                      disableSpinner={this.disableSpinner} />
+                  )}
+                />
+              <Route exact path='/error' component={ErrorPage}/>
+              <Redirect to="/error" component={ErrorPage}/>
+            </Switch>
+          </MainTemplate>
         </BrowserRouter>
       )
   }
@@ -57,3 +78,14 @@ class App extends Component {
 }
 
 export default App;
+
+// <Spinner isHome={this.isHome} show={this.state.show} />
+// <MainTemplate isHome={this.isHome} show={this.state.show}>
+//   <Switch>
+//     <Route exact path='/' component={Home}/>
+//     <Route exact path='/buy' component={Buy}/>
+//     <Route exact path='/contact' component={Contact}/>
+//     <Route exact path='/error' component={ErrorPage}/>
+//     <Redirect to="/error" component={ErrorPage}/>
+//   </Switch>
+// </MainTemplate>

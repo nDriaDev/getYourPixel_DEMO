@@ -8,6 +8,11 @@
       "type": "image/x-icon"
     },
     {
+      "src": "metaLogo.png",
+      "type": "image/png",
+      "sizes": "256x144"
+    },
+    {
       "src": "logo.png",
       "type": "image/png",
       "sizes": "3486x351"

@@ -117,6 +117,16 @@ li a:hover:not(.active) {
   display: grid;
   height: 60px !important;
 }
+.display-list{
+  display: contents;
+}
+.display-col-list{
+  display: flex;
+}
+.list-overflow{
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+}
 .background-fusion{
   background: black !important;
 }
@@ -157,7 +167,7 @@ li a:hover:not(.active) {
 }
 .square:hover {
   transform: scale(2.0);
-  z-index: 1;/* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+  z-index: 3;/* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
 
 
@@ -287,7 +297,7 @@ button#btn-buy:focus {
 }
 .span-square:hover {
   transform: scale(2.0);
-  z-index: 1;/* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+  z-index: 3;/* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
 
 .border-input{
@@ -306,6 +316,22 @@ button#btn-buy:focus {
   background: #f7f7f7;
   background-color: #f7f7f7;
   border: none;
+}
+
+
+.GridSquare {
+}
+
+.GridSquareItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #FFFFFF;
+  border: 0.5px solid #000000;
+}
+
+.GridSquareItem:hover .tooltiptext {
+    visibility: visible;
 }
 
 /*----------------------------------------------------------------------------*/
