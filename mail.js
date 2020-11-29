@@ -37,7 +37,7 @@ var sendMail = (name, email, subject, message, callback) => {
       let mailOptions = {
         sender: name,
         from: email,
-        to: 'ecd6vf0ab@tmails.net',
+        to: '<where send email>',
         // to: 'info@getyourpixels.com',
         subject: 'Get Your Pixels Contacting',
         html: htmlToSend
