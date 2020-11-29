@@ -2,8 +2,8 @@ import React from 'react';
 import Header from './../header/header';
 import Footer from './../footer/footer';
 
-const MainTemplate = (props) => {
-  let isShowed = props.isHome && props.show;
+const MainTemplate = ({children, show}) => {
+  let isShowed = show
   return(
     <div className="display-grid" style={{
         visibility: isShowed ? 'hidden' : 'visible',
@@ -11,7 +11,7 @@ const MainTemplate = (props) => {
         zIndex: isShowed ? '1' : '2'
       }}>
       <Header/>
-      {props.children}
+      {children}
       <Footer/>
     </div>
   )

@@ -19,11 +19,11 @@ const Contact = (props) => {
   }
 
   const onSubmit = (event) => {
-    let form = event.currentTarget;
+    let formSet = event.currentTarget;
     setValidated(false);
     event.preventDefault();
     event.stopPropagation();
-    if (form.checkValidity() === false) {
+    if (formSet.checkValidity() === false) {
       setValidated(true);
     } else {
       props.enableSpinner();

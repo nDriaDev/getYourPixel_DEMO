@@ -1,12 +1,12 @@
 import React from 'react';
 
-const Tooltip = (props) => {
+const Tooltip = ({direction, content}) => {
 
   return (
     <span
-      className={"tooltiptext " + props.direction}
+      className={"tooltiptext " + direction}
     >
-      {props.content}
+      {content}
     </span>
   )
 }

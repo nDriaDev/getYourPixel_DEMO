@@ -2,7 +2,7 @@ import React from 'react';
 import {PixelSpinner} from 'react-epic-spinners';
 
 const Spinner = (props) => {
-  let isShowed = props.isHome && props.show; 
+  let isShowed = props.show;
   return(
     <div align="center">
       <PixelSpinner

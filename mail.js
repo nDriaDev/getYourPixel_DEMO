@@ -10,7 +10,6 @@ var auth = {
   }
 }
 
-
 var readTemplate = (callback) => {
   fs.readFile('./templateEmail.html', {encoding: 'utf-8'}, (err,html)=>{
     if(err){
