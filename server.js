@@ -3,6 +3,9 @@ const path = require("path");
 const favicon = require('express-favicon');
 var compression = require('compression');
 var sendMail = require('./mail');
+var Payment = require('./payment');
+var stripe = new Payment();
+
 const port = process.env.PORT || 3000;
 
 const server = express();
@@ -42,6 +45,29 @@ server.post('/email', (req,res, next)=> {
     next(e.message);
   }
 })
+
+server.post('/products', (req, res, next) => {
+  stripe.getProduct().then((result) => {
+    res.status(200).send(result);
+  }).catch(err => {
+    next(err.message);
+  })
+})
+
+server.post('/create-session', async (req, res, next) => {
+  try {
+    const product = await stripe.getProduct();
+    stripe.createOrder(product, req.body.quantity).then(result => {
+      res.status(200).send({id: result.id})
+    }).catch(err => {
+      console.log(err.message);
+      throw err;
+    })
+  } catch (e) {
+    console.log(e.message);
+    next(e.message);
+  }
+});
 
 server.use((err,req,res,next)=>{
   res.status(404).send({message: err});

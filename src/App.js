@@ -33,10 +33,6 @@ class App extends Component {
   }
 
   componentDidMount(){
-    console.log("APP - RENDER FINISHED");
-    setTimeout(()=>{
-      this.disableSpinner();
-    }, 5000)
   }
 
 
@@ -57,18 +53,49 @@ class App extends Component {
           <Spinner show={this.state.show} />
           <MainTemplate show={this.state.show}>
             <Switch>
-              <Route exact path='/' component={Home}/>
-              <Route exact path='/buy' component={Buy}/>
-                <Route
-                  path='/contact'
-                  render={(props) => (
-                    <Contact {...props}
-                      enableSpinner={this.enableSpinner}
-                      disableSpinner={this.disableSpinner} />
-                  )}
-                />
-              <Route exact path='/error' component={ErrorPage}/>
-              <Redirect to="/error" component={ErrorPage}/>
+              <Route
+                exact
+                path='/'
+                render={(props) => (
+                  <Home {...props}
+                    enableSpinner={this.enableSpinner}
+                    disableSpinner={this.disableSpinner} />
+                )}
+               />
+               <Route
+                 exact
+                 path='/buy'
+                 render={(props) => (
+                   <Buy {...props}
+                     enableSpinner={this.enableSpinner}
+                     disableSpinner={this.disableSpinner} />
+                 )}
+               />
+              <Route
+                path='/contact'
+                render={(props) => (
+                  <Contact {...props}
+                    enableSpinner={this.enableSpinner}
+                    disableSpinner={this.disableSpinner} />
+                )}
+              />
+              <Route
+                exact
+                path='/error'
+                render = {(props) => (
+                  <ErrorPage {...props}
+                    enableSpinner={this.enableSpinner}
+                    disableSpinner={this.disableSpinner} />
+                )}
+              />
+              <Redirect
+                to="/error"
+                render = {(props) => (
+                  <ErrorPage {...props}
+                    enableSpinner={this.enableSpinner}
+                    disableSpinner={this.disableSpinner} />
+                )}
+              />
             </Switch>
           </MainTemplate>
         </BrowserRouter>

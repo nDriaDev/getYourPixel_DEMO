@@ -1,19 +1,18 @@
-import React, {Component} from 'react';
-import Square from './../square/square';
+import React from 'react';
+import ListSquare from './../exampleSquare/listSquare';
 
-class Home extends Component {
-  // componentDidMount(){
-  //   console.log("HOME - RENDER FINISHED");
-  // }
-
-  render(){
+const Home = ({enableSpinner, disableSpinner}) => {
     return(
-      <>
-      <div className="display-grid-blank-60 "></div>
-      <Square rows="264" cols="152"/>
-      </>
-    )
-  }
+    <>
+    <div className="display-grid-blank-60"></div>
+    <div className="display-grid mx-auto" style={{height:'20%'}}>
+      <ListSquare
+        enableSpinner={enableSpinner}
+        disableSpinner={disableSpinner}
+      />
+    </div>
+    </>
+  )
 }
 
 export default Home;

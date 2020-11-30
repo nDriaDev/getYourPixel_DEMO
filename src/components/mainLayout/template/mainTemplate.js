@@ -8,7 +8,8 @@ const MainTemplate = ({children, show}) => {
     <div className="display-grid" style={{
         visibility: isShowed ? 'hidden' : 'visible',
         position: isShowed ? 'absolute' : '',
-        zIndex: isShowed ? '1' : '2'
+        zIndex: isShowed ? '1' : '2',
+        height:'100%'
       }}>
       <Header/>
       {children}

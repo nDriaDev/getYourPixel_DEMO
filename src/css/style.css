@@ -88,8 +88,7 @@ li a:hover:not(.active) {
   display: grid;
 }
 .display-error{
-  width: 100%;
-  padding-top: 10%;
+  height:85vh;
 }
 .display-title{
   height: 156px;
@@ -396,4 +395,69 @@ button#btn-buy:focus {
 .btn-contact:hover{
   background-color: #24e959;
   border-color: #24e959;
+}
+
+
+/*----------------------------------------------------------------------------*/
+/* ------------------------------ BUY FORM -----------------------------------*/
+.card-container{
+  font-weight: 400;
+  border: 0;
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background-color: #fff;
+  background-clip: border-box;
+  border-radius: .25rem;
+}
+.card-body{
+  text-align: center;
+  padding-top: 1.5rem !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-bottom: 0 !important;
+  border-radius: 0 !important;
+  flex: 1 1 auto;
+  min-height: 1px;
+}
+.grey-text{
+  color: #939393 !important;
+}
+.btn-checkout{
+  width: 100%;
+  height: 60px;
+  background: #00CC00;
+  border-radius: 0 0 4px 4px;
+  color: white;
+  border: 0;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0px 4px 5.5px 0px rgba(0,0,0,0.07);
+}
+.btn-checkout:hover{
+  background: #00E600;
+}
+.span-price{
+  padding-top: 0.2%;
+  padding-left: 6%;
+  font-size: 20px;
+}
+.qt-plus-minut{
+  width: 11.8rem;
+  margin: auto;
+}
+.qt-input{
+  height: 100%;
+  text-align: center;
+  max-width: 5rem;
+  padding: .5rem;
+  border-width: 0 2px;
+  font-size: 2rem;
+  height: 3rem;
+  font-weight: bold;
+  outline: none;
+  vertical-align: sub;
 }

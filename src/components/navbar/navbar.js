@@ -64,7 +64,7 @@ class NavbarCustom extends Component{
                 href={Const.PRIVACY_POLICY_LINK}
                 style={{float:'left'}}
                 onClick={()=>this.changeActive(4)}>
-                Privacy policy
+                Privacy
               </a>
             </li>
             <li className={"nav-item " + this.state.active === 5 ? 'active' : ''}>
@@ -73,7 +73,7 @@ class NavbarCustom extends Component{
                 href ={Const.COOKIE_POLICY_LINK}
                 style={{float:'left'}}
                 onClick={()=>this.changeActive(5)}>
-                Cookie policy
+                Cookie
               </a>
             </li>
           </ul>

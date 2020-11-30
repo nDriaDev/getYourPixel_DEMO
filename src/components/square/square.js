@@ -28,6 +28,7 @@ const squares=row.map((item,index) => {
 })
 
 const Square = (props) => {
+
   return(
     <>
       <div className="span-rows-square  mx-auto">

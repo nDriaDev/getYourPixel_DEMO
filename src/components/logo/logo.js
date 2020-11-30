@@ -5,10 +5,7 @@ class Logo extends Component{
   render(){
     return(
       <div className="display-logo">
-        {
-          // <img class="logo-size-header" alt=logo" src={Img}/>
-        }
-        <h1 className="slogan-h1">GET YOUR PIXELS</h1>
+        <img className="logo-size" alt="logo" src={Img}/>
         <h2 className="slogan-h2">Take your internet space.</h2>
       </div>
     )

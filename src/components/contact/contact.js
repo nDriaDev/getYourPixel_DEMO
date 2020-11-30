@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
-import {Form, Col, Button} from 'react-bootstrap';
+import React, {useState, useEffect} from 'react';
+import {Form, Col} from 'react-bootstrap';
+import Const from './../../util/Costanti';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 
@@ -12,6 +13,10 @@ const Contact = (props) => {
     subject: '',
     message: '',
   })
+
+  useEffect(()=>{
+    props.disableSpinner();
+  },[props.disableSpinner])
 
   const handleInputChange = event => {
     let {name, value} = event.target;
@@ -27,11 +32,11 @@ const Contact = (props) => {
       setValidated(true);
     } else {
       props.enableSpinner();
-      axios.post('/email', form).then((resp) => {
+      axios.post(Const.SEND_MAIL_PATH, form).then((resp) => {
         console.log("Resp",resp);
         console.log('Server received data');
         props.disableSpinner();
-        toast.success('Your message was sent successfully', {
+        toast.success(Const.MAIL_SUCCESS, {
           position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
@@ -42,7 +47,7 @@ const Contact = (props) => {
         });
       }).catch(err => {
         props.disableSpinner();
-        toast.error('Error while sending your message', {
+        toast.error(Const.MAIL_FAILED, {
           position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
