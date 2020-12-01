@@ -1,5 +1,5 @@
 import React from 'react';
-import ListSquare from './../exampleSquare/listSquare';
+import ListSquare from './../square/listSquare';
 
 const Home = ({enableSpinner, disableSpinner}) => {
     return(

@@ -37,8 +37,18 @@
   left: 50%;
   margin-left: 0px;
 }
+.tooltiptext.bottom-right{
+  bottom: -200%;
+  left: 50%;
+  margin-left: 0px;
+}
 .tooltiptext.left{
   bottom: 100%;
+  left: 50%;
+  margin-left: -50px;
+}
+.tooltiptext.bottom-left{
+  bottom: -200%;
   left: 50%;
   margin-left: -50px;
 }
