@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
 import { FixedSizeList as List } from "react-window";
-import Tooltip from 'react-tooltip-lite';
 
 const Cols1 = ({index, style}) => {
   return(
