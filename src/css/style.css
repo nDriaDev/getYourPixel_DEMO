@@ -132,8 +132,17 @@ li a:hover:not(.active) {
 .background-Mobile {
   background: black !important;
 }
-
-
+.div-left{
+  float:left;
+}
+.div-right{
+  float: right;
+}
+#designedBy a{
+  font-family: sans-serif;
+  font-size: 11px;
+  color: #FFFFFF80;
+}
 
 .slogan-h1{
   font-size: 70px;
@@ -403,7 +412,7 @@ button#btn-buy:focus {
 .card-container{
   font-weight: 400;
   border: 0;
-  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
+  box-shadow: 0 0px 6px 0 white, 0 0px 5px 0 white;
   position: relative;
   display: flex;
   flex-direction: column;

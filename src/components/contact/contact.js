@@ -60,10 +60,11 @@ const Contact = (props) => {
     }
 
   }
+  let divGridStyle = {height: '89vh', paddingTop:'5vh'}
 
   return(
     <>
-      <div className="display-grid " align="center">
+      <div className="display-grid " align="center" style={divGridStyle}>
         <div className="">
           <div className="container-form">
             <Form noValidate validated={validated} onSubmit={onSubmit}>

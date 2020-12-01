@@ -5,11 +5,6 @@ import BuyButton from './../../buyButton/buyButton';
 import Const from './../../../util/Costanti.js';
 
 class Header extends Component{
-
-  // componentDidMount(){
-    // console.log("HEADER - RENDER FINISHED");
-  // }
-
   render(){
     let url = window.location.pathname;
     return(

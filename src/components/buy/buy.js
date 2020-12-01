@@ -10,9 +10,9 @@ import axios from 'axios';
 const stripePromise = loadStripe(process.env.REACT_APP_PUB_KEY_STRIPE);
 
 const ProductDisplay = ({ product, quantity, handleQuantityChange, handleClick }) => {
-  let styleContainer = {height:'80vh',paddingTop:'10%'};
+  let styleContainer = {height:'84vh',paddingTop:'15vh'};
   return (
-    <div className="col-lg-4 col-md-12 mb-lg-0 mb-4 mx-auto" style={{styleContainer}}>
+    <div className="col-lg-4 col-md-12 mb-lg-0 mb-4 mx-auto" style={styleContainer}>
       <div className="card-container">
         <div className="card-body">
           <h1 className="mb-4">{product.name}</h1>
@@ -106,7 +106,6 @@ const Buy = ({enableSpinner, disableSpinner}) => {
       setProduct(result);
       disableSpinner();
     }).catch(err => {
-      console.log(err);
       disableSpinner();
     })
   },[enableSpinner,disableSpinner])
@@ -146,7 +145,15 @@ const Buy = ({enableSpinner, disableSpinner}) => {
         });
       }
     } catch (e) {
-      console.log(e);
+      toast.error(e.message, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+      });
     }
   };
 
