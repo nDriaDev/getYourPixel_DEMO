@@ -4,12 +4,17 @@ const favicon = require('express-favicon');
 var compression = require('compression');
 var sendMail = require('./mail');
 var Payment = require('./payment');
+var ForceSsl = require('./ssl');
+ForceSsl = new ForceSsl();
 var stripe = new Payment();
 
 const port = process.env.PORT || 3000;
 
 const server = express();
-
+console.log("ENV",ForceSsl.getEnv());
+if (ForceSsl.getEnv() === 'production') {
+    server.use(ForceSsl.forceSsl);
+}
 server.use(compression());
 server.use(express.json());
 // the __dirname is the current directory from where the script is running

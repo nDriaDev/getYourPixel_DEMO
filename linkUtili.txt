@@ -1,3 +1,7 @@
+########### REACT NODE JS FORCE HTTPS ON HEROKU ###########
+https://medium.com/@mishkaorakzai/how-to-redirect-your-node-js-app-hosted-on-heroku-from-http-to-https-50ef80130bff
+
+
 ########### REACT HOOKS ###########
 https://blog.carbonfive.com/replacing-component-lifecycle-methods-with-react-hooks/#:~:text=React%20Hooks%20provide%20a%20great,coupled%20the%20lifecycle%20methods%20are.
 
