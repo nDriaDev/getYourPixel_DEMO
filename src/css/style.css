@@ -167,9 +167,9 @@ li a:hover:not(.active) {
 .div-right{
   float: right;
 }
-#designedBy a{
+#designedBy > a{
   font-family: sans-serif;
-  font-size: 11px;
+  font-size: 100%;
   color: #FFFFFF80;
 }
 
@@ -438,6 +438,10 @@ button#btn-buy:focus {
 
 /*----------------------------------------------------------------------------*/
 /* ------------------------------ BUY FORM -----------------------------------*/
+.div-buy{
+  margin-top: 12%;
+  margin-bottom: 12% !important;
+}
 .card-container{
   font-weight: 400;
   border: 0;

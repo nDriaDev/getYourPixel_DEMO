@@ -10,9 +10,8 @@ import axios from 'axios';
 const stripePromise = loadStripe(process.env.REACT_APP_PUB_KEY_STRIPE);
 
 const ProductDisplay = ({ product, quantity, handleQuantityChange, handleClick }) => {
-  let styleContainer = {height:'84vh',paddingTop:'15vh'};
   return (
-    <div className="col-lg-4 col-md-12 mb-lg-0 mb-4 mx-auto" style={styleContainer}>
+    <div className="col-lg-4 col-md-12 mb-lg-0 mb-4 mx-auto div-buy">
       <div className="card-container">
         <div className="card-body">
           <h1 className="mb-4">{product.name}</h1>
