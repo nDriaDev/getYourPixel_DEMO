@@ -16,7 +16,7 @@ class Footer extends Component{
       verticalAlign: 'top'
     }
     return(
-      <div className="">
+      <div className="bottom-footer">
         <div className="container-fluid footer" style={styleDiv}>
           <div className="div-left" style={styleCol}>
             <span style={styleSpan}>Copyright &copy; 2020 Get your pixels. Tutti i diritti sono rivervati. Non sono responsabile del contenuto di siti esterni.</span>

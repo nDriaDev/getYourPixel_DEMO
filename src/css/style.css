@@ -167,6 +167,11 @@ li a:hover:not(.active) {
 .div-right{
   float: right;
 }
+.bottom-footer{
+  position:absolute;
+  bottom:0;
+  width:100%;
+}
 #designedBy > a{
   font-family: sans-serif;
   font-size: 100%;
