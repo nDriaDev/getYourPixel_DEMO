@@ -52,7 +52,7 @@
   left: 50%;
   margin-left: -50px;
 }
-.my-tooltip:hover .tooltiptext {
+.my-tooltip.click:hover .tooltiptext {
     visibility: visible;
 }
 ::-webkit-scrollbar {
@@ -207,7 +207,7 @@ li a:hover:not(.active) {
   border:solid 0.2px black !important;
   display: inline-block;
 }
-.square:hover {
+.square.click:hover {
   transform: scale(2.0);
   z-index: 3;/* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }

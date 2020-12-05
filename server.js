@@ -4,14 +4,14 @@ const favicon = require('express-favicon');
 var compression = require('compression');
 var sendMail = require('./mail');
 var Payment = require('./payment');
+var getImgSplit = require('./imageBuilder');
 var ForceSsl = require('./ssl');
 ForceSsl = new ForceSsl();
 var stripe = new Payment();
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 const server = express();
-console.log("ENV",ForceSsl.getEnv());
 if (ForceSsl.getEnv() === 'production') {
     server.use(ForceSsl.forceSsl);
 }
@@ -73,6 +73,20 @@ server.post('/create-session', async (req, res, next) => {
     next(e.message);
   }
 });
+
+server.post('/images', (req, res, next) => {
+  res.type('html');
+  res.get('Content-type');
+  try {
+    getImgSplit('./logo.png').then(result=>(
+      res.send(result)
+    )).catch(err => {
+      next(err.message);
+    })
+  } catch (e) {
+    next(e.message)
+  }
+})
 
 server.use((err,req,res,next)=>{
   res.status(404).send({message: err});
