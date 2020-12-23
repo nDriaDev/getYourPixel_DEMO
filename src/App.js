@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Home from './components/home/home';
 import Buy from './components/buy/buy';
 import Contact from './components/contact/contact';
+import Login from './components/login/login';
 import ErrorPage from './components/errorPage/errorPage';
 import Const from './util/Costanti.js';
 import Spinner from './components/spinner/spinner';
@@ -75,6 +76,14 @@ class App extends Component {
                 path='/contact'
                 render={(props) => (
                   <Contact {...props}
+                    enableSpinner={this.enableSpinner}
+                    disableSpinner={this.disableSpinner} />
+                )}
+              />
+              <Route
+                path='/login'
+                render={(props) => (
+                  <Login {...props}
                     enableSpinner={this.enableSpinner}
                     disableSpinner={this.disableSpinner} />
                 )}
