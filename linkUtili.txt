@@ -1,3 +1,26 @@
+########### NODEJS EXPRESSJS BEST PRACTICES  ###########
+https://www.codementor.io/@mattgoldspink/nodejs-best-practices-du1086jja
+https://expressjs.com/en/advanced/best-practice-security.html
+https://expressjs.com/en/advanced/best-practice-performance.html
+
+
+########### AUTHENTICATION NODEJS REACT MONGODB  ###########
+https://faizanv.medium.com/authentication-for-your-react-and-express-application-w-json-web-tokens-923515826e0
+
+
+########### STRAPI CMS HEADLESS ###########
+https://strapi.io/starters
+https://medium.com/strapi/protected-routes-and-authentication-with-react-and-node-js-d31d234644cd
+
+
+########### MONGODB ATLAS ON HEROKU ###########
+https://docs.mongodb.com/drivers/node/usage-examples/find
+https://developer.mongodb.com/how-to/use-atlas-on-heroku
+
+########### MONGODB ACTIONS ###########
+https://docs.mongodb.com/realm/mongodb/actions/collection.find
+
+
 ########### REACT NODE JS FORCE HTTPS ON HEROKU ###########
 https://medium.com/@mishkaorakzai/how-to-redirect-your-node-js-app-hosted-on-heroku-from-http-to-https-50ef80130bff
 
