@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
+import { toast } from 'react-toastify';
 import Img from './../../images/navBar.png';
 import Const from './../../util/Costanti.js';
+import axios from 'axios';
 
 class NavbarCustom extends Component{
   constructor(props){
@@ -8,9 +10,34 @@ class NavbarCustom extends Component{
     let pathname = window.location.pathname;
     pathname = pathname === Const.PATH_ERROR ? 'error' : (pathname === '/' ? '' : (pathname === Const.PATH_BUY ? 'buy' : (pathname === Const.PATH_CONTACT ? 'contact' : '')));
     this.state = {
-      active: pathname === 'error' ? 0 : (pathname === '' ? 1 : (pathname === 'buy' ? 2 : 3))
+      active: pathname === 'error' ? 0 : (pathname === '' ? 1 : (pathname === 'buy' ? 2 : 3)),
     }
     this.changeActive = this.changeActive.bind(this);
+    this.logout = this.logout.bind(this);
+  }
+  logout(){
+    this.props.enableSpinner();
+    axios.post(Const.LOGOUT)
+    .then(result => {
+      if (result.data.code === 200) {
+        this.props.disableSpinner();
+        this.state.history.push('/manage');
+      } else {
+        throw new Error(result.data.message);
+      }
+    })
+    .catch(err => {
+      this.props.disableSpinner();
+      toast.error(err.message != null ? err.message : "ERRORE", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+      });
+    })
   }
 
   changeActive(menu){
@@ -77,6 +104,21 @@ class NavbarCustom extends Component{
               </a>
             </li>
           </ul>
+          {this.props.logged ?
+            <ul className="navbar-nav ">
+              <li class="">
+                <a
+                  className="nav-link"
+                  href=""
+                  style={{float:'left'}}
+                  onClick={()=>this.logout()}>
+                  Logout
+                </a>
+              </li>
+            </ul>
+            :
+            null
+          }
         </div>
       </nav>
     )

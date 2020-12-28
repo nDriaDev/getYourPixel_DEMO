@@ -2,7 +2,7 @@ import React from 'react';
 import Header from './../header/header';
 import Footer from './../footer/footer';
 
-const MainTemplate = ({children, show}) => {
+const MainTemplate = ({children, show, logged, isLogged, enableSpinner, disableSpinner}) => {
   let isShowed = show
   return(
     <div className="display-grid" style={{
@@ -11,7 +11,7 @@ const MainTemplate = ({children, show}) => {
         zIndex: isShowed ? '1' : '2',
         height:'100%'
       }}>
-      <Header/>
+      <Header logged={logged} isLogged={isLogged} enableSpinner={enableSpinner} disableSpinner={disableSpinner} />
       {children}
       <Footer/>
     </div>

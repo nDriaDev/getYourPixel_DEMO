@@ -89,7 +89,7 @@ class MongoDB {
           console.log("database - [getPixels] - FINISH");
         })
         .catch(err => {
-          next(err.message);
+          reject(err.message);
         })
       }
     })
@@ -137,7 +137,7 @@ class MongoDB {
           })
         })
         .catch(err => {
-          console.log("database - [login] - ERROR -", e.message);
+          console.log("database - [login] - ERROR -", err.message);
           reject(err);
         })
       } catch (e) {
@@ -148,7 +148,7 @@ class MongoDB {
           console.log("database - [login] - FINISH");
         })
         .catch(err => {
-          next(err.message);
+          reject(err.message);
         })
       }
     })
@@ -208,7 +208,7 @@ class MongoDB {
           console.log("database - [addUser] - FINISH");
         })
         .catch(err => {
-          next(err.message);
+          reject(err.message);
         })
       }
     })
@@ -278,7 +278,7 @@ class MongoDB {
           console.log("database - [resetPassword] - FINISH");
         })
         .catch(err => {
-          next(err.message);
+          reject(err.message);
         })
       }
     })
@@ -346,7 +346,7 @@ class MongoDB {
           console.log("database - [changePassword] - FINISH");
         })
         .catch(err => {
-          next(err.message);
+          reject(err.message);
         })
       }
     })

@@ -39,6 +39,7 @@ let Const = {
   GET_PRODUCT: "/api/products",
   CHECK_TOKEN: '/api/checkToken',
   LOGIN: '/api/login',
+  LOGOUT: '/api/logout',
   MANAGE: '/manage',
 }
 

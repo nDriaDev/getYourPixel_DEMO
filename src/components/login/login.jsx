@@ -10,7 +10,7 @@ const Login = (props) => {
     email: '',
     password: '',
   })
-  const {enableSpinner, disableSpinner} = props;
+  const {enableSpinner, disableSpinner, isLogged} = props;
 
   useEffect(() => {
     disableSpinner();
@@ -29,18 +29,19 @@ const Login = (props) => {
     if (formSet.checkValidity() === false) {
       setValidated(true);
     } else {
-      props.enableSpinner();
+      enableSpinner();
       axios.post(Const.LOGIN, form)
       .then(res => {
         if (res.data.code === 200) {
-          props.disableSpinner();
+          isLogged();
           props.history.push('/manage');
+          disableSpinner();
         } else {
           throw new Error(res.data.message);
         }
       })
       .catch(err => {
-        props.disableSpinner();
+        disableSpinner();
         toast.error(err.message != null ? err.message : "ERRORE", {
           position: "top-center",
           autoClose: 5000,
