@@ -12,7 +12,7 @@ try {
     '/checkToken',
     auth,
     (req, res, next) => {
-      res.sendStatus(200)
+      res.status(200).send({code:200,message:'Authorized'});
     }
   )
   .post(

@@ -1,15 +1,17 @@
 import React, {Component} from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import MainTemplate from './components/mainLayout/template/mainTemplate';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Home from './components/home/home';
 import Buy from './components/buy/buy';
 import Contact from './components/contact/contact';
 import Login from './components/login/login';
 import ErrorPage from './components/errorPage/errorPage';
-import Const from './util/Costanti.js';
 import Spinner from './components/spinner/spinner';
+import Auth from './components/auth/auth';
+import Manage from './components/manage/manage';
+
 
 class App extends Component {
   constructor(props){
@@ -93,6 +95,15 @@ class App extends Component {
                 path='/error'
                 render = {(props) => (
                   <ErrorPage {...props}
+                    enableSpinner={this.enableSpinner}
+                    disableSpinner={this.disableSpinner} />
+                )}
+              />
+              <Route
+                path='/manage'
+                render = {(props) => (
+                  <Auth {...props}
+                    ComponentToProtect={Manage}
                     enableSpinner={this.enableSpinner}
                     disableSpinner={this.disableSpinner} />
                 )}

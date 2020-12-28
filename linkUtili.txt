@@ -1,3 +1,10 @@
+########### REACT NESTED ROUTE & PRIVATE ROUTE  ###########
+https://reactrouter.com/web/guides/philosophy
+https://reactrouter.com/web/example/nesting
+https://medium.com/@thanhbinh.tran93/private-route-public-route-and-restricted-route-with-react-router-d50b27c15f5e
+https://stackoverflow.com/questions/56711663/react-router-v5-0-nested-routes
+
+
 ########### NODEJS EXPRESSJS BEST PRACTICES  ###########
 https://www.codementor.io/@mattgoldspink/nodejs-best-practices-du1086jja
 https://expressjs.com/en/advanced/best-practice-security.html

@@ -30,25 +30,25 @@ class DataBase {
 
   login(req, res, next) {
       try {
-        console.log("database_Controller - [getUser] - START");
+        console.log("database_Controller - [login] - START");
         db.login(req.body)
           .then(result => {
             if(result.code == 200){
               let token = jwt.sign({email:req.body.email}, secret, {expiresIn: '1h'});
               res.cookie('token', token, {httpOnly: true}).status(200).send(result)
             } else {
-              res.status(404).send(result);
+              res.status(202).send(result);
             }
           })
           .catch(e => {
-            console.log("database_Controller - [getUser] - ERROR -", e.message);
+            console.log("database_Controller - [login] - ERROR -", e.message);
             next(e.message);
           })
       } catch (e) {
-        console.log("database_Controller - [getUser] - ERROR -", e.message);
+        console.log("database_Controller - [login] - ERROR -", e.message);
         next(e.message);
       } finally {
-        console.log("database_Controller - [getUser] - FINISH");
+        console.log("database_Controller - [login] - FINISH");
       }
     }
 

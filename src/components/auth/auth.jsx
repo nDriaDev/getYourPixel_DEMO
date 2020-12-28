@@ -3,30 +3,37 @@ import { Redirect } from 'react-router-dom';
 import Const from './../../util/Costanti';
 import axios from 'axios';
 
-const withAuth = ({enableSpinner, disableSpinner, ComponentToProtect}) => {
+const Auth = (props) => {
   const [redirect, setRedirect] = useState(false);
+  const {ComponentToProtect, enableSpinner, disableSpinner} = props;
   useEffect(() => {
     enableSpinner();
     axios.get(Const.CHECK_TOKEN)
     .then(result => {
-      if(result.status === 200) {
+      if(result.data.code === 200) {
+        console.log("Authorized");
+        setRedirect(false);
         disableSpinner();
       } else {
-        throw new Error(result.message);
+        throw new Error(result.data.message);
       }
     })
     .catch(err => {
+      console.log("Error", err);
       disableSpinner();
       setRedirect(true);
     })
-  },[enableSpinner,disableSpinner]);
+  },[]);
+  console.log("REDIRECT", redirect);
   return (
     <>
     {
       redirect ?
-      <Redirect to="/login" />;
+      <Redirect to="/login" />
       :
-      <ComponentToProtect {...props} />;
+      <ComponentToProtect
+        enableSpinner={enableSpinner}
+        disableSpinner={disableSpinner}/>
     }
     </>
   )

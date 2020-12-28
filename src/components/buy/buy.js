@@ -1,9 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { useHistory, useLocation } from 'react-router-dom'
 import {loadStripe} from '@stripe/stripe-js';
-import Img from './../../images/navBar.png';
 import Const from './../../util/Costanti';
-import {Form, Col} from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 
@@ -11,28 +9,29 @@ const stripePromise = loadStripe(process.env.REACT_APP_PUB_KEY_STRIPE);
 
 const ProductDisplay = ({ product, quantity, handleQuantityChange, handleClick }) => {
   return (
-    <div className="col-lg-4 col-md-12 mb-lg-0 mb-4 mx-auto div-buy">
+    <div className="col-lg-4 col-md-12 mb-lg-0 mb-2 mx-auto div-buy">
       <div className="card-container">
         <div className="card-body">
-          <h1 className="mb-4">{product.name}</h1>
-          <div className="d-flex justify-content-center mb-4">
+          <h1 className="mb-2" style={{fontSize:'2.7rem'}}>{product.name}</h1>
+          <div className="d-flex justify-content-center mb-2">
             <div className="card-circle d-flex justify-content-center align-items-center">
               {product.images[0] ?
                 <img
                   src={product.images[0]}
                   alt="The product"
+                  style={{width: '60%'}}
                   />
                 :
                 null
                }
             </div>
           </div>
-          <h2 className="font-weight-bold my-4">{Const.setDecimalCurrencyNumber(product.price.unit_amount, product.price.currency)}</h2>
-          <h5 className="grey-text">{product.description}</h5>
-          <div className="qt-plus-minut my-4">
-            <button onClick={e=>handleQuantityChange(e)}><i name="minus" className="fa fa-minus" aria-hidden="true"></i></button>
-            <input className="qt-input" min="1" name="quantity" value={quantity} type="number" readOnly/>
-            <button onClick={e=>handleQuantityChange(e)} ><i name="plus" className="fa fa-plus" aria-hidden="true"></i></button>
+          <h2 className="font-weight-bold my-2">{Const.setDecimalCurrencyNumber(product.price.unit_amount, product.price.currency)}</h2>
+          <h5 className="grey-text" style={{fontSize: '1.0rem'}}>{product.description}</h5>
+          <div className="qt-plus-minut my-2">
+            <button onClick={e=>handleQuantityChange(e)}><i name="minus" className="fa fa-minus" aria-hidden="true" style={{fontSize: '0.9rem'}}></i></button>
+            <input className="qt-input" style={{fontSize: '1.8rem'}} min="1" name="quantity" value={quantity} type="number" readOnly/>
+            <button onClick={e=>handleQuantityChange(e)} ><i name="plus" className="fa fa-plus" aria-hidden="true" style={{fontSize: '1.0rem'}}></i></button>
           </div>
           <div className="col-xs-12">
             <button className="btn-checkout" onClick={handleClick}>Checkout</button>
@@ -107,7 +106,7 @@ const Buy = ({enableSpinner, disableSpinner}) => {
     }).catch(err => {
       disableSpinner();
     })
-  },[enableSpinner,disableSpinner])
+  },[])
 
   const handleQuantityChange = (event) => {
     let qt = quantity;
@@ -116,7 +115,7 @@ const Buy = ({enableSpinner, disableSpinner}) => {
     } else {
       qt++;
     }
-    if(qt==0){
+    if(qt===0){
       return;
     }else{
       setQuantity(qt);

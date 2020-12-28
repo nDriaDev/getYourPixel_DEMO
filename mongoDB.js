@@ -96,7 +96,7 @@ class MongoDB {
   }
 
   login(body) {
-    console.log("database - [getUser] - START");
+    console.log("database - [login] - START");
     return new Promise((resolve, reject) =>{
       try {
         const {email, password} = body;
@@ -125,9 +125,9 @@ class MongoDB {
                   throw new Error("Password is invalid")
                 } else {
                   if(same) {
-                    resolve({code:200,message:'credenziali valide'})
+                    resolve({code:200,message:'Credenziali valide'})
                   } else {
-                    resolve({code:404,message:'credenziali invalide'})
+                    resolve({code:404,message:'Credenziali invalide'})
                   }
                 }
               });
@@ -135,20 +135,17 @@ class MongoDB {
               throw new Error("User not exist");
             }
           })
-          .catch(err => {
-            reject(err);
-          })
         })
         .catch(err => {
-          console.log("database - [getUser] - ERROR -", e.message);
+          console.log("database - [login] - ERROR -", e.message);
           reject(err);
         })
       } catch (e) {
-        console.log("database - [getUser] - ERROR -", e.message);
+        console.log("database - [login] - ERROR -", e.message);
         reject(e)
       } finally {
         this.client.close().then(()=>{
-          console.log("database - [getUser] - FINISH");
+          console.log("database - [login] - FINISH");
         })
         .catch(err => {
           next(err.message);

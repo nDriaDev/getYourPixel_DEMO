@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 
 const Contact = (props) => {
-  const [submitted, setSubmitted] = useState(false);
   const [validated, setValidated] = useState(false);
   const [form,setForm] = useState({
     name: '',
@@ -16,7 +15,7 @@ const Contact = (props) => {
 
   useEffect(()=>{
     props.disableSpinner();
-  },[props.disableSpinner])
+  },[])
 
   const handleInputChange = event => {
     let {name, value} = event.target;

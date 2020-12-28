@@ -444,8 +444,8 @@ button#btn-buy:focus {
 /*----------------------------------------------------------------------------*/
 /* ------------------------------ BUY FORM -----------------------------------*/
 .div-buy{
-  margin-top: 12%;
-  margin-bottom: 12% !important;
+  margin-top: 2%;
+  margin-bottom: 2% !important;
 }
 .card-container{
   font-weight: 400;
@@ -461,10 +461,6 @@ button#btn-buy:focus {
 }
 .card-body{
   text-align: center;
-  padding-top: 1.5rem !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  padding-bottom: 0 !important;
   border-radius: 0 !important;
   flex: 1 1 auto;
   min-height: 1px;
