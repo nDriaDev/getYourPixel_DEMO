@@ -32,8 +32,6 @@ const Contact = (props) => {
     } else {
       props.enableSpinner();
       axios.post(Const.SEND_MAIL_PATH, form).then((resp) => {
-        console.log("Resp",resp);
-        console.log('Server received data');
         props.disableSpinner();
         toast.success(Const.MAIL_SUCCESS, {
           position: "top-center",

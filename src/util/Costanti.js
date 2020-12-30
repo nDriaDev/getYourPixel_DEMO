@@ -41,6 +41,7 @@ let Const = {
   LOGIN: '/api/login',
   LOGOUT: '/api/logout',
   MANAGE: '/manage',
+  RESET_PASSWORD: '/api/resetPassword',
 }
 
 

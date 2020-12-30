@@ -26,15 +26,22 @@ class Mailer {
   sendMailResetPassword(req, res, next) {
     try {
       console.log("mailer_Controller - [sendMailResetPassword] - START");
-      const {password} = req.query;
-      mailer.sendMailResetPassword(password, (err, data) =>{
+      const password = req.session.password;
+      req.session.password = null;
+      req.session.save((err) => {
         if(err) {
-          console.log("mailer_Controller - [sendMailResetPassword] - ERROR", err.message);
-          res.status(500).send({message: 'Error while sending reset password email'})
+          console.log("mailer_Controller - [sendMailResetPassword-session] - ERROR", err);
         } else {
-          res.status(200).send({message: "La nuova password e' stata inviata via email"})
+          mailer.sendMailResetPassword(password, (err, data) =>{
+            if(err) {
+              console.log("mailer_Controller - [sendMailResetPassword] - ERROR", err.message);
+              res.status(200).send({code:500, message: 'Error while sending reset password email'})
+            } else {
+              res.status(200).send({code: 200, message: "La nuova password e' stata inviata via email"})
+            }
+          })
         }
-      })
+      });
     } catch (e) {
       console.log("mailer_Controller - [sendMailResetPassword] - ERROR", e.message);
       next(e.message);

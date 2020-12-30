@@ -1,4 +1,7 @@
 const express = require('express');
+const session = require('express-session');
+var FileStore = require('session-file-store')(session);
+const { v4: uuid } = require('uuid');
 const path = require("path");
 const favicon = require('express-favicon');
 const cookieParser = require('cookie-parser');
@@ -12,14 +15,29 @@ const port = process.env.PORT || 3000;
 
 const server = express();
 
-if (process.env.NODE_ENV === 'production') {
-    console.log = function () {};
+//creo sessione per express-session
+var sess = {
+  store: new FileStore(),
+  resave: true,
+  unset: 'destroy',
+  saveUninitialized: true,
+  secret: uuid(),
+  cookie: {},
+  genid: (req) => {
+    return uuid()
+  }
 }
 
 if (ForceSsl.getEnv() === 'production') {
-    server.use(ForceSsl.forceSsl);
+  console.log = function () {};
+  server.use(ForceSsl.forceSsl);
+  server.set('trust proxy', 1) // trust first proxy
+  sess.cookie.secure = true
 }
-server.use(cookieParser());
+
+server.use(cookieParser(sess.secret));
+server.use(session(sess));
+
 server.use(compression());
 server.use(express.json());
 

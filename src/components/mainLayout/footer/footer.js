@@ -16,6 +16,7 @@ class Footer extends Component{
       verticalAlign: 'top'
     }
     return(
+      this.props.show ? null :
       <div className="bottom-footer">
         <div className="container-fluid footer" style={styleDiv}>
           <div className="div-left" style={styleCol}>

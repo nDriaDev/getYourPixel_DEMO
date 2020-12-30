@@ -13,7 +13,7 @@ const MainTemplate = ({children, show, logged, isLogged, enableSpinner, disableS
       }}>
       <Header logged={logged} isLogged={isLogged} enableSpinner={enableSpinner} disableSpinner={disableSpinner} />
       {children}
-      <Footer/>
+      <Footer show={show}/>
     </div>
   )
 }

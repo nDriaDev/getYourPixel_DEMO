@@ -11,6 +11,7 @@ const DB_NAME = 'getYourPixels';
 const COLLECTION_USER = '_user';
 const COLLECTION_PIXEL = '_pixel';
 const SALT_ROUNDS = 10;
+
 class MongoDB {
   constructor() {
     this.client;
@@ -21,13 +22,21 @@ class MongoDB {
   }
 
   generatePassword() {
+    return new Promise((resolve, reject) => {
       var length = 8,
-          charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-          retVal = "";
+      charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+      retVal = "";
       for (var i = 0, n = charset.length; i < length; ++i) {
-          retVal += charset.charAt(Math.floor(Math.random() * n));
+        retVal += charset.charAt(Math.floor(Math.random() * n));
       }
-      return retVal;
+      this.generateHashedPassword(retVal)
+      .then(result => {
+        resolve(result);
+      })
+      .catch(err => {
+        reject(err);
+      })
+    })
   }
 
   generateHashedPassword(password) {
@@ -39,7 +48,7 @@ class MongoDB {
             reject(err);
           }
           else {
-            resolve(hashedPassword);
+            resolve({real: password, hash:hashedPassword});
           }
         })
     })
@@ -122,7 +131,7 @@ class MongoDB {
             if(result) {
               bcrypt.compare(password, result.password, function(err, same) {
                 if (err) {
-                  throw new Error("Password is invalid")
+                  reject(new Error("Password is invalid"))
                 } else {
                   if(same) {
                     resolve({code:200,message:'Credenziali valide'})
@@ -132,7 +141,7 @@ class MongoDB {
                 }
               });
             } else {
-              throw new Error("User not exist");
+              resolve({code:404, message:"User not exist"})
             }
           })
         })
@@ -165,7 +174,7 @@ class MongoDB {
         .then(()=>{
           this.generateHashedPassword(password)
           .then(result => {
-            password = result;
+            password = result.hash;
             this.client
             .connect()
             .then(() => {
@@ -240,27 +249,29 @@ class MongoDB {
           )
           .then(result => {
             if(result){
-              let password = this.generatePassword();
-              const filter = { "email": email };
-              const updateDoc = {
-                $set:
-                {
-                  "password": password
-                },
-              };
-              const options = { upsert: false };
-              this.client
-              .db(DB_NAME)
-              .collection(COLLECTION_USER)
-              .updateOne(filter, updateDoc, options)
-              .then(value => {
-                resolve(password);
-              })
-              .catch(err => {
-                reject(err);
+              this.generatePassword()
+              .then(password =>{
+                const filter = { "email": email };
+                const updateDoc = {
+                  $set:
+                  {
+                    "password": password.hash
+                  },
+                };
+                const options = { upsert: false };
+                this.client
+                .db(DB_NAME)
+                .collection(COLLECTION_USER)
+                .updateOne(filter, updateDoc, options)
+                .then(value => {
+                  resolve(password.real);
+                })
+                .catch(err => {
+                  reject(err);
+                })
               })
             } else {
-              throw new Error("Email inserted not exist")
+              resolve({code:404, message:"Email inserted not exist"})
             }
           })
           .catch(err => {
@@ -330,7 +341,7 @@ class MongoDB {
                 reject(err);
               })
             } else {
-              throw new Error("Password inserted is wrong")
+              reject(new Error("Password inserted is wrong"))
             }
           })
           .catch(err => {

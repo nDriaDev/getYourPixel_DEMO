@@ -11,6 +11,7 @@ import ErrorPage from './components/errorPage/errorPage';
 import Spinner from './components/spinner/spinner';
 import Auth from './components/auth/auth';
 import Manage from './components/manage/manage';
+import ForgotPassword from './components/forgotPassword/forgotPassword';
 
 
 class App extends Component {
@@ -95,6 +96,15 @@ class App extends Component {
                 path='/login'
                 render={(props) => (
                   <Login {...props}
+                    isLogged={this.isLogged}
+                    enableSpinner={this.enableSpinner}
+                    disableSpinner={this.disableSpinner} />
+                )}
+              />
+              <Route
+                path='/forgotPassword'
+                render={(props) => (
+                  <ForgotPassword {...props}
                     isLogged={this.isLogged}
                     enableSpinner={this.enableSpinner}
                     disableSpinner={this.disableSpinner} />
