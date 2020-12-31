@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {useHistory} from 'react-router-dom';
 import {Form, Button} from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import Const from './../../util/Costanti';
@@ -6,6 +7,7 @@ import axios from 'axios';
 
 const ForgotPassword = (props) => {
   const [validated, setValidated] = useState(false);
+  const history = useHistory();
   const [form, setForm] = useState({
     email: '',
   })
@@ -42,7 +44,7 @@ const ForgotPassword = (props) => {
             pauseOnHover: false,
             draggable: true,
             progress: undefined,
-            onClose:()=>{props.history.push('/login')}
+            onClose:()=>{history.push('/login')}
           });
         } else {
           throw new Error(res.data.message);

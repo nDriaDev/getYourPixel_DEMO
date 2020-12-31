@@ -14,7 +14,6 @@ const withAuth = function(req, res, next) {
         console.log("authMiddleware - [withAuth] - ERROR", err.message);
         res.status(200).send({code:401,message:'Unauthorized: Invalid token'});
       } else {
-        console.log("DECODED",decoded);
         req.email = decoded.email;
         console.log("authMiddleware - [withAuth] - FINISH");
         next();

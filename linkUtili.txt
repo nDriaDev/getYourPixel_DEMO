@@ -1,3 +1,12 @@
+########### REACT COOKIE  ###########
+https://rossbulat.medium.com/using-cookies-in-react-redux-and-react-router-4-f5f6079905dc
+
+
+########### REACT HOW TO PASS PROPS  ###########
+https://www.robinwieruch.de/react-pass-props-to-component
+https://www.pluralsight.com/guides/how-to-pass-data-between-react-components
+
+
 ########### NODEJS & REACT JSON WEB TOKEN  ###########
 https://medium.com/@ryanchenkie_40935/react-authentication-how-to-store-jwt-in-a-cookie-346519310e81
 https://faizanv.medium.com/authentication-for-your-react-and-express-application-w-json-web-tokens-923515826e0

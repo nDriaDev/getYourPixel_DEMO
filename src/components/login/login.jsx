@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { Link } from 'react-router-dom';
 import {Form, Button} from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import Const from './../../util/Costanti';
@@ -10,7 +11,7 @@ const Login = (props) => {
     email: '',
     password: '',
   })
-  const {enableSpinner, disableSpinner, isLogged} = props;
+  const {enableSpinner, disableSpinner} = props;
 
   useEffect(() => {
     disableSpinner();
@@ -33,7 +34,7 @@ const Login = (props) => {
       axios.post(Const.LOGIN, form)
       .then(res => {
         if (res.data.code === 200) {
-          isLogged();
+          sessionStorage.setItem('isAuth', true)
           props.history.push('/manage');
           disableSpinner();
         } else {
@@ -56,11 +57,11 @@ const Login = (props) => {
   }
 
   return (
-    <>
-      <div className="display-grid" align="center">
+    <div className="mx-auto mb-5" style={{maxWidth:'408px',maxHeight:'320px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
+      <div className="display-grid mt-3 mb-3" align="center">
         <h1>Login</h1>
       </div>
-      <div style={{textAlign: 'center', width: '20%', margin: '0% 40% 20% 40%'}}>
+      <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
         <Form noValidate validated={validated} onSubmit={onSubmit}>
           <Form.Group controlId="formBasicEmail">
             <Form.Label></Form.Label>
@@ -85,12 +86,15 @@ const Login = (props) => {
               required
               />
           </Form.Group>
+          <Form.Group controlId="formBasicEmail" style={{textAlign:'left'}}>
+            <Link style={{fontSize:'0.8rem'}} to="/forgotPassword">Password dimenticata</Link>
+          </Form.Group>
           <Button variant="success" type="submit">
             {'Sign in'}
           </Button>
         </Form>
       </div>
-    </>
+    </div>
   )
 }
 

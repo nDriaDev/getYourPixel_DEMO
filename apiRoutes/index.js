@@ -57,6 +57,11 @@ try {
     auth,
     controllers.database.changePassword
   )
+  .get(
+    '/logout',
+    auth,
+    controllers.logout
+  )
 
   console.log("router - [loadApiRoutes] - FINISH")
 

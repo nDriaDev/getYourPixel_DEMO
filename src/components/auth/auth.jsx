@@ -11,7 +11,6 @@ const Auth = (props) => {
     axios.get(Const.CHECK_TOKEN)
     .then(result => {
       if(result.data.code === 200) {
-        console.log("Authorized");
         setRedirect(false);
         disableSpinner();
       } else {
@@ -24,7 +23,6 @@ const Auth = (props) => {
       setRedirect(true);
     })
   },[]);
-  console.log("REDIRECT", redirect);
   return (
     <>
     {

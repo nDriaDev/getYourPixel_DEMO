@@ -19,18 +19,9 @@ class App extends Component {
     super(props);
     this.state = {
       show: true,
-      logged: false,
     }
-    this.isLogged = this.isLogged.bind(this);
     this.disableSpinner = this.disableSpinner.bind(this);
     this.enableSpinner = this.enableSpinner.bind(this);
-  }
-
-  isLogged(){
-    let log = this.state.logged;
-    this.setState({
-      logged:!log
-    })
   }
 
   enableSpinner(){
@@ -64,7 +55,7 @@ class App extends Component {
             pauseOnHover={false}
           />
           <Spinner show={this.state.show} />
-          <MainTemplate show={this.state.show} enableSpinner={this.enableSpinner} disableSpinner={this.disableSpinner} logged={this.state.logged} isLogged={this.isLogged}>
+          <MainTemplate show={this.state.show} enableSpinner={this.enableSpinner} disableSpinner={this.disableSpinner}>
             <Switch>
               <Route
                 exact
@@ -96,7 +87,6 @@ class App extends Component {
                 path='/login'
                 render={(props) => (
                   <Login {...props}
-                    isLogged={this.isLogged}
                     enableSpinner={this.enableSpinner}
                     disableSpinner={this.disableSpinner} />
                 )}

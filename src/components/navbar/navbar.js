@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Route , withRouter} from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Img from './../../images/navBar.png';
 import Const from './../../util/Costanti.js';
@@ -15,18 +16,23 @@ class NavbarCustom extends Component{
     this.changeActive = this.changeActive.bind(this);
     this.logout = this.logout.bind(this);
   }
-  logout(){
+  logout(event){
+    event.preventDefault();
+    event.stopPropagation();
     this.props.enableSpinner();
-    axios.post(Const.LOGOUT)
+    axios.get(Const.LOGOUT)
     .then(result => {
       if (result.data.code === 200) {
+        sessionStorage.removeItem('isAuth')
         this.props.disableSpinner();
-        this.state.history.push('/manage');
+        this.props.history.push('/login');
       } else {
         throw new Error(result.data.message);
       }
     })
     .catch(err => {
+      console.log(err);
+      sessionStorage.removeItem('isAuth')
       this.props.disableSpinner();
       toast.error(err.message != null ? err.message : "ERRORE", {
         position: "top-center",
@@ -47,6 +53,8 @@ class NavbarCustom extends Component{
   }
 
   render(){
+    console.log("LOGGED_STATE", this.state.logged);
+    console.log("SESSION_STORAGE", sessionStorage.getItem('isAuth'));
     return(
       <nav className="navbar navbar-expand-lg navbar-dark primary-color">
         <a className="navbar-brand" href="/" onClick={()=>this.changeActive(1)}>
@@ -104,14 +112,14 @@ class NavbarCustom extends Component{
               </a>
             </li>
           </ul>
-          {this.props.logged ?
+          {sessionStorage.getItem('isAuth') ?
             <ul className="navbar-nav ">
               <li class="">
                 <a
                   className="nav-link"
                   href=""
                   style={{float:'left'}}
-                  onClick={()=>this.logout()}>
+                  onClick={(e)=>this.logout(e)}>
                   Logout
                 </a>
               </li>
@@ -125,4 +133,4 @@ class NavbarCustom extends Component{
   }
 }
 
-export default NavbarCustom;
+export default withRouter(NavbarCustom);
