@@ -72,11 +72,11 @@ const ForgotPassword = (props) => {
       <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
         <Form noValidate validated={validated} onSubmit={onSubmit}>
           <Form.Group controlId="formBasicEmail">
-            <Form.Label></Form.Label>
+            <Form.Label>Email</Form.Label>
             <Form.Control
               type="email"
               name="email"
-              placeholder="Enter email"
+              placeholder=""
               value={form.email}
               onChange={e => handleInputChange(e)}
               required

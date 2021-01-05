@@ -23,6 +23,25 @@ class DataBase {
       }
     }
 
+  deleteUser(req, res, next) {
+    try {
+      console.log("database_Controller - [deleteUser] - START");
+      db
+      .deleteUser({email: req.session.email, password: req.body.password})
+      .then(result => {
+        res.status(200).send(result)
+      })
+      .catch(err => {
+        res.status(200).send(err)
+      })
+    } catch (e) {
+      console.log("database_Controller - [deleteUser] - ERROR", e.message);
+      next(e.message);
+    } finally {
+      console.log("database_Controller - [deleteUser] - FINISH");
+    }
+  }
+
   login(req, res, next) {
       try {
         console.log("database_Controller - [login] - START");
@@ -31,6 +50,7 @@ class DataBase {
             if(result.code === 200){
               let secret = uuid();
               req.session.secret = secret;
+              req.session.email = req.body.email;
               let token = jwt.sign({email:req.body.email}, secret, {expiresIn: '1h'});
               res.cookie('token', token, {httpOnly: true}).status(200).send(result)
             } else {
@@ -48,6 +68,25 @@ class DataBase {
         console.log("database_Controller - [login] - FINISH");
       }
     }
+
+  verifyPassword(req, res, next) {
+    try {
+      console.log("database_Controller - [verifyPassword] - START");
+      db
+      .verifyPassword({email: req.session.email, password: req.body.password})
+      .then(result => {
+        res.status(200).send(result)
+      })
+      .catch(err => {
+        res.status(200).send(err)
+      })
+    } catch (e) {
+      console.log("database_Controller - [verifyPassword] - ERROR", e.message);
+      next(e.message);
+    } finally {
+      console.log("database_Controller - [verifyPassword] - FINISH");
+    }
+  }
 
   getPixels(req, res, next) {
     try {
@@ -105,9 +144,9 @@ class DataBase {
     try {
       console.log("database_Controller - [changePassword] - START");
       db
-      .changePassword(req.body)
+      .changePassword({body:req.body, email:req.session.email})
       .then(result => {
-        res.status(200).send({message:"Il cambio password è avvenuto correttamente"})
+        res.status(200).send({code:200,message:"Il cambio password è avvenuto correttamente"})
       })
       .catch(err => {
         console.log("database_Controller - [changePassword] - ERROR", err.message);

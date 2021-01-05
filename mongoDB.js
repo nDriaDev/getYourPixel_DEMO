@@ -163,11 +163,70 @@ class MongoDB {
     })
   }
 
+  verifyPassword(body) {
+    console.log("database - [verifyPassword] - START");
+    return new Promise((resolve, reject) =>{
+      try {
+        const {email, password} = body;
+        this.initialize();
+        this.client
+        .connect()
+        .then(()=>{
+          this.client
+          .db(DB_NAME)
+          .collection(COLLECTION_USER)
+          .findOne(
+            {
+              "email": email,
+            },
+            {
+              projection:
+              {
+                "_id":0,
+              }
+            }
+          )
+          .then(result=>{
+            if(result) {
+              bcrypt.compare(password, result.password, function(err, same) {
+                if (err) {
+                  reject({code:404,message:"Password is invalid"})
+                } else {
+                  if(same) {
+                    resolve({code:200,message:'Cambio password avvenuto con successo'})
+                  } else {
+                    resolve({code:404,message:"La password corrente non e' corretta"})
+                  }
+                }
+              });
+            } else {
+              resolve({code:404, message:"User not exist"})
+            }
+          })
+        })
+        .catch(err => {
+          console.log("database - [verifyPassword] - ERROR -", err.message);
+          reject({code:404,message:err});
+        })
+      } catch (e) {
+        console.log("database - [verifyPassword] - ERROR -", e.message);
+        reject({code:404,message:e.message})
+      } finally {
+        this.client.close().then(()=>{
+          console.log("database - [verifyPassword] - FINISH");
+        })
+        .catch(err => {
+          reject({code:404,message:err.message});
+        })
+      }
+    })
+  }
+
   addUser(body) {
     console.log("database - [addUser] - START");
     return new Promise((resolve, reject) => {
       try {
-        let {email, password} = body;
+        let {email, password, type} = body;
         this.initialize();
         this.client
         .connect()
@@ -184,7 +243,8 @@ class MongoDB {
               .insertOne(
                 {
                   "email": email,
-                  "password": password
+                  "password": password,
+                  "type": type
                 }
               )
               .then(value => {
@@ -215,6 +275,80 @@ class MongoDB {
       } finally {
         this.client.close().then(()=>{
           console.log("database - [addUser] - FINISH");
+        })
+        .catch(err => {
+          reject(err.message);
+        })
+      }
+    })
+  }
+
+  deleteUser(body) {
+    console.log("database - [deleteUser] - START");
+    return new Promise((resolve, reject) =>{
+      try {
+        const {email, password} = body;
+        this.initialize();
+        this.client
+        .connect()
+        .then(()=>{
+          this.client
+          .db(DB_NAME)
+          .collection(COLLECTION_USER)
+          .findOne(
+            {
+              "email": email,
+            },
+            {
+              projection:
+              {
+                "_id":0,
+              }
+            }
+          )
+          .then(result=>{
+            if(result) {
+              bcrypt.compare(password, result.password, function(err, same) {
+                if (err) {
+                  reject(new Error("Password is invalid"))
+                } else {
+                  if(same) {
+                    let user = {email:email, password: password};
+                    this.client
+                    .connect()
+                    .then(() => {
+                      this.client
+                      .db(DB_NAME)
+                      .collection(COLLECTION_USER)
+                      .deleteOne(user)
+                      .then(result => {
+                        if(result.deletedCount === 1) {
+                          resolve({code:200,message:"L'utente e' stato rimosso correttamente"})
+                        } else {
+                          resolve({code:404,message:"Nessun utente e' stato trovato alcun utente"})
+                        }
+                      })
+                    })
+                  } else {
+                    resolve({code:404,message:'Credenziali invalide'})
+                  }
+                }
+              });
+            } else {
+              resolve({code:404, message:"User not exist"})
+            }
+          })
+        })
+        .catch(err => {
+          console.log("database - [deleteUser] - ERROR -", err.message);
+          reject(err);
+        })
+      } catch (e) {
+        console.log("database - [deleteUser] - ERROR -", e.message);
+        reject(e)
+      } finally {
+        this.client.close().then(()=>{
+          console.log("database - [deleteUser] - FINISH");
         })
         .catch(err => {
           reject(err.message);
@@ -299,7 +433,8 @@ class MongoDB {
     console.log("database - [changePassword] - START");
     return new Promise((resolve, reject) => {
       try {
-        const {email, password, newPassword} = body;
+        const {oldPassword, password} = body.body;
+        const email = body.email;
         this.initialize();
         this.client
         .connect()
@@ -310,7 +445,6 @@ class MongoDB {
           .findOne(
             {
               "email": email,
-              "password": password
             }
             ,
             {
@@ -323,22 +457,26 @@ class MongoDB {
           .then(value => {
             if(value) {
               const filter = { "email": email };
-              const updateDoc = {
-                $set:
-                {
-                  "password": newPassword
-                },
-              };
-              const options = { upsert: false };
-              this.client
-              .db(DB_NAME)
-              .collection(COLLECTION_USER)
-              .updateOne(filter, updateDoc, options)
-              .then(value => {
-                resolve(password);
-              })
-              .catch(err => {
-                reject(err);
+              this.generateHashedPassword(password)
+              .then(result => {
+                let confirmPasswordHashed = result.hash;
+                const updateDoc = {
+                  $set:
+                  {
+                    "password": confirmPasswordHashed
+                  },
+                };
+                const options = { upsert: false };
+                this.client
+                .db(DB_NAME)
+                .collection(COLLECTION_USER)
+                .updateOne(filter, updateDoc, options)
+                .then(value => {
+                  resolve(password);
+                })
+                .catch(err => {
+                  reject(err);
+                })
               })
             } else {
               reject(new Error("Password inserted is wrong"))

@@ -42,6 +42,10 @@ let Const = {
   LOGOUT: '/api/logout',
   MANAGE: '/manage',
   RESET_PASSWORD: '/api/resetPassword',
+  VERIFY_PASSWORD: '/api/verifyPassword',
+  CHANGE_PASSWORD: '/api/changePassword',
+  DELETE_USER: '/api/deleteUser',
+  ADD_USER: '/api/addUser',
 }
 
 

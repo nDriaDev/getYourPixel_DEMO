@@ -13,11 +13,12 @@ https://faizanv.medium.com/authentication-for-your-react-and-express-application
 https://medium.com/strapi/protected-routes-and-authentication-with-react-and-node-js-d31d234644cd
 
 
-########### REACT NESTED ROUTE & PRIVATE ROUTE  ###########
+########### REACT NESTED ROUTE - PRIVATE ROUTE - ROLE BASED AUTHORIZATION  ###########
 https://reactrouter.com/web/guides/philosophy
 https://reactrouter.com/web/example/nesting
 https://medium.com/@thanhbinh.tran93/private-route-public-route-and-restricted-route-with-react-router-d50b27c15f5e
 https://stackoverflow.com/questions/56711663/react-router-v5-0-nested-routes
+https://jasonwatmore.com/post/2019/02/01/react-role-based-authorization-tutorial-with-example
 
 
 ########### REACT HOC (High Order Component)  ###########

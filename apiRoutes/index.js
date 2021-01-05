@@ -40,6 +40,11 @@ try {
     auth,
     controllers.database.addUser
   )
+  .post(
+    '/deleteUser',
+    auth,
+    controllers.database.deleteUser
+  )
   .get(
     '/login',
     controllers.init
@@ -56,6 +61,11 @@ try {
     '/changePassword',
     auth,
     controllers.database.changePassword
+  )
+  .post(
+    '/verifyPassword',
+    auth,
+    controllers.database.verifyPassword
   )
   .get(
     '/logout',

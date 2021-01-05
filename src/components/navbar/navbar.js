@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Route , withRouter} from 'react-router-dom';
+import { withRouter} from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Img from './../../images/navBar.png';
 import Const from './../../util/Costanti.js';
@@ -43,7 +43,14 @@ class NavbarCustom extends Component{
         draggable: true,
         progress: undefined,
       });
+      this.props.history.push('/login');
     })
+  }
+
+  admin(event){
+    event.preventDefault();
+    event.stopPropagation();
+    this.props.history.push('/manage');
   }
 
   changeActive(menu){
@@ -53,8 +60,6 @@ class NavbarCustom extends Component{
   }
 
   render(){
-    console.log("LOGGED_STATE", this.state.logged);
-    console.log("SESSION_STORAGE", sessionStorage.getItem('isAuth'));
     return(
       <nav className="navbar navbar-expand-lg navbar-dark primary-color">
         <a className="navbar-brand" href="/" onClick={()=>this.changeActive(1)}>
@@ -114,7 +119,22 @@ class NavbarCustom extends Component{
           </ul>
           {sessionStorage.getItem('isAuth') ?
             <ul className="navbar-nav ">
-              <li class="">
+              <li className="">
+                <a
+                  className="nav-link"
+                  href=""
+                  style={{float:'left'}}
+                  onClick={(e)=>this.admin(e)}>
+                  Admin
+                </a>
+              </li>
+            </ul>
+            :
+            null
+          }
+          {sessionStorage.getItem('isAuth') ?
+            <ul className="navbar-nav ">
+              <li className="">
                 <a
                   className="nav-link"
                   href=""

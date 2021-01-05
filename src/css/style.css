@@ -171,6 +171,7 @@ li a:hover:not(.active) {
   position:absolute;
   bottom:0;
   width:100%;
+  z-index:1020;
 }
 #designedBy > a{
   font-family: sans-serif;
@@ -503,4 +504,28 @@ button#btn-buy:focus {
   font-weight: bold;
   outline: none;
   vertical-align: sub;
+}
+
+/*----------------------------------------------------------------------------*/
+/* ------------------------------- SIDEBAR -----------------------------------*/
+.vertical-bar {
+  height: 85vh;
+  width: 100vw;
+  margin-bottom: 1.5%;
+}
+.background-v-nav {
+  background: #080706;
+}
+.ul-v-bar {
+  width: 100%;
+}
+.btn-v-bar {
+  margin-left: 40%;
+}
+li.active-v-bar a {
+  color: #00CC00;
+}
+
+.container-v-bar{
+  padding: 0;
 }

@@ -64,11 +64,11 @@ const Login = (props) => {
       <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
         <Form noValidate validated={validated} onSubmit={onSubmit}>
           <Form.Group controlId="formBasicEmail">
-            <Form.Label></Form.Label>
+            <Form.Label>Email</Form.Label>
             <Form.Control
               type="email"
               name="email"
-              placeholder="Enter email"
+              placeholder=""
               value={form.email}
               onChange={e => handleInputChange(e)}
               required
@@ -76,11 +76,11 @@ const Login = (props) => {
           </Form.Group>
 
           <Form.Group controlId="formBasicPassword">
-            <Form.Label></Form.Label>
+            <Form.Label>Password</Form.Label>
             <Form.Control
               name="password"
               type="password"
-              placeholder="Password"
+              placeholder=""
               value={form.password}
               onChange={e => handleInputChange(e)}
               required

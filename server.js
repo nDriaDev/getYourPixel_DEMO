@@ -17,10 +17,10 @@ const server = express();
 
 //creo sessione per express-session
 var sess = {
-  store: new FileStore(),
+  store: new FileStore({reapInterval: 60*31}),
   resave: true,
   unset: 'destroy',
-  saveUninitialized: true,
+  saveUninitialized: false,
   secret: uuid(),
   cookie: {},
   genid: (req) => {
@@ -33,6 +33,7 @@ if (ForceSsl.getEnv() === 'production') {
   server.use(ForceSsl.forceSsl);
   server.set('trust proxy', 1) // trust first proxy
   sess.cookie.secure = true
+  sess.store = new FileStore({logFn: function(){}, reapInterval: 60*31});
 }
 
 server.use(cookieParser(sess.secret));
