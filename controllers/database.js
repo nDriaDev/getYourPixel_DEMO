@@ -4,6 +4,47 @@ const jwt = require('jsonwebtoken');
 const { v4: uuid } = require('uuid');
 
 class DataBase {
+
+  getUser(req, res, next) {
+      try {
+        console.log("database_Controller - [getUser] - START");
+        let email = req.body.email ? req.body.email : req.session.email;
+        db.getUser(email)
+          .then(result => {
+            res.status(200).send(result)
+          })
+          .catch(e => {
+            console.log("database_Controller - [getUser] - ERROR -", e.message);
+            res.status(200).send({code:500,message:e.message});
+          })
+      } catch (e) {
+        console.log("database_Controller - [getUser] - ERROR -", e.message);
+        next(e.message);
+      } finally {
+        console.log("database_Controller - [getUser] - FINISH");
+      }
+  }
+
+  getUsers(req, res, next) {
+      try {
+        console.log("database_Controller - [getUsers] - START");
+        let type = req.body.type ? req.body.type : null;
+        db.getUsers(type)
+          .then(result => {
+            res.status(200).send(result)
+          })
+          .catch(e => {
+            console.log("database_Controller - [getUsers] - ERROR -", e.message);
+            res.status(200).send({code:500,message:e.message});
+          })
+      } catch (e) {
+        console.log("database_Controller - [getUsers] - ERROR -", e.message);
+        next(e.message);
+      } finally {
+        console.log("database_Controller - [getUsers] - FINISH");
+      }
+  }
+
   addUser(req, res, next) {
       try {
         console.log("database_Controller - [addUser] - START");
@@ -13,7 +54,7 @@ class DataBase {
           })
           .catch(e => {
             console.log("database_Controller - [addUser] - ERROR -", e.message);
-            next(e.message);
+            res.status(200).send({code:500,message:e.message});
           })
       } catch (e) {
         console.log("database_Controller - [addUser] - ERROR -", e.message);
@@ -21,13 +62,13 @@ class DataBase {
       } finally {
         console.log("database_Controller - [addUser] - FINISH");
       }
-    }
+  }
 
   deleteUser(req, res, next) {
     try {
       console.log("database_Controller - [deleteUser] - START");
       db
-      .deleteUser({email: req.session.email, password: req.body.password})
+      .deleteUser({email: req.body.email})
       .then(result => {
         res.status(200).send(result)
       })

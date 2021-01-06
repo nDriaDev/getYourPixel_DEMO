@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { withRouter} from 'react-router-dom';
+import { withRouter, Link} from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Img from './../../images/navBar.png';
 import Const from './../../util/Costanti.js';
@@ -11,10 +11,12 @@ class NavbarCustom extends Component{
     let pathname = window.location.pathname;
     pathname = pathname === Const.PATH_ERROR ? 'error' : (pathname === '/' ? '' : (pathname === Const.PATH_BUY ? 'buy' : (pathname === Const.PATH_CONTACT ? 'contact' : '')));
     this.state = {
+      origin: window.location.origin,
       active: pathname === 'error' ? 0 : (pathname === '' ? 1 : (pathname === 'buy' ? 2 : 3)),
     }
     this.changeActive = this.changeActive.bind(this);
     this.logout = this.logout.bind(this);
+    this.changeActiveAndHistoryPush = this.changeActiveAndHistoryPush.bind(this);
   }
   logout(event){
     event.preventDefault();
@@ -59,10 +61,17 @@ class NavbarCustom extends Component{
     })
   }
 
+  changeActiveAndHistoryPush(event ,menu, path) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.changeActive(menu);
+    this.props.history.push(path);
+  }
+
   render(){
     return(
       <nav className="navbar navbar-expand-lg navbar-dark primary-color">
-        <a className="navbar-brand" href="/" onClick={()=>this.changeActive(1)}>
+        <a className="navbar-brand" href="" onClick={(e)=>this.changeActiveAndHistoryPush(e,1, '/')}>
           <img src={Img} alt="Logo" className="logo-size-header"></img>
         </a>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
@@ -74,27 +83,27 @@ class NavbarCustom extends Component{
             <li className={"nav-item " + this.state.active === 1 ? 'active' : ''}>
               <a
                 className="nav-link"
-                href="/"
+                href=""
                 style={{float:'left'}}
-                onClick={()=>this.changeActive(1)}>
+                onClick={(e)=>this.changeActiveAndHistoryPush(e,1,'/')}>
                 Home
               </a>
             </li>
             <li className={"nav-item " + this.state.active === 2 ? 'active' : ''}>
               <a
                 className="nav-link"
-                href="buy"
+                href=""
                 style={{float:'left'}}
-                onClick={()=>this.changeActive(2)}>
+                onClick={(e)=>this.changeActiveAndHistoryPush(e,2,'/buy')}>
                 Buy
               </a>
             </li>
             <li className={"nav-item " + this.state.active === 3 ? 'active' : ''}>
               <a
                 className="nav-link"
-                href="contact"
+                href=""
                 style={{float:'left'}}
-                onClick={()=>this.changeActive(3)}>
+                onClick={(e)=>this.changeActiveAndHistoryPush(e,3,'/contact')}>
                 Contact
               </a>
             </li>

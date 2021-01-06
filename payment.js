@@ -3,7 +3,7 @@ const stripe = require('stripe')(
   '<your private key here>'
 );
 
-const PRODUCT_DESCRIPTION = "Eccoti l'opportunità per ottenere il TUO spazio sul web!\nAcquista subito i tuoi pixel inserendo i dati dove aver premuto il pulsante qui sotto.\nRiceverai un'email per la conferma dell'ordine alla quale dovrai rispondere inserendo i dati necessari per concludere l'operazione:\nimmagine, link della tua pagina ecc.\n(non ti preoccupare ora, è tutto spiegato nella email che riceverai).";
+const PRODUCT_DESCRIPTION = "Eccoti l'opportunità per ottenere il TUO spazio sul web!\nAcquista subito i tuoi pixel inserendo i dati dopo aver premuto il pulsante qui sotto.\nRiceverai un'email per la conferma dell'ordine alla quale dovrai rispondere inserendo i dati necessari per concludere l'operazione:\nimmagine, link della tua pagina ecc.\n(non ti preoccupare ora, è tutto spiegato nella email che riceverai).";
 
 
 class Payment {

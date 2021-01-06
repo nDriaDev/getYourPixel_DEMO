@@ -115,51 +115,56 @@ const ChangePassword = ({spinnerCommand}) => {
   }
 
   return (
-    <div className="row mx-auto">
-      <Form noValidate className="mx-auto mt-5" onSubmit={onSubmit}>
-        <Form.Group controlId="formBasicOldPassword">
-          <Form.Label>Current Password</Form.Label>
-          <Form.Control
-            type="password"
-            name="oldPassword"
-            placeholder=""
-            value={form.oldPassword}
-            onChange={e => handleInputChange(e)}
-            isInvalid={!validated.oldPassword}
-            required
-            />
-        </Form.Group>
-        <Form.Group controlId="formBasicPassword">
-          <Form.Label>New password</Form.Label>
-          <Form.Control
-            name="password"
-            type="password"
-            placeholder=""
-            value={form.password}
-            onChange={e => handleInputChange(e)}
-            isInvalid={!validated.password}
-            required
-            />
-        </Form.Group>
-        <Form.Group controlId="formBasicConfirmPassword">
-          <Form.Label>Confirm password</Form.Label>
-          <Form.Control
-            type="password"
-            name="confirmPassword"
-            placeholder=""
-            value={form.confirmPassword}
-            onChange={e => handleInputChange(e)}
-            isInvalid={!validated.confirmPassword}
-            required
-            />
-            <Form.Control.Feedback type="invalid">
-              {'Le password non coincidono'}
-            </Form.Control.Feedback>
-        </Form.Group>
-        <Button variant="success" type="submit">
-          {'Invia'}
-        </Button>
-      </Form>
+    <div className="mx-auto mb-5" style={{maxWidth:'408px',maxHeight:'372px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
+      <div className="mt-2" align="center">
+        <h1>Change Password</h1>
+      </div>
+      <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
+        <Form noValidate className="mx-auto mt-3" onSubmit={onSubmit}>
+          <Form.Group controlId="formBasicOldPassword">
+            <Form.Label style={{float: 'left', color:'white'}}>Current Password</Form.Label>
+            <Form.Control
+              type="password"
+              name="oldPassword"
+              placeholder=""
+              value={form.oldPassword}
+              onChange={e => handleInputChange(e)}
+              isInvalid={!validated.oldPassword}
+              required
+              />
+          </Form.Group>
+          <Form.Group controlId="formBasicPassword">
+            <Form.Label style={{float: 'left', color:'white'}}>New password</Form.Label>
+            <Form.Control
+              name="password"
+              type="password"
+              placeholder=""
+              value={form.password}
+              onChange={e => handleInputChange(e)}
+              isInvalid={!validated.password}
+              required
+              />
+          </Form.Group>
+          <Form.Group controlId="formBasicConfirmPassword">
+            <Form.Label style={{float: 'left', color:'white'}}>Confirm password</Form.Label>
+            <Form.Control
+              type="password"
+              name="confirmPassword"
+              placeholder=""
+              value={form.confirmPassword}
+              onChange={e => handleInputChange(e)}
+              isInvalid={!validated.confirmPassword}
+              required
+              />
+              <Form.Control.Feedback type="invalid">
+                {'Le password non coincidono'}
+              </Form.Control.Feedback>
+          </Form.Group>
+          <Button variant="success" type="submit">
+            {'Invia'}
+          </Button>
+        </Form>
+      </div>
     </div>
   )
 }

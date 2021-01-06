@@ -26,7 +26,7 @@ const ProductDisplay = ({ product, quantity, handleQuantityChange, handleClick }
                }
             </div>
           </div>
-          <h2 className="font-weight-bold my-2">{Const.setDecimalCurrencyNumber(product.price.unit_amount, product.price.currency)}</h2>
+          <h2 className="font-weight-bold my-2">{Const.setDecimalCurrencyNumber(product.price.unit_amount * quantity, product.price.currency)}</h2>
           <h5 className="grey-text" style={{fontSize: '1.0rem'}}>{product.description}</h5>
           <div className="qt-plus-minut my-2">
             <button onClick={e=>handleQuantityChange(e)}><i name="minus" className="fa fa-minus" aria-hidden="true" style={{fontSize: '0.9rem'}}></i></button>

@@ -63,6 +63,16 @@ try {
     controllers.database.changePassword
   )
   .post(
+    '/getUser',
+    auth,
+    controllers.database.getUser
+  )
+  .post(
+    '/getUsers',
+    auth,
+    controllers.database.getUsers
+  )
+  .post(
     '/verifyPassword',
     auth,
     controllers.database.verifyPassword

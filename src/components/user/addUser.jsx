@@ -1,41 +1,44 @@
 import React, {useState, useEffect} from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import {Form, Button} from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import Const from './../../util/Costanti';
 import axios from 'axios';
 
-const Login = (props) => {
+
+const AddUser = ({spinnerCommand}) => {
+  const history = useHistory();
   const [validated, setValidated] = useState(false);
   const [form, setForm] = useState({
     email: '',
     password: '',
+    type:'',
   })
-  const {enableSpinner, disableSpinner} = props;
 
-  useEffect(() => {
-    axios.get(Const.CHECK_TOKEN)
-    .then(result => {
-      if(result.data.code === 200) {
-        props.history.push('/manage');
-        disableSpinner();
+  useEffect(()=>{
+    spinnerCommand(true);
+    return axios.post(Const.GET_USER,{})
+    .then(value => {
+      if(value) {
+        if(value.type === Const.USER_TYPE.BASIC) {
+          spinnerCommand(false);
+          history.push('/manage');
+        } else {
+          spinnerCommand(false);
+        }
       } else {
-        disableSpinner();
+        spinnerCommand(false);
+        history.push('/manage');
       }
+    }).catch(err => {
+      spinnerCommand(false);
+      history.push('/manage');
     })
-    .catch(err => {
-      console.log("Error", err);
-      disableSpinner();
-    })
-  },[enableSpinner,disableSpinner]);
+  },[])
 
   const handleInputChange = event => {
     let {name, value} = event.target;
     setForm({...form, [name]:value});
-  }
-
-  const goTo = (path) => {
-    props.history.push(path);
   }
 
   const onSubmit = (event) => {
@@ -46,22 +49,34 @@ const Login = (props) => {
     if (formSet.checkValidity() === false) {
       setValidated(true);
     } else {
-      enableSpinner();
-      axios.post(Const.LOGIN, form)
+      spinnerCommand(true);
+      axios.post(Const.ADD_USER, form)
       .then(res => {
         if (res.data.code === 200) {
-          sessionStorage.setItem('isAuth', true)
-          props.history.push('/manage');
-          disableSpinner();
+          setForm({
+            email: '',
+            password: '',
+            type:'',
+          });
+          spinnerCommand(false);
+          toast.success(res.data.message, {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+          });
         } else {
           throw new Error(res.data.message);
         }
       })
       .catch(err => {
-        disableSpinner();
+        spinnerCommand(false);
         toast.error(err.message != null ? err.message : "ERRORE", {
           position: "top-center",
-          autoClose: 5000,
+          autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: false,
@@ -73,9 +88,9 @@ const Login = (props) => {
   }
 
   return (
-    <div className="mx-auto mb-5" style={{maxWidth:'408px',maxHeight:'334px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
-      <div className="display-grid mt-2 mb-3" align="center">
-        <h1>Login</h1>
+    <div className="mx-auto mb-5" style={{maxWidth:'408px',maxHeight:'356px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
+      <div className="mt-2" align="center">
+        <h1>Add User</h1>
       </div>
       <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
         <Form noValidate validated={validated} onSubmit={onSubmit}>
@@ -102,11 +117,22 @@ const Login = (props) => {
               required
               />
           </Form.Group>
-          <Form.Group controlId="formBasicForgotPassword" style={{textAlign:'left'}}>
-            <Form.Label className="label-underline-link" onClick={()=> goTo("/forgotPassword")}>Password dimenticata</Form.Label>
+          <Form.Group controlId="exampleForm.SelectCustom">
+          <Form.Label style={{float: 'left', color:'white'}}>Ruolo</Form.Label>
+            <Form.Control
+              as="select"
+              custom
+              name="type"
+              value={form.type}
+              onChange={e => handleInputChange(e)}
+              required>
+              <option></option>
+              <option>Admin</option>
+              <option>Basic</option>
+            </Form.Control>
           </Form.Group>
           <Button variant="success" type="submit">
-            {'Sign in'}
+            {'Aggiungi'}
           </Button>
         </Form>
       </div>
@@ -114,4 +140,4 @@ const Login = (props) => {
   )
 }
 
-export default Login;
+export default AddUser;

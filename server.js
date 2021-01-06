@@ -25,7 +25,8 @@ var sess = {
   cookie: {},
   genid: (req) => {
     return uuid()
-  }
+  },
+  rolling: true,
 }
 
 if (ForceSsl.getEnv() === 'production') {

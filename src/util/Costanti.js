@@ -46,6 +46,13 @@ let Const = {
   CHANGE_PASSWORD: '/api/changePassword',
   DELETE_USER: '/api/deleteUser',
   ADD_USER: '/api/addUser',
+  GET_USERS: '/api/getUsers',
+  GET_USER: '/api/getUser',
+  USER_TYPE: {
+    BASIC: 'Basic',
+    ADMIN: 'Admin',
+    SUPER_ADMIN: 'SuperAdmin',
+  },
 }
 
 

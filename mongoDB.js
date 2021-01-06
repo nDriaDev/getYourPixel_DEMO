@@ -104,6 +104,115 @@ class MongoDB {
     })
   }
 
+  getUser(email) {
+    console.log("database - [getUser] - START");
+    return new Promise((resolve, reject) =>{
+      try {
+        this.initialize();
+        this.client
+        .connect()
+        .then(()=>{
+          this.client
+          .db(DB_NAME)
+          .collection(COLLECTION_USER)
+          .findOne(
+            {
+              "email": email,
+            },
+            {
+              projection:
+              {
+                "_id":0,
+              }
+            }
+          )
+          .then(result=>{
+            if(result) {
+              resolve(result);
+            } else {
+              resolve(null)
+            }
+          })
+        })
+        .catch(err => {
+          console.log("database - [getUser] - ERROR -", err.message);
+          reject(err);
+        })
+      } catch (e) {
+        console.log("database - [getUser] - ERROR -", e.message);
+        reject(e)
+      } finally {
+        this.client.close().then(()=>{
+          console.log("database - [getUser] - FINISH");
+        })
+        .catch(err => {
+          reject(err.message);
+        })
+      }
+    })
+  }
+
+  getUsers(type) {
+    console.log("database - [getUsers] - START");
+    return new Promise((resolve, reject) =>{
+      try {
+        let query = {};
+        if(type === 'Admin') {
+          query = {
+            "type": 'Basic'
+          }
+        } else if(type === 'SuperAdmin') {
+          query = {
+            "type": {"$in": ["Admin", "Basic"]}
+          }
+        } else {
+          query = {
+            "type": {"$in": ["Admin", "Basic"]}
+          }
+        }
+        this.initialize();
+        this.client
+        .connect()
+        .then(()=>{
+          this.client
+          .db(DB_NAME)
+          .collection(COLLECTION_USER)
+          .find(
+            query,
+            {
+              projection:
+              {
+                "_id":0,
+              }
+            }
+          )
+          .toArray()
+          .then(result=>{
+            if(result) {
+              resolve(result);
+            } else {
+              resolve(null)
+            }
+          })
+        })
+        .catch(err => {
+          console.log("database - [getUsers] - ERROR -", err.message);
+          reject(err);
+        })
+      } catch (e) {
+        console.log("database - [getUsers] - ERROR -", e.message);
+        reject(e)
+      } finally {
+        this.client.close().then(()=>{
+          console.log("database - [getUsers] - FINISH");
+        })
+        .catch(err => {
+          reject(err.message);
+        })
+      }
+    })
+  }
+
   login(body) {
     console.log("database - [login] - START");
     return new Promise((resolve, reject) =>{
@@ -234,30 +343,36 @@ class MongoDB {
           this.generateHashedPassword(password)
           .then(result => {
             password = result.hash;
-            this.client
-            .connect()
-            .then(() => {
-              this.client
-              .db(DB_NAME)
-              .collection(COLLECTION_USER)
-              .insertOne(
-                {
-                  "email": email,
-                  "password": password,
-                  "type": type
-                }
-              )
-              .then(value => {
-                resolve({message: "Insert user completed"})
-              })
-              .catch(err => {
-                console.log("database - [addUser] - ERROR -", err);
-                reject(err);
-              })
-            })
-            .catch(err => {
-              console.log("database - [addUser] - ERROR -", err);
-              reject(err);
+            this.getUser(email).then(value => {
+              if(value) {
+                reject(new Error("Utente già esistente"))
+              } else {
+                this.client
+                .connect()
+                .then(() => {
+                  this.client
+                  .db(DB_NAME)
+                  .collection(COLLECTION_USER)
+                  .insertOne(
+                    {
+                      "email": email,
+                      "password": password,
+                      "type": type
+                    }
+                  )
+                  .then(value => {
+                    resolve({code:200,message: "Utente inserito correttamente"})
+                  })
+                  .catch(err => {
+                    console.log("database - [addUser] - ERROR -", err);
+                    reject(err);
+                  })
+                })
+                .catch(err => {
+                  console.log("database - [addUser] - ERROR -", err);
+                  reject(err);
+                })
+              }
             })
           })
           .catch(err => {
@@ -287,7 +402,7 @@ class MongoDB {
     console.log("database - [deleteUser] - START");
     return new Promise((resolve, reject) =>{
       try {
-        const {email, password} = body;
+        const {email} = body;
         this.initialize();
         this.client
         .connect()
@@ -308,34 +423,28 @@ class MongoDB {
           )
           .then(result=>{
             if(result) {
-              bcrypt.compare(password, result.password, function(err, same) {
-                if (err) {
-                  reject(new Error("Password is invalid"))
-                } else {
-                  if(same) {
-                    let user = {email:email, password: password};
-                    this.client
-                    .connect()
-                    .then(() => {
-                      this.client
-                      .db(DB_NAME)
-                      .collection(COLLECTION_USER)
-                      .deleteOne(user)
-                      .then(result => {
-                        if(result.deletedCount === 1) {
-                          resolve({code:200,message:"L'utente e' stato rimosso correttamente"})
-                        } else {
-                          resolve({code:404,message:"Nessun utente e' stato trovato alcun utente"})
-                        }
-                      })
-                    })
+              let user = {"email":email};
+              this.client
+              .connect()
+              .then(() => {
+                this.client
+                .db(DB_NAME)
+                .collection(COLLECTION_USER)
+                .deleteOne(user)
+                .then(result => {
+                  if(result.deletedCount === 1) {
+                    resolve({code:200,message:"L'utente e' stato rimosso correttamente"})
                   } else {
-                    resolve({code:404,message:'Credenziali invalide'})
+                    resolve({code:404,message:"Nessun utente e' stato trovato alcun utente"})
                   }
-                }
-              });
+                })
+                .catch(err => {
+                  console.log(err);
+                  resolve({code:404, message:err.message})
+                })
+              })
             } else {
-              resolve({code:404, message:"User not exist"})
+              resolve({code:404, message:"Utente inesistente"})
             }
           })
         })

@@ -1,11 +1,13 @@
 /* TEAM */
           Developer: Andrea Cosentino
           Contact: a.cosentino1126 [at] gmail.com
+          Telegram: @Andre3w_c0
+          Twitter: @4ndr3w_c0
           From: Italy
 
 /* THANKS */
 
 /* SITE */
-          Last update: 2020/12/01
+          Last update: 2020/01/16
           Language: Italian
           Doctype: React Web App
