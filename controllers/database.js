@@ -148,6 +148,25 @@ class DataBase {
     }
   }
 
+  savePixels(req, res, next) {
+    try {
+    console.log("database_Controller - [savePixels] - START");
+      db.savePixels(req.body)
+      .then(result => {
+        res.status(200).send(result);
+      })
+      .catch(err => {
+        console.log("database_Controller - [savePixels] - ERROR -", err.message);
+        next(err);
+      })
+    } catch (e) {
+      console.log("database_Controller - [savePixels] - ERROR -", e.message);
+      next(e.message);
+    } finally {
+      console.log("database_Controller - [savePixels] - FINISH");
+    }
+  }
+
   resetPassword(req, res, next) {
     try {
       console.log("database_Controller - [resetPassword] - START");

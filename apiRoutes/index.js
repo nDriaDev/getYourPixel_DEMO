@@ -32,8 +32,12 @@ try {
     controllers.stripe.createSession
   )
   .get(
-    '/pixels',
+    '/getPixels',
     controllers.database.getPixels
+  )
+  .post(
+    '/savePixels',
+    controllers.database.savePixels
   )
   .post(
     '/addUser',

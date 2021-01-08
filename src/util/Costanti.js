@@ -48,6 +48,8 @@ let Const = {
   ADD_USER: '/api/addUser',
   GET_USERS: '/api/getUsers',
   GET_USER: '/api/getUser',
+  SAVE_PIXELS: '/api/savePixels',
+  GET_PIXELS: '/api/getPixels',
   USER_TYPE: {
     BASIC: 'Basic',
     ADMIN: 'Admin',

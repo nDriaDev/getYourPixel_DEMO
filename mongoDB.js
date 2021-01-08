@@ -6,7 +6,8 @@ var urlDB = process.env.MONDODB_URI ?
   'mongodb+srv://admin:2ZyBrma4g19dkAA3@cluster0.z7ylt.mongodb.net/getYourPixels?retryWrites=true&w=majority'
 
 const bcrypt = require('bcrypt');
-
+const Compressor = require('./compressionUtil');
+const ImageBuilder = require('./imageUtil');
 const DB_NAME = 'getYourPixels';
 const COLLECTION_USER = '_user';
 const COLLECTION_PIXEL = '_pixel';
@@ -14,7 +15,7 @@ const SALT_ROUNDS = 10;
 
 class MongoDB {
   constructor() {
-    this.client;
+    this.client = null;
   }
 
   initialize() {
@@ -54,6 +55,88 @@ class MongoDB {
     })
   }
 
+  resizeImage(file, row, col) {
+    return new Promise((resolve,reject) => {
+      try {
+        ImageBuilder.resize(file,row,col)
+        .then(value => {
+          resolve(value)
+        })
+      } catch (e) {
+        reject(e);
+      }
+    })
+  }
+
+  savePixels(body) {
+    console.log("database - [savePixels] - START");
+    return new Promise((resolve, reject) => {
+      try {
+        let {email, company, file, row, col} = body;
+        ImageBuilder.resize(file, row, col)
+        .then(value => {
+          file = value;
+          Compressor.compressChilkat(file.base64)
+          .then(value => {
+            file.base64 = value;
+            this.initialize();
+            this.client
+            .connect()
+            .then(() => {
+              let data = {};
+              if(company === '') {
+                data = {
+                  "email": email,
+                  "file": file,
+                  "row": row,
+                  "col": col,
+                  "date": new Date(),
+                }
+              } else {
+                data = {
+                  "email": email,
+                  "company": company,
+                  "file": file,
+                  "row": row,
+                  "col": col,
+                  "date": new Date(),
+                }
+              }
+              this.client
+              .db(DB_NAME)
+              .collection(COLLECTION_PIXEL)
+              .insertOne(
+                data
+              )
+              .then(value => {
+                resolve({code:200,message: "Immagine inserita correttamente"})
+              })
+              .catch(err => {
+                console.log("database - [savePixels] - ERROR -", err);
+                reject(err);
+              })
+            })
+            .catch(err => {
+              console.log("database - [savePixels] - ERROR -", err);
+              reject(err);
+            })
+          })
+
+        })
+      } catch (e) {
+        console.log("database - [savePixels] - ERROR -", e);
+        reject(e)
+      } finally {
+        this.client.close().then(()=>{
+          console.log("database - [savePixels] - FINISH");
+        })
+        .catch(err => {
+          reject(err.message);
+        })
+      }
+    })
+  }
+
   getPixels() {
     console.log("database - [getPixels] - START");
     return new Promise((resolve,reject) => {
@@ -83,8 +166,26 @@ class MongoDB {
           )
           .toArray()
           .then(items => {
-            resolve(items);
+            var promises = [];
+            for(let i in items) {
+              promises.push(Compressor.decompressChilkat(items[i].file.base64)
+              .then(value => {
+                items[i].file.base64 = value;
+                return(items[i]);
+              })
+              .catch(err => {
+                return(err);
+              }))
+            }
+            Promise.all(promises)
+            .then(values => {
+              resolve(values);
             })
+            .catch(err => {
+              console.log("database - [getPixels] - ERROR -", err.message);
+              reject(err);
+            })
+          })
           })
           .catch(err => {
             console.log("database - [getPixels] - ERROR -");
@@ -542,7 +643,7 @@ class MongoDB {
     console.log("database - [changePassword] - START");
     return new Promise((resolve, reject) => {
       try {
-        const {oldPassword, password} = body.body;
+        const {password} = body.body;
         const email = body.email;
         this.initialize();
         this.client

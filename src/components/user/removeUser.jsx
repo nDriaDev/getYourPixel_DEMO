@@ -94,7 +94,7 @@ const RemoveUser = ({spinnerCommand}) => {
   }
 
   return (
-    <div className="mx-auto mb-5" style={{maxWidth:'408px',maxHeight:'356px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
+    <div className="mx-auto mb-5" style={{maxWidth:'408px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
       <div className="mt-2" align="center">
         <h1>Delete User</h1>
       </div>

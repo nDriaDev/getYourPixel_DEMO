@@ -546,3 +546,21 @@ li.active-v-bar a {
   color:#FFFFFF;
   cursor:pointer;
 }
+
+/*----------------------------------------------------------------------------*/
+/* ------------------------------ PIXELS FORM ---------------------------------*/
+
+.position-label{
+  text-align: right;
+  cursor: pointer;
+}
+.position-label::after{
+  left:0 !important;
+  right:unset !important;
+}
+.label-border-red{
+  border-color: #dc3545 !important
+}
+.label-border-none{
+  border-color: unset !important
+}

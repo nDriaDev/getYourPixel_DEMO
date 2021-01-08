@@ -17,6 +17,10 @@ const ForgotPassword = (props) => {
     disableSpinner();
   },[enableSpinner,disableSpinner]);
 
+  const goTo = (path) => {
+    history.push(path);
+  }
+
   const handleInputChange = event => {
     let {name, value} = event.target;
     setForm({...form, [name]:value});
@@ -86,6 +90,9 @@ const ForgotPassword = (props) => {
           <Button variant="success" type="submit">
             {'Invia'}
           </Button>
+          <Form.Group controlId="formBasicForgotPassword" style={{textAlign:'left'}}>
+            <Form.Label className="label-underline-link" onClick={()=> goTo("/login")}>Torna alla login</Form.Label>
+          </Form.Group>
         </Form>
       </div>
     </div>

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@chilkat/ck-node14-linux64": "^9.50.84",
     "@stripe/react-stripe-js": "^1.1.2",
     "@stripe/stripe-js": "^1.11.0",
     "@testing-library/jest-dom": "^5.11.6",
@@ -20,6 +21,7 @@
     "helmet": "^4.2.0",
     "jquery": "^3.5.1",
     "jsonwebtoken": "^8.5.1",
+    "lzutf8": "^0.5.6",
     "mailgun-js": "^0.22.0",
     "mongodb": "^3.6.3",
     "nodemailer": "^6.4.16",
@@ -36,6 +38,7 @@
     "react-virtualized-auto-sizer": "^1.0.2",
     "react-window": "^1.8.6",
     "session-file-store": "^1.5.0",
+    "sharp": "^0.27.0",
     "stripe": "^8.126.0",
     "uuid": "^8.3.2",
     "web-vitals": "^0.2.4"
