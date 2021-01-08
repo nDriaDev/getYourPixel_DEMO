@@ -5,7 +5,8 @@ import ErrorPage from './../errorPage/errorPage';
 import AddUser from './../user/addUser';
 import RemoveUser from './../user/removeUser';
 import ChangePassword from './../changePassword/changePassword';
-import LoadSquare from './../loadSquare/loadSquare';
+import SavePixel from './../savePixel/savePixel';
+import RemovePixel from './../removePixel/removePixel';
 import SpinnerManage from './../spinner/spinnerManage';
 
 const ManageRoute = ({spinner, spinnerCommand}) => {
@@ -18,7 +19,14 @@ const ManageRoute = ({spinner, spinnerCommand}) => {
           exact
           path= {path}
           render = {(props) => (
-            <LoadSquare
+            <SavePixel
+              spinnerCommand={spinnerCommand}/>
+          )}
+          />
+        <Route
+          path= {`${path}/removePixel`}
+          render = {(props) => (
+            <RemovePixel
               spinnerCommand={spinnerCommand}/>
           )}
           />

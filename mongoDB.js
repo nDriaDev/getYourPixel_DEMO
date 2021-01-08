@@ -68,7 +68,7 @@ class MongoDB {
     })
   }
 
-  savePixels(body) {
+  savePixel(body) {
     console.log("database - [savePixels] - START");
     return new Promise((resolve, reject) => {
       try {
@@ -105,16 +105,43 @@ class MongoDB {
               this.client
               .db(DB_NAME)
               .collection(COLLECTION_PIXEL)
-              .insertOne(
-                data
-              )
-              .then(value => {
-                resolve({code:200,message: "Immagine inserita correttamente"})
+              .findOne({
+                email:data.email,
+                company:data.company,
+                "file.name":data.file.name
+              },{
+                "_id":0
+              })
+              .then(result => {
+                if(result) {
+                  resolve({code:500,message: "Il cliente " + data.email + " ha gia' caricato un immagine con nome " + data.file.name})
+                } else {
+                  this.client
+                  .connect()
+                  .then(() => {
+                    this.client
+                    .db(DB_NAME)
+                    .collection(COLLECTION_PIXEL)
+                    .insertOne(
+                      data
+                    )
+                    .then(value => {
+                      resolve({code:200,message: "Immagine inserita correttamente"})
+                    })
+                    .catch(err => {
+                      console.log("database - [savePixels] - ERROR -", err);
+                      reject(err);
+                    })
+                  }).catch(err => {
+                    console.log("database - [savePixels] - ERROR -", err);
+                    reject(err)
+                  })
+                }
               })
               .catch(err => {
                 console.log("database - [savePixels] - ERROR -", err);
                 reject(err);
-              })
+              });
             })
             .catch(err => {
               console.log("database - [savePixels] - ERROR -", err);
@@ -137,7 +164,7 @@ class MongoDB {
     })
   }
 
-  getPixels() {
+  getPixel() {
     console.log("database - [getPixels] - START");
     return new Promise((resolve,reject) => {
       try {
@@ -200,6 +227,170 @@ class MongoDB {
         })
         .catch(err => {
           reject(err.message);
+        })
+      }
+    })
+  }
+
+  getPixelsFiltered(body) {
+    console.log("database - [getPixelsFiltered] - START");
+    return new Promise((resolve,reject) => {
+      try {
+        const {filtro} = body;
+        let optionsProjection = {};
+        if(filtro === 'Email cliente') {
+          optionsProjection = {
+            "_id": 0,
+            "company":0,
+            "row":0,
+            "col":0,
+            "date":0
+          }
+        } else {
+          optionsProjection = {
+            "_id": 0,
+            "email":0,
+            "row":0,
+            "col":0,
+            "date":0
+          }
+        }
+        this.initialize();
+        this.client
+        .connect()
+        .then(value => {
+          this.client
+          .db(DB_NAME)
+          .collection(COLLECTION_PIXEL)
+          .find(
+            {
+
+            },
+            {
+              sort:
+              {
+                "date": 1
+              }
+              ,
+              projection: optionsProjection
+            }
+          )
+          .toArray()
+          .then(items => {
+            let result = [];
+            for(let i in items) {
+              result.push(items[i].email ? items[i].email : items[i].company + " - " + items[i].file.name);
+            }
+            resolve({valuesList:result});
+          })
+          .catch(err => {
+            resolve(err);
+          })
+        })
+        .catch(err => {
+          console.log("database - [getPixelsFiltered] - ERROR -");
+          reject(err);
+        })
+      } catch (e) {
+        console.log("database - [getPixelsFiltered] - ERROR -");
+        reject(e);
+      } finally {
+        this.client.close().then(()=>{
+          console.log("database - [getPixelsFiltered] - FINISH");
+        })
+        .catch(err => {
+          reject(err.message);
+        })
+      }
+    })
+  }
+
+  removePixel(body) {
+    console.log("database - [removePixel] - START");
+    return new Promise((resolve, reject) =>{
+      try {
+        let {target} = body;
+        target = target.split(' - ')[0].trim();
+        let query =
+        {
+          $or: [
+            { email : target },
+            { company : target },
+          ]
+        }
+
+        this.initialize();
+        this.client
+        .connect()
+        .then(()=>{
+          this.client
+          .db(DB_NAME)
+          .collection(COLLECTION_PIXEL)
+          .findOne(
+            query,
+            {
+              projection:
+              {
+                "_id":0,
+                "file":0,
+                "date":0
+              }
+            }
+          )
+          .then(result=>{
+            if(result) {
+              let pixel = result;
+              this.client
+              .connect()
+              .then(() => {
+                this.client
+                .db(DB_NAME)
+                .collection(COLLECTION_PIXEL)
+                .deleteOne(pixel)
+                .then(result => {
+                  this.client.close().then(()=>{
+                    if(result.deletedCount === 1) {
+                      resolve({code:200,message:"L'immagine e' stata rimossa correttamente"})
+                    } else {
+                      resolve({code:404,message:"Nessun immagine e' stato trovato con i criteri specificati"})
+                    }
+                    console.log("database - [removePixel] - FINISH");
+                  })
+                  .catch(err => {
+                    this.client.close().then(()=>{
+                      console.log("database - [removePixel] - ERROR -", err.message);
+                      reject(err.message);
+                      console.log("database - [removePixel] - FINISH");
+                    })
+                  })
+                })
+                .catch(err => {
+                  this.client.close().then(()=>{
+                    console.log("database - [removePixel] - ERROR -", err.message);
+                    resolve({code:404, message:err.message})
+                    console.log("database - [removePixel] - FINISH");
+                  })
+                })
+              })
+            } else {
+              this.client.close().then(()=>{
+                resolve({code:404, message:"Immagine inesistente"})
+              })
+            }
+          })
+        })
+        .catch(err => {
+          this.client.close().then(()=>{
+            console.log("database - [removePixel] - ERROR -", err.message);
+            reject(err.message);
+            console.log("database - [removePixel] - FINISH");
+          })
+        })
+      } catch (e) {
+        this.client.close().then(()=>{
+          console.log("database - [removePixel] - ERROR -", e.message);
+          reject(e)
+          console.log("database - [removePixel] - FINISH");
         })
       }
     })

@@ -36,8 +36,16 @@ try {
     controllers.database.getPixels
   )
   .post(
-    '/savePixels',
-    controllers.database.savePixels
+    '/savePixel',
+    controllers.database.savePixel
+  )
+  .post(
+    '/getPixelsFiltered',
+    controllers.database.getPixelsFiltered
+  )
+  .post(
+    '/removePixel',
+    controllers.database.removePixel
   )
   .post(
     '/addUser',

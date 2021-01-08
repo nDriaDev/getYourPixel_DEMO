@@ -148,22 +148,60 @@ class DataBase {
     }
   }
 
-  savePixels(req, res, next) {
+  savePixel(req, res, next) {
     try {
-    console.log("database_Controller - [savePixels] - START");
-      db.savePixels(req.body)
+    console.log("database_Controller - [savePixel] - START");
+      db.savePixel(req.body)
       .then(result => {
         res.status(200).send(result);
       })
       .catch(err => {
-        console.log("database_Controller - [savePixels] - ERROR -", err.message);
+        console.log("database_Controller - [savePixel] - ERROR -", err.message);
         next(err);
       })
     } catch (e) {
-      console.log("database_Controller - [savePixels] - ERROR -", e.message);
+      console.log("database_Controller - [savePixel] - ERROR -", e.message);
       next(e.message);
     } finally {
-      console.log("database_Controller - [savePixels] - FINISH");
+      console.log("database_Controller - [savePixel] - FINISH");
+    }
+  }
+
+  getPixelsFiltered(req, res, next) {
+    try {
+    console.log("database_Controller - [getPixelsFiltered] - START");
+      db.getPixelsFiltered(req.body)
+      .then(result => {
+        res.status(200).send(result);
+      })
+      .catch(err => {
+        console.log("database_Controller - [getPixelsFiltered] - ERROR -", err.message);
+        res.status(500).send(err);
+      })
+    } catch (e) {
+      console.log("database_Controller - [getPixelsFiltered] - ERROR -", e.message);
+      next(e.message);
+    } finally {
+      console.log("database_Controller - [getPixelsFiltered] - FINISH");
+    }
+  }
+
+  removePixel(req, res, next) {
+    try {
+      console.log("database_Controller - [removePixel] - START");
+      db
+      .removePixel(req.body)
+      .then(result => {
+        res.status(200).send(result)
+      })
+      .catch(err => {
+        res.status(200).send(err)
+      })
+    } catch (e) {
+      console.log("database_Controller - [removePixel] - ERROR", e.message);
+      next(e.message);
+    } finally {
+      console.log("database_Controller - [removePixel] - FINISH");
     }
   }
 

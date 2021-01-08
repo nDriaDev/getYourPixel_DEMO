@@ -5,7 +5,7 @@ import Const from './../../util/Costanti';
 import axios from 'axios';
 
 
-const LoadSquare = ({spinnerCommand}) => {
+const SavePixel = ({spinnerCommand}) => {
   const [validated, setValidated] = useState(false);
   const [validFile, setValidFile] = useState ('label-border-none');
   const [form, setForm] = useState({
@@ -15,27 +15,6 @@ const LoadSquare = ({spinnerCommand}) => {
     row: '',
     col: '',
   })
-
-  // useEffect(()=>{
-  //   spinnerCommand(true);
-  //   return axios.post(Const.GET_USER,{})
-  //   .then(value => {
-  //     if(value) {
-  //       if(value.type === Const.USER_TYPE.BASIC) {
-  //         spinnerCommand(false);
-  //         history.push('/manage');
-  //       } else {
-  //         spinnerCommand(false);
-  //       }
-  //     } else {
-  //       spinnerCommand(false);
-  //       history.push('/manage');
-  //     }
-  //   }).catch(err => {
-  //     spinnerCommand(false);
-  //     history.push('/manage');
-  //   })
-  // },[])
 
   const isFileEmptyOrInvalid = () => {
     if(form.file === '') {
@@ -117,7 +96,7 @@ const LoadSquare = ({spinnerCommand}) => {
       setValidFile('label-border-red');
     } else {
       spinnerCommand(true);
-      axios.post(Const.SAVE_PIXELS, form)
+      axios.post(Const.SAVE_PIXEL, form)
       .then(res => {
         if (res.data.code === 200) {
           setForm({
@@ -161,7 +140,7 @@ const LoadSquare = ({spinnerCommand}) => {
   return (
     <div className="mx-auto mb-5" style={{maxWidth:'408px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
       <div className="mt-2" align="center">
-        <h1>Pixels</h1>
+        <h1>Save Pixel</h1>
       </div>
       <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
         <Form noValidate validated={validated} onSubmit={onSubmit}>
@@ -237,4 +216,4 @@ const LoadSquare = ({spinnerCommand}) => {
   )
 }
 
-export default LoadSquare;
+export default SavePixel;

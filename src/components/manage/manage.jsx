@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Route, Switch, Redirect, useRouteMatch, Link, useHistory } from 'react-router-dom';
+import { useRouteMatch, Link, useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Const from './../../util/Costanti';
 import ManageRoute from './manageRoute';
@@ -7,7 +7,7 @@ import axios from 'axios';
 
 const Manage = (props) => {
   const history = useHistory();
-  const [active,setActive] = useState(['active-v-bar','','','']);
+  const [active,setActive] = useState(['active-v-bar','','','','']);
   const [role,setRole] = useState(null);
   const [spinner, setSpinner] = useState(false);
   let {path} = useRouteMatch();
@@ -52,7 +52,7 @@ const Manage = (props) => {
 
   const activing = (value) => {
     let arr = [];
-    for(let i=0; i<4; i++){
+    for(let i=0; i<active.length; i++){
       if(i === value) {
         arr[i] = 'active-v-bar';
       } else {
@@ -73,29 +73,33 @@ const Manage = (props) => {
             <ul className="navbar-nav ul-v-bar flex-column">
               <li className={"nav-item " + active[0]}
                 onClick={()=>activing(0)}>
-                <Link to={path}> Pixels </Link>
+                <Link style={{textAlign:'left'}} to={path}> Save Pixel </Link>
+              </li>
+              <li className={"nav-item " + active[1]}
+                onClick={()=>activing(1)}>
+                <Link style={{textAlign:'left'}} to={`${path}/removePixel`}> Remove Pixel </Link>
               </li>
               {
                 role && role !== Const.USER_TYPE.BASIC ?
-                  <li className={"nav-item " + active[1]}
-                    onClick={()=>activing(1)}>
-                    <Link to={`${path}/addUser`}> Add User </Link>
+                  <li className={"nav-item " + active[2]}
+                    onClick={()=>activing(2)}>
+                    <Link style={{textAlign:'left'}} to={`${path}/addUser`}> Add User </Link>
                   </li>
                   :
                   null
               }
               {
                 role && role !== Const.USER_TYPE.BASIC ?
-                <li className={"nav-item " + active[2]}
-                  onClick={()=>activing(2)}>
-                  <Link to={`${path}/removeUser`}> Remove User </Link>
+                <li className={"nav-item " + active[3]}
+                  onClick={()=>activing(3)}>
+                  <Link style={{textAlign:'left'}} to={`${path}/removeUser`}> Remove User </Link>
                 </li>
                   :
                   null
               }
-              <li className={"nav-item " + active[3]}
-                onClick={()=>activing(3)}>
-                <Link to={`${path}/changePassword`}> Change Password </Link>
+              <li className={"nav-item " + active[4]}
+                onClick={()=>activing(4)}>
+                <Link style={{textAlign:'left'}} to={`${path}/changePassword`}> Change Password </Link>
               </li>
             </ul>
           </div>
