@@ -11,12 +11,6 @@ class ImageUtil {
         let buff = Buffer.from(file.base64, 'base64');
         jimp.read(buff).then(image => {
           image.resize(width,height, jimp.RESIZE_NEAREST_NEIGHBOR);
-          let mime = '';
-          if(file.type.split('/')[1] === 'png') {
-            mime = jimp.MIME_PNG;
-          } else {
-            mime = jimp.MIME_JPEG;
-          }
           image.getBufferAsync(jimp.AUTO)
           .then(data => {
             file.base64 = Buffer.from(data).toString('base64');
