@@ -164,7 +164,7 @@ class MongoDB {
     })
   }
 
-  getPixel() {
+  getPixels() {
     console.log("database - [getPixels] - START");
     return new Promise((resolve,reject) => {
       try {

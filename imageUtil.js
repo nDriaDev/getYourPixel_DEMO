@@ -1,4 +1,4 @@
-const sharp = require('sharp');
+const jimp = require('jimp');
 
 class ImageUtil {
   resize(file, row, col) {
@@ -9,18 +9,24 @@ class ImageUtil {
         let width = col * 10;
         let height = row * 10;
         let buff = Buffer.from(file.base64, 'base64');
-        sharp(buff)
-        .resize(width, height,{fit:'contain'})
-        .toBuffer((err, data, info) => {
-          if(err) {
-            console.log("ImageUtil - [resize] - ERROR -", err.message);
-            reject(err);
+        jimp.read(buff).then(image => {
+          image.resize(width,height, jimp.RESIZE_NEAREST_NEIGHBOR);
+          let mime = '';
+          if(file.type.split('/')[1] === 'png') {
+            mime = jimp.MIME_PNG;
           } else {
+            mime = jimp.MIME_JPEG;
+          }
+          image.getBufferAsync(jimp.AUTO)
+          .then(data => {
             file.base64 = Buffer.from(data).toString('base64');
             resolve(file);
-          }
+          })
+          .catch(err => {
+            console.log(err);
+            reject(err);
+          })
         })
-
         console.log("ImageUtil - [resize] - FINISH");
       } catch (e) {
         console.log("ImageUtil - [resize] - ERROR -", e.message);
