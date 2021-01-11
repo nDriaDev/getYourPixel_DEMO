@@ -10,6 +10,7 @@ const SavePixel = ({spinnerCommand}) => {
   const [validFile, setValidFile] = useState ('label-border-none');
   const [form, setForm] = useState({
     email: '',
+    url:'',
     company:'',
     file: '',
     row: '',
@@ -101,6 +102,7 @@ const SavePixel = ({spinnerCommand}) => {
         if (res.data.code === 200) {
           setForm({
             email: '',
+            url:'',
             company: '',
             file: '',
             row: '',
@@ -151,6 +153,17 @@ const SavePixel = ({spinnerCommand}) => {
               name="email"
               placeholder=""
               value={form.email}
+              onChange={e => handleInputChange(e)}
+              required
+              />
+          </Form.Group>
+          <Form.Group controlId="formBasicCompany">
+            <Form.Label style={{float: 'left', color:'white'}}>Sito Da pubblicizzare</Form.Label>
+            <Form.Control
+              type="text"
+              name="url"
+              placeholder=""
+              value={form.url}
               onChange={e => handleInputChange(e)}
               required
               />

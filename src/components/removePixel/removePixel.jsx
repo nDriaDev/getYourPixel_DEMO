@@ -15,27 +15,6 @@ const RemovePixel = ({spinnerCommand}) => {
     valuesList:[],
   })
 
-  // useEffect(()=>{
-  //   spinnerCommand(true);
-  //   return axios.post(Const.GET_USER,{})
-  //   .then(value => {
-  //     if(value) {
-  //       if(value.type === Const.USER_TYPE.BASIC) {
-  //         spinnerCommand(false);
-  //         history.push('/manage');
-  //       } else {
-  //         spinnerCommand(false);
-  //       }
-  //     } else {
-  //       spinnerCommand(false);
-  //       history.push('/manage');
-  //     }
-  //   }).catch(err => {
-  //     spinnerCommand(false);
-  //     history.push('/manage');
-  //   })
-  // },[])
-
   const handleInputChange = event => {
     debugger;
     let {name, value} = event.target;
@@ -152,6 +131,7 @@ const RemovePixel = ({spinnerCommand}) => {
                 required>
                 <option></option>
                 <option>Email cliente</option>
+                <option>Pagina pubblicizzata</option>
                 <option>Azienda cliente</option>
               </Form.Control>
             </Col>

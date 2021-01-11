@@ -72,7 +72,7 @@ class MongoDB {
     console.log("database - [savePixels] - START");
     return new Promise((resolve, reject) => {
       try {
-        let {email, company, file, row, col} = body;
+        let {email, url, company, file, row, col} = body;
         ImageBuilder.resize(file, row, col)
         .then(value => {
           file = value;
@@ -87,6 +87,7 @@ class MongoDB {
               if(company === '') {
                 data = {
                   "email": email,
+                  "url": url,
                   "file": file,
                   "row": row,
                   "col": col,
@@ -95,6 +96,7 @@ class MongoDB {
               } else {
                 data = {
                   "email": email,
+                  "url": url,
                   "company": company,
                   "file": file,
                   "row": row,
@@ -107,6 +109,7 @@ class MongoDB {
               .collection(COLLECTION_PIXEL)
               .findOne({
                 email:data.email,
+                url: data.url,
                 company:data.company,
                 "file.name":data.file.name
               },{
@@ -114,7 +117,7 @@ class MongoDB {
               })
               .then(result => {
                 if(result) {
-                  resolve({code:500,message: "Il cliente " + data.email + " ha gia' caricato un immagine con nome " + data.file.name})
+                  resolve({code:500,message: "Il cliente " + data.email + " ha gia' caricato un immagine con nome " + data.file.name + " per pubblicizzare la pagina " + data.url})
                 } else {
                   this.client
                   .connect()
@@ -126,7 +129,7 @@ class MongoDB {
                       data
                     )
                     .then(value => {
-                      resolve({code:200,message: "Immagine inserita correttamente"})
+                      resolve({code:200,message: "Immagine e url inseriti correttamente"})
                     })
                     .catch(err => {
                       console.log("database - [savePixels] - ERROR -", err);
@@ -148,7 +151,6 @@ class MongoDB {
               reject(err);
             })
           })
-
         })
       } catch (e) {
         console.log("database - [savePixels] - ERROR -", e);
@@ -197,7 +199,7 @@ class MongoDB {
             for(let i in items) {
               promises.push(Compressor.decompressChilkat(items[i].file.base64)
               .then(value => {
-                items[i].file.base64 = value;
+                items[i].file.base64 = 'data:' + items[i].file.type + ';base64,' + value;
                 return(items[i]);
               })
               .catch(err => {
@@ -241,20 +243,31 @@ class MongoDB {
         if(filtro === 'Email cliente') {
           optionsProjection = {
             "_id": 0,
+            "url":0,
+            "company":0,
+            "row":0,
+            "col":0,
+            "date":0
+          }
+        } else if(filtro === 'Pagina pubblicizzata') {
+          optionsProjection = {
+            "_id": 0,
+            "email":0,
             "company":0,
             "row":0,
             "col":0,
             "date":0
           }
         } else {
-          optionsProjection = {
-            "_id": 0,
-            "email":0,
-            "row":0,
-            "col":0,
-            "date":0
-          }
-        }
+         optionsProjection = {
+           "_id": 0,
+           "email":0,
+           "url":0,
+           "row":0,
+           "col":0,
+           "date":0
+         }
+       }
         this.initialize();
         this.client
         .connect()
@@ -279,7 +292,7 @@ class MongoDB {
           .then(items => {
             let result = [];
             for(let i in items) {
-              result.push(items[i].email ? items[i].email : items[i].company + " - " + items[i].file.name);
+              result.push(items[i].email ? items[i].email : items[i].company ? items[i].company + " - " + items[i].file.name : items[i].url);
             }
             resolve({valuesList:result});
           })
