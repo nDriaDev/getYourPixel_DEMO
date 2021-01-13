@@ -55,22 +55,11 @@ class ImageUtil {
   async createMatrix(PixelBuilder, images) {
     try {
       for(let i in images) {
-        let image = await jimp.read(Buffer.from(images[i].file.base64, 'base64'));
-        let imageCropped = [];
-        let height = images[i].row*10;
-        let width = images[i].col*10;
-        for(let k=0; k<height; k+=10){
-          for(let j=0; j<width; j+=10) {
-            let img = this.cloneObject(image); //---> non fa una copia profonda 
-            await img.crop(j,k,10,10); //--> per colpa dell'aliasing il crop fallisce dopo la prima iterazione
-            let data = await img.getBufferAsync(jimp.AUTO)
-            let base64 = 'data:' + images[i].file.type + ';base64,' + Buffer.from(data).toString('base64');
-            imageCropped.push(base64);
-            PixelBuilder.buildMatrix(imageCropped,images[i].row,images[i].col);
-          }
-        }
-        return Promise.resolve(true);
+        images[i].file.base64 = 'data:' + images[i].file.type + ';base64,' + images[i].file.base64;
+        //TODO ristrutturare logica buildMatrix
+        PixelBuilder.buildMatrix(images[i]);
       }
+      return Promise.resolve(true);
     } catch (e) {
       console.log("ImageUtil - [createPixels - createMatrix] - ERROR -", e.message);
       return Promise.reject(e);
