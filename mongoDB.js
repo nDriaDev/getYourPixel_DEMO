@@ -189,7 +189,10 @@ class MongoDB {
               ,
               projection:
               {
-                "_id":0
+                "_id":0,
+                "email":0,
+                "company":0,
+                "date":0
               }
             }
           )
@@ -199,7 +202,8 @@ class MongoDB {
             for(let i in items) {
               promises.push(Compressor.decompressChilkat(items[i].file.base64)
               .then(value => {
-                items[i].file.base64 = 'data:' + items[i].file.type + ';base64,' + value;
+                // items[i].file.base64 = 'data:' + items[i].file.type + ';base64,' + value;
+                items[i].file.base64 = value;
                 return(items[i]);
               })
               .catch(err => {
@@ -208,7 +212,14 @@ class MongoDB {
             }
             Promise.all(promises)
             .then(values => {
-              resolve(values);
+              ImageBuilder.createPixels(values)
+              .then(value => {
+                resolve(value);
+              })
+              .catch(err => {
+                console.log("database - [getPixels] - ERROR -", err.message);
+                reject(err);
+              })
             })
             .catch(err => {
               console.log("database - [getPixels] - ERROR -", err.message);
@@ -245,6 +256,7 @@ class MongoDB {
             "_id": 0,
             "url":0,
             "company":0,
+            "file":0,
             "row":0,
             "col":0,
             "date":0
@@ -254,6 +266,7 @@ class MongoDB {
             "_id": 0,
             "email":0,
             "company":0,
+            "file":0,
             "row":0,
             "col":0,
             "date":0
@@ -263,6 +276,7 @@ class MongoDB {
            "_id": 0,
            "email":0,
            "url":0,
+           "file":0,
            "row":0,
            "col":0,
            "date":0
@@ -292,7 +306,7 @@ class MongoDB {
           .then(items => {
             let result = [];
             for(let i in items) {
-              result.push(items[i].email ? items[i].email : items[i].company ? items[i].company + " - " + items[i].file.name : items[i].url);
+              result.push(items[i].email ? items[i].email : items[i].company ? items[i].company : items[i].url ? items[i].url : 'N.D.');
             }
             resolve({valuesList:result});
           })

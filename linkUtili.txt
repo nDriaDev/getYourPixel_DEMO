@@ -1,3 +1,11 @@
+########### REACT SERVER SIDE RENDERING  ###########
+https://medium.com/bucharestjs/upgrading-a-create-react-app-project-to-a-ssr-code-splitting-setup-9da57df2040a
+https://medium.com/javascript-in-plain-english/server-side-rendering-in-react-expressjs-8a87af0edba4
+https://medium.com/javascript-in-plain-english/server-side-rendering-in-react-redux-ab0af31c9c4b
+https://flaviocopes.com/nextjs/
+https://mariestarck.com/deploy-your-next-js-app-to-heroku-in-5-minutes/
+
+
 ########### REACT COOKIE  ###########
 https://rossbulat.medium.com/using-cookies-in-react-redux-and-react-router-4-f5f6079905dc
 
@@ -43,7 +51,9 @@ https://docs.mongodb.com/drivers/node/usage-examples/find
 https://developer.mongodb.com/how-to/use-atlas-on-heroku
 
 ########### MONGODB ACTIONS ###########
+https://mongoplayground.net/ ----> mongodb online
 https://docs.mongodb.com/realm/mongodb/actions/collection.find
+https://developerslogblog.wordpress.com/2019/10/15/mongodb-how-to-filter-by-multiple-fields/
 
 
 ########### REACT NODE JS FORCE HTTPS ON HEROKU ###########
@@ -52,6 +62,7 @@ https://medium.com/@mishkaorakzai/how-to-redirect-your-node-js-app-hosted-on-her
 
 ########### REACT HOOKS ###########
 https://blog.carbonfive.com/replacing-component-lifecycle-methods-with-react-hooks/#:~:text=React%20Hooks%20provide%20a%20great,coupled%20the%20lifecycle%20methods%20are.
+https://blog.8bitzen.com/posts/how-to-use-componentWillMount-with-react-hooks
 
 
 ########### REACT NODEMAILER MAILGUN ###########

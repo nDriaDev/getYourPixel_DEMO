@@ -5,6 +5,7 @@ const { v4: uuid } = require('uuid');
 const path = require("path");
 const favicon = require('express-favicon');
 const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 const compression = require('compression');
 const helmet = require('helmet');
 const apiRoutes = require('./apiRoutes');
@@ -38,6 +39,7 @@ if (ForceSsl.getEnv() === 'production') {
 }
 
 server.use(cookieParser(sess.secret));
+server.use(bodyParser.json({limit: '15mb'}))
 server.use(session(sess));
 
 server.use(compression());
