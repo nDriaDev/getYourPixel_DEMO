@@ -1,3 +1,15 @@
+########### JS COMBINE PROMISE & ASYNC/WAIT  ###########
+https://javascript.info/async-await
+
+
+########### AWS HOSTING  ###########
+https://aws.amazon.com/it/free/?nc2=h_ql_pr_ft&all-free-tier.sort-by=item.additionalFields.SortRank&all-free-tier.sort-order=asc&awsf.Free%20Tier%20Categories=*all&awsf.Free%20Tier%20Types=tier%23always-free&awsm.page-all-free-tier=3
+
+
+########### REACT VIRTUALIZE LARGE LISTS  ###########
+https://web.dev/virtualize-long-lists-react-window/
+
+
 ########### REACT SERVER SIDE RENDERING  ###########
 https://medium.com/bucharestjs/upgrading-a-create-react-app-project-to-a-ssr-code-splitting-setup-9da57df2040a
 https://medium.com/javascript-in-plain-english/server-side-rendering-in-react-expressjs-8a87af0edba4
@@ -54,6 +66,7 @@ https://developer.mongodb.com/how-to/use-atlas-on-heroku
 https://mongoplayground.net/ ----> mongodb online
 https://docs.mongodb.com/realm/mongodb/actions/collection.find
 https://developerslogblog.wordpress.com/2019/10/15/mongodb-how-to-filter-by-multiple-fields/
+https://docs.mongodb.com/manual/reference/operator/query/or/
 
 
 ########### REACT NODE JS FORCE HTTPS ON HEROKU ###########
@@ -112,3 +125,7 @@ https://www.paolodellaguzzo.com/blog/2017/11/10/reactjs-build-e-rilascio-in-prod
 
 ########### REACT CHANGE PROPS FROM PROPS.CHILDREN ##########
 https://frontarm.com/james-k-nelson/passing-data-props-children/
+
+
+########### REACT CANVAS DRAW ##########
+https://codesandbox.io/s/6lv410914w
