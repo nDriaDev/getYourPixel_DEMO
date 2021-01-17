@@ -1,17 +1,70 @@
 // const { createCanvas, loadImage, createImageData, Image } = require('canvas')
 const jimp = require('jimp');
+const imagemin = require ('imagemin');
+const imageminJpegtran = require('imagemin-jpegtran');
+const imageminPngquant = require('imagemin-pngquant');
 const Pixel = require('./pixelUtil');
 
 class ImageUtil {
-  cloneObject(obj) {
-      let newObj = obj;
-      for(let i in obj) {
-        if(typeof obj[i] === 'object') {
-          newObj[i] = obj[i];
-          newObj[i] = this.cloneObject(newObj[i]);
+  _JimpCompress(buff) {
+    return new Promise((resolve,reject) => {
+      console.log("ImageUtil - [JimpCompress] - START");
+      jimp.read(buff)
+      .then(image => {
+        image.quality(65); // set Image quality
+        image.getBufferAsync(jimp.AUTO)
+        .then(buffer => {
+          resolve(buffer);
+        })
+        .catch(err => {
+          console.log("ImageUtil - [JimpCompress - getBufferAsync] - ERROR", err.message);
+          reject(err);
+        })
+      })
+      .catch(err => {
+        console.log("ImageUtil - [JimpCompress - read] - ERROR", err.message);
+        reject(err);
+      })
+      console.log("ImageUtil - [JimpCompress] - FINISH");
+    })
+  }
+
+  compress(buff, min = 0.6, max = 0.8) {
+    return new Promise((resolve,reject) => {
+      try {
+        console.log("ImageUtil - [compress] - START");
+        imagemin.buffer(buff, {
+          // destination: imageminOut,
+          plugins: [
+            imageminJpegtran(),
+            imageminPngquant({
+              quality: [min, max]
+            })
+          ]
+        })
+        .then(value => {
+          resolve(value);
+        })
+        .catch(err => {
+          console.log("ImageUtil - [compress] - ERROR -",err.message);
+          reject(err);
+        })
+      } catch (e) {
+        if (e.exitCode === 99) {
+          this._JimpCompress(buff)
+          .then(value => {
+            resolve(value);
+          })
+          .catch(err => {
+            reject(err);
+          })
+        } else {
+          console.log("ImageUtil - [compress] - ERROR -", e.message);
+          reject(e);
         }
       }
-      return newObj;
+      console.log("ImageUtil - [compress] - FINISH");
+    })
   }
 
   resize(file, row, col) {
@@ -25,12 +78,19 @@ class ImageUtil {
         jimp.read(buff).then(image => {
           image.resize(width,height, jimp.RESIZE_NEAREST_NEIGHBOR);
           image.getBufferAsync(jimp.AUTO)
-          .then(data => {
-            file.base64 = Buffer.from(data).toString('base64');
-            resolve(file);
+          .then(value => {
+            this.compress(value)
+            .then(data => {
+              file.base64 = Buffer.from(data).toString('base64');
+              resolve(file);
+            })
+            .catch(err => {
+              console.log("ImageUtil - [resize - compress] - ERROR -", err.message);
+              reject(err);
+            })
           })
           .catch(err => {
-            console.log("ImageUtil - [resize] - ERROR -", err.message);
+            console.log("ImageUtil - [resize - getBufferAsync] - ERROR -", err.message);
             reject(err);
           })
         })
@@ -43,21 +103,11 @@ class ImageUtil {
     })
   }
 
-  async cropImage(image,i,j,dim1,dim2) {
-    try {
-      await image.crop(i,j,dim1,dim2);
-      return Promise.resolve(image);
-    } catch (e) {
-      console.log("ImageUtil - [createPixels - crop] - ERROR -", e.message);
-    }
-  }
-
   async createMatrix(PixelBuilder, images) {
     try {
       for(let i in images) {
         images[i].file.base64 = 'data:' + images[i].file.type + ';base64,' + images[i].file.base64;
-        //TODO ristrutturare logica buildMatrix
-        PixelBuilder.buildMatrix(images[i]);
+        PixelBuilder.buildMatrix(images[i], i);
       }
       return Promise.resolve(true);
     } catch (e) {
@@ -73,9 +123,15 @@ class ImageUtil {
         const PixelBuilder = new Pixel();
         this.createMatrix(PixelBuilder, images)
         .then(value => {
-          let result = PixelBuilder.matrixToArray();
+          // Versione che torna la matrice sotto forma di unico array
+          // let array = PixelBuilder.matrixToArray();
+          let array = PixelBuilder.matrixToArray();
+          let imgs = [];
+          for(let i in images) {
+            imgs.push(images[i].file.base64);
+          }
           console.log("ImageUtil - [createPixels - read] - FINISH",);
-          resolve(result);
+          resolve({images:imgs, array:array});
         })
         .catch(err => {
           console.log("ImageUtil - [createPixels] - ERROR -", err.message);

@@ -152,6 +152,9 @@ class MongoDB {
             })
           })
         })
+        .catch(err => {
+          reject(err);
+        })
       } catch (e) {
         console.log("database - [savePixels] - ERROR -", e);
         reject(e)
@@ -212,16 +215,14 @@ class MongoDB {
             }
             Promise.all(promises)
             .then(values => {
-                resolve(values);
-              //TODO commentato per testing (da decommentare una volta trovata la logica di ritorno delle immagini)
-              // ImageBuilder.createPixels(values)
-              // .then(value => {
-              //   resolve(value);
-              // })
-              // .catch(err => {
-              //   console.log("database - [getPixels] - ERROR -", err.message);
-              //   reject(err);
-              // })
+              ImageBuilder.createPixels(values)
+              .then(value => {
+                resolve(value);
+              })
+              .catch(err => {
+                console.log("database - [getPixels] - ERROR -", err.message);
+                reject(err);
+              })
             })
             .catch(err => {
               console.log("database - [getPixels] - ERROR -", err.message);
