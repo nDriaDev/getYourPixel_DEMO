@@ -12,6 +12,11 @@ const RemoveUser = ({spinnerCommand}) => {
     email: '',
     usersList: [],
   })
+  const listOptions= form && form.userList ? form.usersList.map((item, index) => {
+    return <option key={index}>{item.email + " - " + item.type}</option>
+  })
+  :
+  null;
 
   useEffect(()=>{
     spinnerCommand(true);
@@ -110,9 +115,7 @@ const RemoveUser = ({spinnerCommand}) => {
               onChange={e => handleInputChange(e)}
               required>
               <option></option>
-              {form.usersList.map((item, index) => {
-                return <option key={index}>{item.email + " - " + item.type}</option>
-              })}
+              {listOptions}
             </Form.Control>
           </Form.Group>
           <Button variant="success" type="submit">
