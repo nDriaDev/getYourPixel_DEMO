@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Route, Switch, Redirect, useRouteMatch, Link } from 'react-router-dom';
 import Const from './../../util/Costanti';
 import ErrorPage from './../errorPage/errorPage';
+import Auth from './../auth/auth';
 import AddUser from './../user/addUser';
 import RemoveUser from './../user/removeUser';
 import ChangePassword from './../changePassword/changePassword';
@@ -19,36 +20,51 @@ const ManageRoute = ({spinner, spinnerCommand}) => {
           exact
           path= {path}
           render = {(props) => (
-            <SavePixel
-              spinnerCommand={spinnerCommand}/>
+            <Auth {...props}
+              ComponentToProtect={SavePixel}
+              enableSpinner={spinnerCommand}
+              spinnerCommand={spinnerCommand}
+              disableSpinner={spinnerCommand} />
           )}
           />
         <Route
           path= {`${path}/removePixel`}
           render = {(props) => (
-            <RemovePixel
-              spinnerCommand={spinnerCommand}/>
+            <Auth {...props}
+              ComponentToProtect={RemovePixel}
+              enableSpinner={spinnerCommand}
+              spinnerCommand={spinnerCommand}
+              disableSpinner={spinnerCommand} />
           )}
           />
         <Route
           path= {`${path}/addUser`}
           render = {(props) => (
-            <AddUser
-              spinnerCommand={spinnerCommand}/>
+            <Auth {...props}
+              ComponentToProtect={AddUser}
+              enableSpinner={spinnerCommand}
+              spinnerCommand={spinnerCommand}
+              disableSpinner={spinnerCommand} />
           )}
           />
         <Route
           path= {`${path}/removeUser`}
           render = {(props) => (
-            <RemoveUser
-            spinnerCommand={spinnerCommand}/>
+            <Auth {...props}
+              ComponentToProtect={RemoveUser}
+              enableSpinner={spinnerCommand}
+              spinnerCommand={spinnerCommand}
+              disableSpinner={spinnerCommand} />
           )}
           />
         <Route
           path= {`${path}/changePassword`}
           render = {(props) => (
-            <ChangePassword
-              spinnerCommand={spinnerCommand}/>
+            <Auth {...props}
+              ComponentToProtect={ChangePassword}
+              enableSpinner={spinnerCommand}
+              spinnerCommand={spinnerCommand}
+              disableSpinner={spinnerCommand} />
           )}
           />
         <Redirect

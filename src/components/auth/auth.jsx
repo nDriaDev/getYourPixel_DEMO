@@ -7,22 +7,23 @@ const Auth = (props) => {
   const [redirect, setRedirect] = useState(false);
   const {ComponentToProtect, enableSpinner, disableSpinner} = props;
   useEffect(() => {
-    enableSpinner();
+    enableSpinner(true);
     axios.get(Const.CHECK_TOKEN)
     .then(result => {
       if(result.data.code === 200) {
         setRedirect(false);
-        disableSpinner();
+        disableSpinner(false);
       } else {
+        sessionStorage.clear();
         throw new Error(result.data.message);
       }
     })
     .catch(err => {
       console.log("Error", err);
-      disableSpinner();
+      disableSpinner(false);
       setRedirect(true);
     })
-  },[]);
+  },[ComponentToProtect]);
   return (
     <>
     {
@@ -30,6 +31,7 @@ const Auth = (props) => {
       <Redirect to="/login" />
       :
       <ComponentToProtect
+        {...props}
         enableSpinner={enableSpinner}
         disableSpinner={disableSpinner}/>
     }

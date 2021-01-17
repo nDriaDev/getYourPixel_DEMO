@@ -17,13 +17,16 @@ const port = process.env.PORT || 3000;
 const server = express();
 
 //creo sessione per express-session
-var sess = {
-  store: new FileStore({reapInterval: 60*31}),
+var sessionOptions = {
+  name:'name-'+uuid(),
+  store: new FileStore({ttl:60*1, reapInterval: 60*0.5}),
   resave: true,
   unset: 'destroy',
   saveUninitialized: false,
   secret: uuid(),
-  cookie: {},
+  cookie: {
+    // maxAge: 5000
+  },
   genid: (req) => {
     return uuid()
   },
@@ -34,13 +37,15 @@ if (ForceSsl.getEnv() === 'production') {
   console.log = function () {};
   server.use(ForceSsl.forceSsl);
   server.set('trust proxy', 1) // trust first proxy
-  sess.cookie.secure = true
-  sess.store = new FileStore({logFn: function(){}, reapInterval: 60*31});
+  sessionOptions.cookie.secure = true
+  sessionOptions.store = new FileStore({logFn: function(){}, ttl:(60*30), reapInterval: (60*15)});
 }
 
-server.use(cookieParser(sess.secret));
+server.set('sessionName', sessionOptions.name);
+
+server.use(cookieParser(sessionOptions.secret));
 server.use(bodyParser.json({limit: '15mb'}))
-server.use(session(sess));
+server.use(session(sessionOptions));
 
 server.use(compression());
 server.use(express.json());
