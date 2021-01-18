@@ -79,7 +79,7 @@ https://medium.com/@mishkaorakzai/how-to-redirect-your-node-js-app-hosted-on-her
 ########### REACT HOOKS ###########
 https://blog.carbonfive.com/replacing-component-lifecycle-methods-with-react-hooks/#:~:text=React%20Hooks%20provide%20a%20great,coupled%20the%20lifecycle%20methods%20are.
 https://blog.8bitzen.com/posts/how-to-use-componentWillMount-with-react-hooks
-
+https://daveceddia.com/useeffect-vs-uselayouteffect/
 
 ########### REACT NODEMAILER MAILGUN ###########
 https://blog.mailtrap.io/react-send-email/#Setting_up_an_Express_backend_and_connecting_3rd_parties

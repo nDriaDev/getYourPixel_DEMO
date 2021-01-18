@@ -125,13 +125,12 @@ class ImageUtil {
         .then(value => {
           // Versione che torna la matrice sotto forma di unico array
           // let array = PixelBuilder.matrixToArray();
-          let array = PixelBuilder.matrixToArray();
           let imgs = [];
           for(let i in images) {
             imgs.push(images[i].file.base64);
           }
           console.log("ImageUtil - [createPixels - read] - FINISH",);
-          resolve({images:imgs, array:array});
+          resolve({images:imgs, array: PixelBuilder.matrix});
         })
         .catch(err => {
           console.log("ImageUtil - [createPixels] - ERROR -", err.message);

@@ -1,36 +1,47 @@
 class PixelUtil {
   _cursore;
-  matrix;
+  _matrix;
   constructor() {
     this._cursore = {row:0, col:0};
-    this.matrix = [];
+    this._matrix = [];
     for(let i=0; i<264; i++) {
-      this.matrix[i] = [];
+      this._matrix[i] = [];
       for(let j=0; j<152; j++) {
-        this.matrix[i][j] = 0;
+        this._matrix[i][j] = 0;
       }
     }
+  }
+  get matrix() {
+    return this._matrix;
   }
 
   //Cerca una posizione di partenza valida nella matrice secondo i pixel in altezza e larghezza dell'immagine considerata
   _cercaPosizioneCursore(width,height) {
     try {
       console.log("PixelUtil - [_cercaPosizioneCursore] - START");
-      for(let i=this._cursore.row; i<this.matrix.length; i++) {
-        for(let j=this._cursore.col; j<this.matrix[i].length; j++) {
-          if(this.matrix[i][j] === 0) {
+      for(let i=this._cursore.row; i<this._matrix.length; i++) {
+        for(let j=this._cursore.col; j<this._matrix[i].length; j++) {
+          if(this._matrix[i][j] === 0) {
             let trovataPorzione = true;
-            for(let k=i; k<(i+(+height)) && k<this.matrix.length; k++) {
-              for(let l=j; l<(j+(+width)) && l<this.matrix[k].length; l++) {
-                if(this.matrix[k][l] !== 0) {
-                  trovataPorzione = false;
+            for(let k=i; k<(i+(+height)); k++) {
+              if(k>this._matrix.length) {
+                trovataPorzione = false;
+              }
+              else {
+                for(let l=j; l<(j+(+width)); l++) {
+                  if(l>this._matrix[k].length || this._matrix[k][l] !== 0) {
+                    trovataPorzione = false;
+                  }
                 }
               }
             }
-            return trovataPorzione ? {row:i, col:j} : -1;
+            if(trovataPorzione) {
+              return {row:i, col:j};
+            }
           }
         }
       }
+      return -1;
     } catch (e) {
       console.log("PixelUtil - [_cercaPosizioneCursore] - ERROR -", e.message);
       throw e;
@@ -60,17 +71,17 @@ class PixelUtil {
 
   //rimuove i bordi superflui
   _removeBorder(indiceBlocco,width,height,i,j) {
-    if(this._isEstremoSup(indiceBlocco,width,height)) {
-      delete this.matrix[i][j].style.borderTop;
+    if(!this._isEstremoSup(indiceBlocco,width,height)) {
+      delete this._matrix[i][j].style.borderTop;
     }
-    if(this._isEstremoDx(indiceBlocco,width,height)) {
-      delete this.matrix[i][j].style.borderRight;
+    if(!this._isEstremoDx(indiceBlocco,width,height)) {
+      delete this._matrix[i][j].style.borderRight;
     }
-    if(this._isEstremoInf(indiceBlocco,width,height)) {
-      delete this.matrix[i][j].style.borderBottom;
+    if(!this._isEstremoInf(indiceBlocco,width,height)) {
+      delete this._matrix[i][j].style.borderBottom;
     }
-    if(this._isEstremoSx(indiceBlocco,width,height)) {
-      delete this.matrix[i][j].style.borderLeft;
+    if(!this._isEstremoSx(indiceBlocco,width,height)) {
+      delete this._matrix[i][j].style.borderLeft;
     }
   }
 
@@ -84,17 +95,17 @@ class PixelUtil {
       let indiceBlocco = {row:0, col:0};
       let limitRow = this._cursore.row+(+height);
       let limitCol = this._cursore.col+(+width);
-      for(let i=this._cursore.row; i<limitRow && i<this.matrix.length; i++) {
+      for(let i=this._cursore.row; i<limitRow && i<this._matrix.length; i++) {
         indiceBlocco = {row:indiceBlocco.row, col:0};
         bp = {y:0, x:bp.x}
-        for(let j=this._cursore.col; j<limitCol && j<this.matrix[i].length; j++) {
-          this.matrix[i][j] = {
+        for(let j=this._cursore.col; j<limitCol && j<this._matrix[i].length; j++) {
+          this._matrix[i][j] = {
             url:image.url,
             style:{
-              borderTop: this._isEstremoSup(indiceBlocco,width,height) ? 'solid 0.2px black !important' : 'unset',
-              borderRight: this._isEstremoDx(indiceBlocco,width,height) ? 'solid 0.2px black !important' : 'unset',
-              borderBottom: this._isEstremoInf(indiceBlocco,width,height) ? 'solid 0.2px black !important' : 'unset',
-              borderLeft: this._isEstremoSx(indiceBlocco,width,height) ? 'solid 0.2px black !important' : 'unset',
+              borderTop: this._isEstremoSup(indiceBlocco,width,height) ? '0.2px solid black' : 'unset',
+              borderRight: this._isEstremoDx(indiceBlocco,width,height) ? '0.2px solid black' : 'unset',
+              borderBottom: this._isEstremoInf(indiceBlocco,width,height) ? '0.2px solid black' : 'unset',
+              borderLeft: this._isEstremoSx(indiceBlocco,width,height) ? '0.2px solid black' : 'unset',
               // backgroundImage: 'url(' + image.file.base64 + ')',
               backgroundPosition: '-' + (bp.y*10) + 'px -' + (bp.x*10) + 'px'
             },
@@ -136,9 +147,9 @@ class PixelUtil {
     try {
       console.log("PixelUtil - [matrixToArray] - START");
       let array = [];
-      for(let i in this.matrix) {
-        for(let j in this.matrix[i]) {
-          array.push(this.matrix[i][j])
+      for(let i in this._matrix) {
+        for(let j in this._matrix[i]) {
+          array.push(this._matrix[i][j])
         }
       }
       //Versione Chuncked ToArray

@@ -11,6 +11,7 @@ const Manage = (props) => {
   const [role,setRole] = useState(null);
   const [spinner, setSpinner] = useState(false);
   let {path} = useRouteMatch();
+
   useEffect(()=>{
     props.enableSpinner();
     return axios.post(Const.GET_USER,{})
