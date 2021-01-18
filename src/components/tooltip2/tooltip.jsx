@@ -1,13 +1,10 @@
 import React, { useState } from "react";
-import "./Tooltip.css";
+import "./tooltip.css";
 
 const Tooltip = (props) => {
   let timeout;
   const [active, setActive] = useState(false);
-
-  const log=(event)=>{
-    console.log("OK-");
-  }
+  const {ComponentChildren} = props.children;
   const showTip = () => {
     timeout = setTimeout(() => {
       setActive(true);
@@ -18,20 +15,19 @@ const Tooltip = (props) => {
     clearInterval(timeout);
     setActive(false);
   };
-
+  const ComponentToRender = React.Children.map(props.children, child => {
+    return React.cloneElement(child,{onMouseEnter:showTip,onMouseLeave:hideTip},null);
+  })
   return (
     <div
       className="Tooltip-Wrapper"
-      // When to show the tooltip
+      style={{display:'none'}}
       onMouseEnter={showTip}
       onMouseLeave={hideTip}
-      onClick={log}
     >
-      {/* Wrapping */}
       {props.children}
       {active && (
         <div className={`Tooltip-Tip ${props.direction || "top"}`}>
-          {/* Content */}
           {props.content}
         </div>
       )}
@@ -40,3 +36,7 @@ const Tooltip = (props) => {
 };
 
 export default Tooltip;
+
+// <div className={`Tooltip-Tip ${props.direction || "top"}`}>
+//   {props.content}
+// </div>
