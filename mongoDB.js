@@ -2,8 +2,7 @@ var {MongoClient} = require('mongodb');
 var urlDB = process.env.MONDODB_URI ?
   process.env.MONDODB_URI
   :
-  // '<insert your mongoDB uri here>'
-  'mongodb+srv://admin:2ZyBrma4g19dkAA3@cluster0.z7ylt.mongodb.net/getYourPixels?retryWrites=true&w=majority'
+  '<insert your mongoDB uri here>'
 
 const bcrypt = require('bcrypt');
 const Compressor = require('./compressionUtil');
