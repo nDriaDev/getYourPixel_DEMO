@@ -1,6 +1,6 @@
 var {MongoClient} = require('mongodb');
-var urlDB = process.env.MONDODB_URI ?
-  process.env.MONDODB_URI
+var urlDB = process.env.MONGODB_URI ?
+  process.env.MONGODB_URI
   :
   '<insert your mongoDB uri here>'
 

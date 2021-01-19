@@ -28,7 +28,16 @@ prova@prova.it
 email:usacchero@gmail.com
 password: g3tY0urP1x3l
 
+db : getYourPixels
+pass: O8IcEl3mMwzypoiJ
 
 utenza di produzione
 andreacosentino.work@gmail.com
 4dm1ngetY0urP1x3ls
+
+utenza Cliente
+usacchero@gmail.com
+1234
+
+
+mongodb+srv://getYourPixels:O8IcEl3mMwzypoiJ@cluster0.vcfrw.mongodb.net/getYourPixels?retryWrites=true&w=majority
