@@ -32,7 +32,7 @@ class Mailer {
         if(err) {
           console.log("mailer_Controller - [sendMailResetPassword-session] - ERROR", err);
         } else {
-          mailer.sendMailResetPassword(password, (err, data) =>{
+          mailer.sendMailResetPassword({password:password, email:req.session.email}, (err, data) =>{
             if(err) {
               console.log("mailer_Controller - [sendMailResetPassword] - ERROR", err.message);
               res.status(200).send({code:500, message: 'Error while sending reset password email'})

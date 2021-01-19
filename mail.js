@@ -62,14 +62,15 @@ exports.sendMail = (name, email, subject, message, callback) => {
   }
 }
 
-exports.sendMailResetPassword = (password, callback) => {
+exports.sendMailResetPassword = (params, callback) => {
   console.log("mailer - [sendMailResetPassword] - START");
   try {
+      const {password, email} = params;
       let mailOptions = {
         sender: 'Administrator',
         from: 'admin@getyourpixels.com',
         // to: '<where send email>',
-        to: 'info@getyourpixels.com',
+        to: email,
         subject: 'Get Your Pixels - reset password',
         text: 'La richiesta di reset password è stata effettuata con successo.\nEcco la tua nuova password:\n\n' + password + '\n\nCambiala il prima possibile!',
       }
