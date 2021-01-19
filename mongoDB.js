@@ -946,7 +946,8 @@ class MongoDB {
     console.log("database - [deleteUser] - START");
     return new Promise((resolve, reject) =>{
       try {
-        const {email} = body;
+        var {email} = body;
+        email = email.split('-')[0].trim();
         this.initialize();
         this.client
         .connect()
