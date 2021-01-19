@@ -168,7 +168,7 @@ li a:hover:not(.active) {
   float: right;
 }
 .bottom-footer{
-  position:absolute;
+  position:fixed;
   bottom:0;
   width:100%;
   z-index:1020;
@@ -577,4 +577,48 @@ li.active-v-bar a {
   width: 10px;
   height: 10px;
   display: table-cell;
+}
+
+.pixelated-spinner:empty{
+  margin-left: 50%;
+  margin-top: 10%;
+  width: calc(70px / 7);
+  height: calc(70px / 7);
+  background-color: #24e959;
+  color: #24e959;
+  box-shadow: 15px 15px  0 0,
+              -15px -15px  0 0,
+              15px -15px  0 0,
+              -15px 15px  0 0,
+              0 15px  0 0,
+              15px 0  0 0,
+              -15px 0  0 0,
+              0 -15px 0 0;
+  animation: pixel-spinner-animation 1500ms linear infinite;
+}
+
+@keyframes pixel-spinner-animation {
+  50% {
+    box-shadow: 20px 20px 0px 0px,
+                -20px -20px 0px 0px,
+                20px -20px 0px 0px,
+                -20px 20px 0px 0px,
+                0px 10px 0px 0px,
+                10px 0px 0px 0px,
+                -10px 0px 0px 0px,
+                0px -10px 0px 0px;
+  }
+  75% {
+    box-shadow: 20px 20px 0px 0px,
+                -20px -20px 0px 0px,
+                20px -20px 0px 0px,
+                -20px 20px 0px 0px,
+                0px 10px 0px 0px,
+                10px 0px 0px 0px,
+                -10px 0px 0px 0px,
+                0px -10px 0px 0px;
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

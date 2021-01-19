@@ -248,6 +248,67 @@ class MongoDB {
     })
   }
 
+  getFullPixel(body) {
+    console.log("database - [getFullPixel] - START");
+    return new Promise((resolve,reject) => {
+      try {
+        const {filtro, target} = body;
+        let query = {};
+        if(filtro === 'Email cliente') {
+          query['email'] = target
+        } else if(filtro === 'Pagina pubblicizzata') {
+          query['url'] = target
+        } else {
+          query['company'] = target
+        }
+        this.initialize();
+        this.client
+        .connect()
+        .then(value => {
+          this.client
+          .db(DB_NAME)
+          .collection(COLLECTION_PIXEL)
+          .findOne(
+              query
+            ,
+            {
+              sort:
+              {
+                "date": 1
+              }
+            }
+          )
+          .then(result => {
+            if(result) {
+              //Converto in stringa il mongoDB ObjectID che è usato come chiave unvioca
+              result._id = JSON.stringify(result._id);
+              resolve(result);
+            } else {
+              resolve(null)
+            }
+          })
+          .catch(err => {
+            resolve(err);
+          })
+        })
+        .catch(err => {
+          console.log("database - [getFullPixel] - ERROR -", err);
+          reject(err);
+        })
+      } catch (e) {
+        console.log("database - [getFullPixel] - ERROR -", e);
+        reject(e);
+      } finally {
+        this.client.close().then(()=>{
+          console.log("database - [getFullPixel] - FINISH");
+        })
+        .catch(err => {
+          reject(err);
+        })
+      }
+    })
+  }
+
   getPixelsFiltered(body) {
     console.log("database - [getPixelsFiltered] - START");
     return new Promise((resolve,reject) => {
@@ -327,6 +388,168 @@ class MongoDB {
       } finally {
         this.client.close().then(()=>{
           console.log("database - [getPixelsFiltered] - FINISH");
+        })
+        .catch(err => {
+          reject(err.message);
+        })
+      }
+    })
+  }
+
+  editPixel(body) {
+    console.log("database - [editPixel] - START");
+    return new Promise((resolve, reject) => {
+      try {
+        let {id, email, url, company, file, row, col} = body;
+        this.initialize();
+        this.client
+        .connect()
+        .then(result => {
+          this.client
+          .db(DB_NAME)
+          .collection(COLLECTION_PIXEL)
+          .findOne({
+            //Converto in mongoDB ObjectID la stringa _id
+            "_id":require('mongodb').ObjectID(id)
+          },{
+          })
+          .then(result => {
+            if(result) {
+              if(file.base64 !== result.file.base64) {
+                ImageBuilder.resize(file, row, col)
+                .then(value => {
+                  file = value;
+                  Compressor.compressChilkat(file.base64)
+                  .then(value => {
+                    file.base64 = value;
+                    let data = {};
+                    let options = { "upsert": false };
+                    if(company === '') {
+                      data = {
+                        "$set":{
+                          "email": email,
+                          "url": url,
+                          "file": file,
+                          "row": row,
+                          "col": col,
+                        }
+                      }
+                      options['$unset'] = {'company':1};
+                    } else {
+                      data = {
+                        "$set":{
+                          "email": email,
+                          "url": url,
+                          "company": company,
+                          "file": file,
+                          "row": row,
+                          "col": col,
+                        }
+                      }
+                    }
+                    this.client
+                    .connect()
+                    .then(() => {
+                      this.client
+                      .db(DB_NAME)
+                      .collection(COLLECTION_PIXEL)
+                      .updateOne(
+                        {"_id": result['_id']}, data, options
+                      )
+                      .then(value => {
+                        const { matchedCount, modifiedCount } = value;
+                        if(matchedCount && modifiedCount) {
+                          resolve("Dati modificati correttamente")
+                        } else {
+                          reject({message:"Non e' stato possibile modificare i dati del cliente"})
+                        }
+                      })
+                      .catch(err => {
+                        console.log("database - [editPixel] - ERROR -", err);
+                        reject(err);
+                      })
+                    })
+                    .catch(err => {
+                      console.log("database - [editPixel] - ERROR -", err);
+                      reject(err);
+                    })
+                  })
+                  .catch(err => {
+                    console.log("database - [editPixel] - ERROR -", err);
+                    reject(err);
+                  })
+                })
+                .catch(err => {
+                  console.log("database - [editPixel] - ERROR -", err);
+                  reject(err);
+                })
+              } else {
+                let data = {};
+                let options = { "upsert": false };
+                if(company === '') {
+                  data = {
+                    "$set":{
+                      "email": email,
+                      "url": url,
+                      "row": row,
+                      "col": col,
+                    }
+                  }
+                } else {
+                  data = {
+                    "$set":{
+                      "email": email,
+                      "url": url,
+                      "company": company,
+                      "row": row,
+                      "col": col,
+                    }
+                  }
+                }
+                this.client
+                .connect()
+                .then(() => {
+                  this.client
+                  .db(DB_NAME)
+                  .collection(COLLECTION_PIXEL)
+                  .updateOne(
+                    {"_id": result['_id']}, data, options
+                  )
+                  .then(value => {
+                    const { matchedCount, modifiedCount } = value;
+                    if(matchedCount && modifiedCount) {
+                      resolve("Dati modificati correttamente")
+                    }
+                  })
+                  .catch(err => {
+                    console.log("database - [editPixel] - ERROR -", err);
+                    reject(err);
+                  })
+                })
+                .catch(err => {
+                  console.log("database - [editPixel] - ERROR -", err);
+                  reject(err);
+                })
+              }
+            } else {
+              resolve(null);
+            }
+          })
+          .catch(err => {
+            console.log("database - [editPixel] - ERROR -", err);
+            reject(err);
+          })
+        })
+        .catch(err => {
+          console.log("database - [editPixel] - ERROR -", err);
+          reject(err);
+        })
+      } catch (e) {
+        console.log("database - [editPixel] - ERROR -", e);
+        reject(e)
+      } finally {
+        this.client.close().then(()=>{
+          console.log("database - [editPixel] - FINISH");
         })
         .catch(err => {
           reject(err.message);
@@ -780,6 +1003,69 @@ class MongoDB {
       } finally {
         this.client.close().then(()=>{
           console.log("database - [deleteUser] - FINISH");
+        })
+        .catch(err => {
+          reject(err.message);
+        })
+      }
+    })
+  }
+
+  countPixels() {
+    console.log("database - [countPixel] - START");
+    return new Promise((resolve,reject) => {
+      try {
+        this.initialize();
+        this.client
+        .connect()
+        .then(value => {
+          this.client
+          .db(DB_NAME)
+          .collection(COLLECTION_PIXEL)
+          .find(
+            {
+
+            },
+            {
+              sort:
+              {
+                "date": 1
+              }
+              ,
+              projection:
+              {
+                "_id":0,
+                "email":0,
+                "company":0,
+                "date":0,
+                "file":0,
+                "url":0
+              }
+            }
+          )
+          .toArray()
+          .then(items => {
+            let pixelRemaining = 0;
+            for(let i in items) {
+              pixelRemaining += (items[i].col*items[i].row);
+            }
+            resolve(40128-pixelRemaining);
+          })
+          .catch(err => {
+            console.log("database - [countPixel] - ERROR -", err.message);
+            reject(err);
+          })
+          })
+        .catch(err => {
+          console.log("database - [countPixel] - ERROR -", err.message);
+          reject(err);
+        })
+      } catch (e) {
+        console.log("database - [countPixel] - ERROR -", e.message);
+        reject(e);
+      } finally {
+        this.client.close().then(()=>{
+          console.log("database - [countPixel] - FINISH");
         })
         .catch(err => {
           reject(err.message);

@@ -52,6 +52,9 @@ let Const = {
   GET_PIXELS: '/api/getPixels',
   GET_PIXELS_FILTERED: '/api/getPixelsFiltered',
   REMOVE_PIXEL: '/api/removePixel',
+  COUNT_PIXELS: '/api/countPixels',
+  GET_FULL_PIXEL: '/api/getFullPixel',
+  EDIT_PIXEL: '/api/editPixel',
   USER_TYPE: {
     BASIC: 'Basic',
     ADMIN: 'Admin',

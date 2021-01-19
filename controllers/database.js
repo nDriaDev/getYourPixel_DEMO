@@ -148,6 +148,52 @@ class DataBase {
     }
   }
 
+  getFullPixel(req, res, next) {
+    try {
+    console.log("database_Controller - [getFullPixel] - START");
+      db.getFullPixel(req.body)
+      .then(result => {
+        if(result) {
+          res.status(200).send({code:200, item:result});
+        } else {
+          res.status(200).send({code:404, message:'Client not found'})
+        }
+      })
+      .catch(err => {
+        console.log("database_Controller - [getFullPixel] - ERROR -", err.message);
+        next(err.message);
+      })
+    } catch (e) {
+      console.log("database_Controller - [getFullPixel] - ERROR -", e.message);
+      next(e.message);
+    } finally {
+      console.log("database_Controller - [getFullPixel] - FINISH");
+    }
+  }
+
+  editPixel(req, res, next) {
+    try {
+    console.log("database_Controller - [editPixel] - START");
+      db.editPixel(req.body)
+      .then(result => {
+        if(result) {
+          res.status(200).send({code:200, message:result});
+        } else {
+          res.status(200).send({code:404, message:"Non è stato possobile modificare i dati del cliente"});
+        }
+      })
+      .catch(err => {
+        console.log("database_Controller - [editPixel] - ERROR -", err.message);
+        next(err);
+      })
+    } catch (e) {
+      console.log("database_Controller - [editPixel] - ERROR -", e.message);
+      next(e.message);
+    } finally {
+      console.log("database_Controller - [editPixel] - FINISH");
+    }
+  }
+
   savePixel(req, res, next) {
     try {
     console.log("database_Controller - [savePixel] - START");
@@ -202,6 +248,25 @@ class DataBase {
       next(e.message);
     } finally {
       console.log("database_Controller - [removePixel] - FINISH");
+    }
+  }
+
+  countPixels(req, res, next) {
+    try {
+      console.log("database_Controller - [countPixel] - START");
+      db
+      .countPixels()
+      .then(result => {
+        res.status(200).send(""+result)
+      })
+      .catch(err => {
+        res.status(200).send(err)
+      })
+    } catch (e) {
+      console.log("database_Controller - [countPixel] - ERROR", e.message);
+      next(e.message);
+    } finally {
+      console.log("database_Controller - [countPixel] - FINISH");
     }
   }
 

@@ -1,0 +1,34 @@
+////////////////////////////////////////////
+///                                      ///
+///           CLOUD MONGODB ATLAS        ///
+///               SVILUPPO               ///
+///                                      ///
+////////////////////////////////////////////
+
+user: newu1xoko@tmpbox.net
+pass: asdasd40
+
+STRINGA DI CONNESSIONE MONGODB
+mongodb+srv://admin:2ZyBrma4g19dkAA3@cluster0.z7ylt.mongodb.net/getYourPixels?retryWrites=true&w=majority
+
+PASSWORD MONGODB
+2ZyBrma4g19dkAA3
+
+utenza di sviluppo
+prova@prova.it
+1234
+
+////////////////////////////////////////////
+///                                      ///
+///           CLOUD MONGODB ATLAS        ///
+///               SVILUPPO               ///
+///                                      ///
+////////////////////////////////////////////
+
+email:usacchero@gmail.com
+password: g3tY0urP1x3l
+
+
+utenza di produzione
+andreacosentino.work@gmail.com
+4dm1ngetY0urP1x3ls

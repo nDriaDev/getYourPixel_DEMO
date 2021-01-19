@@ -37,14 +37,25 @@ try {
   )
   .post(
     '/savePixel',
+    auth,
     controllers.database.savePixel
   )
   .post(
     '/getPixelsFiltered',
+    auth,
     controllers.database.getPixelsFiltered
   )
   .post(
+    '/getFullPixel',
+    controllers.database.getFullPixel
+  )
+  .post(
+    '/editPixel',
+    controllers.database.editPixel
+  )
+  .post(
     '/removePixel',
+    auth,
     controllers.database.removePixel
   )
   .post(
@@ -67,6 +78,7 @@ try {
   )
   .post(
     '/resetPassword',
+    auth,
     controllers.database.resetPassword
   )
   .post(
@@ -83,6 +95,11 @@ try {
     '/getUsers',
     auth,
     controllers.database.getUsers
+  )
+  .get(
+    '/countPixels',
+    auth,
+    controllers.database.countPixels
   )
   .post(
     '/verifyPassword',

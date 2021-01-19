@@ -39,8 +39,6 @@ const ChangePassword = ({spinnerCommand}) => {
     spinnerCommand(true);
     event.preventDefault();
     event.stopPropagation();
-
-    let formSet = event.currentTarget;
     if(form.oldPassword === '') {
       setValidated({
         oldPassword: false,

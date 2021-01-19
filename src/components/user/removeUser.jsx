@@ -12,17 +12,11 @@ const RemoveUser = ({spinnerCommand}) => {
     email: '',
     usersList: [],
   })
-  const listOptions= form && form.userList ? form.usersList.map((item, index) => {
-    return <option key={index}>{item.email + " - " + item.type}</option>
-  })
-  :
-  null;
-
   useEffect(()=>{
     spinnerCommand(true);
     return axios.post(Const.GET_USER,{})
     .then(res => {
-      if(res.data) {
+      if(res.data && !res.data.code) {
         if(res.data.type === Const.USER_TYPE.BASIC) {
           spinnerCommand(false);
           history.push('/manage');
@@ -115,7 +109,11 @@ const RemoveUser = ({spinnerCommand}) => {
               onChange={e => handleInputChange(e)}
               required>
               <option></option>
-              {listOptions}
+              {
+                form.usersList.map((item, index) => {
+                  return <option key={index}>{item.email + " - " + item.type}</option>
+                })
+              }
             </Form.Control>
           </Form.Group>
           <Button variant="success" type="submit">

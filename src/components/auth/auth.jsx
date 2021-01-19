@@ -19,9 +19,8 @@ const Auth = (props) => {
       }
     })
     .catch(err => {
-      console.log("Error", err);
-      disableSpinner(false);
       setRedirect(true);
+      disableSpinner(false);
     })
   },[ComponentToProtect]);
   return (

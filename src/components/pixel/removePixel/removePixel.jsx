@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Form, Button, Row, Col} from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import {PixelSpinner} from 'react-epic-spinners';
-import Const from './../../util/Costanti';
+import Const from './../../../util/Costanti';
 import axios from 'axios';
 
 
@@ -109,7 +109,7 @@ const RemovePixel = ({spinnerCommand}) => {
   return (
     <div className="mx-auto mb-5" style={{maxWidth:'512px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
       <div className="mt-2" align="center">
-        <h1>Remove Pixels</h1>
+        <h1>Remove Client</h1>
       </div>
       <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
         <Form noValidate validated={validated} onSubmit={onSubmit}>
@@ -165,7 +165,7 @@ const RemovePixel = ({spinnerCommand}) => {
                 {...selectSpinner}
                 required>
                 <option></option>
-                {form.valuesList.map((item, index) => {
+                {form && form.valuesList && form.valuesList.map((item, index) => {
                   return <option key={index}>{item}</option>
                 })}
               </Form.Control>

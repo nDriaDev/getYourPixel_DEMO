@@ -7,9 +7,9 @@ const SpinnerManage = ({visible}) => {
         <PixelSpinner
           size={100}
           color="#24e959"
-          style={{width:'100%',
+          style={{width:'99%',
             paddingTop: '25%',
-            paddingBottom: '14%',
+            paddingBottom: '35%',
             background: 'black',
             visibility: visible ? 'visible' : 'hidden',
             position: 'absolute',

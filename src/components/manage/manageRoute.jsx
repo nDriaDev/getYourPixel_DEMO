@@ -1,13 +1,14 @@
-import React, {useState, useEffect} from 'react';
-import { Route, Switch, Redirect, useRouteMatch, Link } from 'react-router-dom';
+import React from 'react';
+import { Route, Switch, Redirect, useRouteMatch } from 'react-router-dom';
 import Const from './../../util/Costanti';
 import ErrorPage from './../errorPage/errorPage';
 import Auth from './../auth/auth';
 import AddUser from './../user/addUser';
 import RemoveUser from './../user/removeUser';
 import ChangePassword from './../changePassword/changePassword';
-import SavePixel from './../savePixel/savePixel';
-import RemovePixel from './../removePixel/removePixel';
+import SavePixel from './../pixel/savePixel/savePixel';
+import EditPixel from './../pixel/editPixel/editPixel';
+import RemovePixel from './../pixel/removePixel/removePixel';
 import SpinnerManage from './../spinner/spinnerManage';
 
 const ManageRoute = ({spinner, spinnerCommand}) => {
@@ -28,15 +29,25 @@ const ManageRoute = ({spinner, spinnerCommand}) => {
           )}
           />
         <Route
-          path= {`${path}/removePixel`}
+          path= {`${path}/editClient`}
           render = {(props) => (
             <Auth {...props}
-              ComponentToProtect={RemovePixel}
+              ComponentToProtect={EditPixel}
               enableSpinner={spinnerCommand}
               spinnerCommand={spinnerCommand}
               disableSpinner={spinnerCommand} />
           )}
           />
+          <Route
+            path= {`${path}/removeClient`}
+            render = {(props) => (
+              <Auth {...props}
+                ComponentToProtect={RemovePixel}
+                enableSpinner={spinnerCommand}
+                spinnerCommand={spinnerCommand}
+                disableSpinner={spinnerCommand} />
+            )}
+            />
         <Route
           path= {`${path}/addUser`}
           render = {(props) => (

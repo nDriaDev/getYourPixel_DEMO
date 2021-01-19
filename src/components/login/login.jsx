@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import { Link } from 'react-router-dom';
 import {Form, Button} from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import Const from './../../util/Costanti';
@@ -24,10 +23,9 @@ const Login = (props) => {
       }
     })
     .catch(err => {
-      console.log("Error", err);
       disableSpinner();
     })
-  },[enableSpinner,disableSpinner]);
+  },[]);
 
   const handleInputChange = event => {
     let {name, value} = event.target;
@@ -51,8 +49,8 @@ const Login = (props) => {
       .then(res => {
         if (res.data.code === 200) {
           sessionStorage.setItem('isAuth', true)
-          props.history.push('/manage');
           disableSpinner();
+          props.history.push('/manage');
         } else {
           throw new Error(res.data.message);
         }
