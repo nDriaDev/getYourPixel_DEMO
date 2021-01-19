@@ -95,7 +95,7 @@ const RemoveUser = ({spinnerCommand}) => {
   return (
     <div className="mx-auto mb-5" style={{maxWidth:'408px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
       <div className="mt-2" align="center">
-        <h1>Delete User</h1>
+        <h1  style={{color:'#333'}}>Remove User</h1>
       </div>
       <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
         <Form noValidate onSubmit={onSubmit}>

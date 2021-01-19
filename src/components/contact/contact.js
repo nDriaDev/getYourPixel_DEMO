@@ -59,16 +59,16 @@ const Contact = (props) => {
   }
 
   return(
-    <>
-      <div className="display-grid " align="center">
-        <div className="">
-          <div className="container-form">
-            <Form noValidate validated={validated} onSubmit={onSubmit}>
+    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div className="container-fluid container-v-bar">
+          <div className="mx-auto" style={{marginBottom:'4rem!important',maxWidth:'512px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
+            <div className="mt-2" align="center">
+              <h1 style={{color:'#333'}}>Contattaci</h1>
+            </div>
+            <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
+              <Form noValidate validated={validated} onSubmit={onSubmit}>
               <Form.Row>
-                <span className="form-title">
-                  Contattaci
-                </span>
-                <span className="form-title" style={{textAlign: 'center',fontSize: '16px',lineHeight:'1.4'}}>
+                <span className="form-title" style={{textAlign: 'center',fontSize: '16px',lineHeight:'1.4',color:'white'}}>
                   Per qualsiasi dubbio, problema o informazione, non esitare a contattarci completando il form
                   sottostante. Ti preghiamo di inserire anche il tuo numero di telefono all'interno del messaggio.
                   Riceverai una risposta da un membro del nostro team entro 24 ore
@@ -159,11 +159,11 @@ const Contact = (props) => {
                 </Col>
               </Form.Row>
             </Form>
+            </div>
           </div>
         </div>
       </div>
-    </>
-)
+    )
 }
 
 export default Contact;

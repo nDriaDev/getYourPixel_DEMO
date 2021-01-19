@@ -73,7 +73,7 @@ const Login = (props) => {
   return (
     <div className="mx-auto mb-5" style={{maxWidth:'408px',maxHeight:'334px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
       <div className="display-grid mt-2 mb-3" align="center">
-        <h1>Login</h1>
+        <h1 style={{color:'#333'}}>Login</h1>
       </div>
       <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
         <Form noValidate validated={validated} onSubmit={onSubmit}>

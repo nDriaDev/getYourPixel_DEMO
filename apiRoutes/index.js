@@ -78,7 +78,6 @@ try {
   )
   .post(
     '/resetPassword',
-    auth,
     controllers.database.resetPassword
   )
   .post(

@@ -301,7 +301,7 @@ const EditPixel = ({spinnerCommand}) => {
   return (
     <div className="mx-auto mb-5" style={{maxWidth:'512px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
       <div className="mt-2" align="center">
-        <h1>Edit Client</h1>
+        <h1 style={{color:'#333'}}>Edit Client</h1>
       </div>
       <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
         <Form noValidate validated={validated} onSubmit={onSubmit}>
@@ -379,7 +379,7 @@ const EditPixel = ({spinnerCommand}) => {
             :
             <>
             <div className="mt-2" align="center">
-              <h4>Pixels disponibili</h4>
+              <h4 style={{color:'#333'}}>Pixels disponibili</h4>
               <h2 style={{color:'white'}}>{pixelNumber}</h2>
             </div>
             <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>

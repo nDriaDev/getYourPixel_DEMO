@@ -115,7 +115,7 @@ const ChangePassword = ({spinnerCommand}) => {
   return (
     <div className="mx-auto mb-5" style={{maxWidth:'408px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
       <div className="mt-2" align="center">
-        <h1>Change Password</h1>
+        <h1 style={{color:'#333'}}>Change Password</h1>
       </div>
       <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
         <Form noValidate className="mx-auto mt-3" onSubmit={onSubmit}>

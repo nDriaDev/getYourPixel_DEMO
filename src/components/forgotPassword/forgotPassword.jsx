@@ -71,7 +71,7 @@ const ForgotPassword = (props) => {
   return (
     <div className="mx-auto mb-5" style={{maxWidth:'370px',maxHeight:'240px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
       <div className="display-grid mt-3 mb-3 ml-3 mr-3" align="center">
-        <h1>Reset Password</h1>
+        <h1  style={{color:'#333'}}>Reset Password</h1>
       </div>
       <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
         <Form noValidate validated={validated} onSubmit={onSubmit}>

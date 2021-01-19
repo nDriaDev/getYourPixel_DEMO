@@ -2,6 +2,9 @@
   "name": "getyourpixel",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "14.x"
+  },
   "dependencies": {
     "@chilkat/ck-node14-linux64": "^9.50.84",
     "@stripe/react-stripe-js": "^1.1.2",
