@@ -8,10 +8,12 @@ import Buy from './components/buy/buy';
 import Contact from './components/contact/contact';
 import Login from './components/login/login';
 import ErrorPage from './components/errorPage/errorPage';
+import Legal from './components/legal/legal';
 import Spinner from './components/spinner/spinner';
 import Auth from './components/auth/auth';
 import Manage from './components/manage/manage';
 import ForgotPassword from './components/forgotPassword/forgotPassword';
+import HowWork from './components/howWork/howWork';
 
 
 class App extends Component {
@@ -84,6 +86,14 @@ class App extends Component {
                 )}
               />
               <Route
+                path='/howWork'
+                render={(props) => (
+                  <HowWork {...props}
+                    enableSpinner={this.enableSpinner}
+                    disableSpinner={this.disableSpinner} />
+                )}
+              />
+              <Route
                 path='/login'
                 render={(props) => (
                   <Login {...props}
@@ -107,6 +117,14 @@ class App extends Component {
                   <ErrorPage {...props}
                     enableSpinner={this.enableSpinner}
                     disableSpinner={this.disableSpinner} />
+                )}
+              />
+              <Route
+                path='/legal'
+                render = {(props) => (
+                  <Legal {...props}
+                    enableSpinner={this.enableSpinner}
+                    disableSpinner={this.disableSpinner}/>
                 )}
               />
               <Route

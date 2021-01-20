@@ -9,10 +9,10 @@ class NavbarCustom extends Component{
   constructor(props){
     super(props);
     let pathname = window.location.pathname;
-    pathname = pathname === Const.PATH_ERROR ? 'error' : (pathname === '/' ? '' : (pathname === Const.PATH_BUY ? 'buy' : (pathname === Const.PATH_CONTACT ? 'contact' : '')));
+    pathname = pathname === Const.PATH_ERROR ? 'error' : (pathname === '/' ? '' : (pathname === Const.PATH_BUY ? 'buy' : (pathname === Const.PATH_CONTACT ? 'contact' : (pathname === Const.PATH_HOW_WORK ? 'howWork':''))));
     this.state = {
       origin: window.location.origin,
-      active: pathname === 'error' ? 0 : (pathname === '' ? 1 : (pathname === 'buy' ? 2 : 3)),
+      active: pathname === 'error' ? 0 : (pathname === '' ? 1 : (pathname === 'buy' ? 2 : (pathname === 'contact' ? 3 : 4 ))),
     }
     this.changeActive = this.changeActive.bind(this);
     this.logout = this.logout.bind(this);
@@ -110,19 +110,10 @@ class NavbarCustom extends Component{
             <li className={"nav-item " + this.state.active === 4 ? 'active' : ''}>
               <a
                 className="nav-link"
-                href={Const.PRIVACY_POLICY_LINK}
+                href=""
                 style={{float:'left'}}
-                onClick={()=>this.changeActive(4)}>
-                Privacy
-              </a>
-            </li>
-            <li className={"nav-item " + this.state.active === 5 ? 'active' : ''}>
-              <a
-                className="nav-link"
-                href ={Const.COOKIE_POLICY_LINK}
-                style={{float:'left'}}
-                onClick={()=>this.changeActive(5)}>
-                Cookie
+                onClick={(e)=>this.changeActiveAndHistoryPush(e,4,'/howWork')}>
+                How Work
               </a>
             </li>
           </ul>
