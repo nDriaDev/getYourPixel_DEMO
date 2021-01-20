@@ -2,6 +2,7 @@ let Const = {
   PATH_HOME: '/',
   PATH_BUY: '/buy',
   PATH_CONTACT: '/contact',
+  PATH_HOW_WORK: '/howWork',
   PATH_ERROR: '/error',
   MOBILE_BROWSER: [
     /Android/i,
@@ -27,8 +28,8 @@ let Const = {
     newVal = currency === 'eur' ? '€ ' + newVal : (currency === 'usd' ? '$ ' + newVal : currency + " " + newVal);
     return newVal
   },
-  PRIVACY_POLICY_LINK : "https://www.iubenda.com/api/privacy-policy/80858552/no-markup",
-  COOKIE_POLICY_LINK : "https://www.iubenda.com/api/privacy-policy/80858552/cookie-policy/no-markup",
+  PRIVACY_POLICY_LINK : "https://www.iubenda.com/privacy-policy/80858552",
+  COOKIE_POLICY_LINK : "https://www.iubenda.com/privacy-policy/80858552/cookie-policy",
   SEND_MAIL_PATH: '/api/email',
   MAIL_SUCCESS: 'Your message was sent successfully',
   MAIL_FAILED: 'Error while sending your message',
