@@ -29,7 +29,6 @@ const EditPixel = ({spinnerCommand}) => {
     // spinnerCommand(true);
     axios.get(Const.COUNT_PIXELS)
     .then(res => {
-      debugger;
       if(!res.data.code) {
         setPixelNumber(res.data);
       }
@@ -73,7 +72,6 @@ const EditPixel = ({spinnerCommand}) => {
   }
 
   const handleInputChange = event => {
-    debugger;
     let {name, value} = event.target;
     if(name === 'filtro') {
       if(value === '') {
@@ -239,7 +237,6 @@ const EditPixel = ({spinnerCommand}) => {
   }
 
   const onSubmit = (event) => {
-    debugger;
     let formSet = event.currentTarget;
     setValidated(false);
     setValidFile('label-border-none');

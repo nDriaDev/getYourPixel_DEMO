@@ -22,7 +22,6 @@ const SavePixel = ({spinnerCommand}) => {
     spinnerCommand(true);
     axios.get(Const.COUNT_PIXELS)
     .then(res => {
-      debugger;
       if(!res.data.code) {
         setPixelNumber(res.data);
       }

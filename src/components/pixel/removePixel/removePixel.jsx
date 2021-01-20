@@ -16,7 +16,6 @@ const RemovePixel = ({spinnerCommand}) => {
   })
 
   const handleInputChange = event => {
-    debugger;
     let {name, value} = event.target;
     if(name === 'filtro') {
       if(value === '') {
@@ -61,7 +60,6 @@ const RemovePixel = ({spinnerCommand}) => {
   }
 
   const onSubmit = (event) => {
-    debugger;
     let formSet = event.currentTarget;
     setValidated(false);
     event.preventDefault();
