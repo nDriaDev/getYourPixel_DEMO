@@ -7,7 +7,27 @@ import axios from 'axios';
 
 const Manage = (props) => {
   const history = useHistory();
-  const [active,setActive] = useState(['active-v-bar','','','','','']);
+  const [active,setActive] = useState(() => {
+      let pathSpli = window.location.pathname.split('/');
+      if(pathSpli[pathSpli.length-1] === 'manage') {
+        return ['active-v-bar','','','','',''];
+      }
+      else if(pathSpli[pathSpli.length-1] === 'editClient') {
+        return ['','active-v-bar','','','',''];
+      }
+      else if(pathSpli[pathSpli.length-1] === 'removeClient') {
+        return ['','','active-v-bar','','',''];
+      }
+      else if(pathSpli[pathSpli.length-1] === 'addUser') {
+        return ['','','','active-v-bar','',''];
+      }
+      else if(pathSpli[pathSpli.length-1] === 'removeUser') {
+        return ['','','','','active-v-bar',''];
+      } else {
+        return ['','','','','','active-v-bar'];
+      }
+  }
+);
   const [role,setRole] = useState(null);
   const [spinner, setSpinner] = useState(true);
   let {path} = useRouteMatch();
