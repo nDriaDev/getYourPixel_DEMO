@@ -18,6 +18,7 @@ class NavbarCustom extends Component{
     this.logout = this.logout.bind(this);
     this.changeActiveAndHistoryPush = this.changeActiveAndHistoryPush.bind(this);
   }
+
   logout(event){
     event.preventDefault();
     event.stopPropagation();
@@ -25,7 +26,7 @@ class NavbarCustom extends Component{
     axios.get(Const.LOGOUT)
     .then(result => {
       if (result.data.code === 200) {
-        sessionStorage.removeItem('isAuth')
+        sessionStorage.clear();
         this.props.disableSpinner();
         this.props.history.push('/login');
       } else {
@@ -34,7 +35,7 @@ class NavbarCustom extends Component{
     })
     .catch(err => {
       console.log(err);
-      sessionStorage.removeItem('isAuth')
+      sessionStorage.clear();
       this.props.disableSpinner();
       toast.error(err.message != null ? err.message : "ERRORE", {
         position: "top-center",
@@ -54,6 +55,19 @@ class NavbarCustom extends Component{
     event.stopPropagation();
     this.props.history.push('/manage');
   }
+
+  registrati(event){
+    event.preventDefault();
+    event.stopPropagation();
+    this.props.history.push('/registerClient');
+  }
+
+  login(event){
+    event.preventDefault();
+    event.stopPropagation();
+    this.props.history.push('/login');
+  }
+
 
   changeActive(menu){
     this.setState({
@@ -132,7 +146,37 @@ class NavbarCustom extends Component{
             :
             null
           }
-          {sessionStorage.getItem('isAuth') ?
+          {!sessionStorage.getItem('isAuthBasic') && !sessionStorage.getItem('isAuth') ?
+            <ul className="navbar-nav ">
+              <li className="">
+                <a
+                  className="nav-link"
+                  href=""
+                  style={{float:'left'}}
+                  onClick={(e)=>this.registrati(e)}>
+                  Registrati
+                </a>
+              </li>
+            </ul>
+            :
+            null
+          }
+          {!sessionStorage.getItem('isAuthBasic') && !sessionStorage.getItem('isAuth') ?
+            <ul className="navbar-nav ">
+              <li className="">
+                <a
+                  className="nav-link"
+                  href=""
+                  style={{float:'left'}}
+                  onClick={(e)=>this.login(e)}>
+                  Login
+                </a>
+              </li>
+            </ul>
+            :
+            null
+          }
+          {sessionStorage.getItem('isAuth') || sessionStorage.getItem('isAuthBasic') ?
             <ul className="navbar-nav ">
               <li className="">
                 <a

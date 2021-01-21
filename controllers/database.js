@@ -5,6 +5,91 @@ const { v4: uuid } = require('uuid');
 
 class DataBase {
 
+  getClient(req, res, next) {
+      try {
+        console.log("database_Controller - [getClient] - START");
+        let email = req.body.email ? req.body.email : req.session.email;
+        db.getClient(email)
+          .then(result => {
+            res.status(200).send(result)
+          })
+          .catch(e => {
+            console.log("database_Controller - [getClient] - ERROR -", e.message);
+            res.status(200).send({code:500,message:e.message});
+          })
+      } catch (e) {
+        console.log("database_Controller - [getClient] - ERROR -", e.message);
+        next(e.message);
+      } finally {
+        console.log("database_Controller - [getClient] - FINISH");
+      }
+  }
+
+  loginClient(req, res, next) {
+      try {
+        console.log("database_Controller - [loginClient] - START");
+        db.loginClient(req.body)
+          .then(result => {
+            if(result.code === 200){
+              let secret = uuid();
+              req.session.secret = secret;
+              req.session.email = req.body.email;
+              let token = jwt.sign({email:req.body.email}, secret, {expiresIn: '1h'});
+              res.cookie('token', token, {httpOnly: true}).status(200).send(result)
+            } else {
+              res.status(200).send({code:result.code, message:result.message});
+            }
+          })
+          .catch(e => {
+            console.log("database_Controller - [loginClient] - ERROR -", e.message);
+            next(e.message);
+          })
+      } catch (e) {
+        console.log("database_Controller - [loginClient] - ERROR -", e.message);
+        next(e.message);
+      } finally {
+        console.log("database_Controller - [loginClient] - FINISH");
+      }
+  }
+
+  registryClient(req, res, next) {
+      try {
+        console.log("database_Controller - [registryClient] - START");
+        db.registryClient(req.body)
+          .then(result => {
+            res.status(200).send(result)
+          })
+          .catch(e => {
+            console.log("database_Controller - [registryClient] - ERROR -", e.message);
+            res.status(200).send({code:500,message:e.message});
+          })
+      } catch (e) {
+        console.log("database_Controller - [registryClient] - ERROR -", e.message);
+        next(e.message);
+      } finally {
+        console.log("database_Controller - [registryClient] - FINISH");
+      }
+  }
+
+  saveClick(req, res, next) {
+      try {
+        console.log("database_Controller - [saveClick] - START");
+        db.saveClick({emailClient:req.session.email, urlClicked: req.body.url})
+          .then(result => {
+            res.status(200).send(result)
+          })
+          .catch(e => {
+            console.log("database_Controller - [saveClick] - ERROR -", e.message);
+            res.status(200).send({code:500,message:e.message});
+          })
+      } catch (e) {
+        console.log("database_Controller - [saveClick] - ERROR -", e.message);
+        next(e.message);
+      } finally {
+        console.log("database_Controller - [saveClick] - FINISH");
+      }
+  }
+
   getUser(req, res, next) {
       try {
         console.log("database_Controller - [getUser] - START");

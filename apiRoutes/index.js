@@ -105,6 +105,19 @@ try {
     auth,
     controllers.database.verifyPassword
   )
+  .post(
+    '/loginClient',
+    controllers.database.loginClient
+  )
+  .post(
+    '/getClient',
+    auth,
+    controllers.database.getClient
+  )
+  .post(
+    '/registryClient',
+    controllers.database.registryClient
+  )
   .get(
     '/logout',
     auth,

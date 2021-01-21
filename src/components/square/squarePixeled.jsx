@@ -10,9 +10,17 @@ const SquarePixeled = ({enableSpinner,disableSpinner}) =>{
   const redirectUrl = (e,url) => {
       e.preventDefault();
       e.stopPropagation();
-      if(url) {
-        window.location = url.indexOf('http') === -1 ? 'https://' + url : url;
-      }
+      axios.post(Const.SAVE_CLICK,{'url':url})
+      .then(result => {
+        if(url) {
+          window.location = url.indexOf('http') === -1 ? 'https://' + url : url;
+        }
+      })
+      .catch(err => {
+        if(url) {
+          window.location = url.indexOf('http') === -1 ? 'https://' + url : url;
+        }
+      })
   }
 
   const showTip = (text, id) => {

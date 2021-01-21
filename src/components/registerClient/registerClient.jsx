@@ -1,39 +1,26 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
+import { useHistory } from 'react-router-dom';
 import {Form, Button} from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import Const from './../../util/Costanti';
 import axios from 'axios';
 
-const Login = (props) => {
+
+const RegisterClient = (props) => {
+  const history = useHistory();
   const [validated, setValidated] = useState(false);
   const [form, setForm] = useState({
+    username:'',
     email: '',
     password: '',
   })
+
   const {enableSpinner, disableSpinner} = props;
 
-  useEffect(() => {
-    axios.get(Const.CHECK_TOKEN)
-    .then(result => {
-      if(result.data.code === 200) {
-        props.history.push('/manage');
-        disableSpinner();
-      } else {
-        disableSpinner();
-      }
-    })
-    .catch(err => {
-      disableSpinner();
-    })
-  },[]);
 
   const handleInputChange = event => {
     let {name, value} = event.target;
     setForm({...form, [name]:value});
-  }
-
-  const goTo = (path) => {
-    props.history.push(path);
   }
 
   const onSubmit = (event) => {
@@ -45,52 +32,63 @@ const Login = (props) => {
       setValidated(true);
     } else {
       enableSpinner();
-      axios.post(Const.LOGIN, form)
+      axios.post(Const.REGISTRY_CLIENT, form)
       .then(res => {
         if (res.data.code === 200) {
-          sessionStorage.setItem('isAuth', true)
+          setForm({
+            username:'',
+            email: '',
+            password: '',
+          });
           disableSpinner();
-          props.history.push('/manage');
-        } else {
-          throw new Error(res.data.message);
-        }
-      })
-      .catch(err => {
-        axios.post(Const.LOGIN_CLIENT, form)
-        .then(res => {
-          if (res.data.code === 200) {
-            sessionStorage.setItem('isAuthBasic', true)
-            disableSpinner();
-            props.history.push('/');
-          } else {
-            throw new Error(res.data.message);
-          }
-        })
-        .catch(err => {
-          disableSpinner();
-          toast.error(err.message != null ? err.message : "ERRORE", {
+          toast.success(res.data.message, {
             position: "top-center",
-            autoClose: 5000,
+            autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
             draggable: true,
             progress: undefined,
           });
-        })
+        } else {
+          throw new Error(res.data.message);
+        }
+      })
+      .catch(err => {
+        disableSpinner();
+        toast.error(err.message != null ? err.message : "ERRORE", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+        });
       });
     }
   }
 
   return (
-    <div className="mx-auto mb-5" style={{maxWidth:'408px',maxHeight:'334px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
-      <div className="display-grid mt-2 mb-3" align="center">
-        <h1 style={{color:'#333'}}>Login</h1>
+    <div className="mx-auto mb-5" style={{maxWidth:'408px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
+      <div className="mt-2" align="center">
+        <h1 style={{color:'#333'}}>Registrati</h1>
       </div>
       <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
         <Form noValidate validated={validated} onSubmit={onSubmit}>
+          <Form.Group controlId="formBasicUsername">
+            <Form.Label style={{float: 'left', color:'white'}}>Username *</Form.Label>
+            <Form.Control
+              name="username"
+              type="text"
+              placeholder=""
+              value={form.username}
+              onChange={e => handleInputChange(e)}
+              required
+              />
+          </Form.Group>
           <Form.Group controlId="formBasicEmail">
-            <Form.Label style={{float: 'left', color:'white'}}>Email</Form.Label>
+            <Form.Label style={{float: 'left', color:'white'}}>Email *</Form.Label>
             <Form.Control
               type="email"
               name="email"
@@ -102,7 +100,7 @@ const Login = (props) => {
           </Form.Group>
 
           <Form.Group controlId="formBasicPassword">
-            <Form.Label style={{float: 'left', color:'white'}}>Password</Form.Label>
+            <Form.Label style={{float: 'left', color:'white'}}>Password *</Form.Label>
             <Form.Control
               name="password"
               type="password"
@@ -112,11 +110,8 @@ const Login = (props) => {
               required
               />
           </Form.Group>
-          <Form.Group controlId="formBasicForgotPassword" style={{textAlign:'left'}}>
-            <Form.Label className="label-underline-link" onClick={()=> goTo("/forgotPassword")}>Password dimenticata</Form.Label>
-          </Form.Group>
           <Button variant="success" type="submit">
-            {'Sign in'}
+            {'Invia'}
           </Button>
         </Form>
       </div>
@@ -124,4 +119,4 @@ const Login = (props) => {
   )
 }
 
-export default Login;
+export default RegisterClient;

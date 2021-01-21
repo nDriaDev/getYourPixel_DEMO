@@ -56,6 +56,10 @@ let Const = {
   COUNT_PIXELS: '/api/countPixels',
   GET_FULL_PIXEL: '/api/getFullPixel',
   EDIT_PIXEL: '/api/editPixel',
+  LOGIN_CLIENT: '/api/loginClient',
+  GET_CLIENT: '/api/getClient',
+  REGISTRY_CLIENT: '/api/registryClient',
+  SAVE_CLICK: '/api/saveClick',
   USER_TYPE: {
     BASIC: 'Basic',
     ADMIN: 'Admin',
