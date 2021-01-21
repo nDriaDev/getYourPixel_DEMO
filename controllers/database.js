@@ -282,6 +282,7 @@ class DataBase {
           res.status(200).send({code: result.code, message:result.message});
         } else{
           req.session.password = result;
+          req.session.email = req.body.email;
           req.session.save(function(err) {
             if(err) {
               console.log("database_Controller - [resetPassword - session] - ERROR", err);

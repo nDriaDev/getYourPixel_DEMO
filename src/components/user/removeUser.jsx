@@ -10,11 +10,12 @@ const RemoveUser = ({spinnerCommand}) => {
   const history = useHistory();
   const [form, setForm] = useState({
     email: '',
-    usersList: [],
+    usersList: null,
   })
+  const [valid, setValid] = useState(false);
   useEffect(()=>{
     spinnerCommand(true);
-    return axios.post(Const.GET_USER,{})
+    axios.post(Const.GET_USER,{})
     .then(res => {
       if(res.data && !res.data.code) {
         if(res.data.type === Const.USER_TYPE.BASIC) {
@@ -57,23 +58,42 @@ const RemoveUser = ({spinnerCommand}) => {
   const onSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
+    setValid(false);
+    if(form.email === '') {
+      setValid(true);
+      return;
+    }
     spinnerCommand(true);
     axios.post(Const.DELETE_USER, {"email": form.email})
     .then(res => {
       if (res.data.code === 200) {
-        setForm({...form,
-          ["email"]: ''
-        });
-        spinnerCommand(false);
-        toast.success(res.data.message, {
-          position: "top-center",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-        });
+        let mess = res.data.message;
+        axios.post(Const.GET_USERS, {"type":res.data.type})
+        .then(res => {
+          setForm({...form,["usersList"]: res.data, ['email']:''});
+          spinnerCommand(false);
+          toast.success(mess, {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+          });
+        })
+        .catch(err => {
+          toast.error(err.message != null ? err.message : "ERRORE", {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            onClose:()=>{history.push('/manage')}
+          });
+        })
       } else {
         throw new Error(res.data.message);
       }
@@ -93,35 +113,36 @@ const RemoveUser = ({spinnerCommand}) => {
   }
 
   return (
-    <div className="mx-auto mb-5" style={{maxWidth:'408px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
-      <div className="mt-2" align="center">
-        <h1  style={{color:'#333'}}>Remove User</h1>
+    form.usersList &&
+      <div className="mx-auto mb-5" style={{maxWidth:'408px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
+        <div className="mt-2" align="center">
+          <h1  style={{color:'#333'}}>Remove User</h1>
+        </div>
+        <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
+          <Form noValidate validated={valid} onSubmit={onSubmit}>
+            <Form.Group controlId="exampleForm.SelectCustom">
+              <Form.Label style={{float: 'left', color:'white'}}>Email</Form.Label>
+              <Form.Control
+                as="select"
+                custom
+                name="email"
+                value={form.email}
+                onChange={e => handleInputChange(e)}
+                required>
+                <option></option>
+                {
+                  form.usersList.map((item, index) => {
+                    return <option key={index}>{item.email + " - " + item.type}</option>
+                  })
+                }
+              </Form.Control>
+            </Form.Group>
+            <Button variant="success" type="submit">
+              {'Rimuovi'}
+            </Button>
+          </Form>
+        </div>
       </div>
-      <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
-        <Form noValidate onSubmit={onSubmit}>
-          <Form.Group controlId="exampleForm.SelectCustom">
-            <Form.Label style={{float: 'left', color:'white'}}>Email</Form.Label>
-            <Form.Control
-              as="select"
-              custom
-              name="email"
-              value={form.email}
-              onChange={e => handleInputChange(e)}
-              required>
-              <option></option>
-              {
-                form.usersList.map((item, index) => {
-                  return <option key={index}>{item.email + " - " + item.type}</option>
-                })
-              }
-            </Form.Control>
-          </Form.Group>
-          <Button variant="success" type="submit">
-            {'Rimuovi'}
-          </Button>
-        </Form>
-      </div>
-    </div>
   )
 }
 

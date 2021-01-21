@@ -84,6 +84,8 @@ https://daveceddia.com/useeffect-vs-uselayouteffect/
 ########### REACT NODEMAILER MAILGUN ###########
 https://blog.mailtrap.io/react-send-email/#Setting_up_an_Express_backend_and_connecting_3rd_parties
 https://jay315.medium.com/sending-email-using-express-js-with-nodemailer-in-heroku-71741f29463c
+https://blog.mailtrap.io/nodemailer-gmail/
+
 
 ########### REACT LOADABLE ###########
 https://github.com/jamiebuilds/react-loadable
