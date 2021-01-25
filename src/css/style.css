@@ -622,3 +622,26 @@ li.active-v-bar a {
     transform: rotate(360deg);
   }
 }
+
+/*----------------------------------------------------------------------------*/
+/* ------------------------------ TERMS PAGE ---------------------------------*/
+.terms-page{
+  color: #FFFFFF;
+}
+
+.terms-page li{
+  font-size: .8rem;
+  padding-left: 3%;
+}
+
+.terms-page span{
+    font-family: Poppins-Regular,sans-serif;
+    font-size: 1.0rem;
+    color: #FFFFFF;
+}
+
+.terms-page a{
+  font-family: Poppins-Regular,sans-serif;
+  font-size: inherit;
+  color: #FFFFFF;
+}
