@@ -63,7 +63,7 @@ const Contact = (props) => {
       <div className="container-fluid container-v-bar">
           <div className="mx-auto" style={{marginBottom:'4rem!important',maxWidth:'512px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
             <div className="mt-2" align="center">
-              <h1 style={{color:'#333'}}>Contattaci</h1>
+              <h1 style={{color:'#FFFFFF', paddingBottom:'0.7rem'}}>Contattaci</h1>
             </div>
             <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
               <Form noValidate validated={validated} onSubmit={onSubmit}>

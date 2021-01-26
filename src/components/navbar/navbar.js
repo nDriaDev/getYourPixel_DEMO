@@ -118,7 +118,7 @@ class NavbarCustom extends Component{
                 href=""
                 style={{float:'left'}}
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,3,'/contact')}>
-                Contact
+                Contact us
               </a>
             </li>
             <li className={"nav-item " + this.state.active === 4 ? 'active' : ''}>
@@ -136,7 +136,7 @@ class NavbarCustom extends Component{
                 href=""
                 style={{float:'left'}}
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,5,'/win')}>
-                Win 500'000 euro 
+                Win 500'000 euro
               </a>
             </li>
           </ul>
