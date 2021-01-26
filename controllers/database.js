@@ -57,7 +57,8 @@ class DataBase {
         console.log("database_Controller - [registryClient] - START");
         db.registryClient(req.body)
           .then(result => {
-            res.status(200).send(result)
+            res.locals.result = result;
+            next();
           })
           .catch(e => {
             console.log("database_Controller - [registryClient] - ERROR -", e.message);
@@ -69,6 +70,25 @@ class DataBase {
       } finally {
         console.log("database_Controller - [registryClient] - FINISH");
       }
+  }
+
+  activeClient(req, res, next) {
+    try {
+      console.log("database_Controller - [registryClient] - START");
+      db.activeClient({activeToken:req.params.activeToken})
+      .then(result => {
+        if(result) {
+          res.sendFile((require("path")).resolve(__dirname, '..','templateActivationSuccess.html'));
+        } else {
+          res.sendFile((require("path")).resolve(__dirname, '..','templateActivationFail.html'));
+        }
+      })
+    } catch (e) {
+      console.log("database_Controller - [registryClient] - ERROR -", e.message);
+      next(e.message);
+    } finally {
+      console.log("database_Controller - [registryClient] - FINISH");
+    }
   }
 
   saveClick(req, res, next) {

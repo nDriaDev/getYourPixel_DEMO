@@ -6,6 +6,7 @@ var urlDB = process.env.MONGODB_URI ?
   '<insert your mongoDB uri here>'
 
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 const Compressor = require('./compressionUtil');
 const ImageBuilder = require('./imageUtil');
 const DB_NAME = 'getYourPixels';
@@ -18,6 +19,7 @@ const SALT_ROUNDS = 10;
 class MongoDB {
   constructor() {
     this.client = null;
+    this.ObjectID = require('mongodb').ObjectID;
   }
 
   initialize() {
@@ -1586,6 +1588,7 @@ class MongoDB {
           email,
           password
         } = body;
+        let user = '';
         this.initialize();
         this.client
           .connect()
@@ -1603,22 +1606,32 @@ class MongoDB {
                       reject(new Error("Impossibile salvare l'utente"))
                     }
                   } else {
+                    crypto.randomBytes(20, (err,buf) => {
+                      user = {
+                        "_id": new this.ObjectID(),
+                        "username": username,
+                        "email": email,
+                        "password": password,
+                        "type": 'Client',
+                        "active": false,
+                        "activeToken": user._id + buf.toString('hex'),
+                        "activeExpires": Date.now() + (3600*1000),
+                      }
+                    })
                     this.client
                       .connect()
                       .then(() => {
                         this.client
                           .db(DB_NAME)
                           .collection(COLLECTION_CLIENT)
-                          .insertOne({
-                            "username": username,
-                            "email": email,
-                            "password": password,
-                            "type": 'Client'
-                          })
+                          .insertOne(user)
                           .then(value => {
                             resolve({
                               code: 200,
-                              message: "Utente inserito correttamente"
+                              message: "L'email con il link di attivazione è stata inviata. Questo scadra' entro un ora",
+                              activeToken: user.activeToken,
+                              email:user.email,
+                              username:user.username
                             })
                           })
                           .catch(err => {
@@ -1648,6 +1661,94 @@ class MongoDB {
       } finally {
         this.client.close().then(() => {
             console.log("database - [registryClient] - FINISH");
+          })
+          .catch(err => {
+            reject(err.message);
+          })
+      }
+    })
+  }
+
+  activeClient(activeToken) {
+    console.log("database - [activeClient] - START");
+    return new Promise((resolve, reject) => {
+      try {
+        let user = {
+          "activeToken": activeToken,
+          "activeExpires": {$gt: Date.now()}
+        };
+        this.initialize();
+        this.client
+          .connect()
+          .then(() => {
+            this.client
+              .db(DB_NAME)
+              .collection(COLLECTION_CLIENT)
+              .findOne(user)
+              .then(value => {
+                if(value) {
+                  let data = {
+                    "$set": {
+                      "active": true
+                    }
+                  }
+                  let options = {
+                    "upsert": false,
+                    '$unset': {
+                      'activeExpires':1
+                    }
+                  };
+                  this.client
+                  .db(DB_NAME)
+                  .collection(COLLECTION_CLIENT)
+                  .updateOne({
+                    "_id": value['_id']
+                  }, data, options)
+                  .then(value => {
+                    const {
+                      matchedCount,
+                      modifiedCount
+                    } = value;
+                    if (matchedCount && modifiedCount) {
+                      resolve(true)
+                    } else {
+                      reject({
+                        message: "Non e' stato possibile attivare il cliente"
+                      })
+                    }
+                  })
+                  .catch(err => {
+                    console.log("database - [editPixel] - ERROR -", err);
+                    reject(err);
+                  })
+                } else {
+                  this.client
+                    .db(DB_NAME)
+                    .collection(COLLECTION_CLIENT)
+                    .deleteOne(user)
+                    .then(resolve => {
+                      resolve(false)
+                    })
+                    .catch(err => {
+                      resolve(false)
+                    })
+                }
+              })
+              .catch(err => {
+                console.log("database - [activeClient] - ERROR -", err);
+                reject(err);
+              })
+          })
+          .catch(err => {
+            console.log("database - [activeClient] - ERROR -", err.message);
+            reject(err);
+          })
+      } catch (e) {
+        console.log("database - [activeClient] - ERROR -", e);
+        reject(e)
+      } finally {
+        this.client.close().then(() => {
+            console.log("database - [activeClient] - FINISH");
           })
           .catch(err => {
             reject(err.message);

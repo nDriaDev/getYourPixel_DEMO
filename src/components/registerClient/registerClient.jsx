@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { useHistory } from 'react-router-dom';
 import {Form, Button} from 'react-bootstrap';
 import { toast } from 'react-toastify';
@@ -17,6 +17,9 @@ const RegisterClient = (props) => {
 
   const {enableSpinner, disableSpinner} = props;
 
+  useEffect(() => {
+    disableSpinner();
+  },[])
 
   const handleInputChange = event => {
     let {name, value} = event.target;
@@ -70,7 +73,7 @@ const RegisterClient = (props) => {
   }
 
   return (
-    <div className="mx-auto mb-5" style={{maxWidth:'408px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
+    <div className="mx-auto mb-5" style={{maxWidth:'408px',maxHeight:'356px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
       <div className="mt-2" align="center">
         <h1 style={{color:'#333'}}>Registrati</h1>
       </div>

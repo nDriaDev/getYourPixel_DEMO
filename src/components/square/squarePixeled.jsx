@@ -86,6 +86,15 @@ const SquarePixeled = ({enableSpinner,disableSpinner}) =>{
     })
   },[])
 
+  useEffect(() => {
+    if(matrix && Const.isMobileBrowser(navigator.userAgent)) {
+      let pos = $('.logo-size').position();
+      let griglia = document.getElementById('core');
+      griglia.scrollLeft += pos.left;
+    }
+  },[matrix])
+
+
   return(
     <>
       {matrix}

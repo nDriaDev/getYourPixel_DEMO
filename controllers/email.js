@@ -69,6 +69,42 @@ class Mailer {
       console.log("mailer_Controller - [sendMailResetPassword] - FINISH");
     }
   }
+
+  sendActivationEmail(req, res, next) {
+    try {
+      console.log("mailer_Controller - [sendActivationEmail] - START");
+      let email = res.locals.result.email;
+      let activeToken = res.locals.result.activeToken;
+      let message = res.locals.result.message;
+      let username = res.locals.result.username;
+      delete res.locals.result;
+      mailer.sendActivationEmail({
+        host: req.headers.host,
+        email: email,
+        username: username,
+        activeToken: activeToken,
+      }, (err, data) => {
+        if (err) {
+          console.log("mailer_Controller - [sendActivationEmail] - ERROR", err.message);
+          res.status(200).send({
+            code: 500,
+            message: 'Error while sending email with activation link'
+          })
+        } else {
+          res.status(200).send({
+            code: 200,
+            message: message
+          })
+        }
+      })
+    } catch (e) {
+      console.log("mailer_Controller - [sendActivationEmail] - ERROR", e.message);
+      next(e.message);
+    } finally {
+      console.log("mailer_Controller - [sendActivationEmail] - FINISH");
+    }
+  }
+
 }
 
 module.exports = new Mailer();

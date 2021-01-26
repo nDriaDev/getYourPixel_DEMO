@@ -11,8 +11,8 @@ var opts = {
   }
 }
 
-var readTemplate = (callback) => {
-  fs.readFile('./templateEmail.html', {
+var readTemplate = (path, callback) => {
+  fs.readFile(path, {
     encoding: 'utf-8'
   }, (err, html) => {
     if (err) {
@@ -27,7 +27,7 @@ var readTemplate = (callback) => {
 
 exports.sendMail = (name, email, subject, message, callback) => {
   console.log("mailer - [sendMail] - START");
-  readTemplate((err, html) => {
+  readTemplate('./templateEmail.html',(err, html) => {
     let transporter = nodemailer.createTransport(opts);
     try {
       let template = handlebars.compile(html);
@@ -98,5 +98,44 @@ exports.sendMailResetPassword = (params, callback) => {
     console.log("mailer - [sendMailResetPassword] - FINISH");
   }
 }
+
+exports.sendActivationEmail = (host, email, username, activeToken, callback) => {
+  console.log("mailer - [sendActivationEmail] - START");
+  let link = 'http://' + host + '/api/activeClient/' + activeToken;
+  readTemplate('./templateEmail.html',(err, html) => {
+    let transporter = nodemailer.createTransport(opts);
+    try {
+      let template = handlebars.compile(html);
+      let replace = {
+        username: username,
+        link: link,
+      }
+      let htmlToSend = template(replace);
+      let mailOptions = {
+        from: 'info@getyourpixels.com',
+        // to: '<where send email>',
+        to: email,
+        subject: 'Get Your Pixels Contacting',
+        html: htmlToSend
+      }
+
+      transporter.sendMail(mailOptions, function(err, data) {
+        if (err) {
+          console.log("mailer - [sendActivationEmail] - ERROR", err.message);
+          callback(err, null);
+        } else {
+          callback(null, data);
+        }
+      })
+    } catch (e) {
+      console.log("mailer - [sendActivationEmail] - ERROR", e.message);
+      throw e;
+    } finally {
+      transporter.close();
+      console.log("mailer - [sendActivationEmail] - FINISH");
+    }
+  })
+}
+
 
 // module.exports = sendMail;

@@ -116,7 +116,12 @@ try {
   )
   .post(
     '/registryClient',
-    controllers.database.registryClient
+    controllers.database.registryClient,
+    controllers.mailer.sendActivationEmail
+  )
+  .get(
+    '/activeClient/:activeToken',
+    controllers.database.activeClient
   )
   .get(
     '/logout',
