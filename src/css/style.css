@@ -645,3 +645,39 @@ li.active-v-bar a {
   font-size: inherit;
   color: #FFFFFF;
 }
+
+/*----------------------------------------------------------------------------*/
+/* ------------------------------ HOW WORK PAGE ---------------------------------*/
+.bodyWork{
+  margin:0 1.2rem;
+  color:#FFFFFF;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+.left{
+  height: 40vh;
+  width: 45vw;
+  float: left;
+}
+
+.right{
+  height: 40vh;
+  width: 50vw;
+  float: right;
+}
+
+.center{
+}
+
+.right a{
+  font-family: Poppins-Regular,sans-serif;
+  font-size: inherit;
+  color: #FFFFFF;
+}
+
+.center a{
+  font-family: Poppins-Regular,sans-serif;
+  font-size: inherit;
+  color: #FFFFFF;
+}

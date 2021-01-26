@@ -53,7 +53,7 @@ class Payment {
         stripe.products.list(
         ).then((result) => {
           prod = result.data[0];
-          prod.description = prod.description == null ? PRODUCT_DESCRIPTION : product.description;
+          prod.description = prod.description == null ? PRODUCT_DESCRIPTION : prod.description;
           stripe.prices.list().then((result2) =>{
             for(let i in result2.data){
               if(result2.data[i].product == prod.id){
@@ -68,7 +68,7 @@ class Payment {
           reject(err);
         })
       } catch (e) {
-        reject(err);
+        reject(e);
       }
     })
   }

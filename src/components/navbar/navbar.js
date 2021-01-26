@@ -9,10 +9,10 @@ class NavbarCustom extends Component{
   constructor(props){
     super(props);
     let pathname = window.location.pathname;
-    pathname = pathname === Const.PATH_ERROR ? 'error' : (pathname === '/' ? '' : (pathname === Const.PATH_BUY ? 'buy' : (pathname === Const.PATH_CONTACT ? 'contact' : (pathname === Const.PATH_HOW_WORK ? 'howWork':''))));
+    pathname = pathname === Const.PATH_ERROR ? 'error' : (pathname === '/' ? '' : (pathname === Const.PATH_BUY ? 'buy' : (pathname === Const.PATH_CONTACT ? 'contact' : (pathname === Const.PATH_HOW_WORK ? 'howWork':'win'))));
     this.state = {
       origin: window.location.origin,
-      active: pathname === 'error' ? 0 : (pathname === '' ? 1 : (pathname === 'buy' ? 2 : (pathname === 'contact' ? 3 : 4 ))),
+      active: pathname === 'error' ? 0 : (pathname === '' ? 1 : (pathname === 'buy' ? 2 : (pathname === 'contact' ? 3 : (pathname === 'contact' ? 4 : 5)))),
     }
     this.changeActive = this.changeActive.bind(this);
     this.logout = this.logout.bind(this);
@@ -128,6 +128,15 @@ class NavbarCustom extends Component{
                 style={{float:'left'}}
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,4,'/howWork')}>
                 How Work
+              </a>
+            </li>
+            <li className={"nav-item " + this.state.active === 5 ? 'active' : ''}>
+              <a
+                className="nav-link"
+                href=""
+                style={{float:'left'}}
+                onClick={(e)=>this.changeActiveAndHistoryPush(e,5,'/win')}>
+                Win 500'000 euro 
               </a>
             </li>
           </ul>

@@ -15,6 +15,7 @@ import Auth from './components/auth/auth';
 import Manage from './components/manage/manage';
 import ForgotPassword from './components/forgotPassword/forgotPassword';
 import HowWork from './components/howWork/howWork';
+import Win from './components/win/win';
 
 
 class App extends Component {
@@ -90,6 +91,14 @@ class App extends Component {
                 path='/howWork'
                 render={(props) => (
                   <HowWork {...props}
+                    enableSpinner={this.enableSpinner}
+                    disableSpinner={this.disableSpinner} />
+                )}
+              />
+              <Route
+                path='/win'
+                render={(props) => (
+                  <Win {...props}
                     enableSpinner={this.enableSpinner}
                     disableSpinner={this.disableSpinner} />
                 )}

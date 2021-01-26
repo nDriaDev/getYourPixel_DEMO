@@ -1,3 +1,7 @@
+########### REACT ANIMATIONS  ###########
+https://bashooka.com/coding/react-animation-examples/
+
+
 ########### CREATE EMAIL WITH ACTIVATION CODE REGISTERED USER  ###########
 https://medium.com/@mayumi8713917/sending-activation-code-by-email-with-node-js-42646f260674
 
