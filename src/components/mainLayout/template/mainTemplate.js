@@ -11,8 +11,7 @@ const MainTemplate = ({children, show, enableSpinner, disableSpinner}) => {
         position: isShowed ? 'absolute' : '',
         zIndex: isShowed ? '1' : '2',
         width: '100%',
-        height: window.location.pathname === Const.MANAGE ? '0px' : '100%',
-        overflowX: 'auto'
+        height: window.location.pathname === Const.MANAGE ? '0px' : '100%'
       }}>
       <Header enableSpinner={enableSpinner} disableSpinner={disableSpinner} />
       {children}

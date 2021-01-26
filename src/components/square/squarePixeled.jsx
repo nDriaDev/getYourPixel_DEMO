@@ -88,12 +88,19 @@ const SquarePixeled = ({enableSpinner,disableSpinner}) =>{
 
   useEffect(() => {
     if(matrix && Const.isMobileBrowser(navigator.userAgent)) {
-      let pos = $('.logo-size').position();
       let griglia = document.getElementById('core');
+      griglia.style["overflow-x"] = 'auto';
+      let pos = $('.logo-size').position();
       griglia.scrollLeft += pos.left;
     }
   },[matrix])
 
+  useEffect(() => {
+    return () => {
+      let griglia = document.getElementById('core');
+      delete griglia.style["overflow-x"];
+    }
+  },[])
 
   return(
     <>
