@@ -86,7 +86,9 @@ class MongoDB {
           company,
           file,
           row,
-          col
+          col,
+          positionRow,
+          positionCol
         } = body;
         ImageBuilder.resize(file, row, col)
           .then(value => {
@@ -100,23 +102,96 @@ class MongoDB {
                   .then(() => {
                     let data = {};
                     if (company === '') {
-                      data = {
-                        "email": email,
-                        "url": url,
-                        "file": file,
-                        "row": row,
-                        "col": col,
-                        "date": new Date(),
+                      if(positionRow === '' && positionCol === '') {
+                        data = {
+                          "email": email,
+                          "url": url,
+                          "file": file,
+                          "row": row,
+                          "col": col,
+                          "date": new Date(),
+                        }
+                      } else if(positionRow === '' && positionCol !== '') {
+                        data = {
+                          "email": email,
+                          "url": url,
+                          "file": file,
+                          "row": row,
+                          "col": col,
+                          "positionRow": 0,
+                          "positionCol": (+positionCol)-1,
+                          "date": new Date(),
+                        }
+                      } else if(positionRow !== '' && positionCol === '') {
+                        data = {
+                          "email": email,
+                          "url": url,
+                          "file": file,
+                          "row": row,
+                          "col": col,
+                          "positionRow": (+positionRow)-1,
+                          "positionCol": 0,
+                          "date": new Date(),
+                        }
+                      } else {
+                        data = {
+                          "email": email,
+                          "url": url,
+                          "file": file,
+                          "row": row,
+                          "col": col,
+                          "positionRow": (+positionRow)-1,
+                          "positionCol": (+positionCol)-1,
+                          "date": new Date(),
+                        }
                       }
                     } else {
-                      data = {
-                        "email": email,
-                        "url": url,
-                        "company": company,
-                        "file": file,
-                        "row": row,
-                        "col": col,
-                        "date": new Date(),
+                      if(positionRow === '' && positionCol === '') {
+                        data = {
+                          "email": email,
+                          "url": url,
+                          "company": company,
+                          "file": file,
+                          "row": row,
+                          "col": col,
+                          "date": new Date(),
+                        }
+                      } else if(positionRow === '' && positionCol !== '') {
+                        data = {
+                          "email": email,
+                          "url": url,
+                          "company": company,
+                          "file": file,
+                          "row": row,
+                          "col": col,
+                          "positionRow": 0,
+                          "positionCol": (+positionCol)-1,
+                          "date": new Date(),
+                        }
+                      } else if(positionRow !== '' && positionCol === '') {
+                        data = {
+                          "email": email,
+                          "url": url,
+                          "company": company,
+                          "file": file,
+                          "row": row,
+                          "col": col,
+                          "positionRow": (+positionRow)-1,
+                          "positionCol": 0,
+                          "date": new Date(),
+                        }
+                      } else {
+                        data = {
+                          "email": email,
+                          "url": url,
+                          "company": company,
+                          "file": file,
+                          "row": row,
+                          "col": col,
+                          "positionRow": (+positionRow)-1,
+                          "positionCol": (+positionCol)-1,
+                          "date": new Date(),
+                        }
                       }
                     }
                     this.client

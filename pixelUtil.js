@@ -45,8 +45,44 @@ class PixelUtil {
     } catch (e) {
       console.log("PixelUtil - [_cercaPosizioneCursore] - ERROR -", e.message);
       throw e;
+    } finally {
+      console.log("PixelUtil - [_cercaPosizioneCursore] - FINISH");
     }
-    console.log("PixelUtil - [_cercaPosizioneCursore] - FINISH");
+  }
+
+  //Controlla se la posizione specificata per dove inserire l'immagine è valida altrimenti restituisce -2
+  _checkPosizioneScelta(width,height,initWidth,initHeight) {
+    try {
+      console.log("PixelUtil - [_checkPosizioneScelta] - START");
+      for(let i=initWidth; i<this._matrix.length; i++) {
+        for(let j=initHeight; j<this._matrix[i].length; j++) {
+          if(this._matrix[i][j] === 0) {
+            let trovataPorzione = true;
+            for(let k=i; k<(i+(+height)); k++) {
+              if(k>this._matrix.length) {
+                trovataPorzione = false;
+              }
+              else {
+                for(let l=j; l<(j+(+width)); l++) {
+                  if(l>this._matrix[k].length || this._matrix[k][l] !== 0) {
+                    trovataPorzione = false;
+                  }
+                }
+              }
+            }
+            if(trovataPorzione) {
+              return {row:i, col:j};
+            }
+          }
+        }
+      }
+      return -2;
+    } catch (e) {
+      console.log("PixelUtil - [_checkPosizioneScelta] - ERROR -", e.message);
+      throw e;
+    } finally {
+      console.log("PixelUtil - [_checkPosizioneScelta] - FINISH");
+    }
   }
 
   //restituisce true se la porzione di immagine in esame deve avere il borso superiore
@@ -129,7 +165,14 @@ class PixelUtil {
     try {
       console.log("PixelUtil - [buildMatrix] - START");
       this._cursore = {row:0,col:0};
-      this._cursore = this._cercaPosizioneCursore(image.col, image.row);
+      if(image.positionRow) {
+        this._cursore = this._checkPosizioneScelta(image.col, image.row, +image.positionCol, +image.positionRow);
+        if(this._cursore === -2) {
+          this._cursore = this._cercaPosizioneCursore(image.col, image.row);
+        }
+      } else {
+        this._cursore = this._cercaPosizioneCursore(image.col, image.row);
+      }
       if(this._cursore === -1) {
         return;
       } else {

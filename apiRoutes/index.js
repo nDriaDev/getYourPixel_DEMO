@@ -123,6 +123,10 @@ try {
     '/activeClient/:activeToken',
     controllers.database.activeClient
   )
+  .post(
+    '/saveClick',
+    controllers.database.saveClick
+  )
   .get(
     '/logout',
     auth,

@@ -10,17 +10,19 @@ const SquarePixeled = ({enableSpinner,disableSpinner}) =>{
   const redirectUrl = (e,url) => {
       e.preventDefault();
       e.stopPropagation();
-      axios.post(Const.SAVE_CLICK,{'url':url})
-      .then(result => {
-        if(url) {
-          window.location = url.indexOf('http') === -1 ? 'https://' + url : url;
-        }
-      })
-      .catch(err => {
-        if(url) {
-          window.location = url.indexOf('http') === -1 ? 'https://' + url : url;
-        }
-      })
+      if(url) {
+        axios.post(Const.SAVE_CLICK,{'url':url})
+        .then(result => {
+          if(url) {
+            window.location = url.indexOf('http') === -1 ? 'https://' + url : url;
+          }
+        })
+        .catch(err => {
+          if(url) {
+            window.location = url.indexOf('http') === -1 ? 'https://' + url : url;
+          }
+        })
+      }
   }
 
   const showTip = (text, id) => {
@@ -45,7 +47,7 @@ const SquarePixeled = ({enableSpinner,disableSpinner}) =>{
                      border: '.2px solid #000',
                      background: '#fff'
                    };
-                   titleText = '(' + index +','+ index2 +')';
+                   titleText = '(' + (index+1) +','+ (index2+1) +')';
                  } else {
                   style = {
                     ...col.style,

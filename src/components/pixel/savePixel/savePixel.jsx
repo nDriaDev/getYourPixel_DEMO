@@ -15,6 +15,8 @@ const SavePixel = ({spinnerCommand}) => {
     file: '',
     row: '',
     col: '',
+    positionRow: '',
+    positionCol: ''
   })
   const [pixelNumber,setPixelNumber] = useState(null);
 
@@ -115,6 +117,7 @@ const SavePixel = ({spinnerCommand}) => {
       axios.post(Const.SAVE_PIXEL, form)
       .then(res => {
         if (res.data.code === 200) {
+          formSet[3].value = null;
           setForm({
             email: '',
             url:'',
@@ -122,6 +125,8 @@ const SavePixel = ({spinnerCommand}) => {
             file: '',
             row: '',
             col: '',
+            positionRow: '',
+            positionCol: ''
           });
           setValidFile('label-border-none');
           spinnerCommand(false);
@@ -237,6 +242,34 @@ const SavePixel = ({spinnerCommand}) => {
                     value={form.col}
                     onChange={e => handleInputChange(e)}
                     required
+                    />
+                </Col>
+              </Col>
+            </Row>
+            <Row style={{marginBottom:'1rem'}}>
+              <Col sm="6" style={{padding:'0'}}>
+                <Form.Label column sm="12" style={{textAlign: 'left', color:'white'}}>{'Posizione in griglia: Riga'}</Form.Label>
+                <Col sm="8">
+                  <Form.Control
+                    type="number"
+                    name="positionRow"
+                    min="1"
+                    placeholder=""
+                    value={form.positionRow}
+                    onChange={e => handleInputChange(e)}
+                    />
+                </Col>
+              </Col>
+              <Col sm="6" style={{padding:'0'}}>
+                <Form.Label column sm="12" style={{textAlign: 'left', color:'white'}}>{'Posizione in griglia: Colonna'}</Form.Label>
+                <Col sm="8">
+                  <Form.Control
+                    type="number"
+                    name="positionCol"
+                    min="1"
+                    placeholder=""
+                    value={form.positionCol}
+                    onChange={e => handleInputChange(e)}
                     />
                 </Col>
               </Col>

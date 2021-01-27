@@ -1,3 +1,7 @@
+########### EXPRESSJS APP.LOCALS vs RES.LOCALS vs REQ.session  ###########
+https://stackoverflow.com/questions/15294941/express-js-app-locals-vs-res-locals-vs-req-session#:~:text=locals%20%2D%2D%20good%20for%20storing%20variables%20for%20the%20specific%20request,(e.g.%2C%20user%20name)
+
+
 ########### REACT ANIMATIONS  ###########
 https://bashooka.com/coding/react-animation-examples/
 
