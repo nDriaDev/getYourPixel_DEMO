@@ -90,9 +90,9 @@ const Login = (props) => {
       <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
         <Form noValidate validated={validated} onSubmit={onSubmit}>
           <Form.Group controlId="formBasicEmail">
-            <Form.Label style={{float: 'left', color:'white'}}>Email</Form.Label>
+            <Form.Label style={{float: 'left', color:'white'}}>Email/Username</Form.Label>
             <Form.Control
-              type="email"
+              type="text"
               name="email"
               placeholder=""
               value={form.email}

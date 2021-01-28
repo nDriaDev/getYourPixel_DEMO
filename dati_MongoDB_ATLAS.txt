@@ -26,7 +26,7 @@ prova@prova.it
 ////////////////////////////////////////////
 
 email:usacchero@gmail.com
-password: g3tY0urP1x3l
+password: g3tY0urP1x3ls
 
 db : getYourPixels
 pass: O8IcEl3mMwzypoiJ

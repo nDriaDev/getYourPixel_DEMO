@@ -78,12 +78,12 @@ class Mailer {
       let message = res.locals.result.message;
       let username = res.locals.result.username;
       delete res.locals.result;
-      mailer.sendActivationEmail({
-        host: req.headers.host,
-        email: email,
-        username: username,
-        activeToken: activeToken,
-      }, (err, data) => {
+      mailer.sendActivationEmail(
+        req.headers.host,
+        email,
+        username,
+        activeToken,
+        (err, data) => {
         if (err) {
           console.log("mailer_Controller - [sendActivationEmail] - ERROR", err.message);
           res.status(200).send({

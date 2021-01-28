@@ -83,6 +83,10 @@ class DataBase {
           res.sendFile((require("path")).resolve(__dirname, '..','templateActivationFail.html'));
         }
       })
+      .catch(err => {
+        console.log("database_Controller - [registryClient] - ERROR -", err.message);
+        next(err.message)
+      })
     } catch (e) {
       console.log("database_Controller - [registryClient] - ERROR -", e.message);
       next(e.message);

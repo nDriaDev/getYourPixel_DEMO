@@ -532,8 +532,8 @@ class MongoDB {
                                   "col": col,
                                 }
                               }
-                              options['$unset'] = {
-                                'company': 1
+                              data['$unset'] = {
+                                'company': ""
                               };
                             } else {
                               data = {
@@ -1286,7 +1286,13 @@ class MongoDB {
                     })
                 } else {
                   // resolve({code:404, message:"Email inserted not exist"})
-                  this.resetPasswordClient(body);
+                  this.resetPasswordClient(body)
+                  .then(result => {
+                    resolve(result);
+                  })
+                  .catch(err => {
+                    reject(err);
+                  })
                 }
               })
               .catch(err => {
@@ -1603,7 +1609,15 @@ class MongoDB {
               .db(DB_NAME)
               .collection(COLLECTION_CLIENT)
               .findOne({
-                "email": email,
+                "$and":[{
+                  "$or":[{
+                    "email": email
+                  },{
+                    "username": email,
+                  }]
+                },{
+                  "active": true,
+                }]
               }, {
                 projection: {
                   "_id": 0,
@@ -1689,9 +1703,9 @@ class MongoDB {
                         "password": password,
                         "type": 'Client',
                         "active": false,
-                        "activeToken": user._id + buf.toString('hex'),
                         "activeExpires": Date.now() + (3600*1000),
                       }
+                      user.activeToken = user._id.id.toString('hex') + buf.toString('hex');
                     })
                     this.client
                       .connect()
@@ -1749,8 +1763,9 @@ class MongoDB {
     return new Promise((resolve, reject) => {
       try {
         let user = {
-          "activeToken": activeToken,
-          "activeExpires": {$gt: Date.now()}
+          "activeToken": activeToken.activeToken,
+          "active": false,
+          "activeExpires": {"$gt": Date.now()}
         };
         this.initialize();
         this.client
@@ -1765,13 +1780,14 @@ class MongoDB {
                   let data = {
                     "$set": {
                       "active": true
+                    },
+                    '$unset': {
+                      'activeExpires':"",
+                      'activeToken':""
                     }
                   }
                   let options = {
                     "upsert": false,
-                    '$unset': {
-                      'activeExpires':1
-                    }
                   };
                   this.client
                   .db(DB_NAME)
@@ -1787,9 +1803,7 @@ class MongoDB {
                     if (matchedCount && modifiedCount) {
                       resolve(true)
                     } else {
-                      reject({
-                        message: "Non e' stato possibile attivare il cliente"
-                      })
+                      resolve(false);
                     }
                   })
                   .catch(err => {
@@ -1798,15 +1812,40 @@ class MongoDB {
                   })
                 } else {
                   this.client
-                    .db(DB_NAME)
-                    .collection(COLLECTION_CLIENT)
-                    .deleteOne(user)
-                    .then(resolve => {
-                      resolve(false)
-                    })
-                    .catch(err => {
-                      resolve(false)
-                    })
+                  .db(DB_NAME)
+                  .collection(COLLECTION_CLIENT)
+                  .findOne({
+                    "activeToken": user.activeToken,
+                    "active": false,
+                    "$and":[{
+                      "active": false
+                    },{
+                      "activeExpires": {"$lt": Date.now()}
+                    }]
+                  })
+                  .then(result => {
+                    if(result) {
+                      this.client
+                      .db(DB_NAME)
+                      .collection(COLLECTION_CLIENT)
+                      .deleteOne({"_id": result._id})
+                      .then(result => {
+                        if(result.deletedCount === 1) {
+                          resolve(false)
+                        } else {
+                          resolve(false)
+                        }
+                      })
+                      .catch(err => {
+                        reject(new Error("non e' stato possibile eliminare l'utente"))
+                      })
+                    } else {
+                      resolve(false);
+                    }
+                  })
+                  .catch(err=>{
+                    reject(err);
+                  })
                 }
               })
               .catch(err => {
