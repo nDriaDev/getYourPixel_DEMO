@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {Form, Button, Row, Col} from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import {PixelSpinner} from 'react-epic-spinners';
+import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
+import '@fortawesome/fontawesome-free/css/solid.min.css';
 import Const from './../../../util/Costanti';
 import axios from 'axios';
 
@@ -298,7 +300,7 @@ const EditPixel = ({spinnerCommand}) => {
   return (
     <div className="mx-auto mb-5" style={{maxWidth:'512px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
       <div className="mt-2" align="center">
-        <h1 style={{color:'#333'}}>Edit Client</h1>
+        <h1 style={{color:'#28a745'}}>Edit Client</h1>
       </div>
       <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
         <Form noValidate validated={validated} onSubmit={onSubmit}>
@@ -376,7 +378,7 @@ const EditPixel = ({spinnerCommand}) => {
             :
             <>
             <div className="mt-2" align="center">
-              <h4 style={{color:'#333'}}>Pixels disponibili</h4>
+              <h4 style={{color:'white'}}>Pixels disponibili</h4>
               <h2 style={{color:'white'}}>{pixelNumber}</h2>
             </div>
             <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
@@ -456,6 +458,7 @@ const EditPixel = ({spinnerCommand}) => {
               </Row>
             </div>
             <Button variant="success" type="submit">
+              <i className="fas fa-user-edit" style={{paddingRight:'4%'}}></i>
               {'Modifica'}
             </Button>
             </>

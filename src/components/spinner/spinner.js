@@ -7,8 +7,8 @@ const Spinner = (props) => {
     <div align="center">
       <PixelSpinner
         size={100}
-        color="#24e959"
-        style={{width:'100%', paddingTop: '25%', 
+        color="#28a745"
+        style={{width:'100%', paddingTop: '25%',
           visibility: isShowed ? 'visible' : 'hidden',
           position: 'absolute',
           zIndex: isShowed ? '3' : '1'

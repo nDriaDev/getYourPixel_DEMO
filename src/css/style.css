@@ -376,6 +376,19 @@ button#btn-buy:focus {
     visibility: visible;
 }
 
+.btn-success {
+  width: 35%;
+}
+
+.nav-bar-link {
+  float: left;
+  display: inline-flex;
+}
+
+li.active-nav-bar a {
+  color: #FFFFFF !important;
+}
+
 /*----------------------------------------------------------------------------*/
 /* ---------------------------- CONTACT FORM ---------------------------------*/
 .container-form{
@@ -426,19 +439,19 @@ button#btn-buy:focus {
     padding: 0 20px;
     width: 100%;
     height: 50px;
-    background-color: #333333;
+    background-color: #28a745;
     border-radius: 25px;
     font-family: Montserrat-Medium;
     font-size: 16px;
     color: #fff;
     line-height: 1.2;
     transition: all 0.4s;
-    border-color: #333333;
+    border-color: #28a745;
 }
 
 .btn-contact:hover{
-  background-color: #24e959;
-  border-color: #24e959;
+  background-color: #28a745;
+  border-color: #28a745;
 }
 
 
@@ -467,22 +480,16 @@ button#btn-buy:focus {
   min-height: 1px;
 }
 .grey-text{
-  color: #939393 !important;
+  text-align: left;
+  white-space: break-spaces;
+  line-height: revert;
 }
 .btn-checkout{
   width: 100%;
   height: 60px;
-  background: #00CC00;
-  border-radius: 0 0 4px 4px;
-  color: white;
-  border: 0;
+  border-radius: 4px;
   font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0px 4px 5.5px 0px rgba(0,0,0,0.07);
-}
-.btn-checkout:hover{
-  background: #00E600;
+  font-size: 1.6rem;
 }
 .span-price{
   padding-top: 0.2%;
@@ -525,7 +532,7 @@ button#btn-buy:focus {
   margin-left: 40%;
 }
 li.active-v-bar a {
-  color: #00CC00;
+  color: #28a745;
 }
 
 .container-v-bar{
@@ -584,8 +591,8 @@ li.active-v-bar a {
   margin-top: 10%;
   width: calc(70px / 7);
   height: calc(70px / 7);
-  background-color: #24e959;
-  color: #24e959;
+  background-color: #28a745;
+  color: #28a745;
   box-shadow: 15px 15px  0 0,
               -15px -15px  0 0,
               15px -15px  0 0,

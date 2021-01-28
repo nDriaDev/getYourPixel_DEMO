@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { useRouteMatch, Link, useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
+import '@fortawesome/fontawesome-free/css/solid.min.css';
 import Const from './../../util/Costanti';
 import ManageRoute from './manageRoute';
 import axios from 'axios';
@@ -37,6 +39,7 @@ const Manage = (props) => {
     return axios.post(Const.GET_USER,{})
     .then(res => {
       if(res.data && !res.data.code) {
+        sessionStorage.setItem('isAuth', true)
         setRole(res.data.type)
         props.disableSpinner();
       } else if(res.data && res.data.code){
@@ -105,21 +108,33 @@ const Manage = (props) => {
                 <ul className="navbar-nav ul-v-bar flex-column">
                   <li className={"nav-item " + active[0]}
                     onClick={()=>activing(0)}>
-                    <Link style={{textAlign:'left'}} to={path}> Save Client </Link>
+                    <Link style={{textAlign:'left'}} to={path}>
+                      <i className="fas fa-user-plus" style={{paddingRight:'4%'}}></i>
+                      Save Client
+                    </Link>
                   </li>
                   <li className={"nav-item " + active[1]}
                     onClick={()=>activing(1)}>
-                    <Link style={{textAlign:'left'}} to={`${path}/editClient`}> Edit Client </Link>
+                    <Link style={{textAlign:'left'}} to={`${path}/editClient`}>
+                      <i className="fas fa-user-edit" style={{paddingRight:'4%'}}></i>
+                      Edit Client
+                    </Link>
                   </li>
                   <li className={"nav-item " + active[2]}
                     onClick={()=>activing(2)}>
-                    <Link style={{textAlign:'left'}} to={`${path}/removeClient`}> Remove Client </Link>
+                    <Link style={{textAlign:'left'}} to={`${path}/removeClient`}>
+                      <i class="fas fa-user-times" style={{paddingRight:'4%'}}></i>
+                      Remove Client
+                    </Link>
                   </li>
                   {
                     role && role !== Const.USER_TYPE.BASIC ?
                     <li className={"nav-item " + active[3]}
                       onClick={()=>activing(3)}>
-                      <Link style={{textAlign:'left'}} to={`${path}/addUser`}> Add Partner </Link>
+                      <Link style={{textAlign:'left'}} to={`${path}/addUser`}>
+                        <i class="fas fa-hands-helping" style={{paddingRight:'4%'}}></i>
+                        Add Partner
+                      </Link>
                     </li>
                     :
                     null
@@ -128,14 +143,20 @@ const Manage = (props) => {
                     role && role !== Const.USER_TYPE.BASIC ?
                     <li className={"nav-item " + active[4]}
                       onClick={()=>activing(4)}>
-                      <Link style={{textAlign:'left'}} to={`${path}/removeUser`}> Remove Partner </Link>
+                      <Link style={{textAlign:'left'}} to={`${path}/removeUser`}>
+                        <i class="fas fa-hands-wash" style={{paddingRight:'4%'}}></i>
+                        Remove Partner
+                      </Link>
                     </li>
                     :
                     null
                   }
                   <li className={"nav-item " + active[5]}
                     onClick={()=>activing(5)}>
-                    <Link style={{textAlign:'left'}} to={`${path}/changePassword`}> Change Password </Link>
+                    <Link style={{textAlign:'left'}} to={`${path}/changePassword`}>
+                      <i class="fas fa-lock" style={{paddingRight:'4%'}}></i>
+                      Change Password
+                    </Link>
                   </li>
                 </ul>
               </div>

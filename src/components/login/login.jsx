@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {Form, Button} from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import Const from './../../util/Costanti';
+import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
+import '@fortawesome/fontawesome-free/css/solid.min.css';
 import axios from 'axios';
 
 const Login = (props) => {
@@ -85,7 +87,7 @@ const Login = (props) => {
   return (
     <div className="mx-auto mb-5" style={{maxWidth:'408px',maxHeight:'334px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
       <div className="display-grid mt-2 mb-3" align="center">
-        <h1 style={{color:'#333'}}>Login</h1>
+        <h1 style={{color:'#28a745'}}>Login</h1>
       </div>
       <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
         <Form noValidate validated={validated} onSubmit={onSubmit}>
@@ -116,7 +118,8 @@ const Login = (props) => {
             <Form.Label className="label-underline-link" onClick={()=> goTo("/forgotPassword")}>Password dimenticata</Form.Label>
           </Form.Group>
           <Button variant="success" type="submit">
-            {'Sign in'}
+            <i class="fas fa-sign-in-alt" style={{paddingRight: '4%'}}></i>
+            {'Login'}
           </Button>
         </Form>
       </div>

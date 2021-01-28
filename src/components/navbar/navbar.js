@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import { withRouter } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Img from './../../images/navBar.png';
+import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
+import '@fortawesome/fontawesome-free/css/solid.min.css';
 import Const from './../../util/Costanti.js';
 import axios from 'axios';
 
@@ -9,10 +11,10 @@ class NavbarCustom extends Component{
   constructor(props){
     super(props);
     let pathname = window.location.pathname;
-    pathname = pathname === Const.PATH_ERROR ? 'error' : (pathname === '/' ? '' : (pathname === Const.PATH_BUY ? 'buy' : (pathname === Const.PATH_CONTACT ? 'contact' : (pathname === Const.PATH_HOW_WORK ? 'howWork':'win'))));
+    pathname = pathname === Const.PATH_ERROR ? 'error' : (pathname === '/' ? '' : (pathname === Const.PATH_BUY ? 'buy' : (pathname === Const.PATH_CONTACT ? 'contact' : (pathname === Const.PATH_HOW_WORK ? 'howWork':(pathname === '/login' ? 'login':(pathname === '/registerClient' ? 'register':'win'))))));
     this.state = {
       origin: window.location.origin,
-      active: pathname === 'error' ? 0 : (pathname === '' ? 1 : (pathname === 'buy' ? 2 : (pathname === 'contact' ? 3 : (pathname === 'contact' ? 4 : 5)))),
+      active: pathname === 'error' ? 0 : (pathname === '' ? 1 : (pathname === 'buy' ? 2 : (pathname === 'contact' ? 3 : (pathname === 'howWork' ? 4 : (pathname === 'win' ? 5 : (pathname === 'login' ? 6 : 7)))))),
     }
     this.changeActive = this.changeActive.bind(this);
     this.logout = this.logout.bind(this);
@@ -28,6 +30,7 @@ class NavbarCustom extends Component{
       if (result.data.code === 200) {
         sessionStorage.clear();
         this.props.disableSpinner();
+        this.changeActive(6)
         this.props.history.push('/login');
       } else {
         throw new Error(result.data.message);
@@ -46,6 +49,7 @@ class NavbarCustom extends Component{
         draggable: true,
         progress: undefined,
       });
+      this.changeActive(6)
       this.props.history.push('/login');
     })
   }
@@ -53,18 +57,21 @@ class NavbarCustom extends Component{
   admin(event){
     event.preventDefault();
     event.stopPropagation();
+    this.changeActive(0)
     this.props.history.push('/manage');
   }
 
   registrati(event){
     event.preventDefault();
     event.stopPropagation();
+    this.changeActive(7)
     this.props.history.push('/registerClient');
   }
 
   login(event){
     event.preventDefault();
     event.stopPropagation();
+    this.changeActive(6)
     this.props.history.push('/login');
   }
 
@@ -83,6 +90,7 @@ class NavbarCustom extends Component{
   }
 
   render(){
+    console.log("ACTIVE", this.state.active);
     return(
       <nav className="navbar navbar-expand-lg navbar-dark primary-color">
         <a className="navbar-brand" href="" onClick={(e)=>this.changeActiveAndHistoryPush(e,1, '/')}>
@@ -94,49 +102,49 @@ class NavbarCustom extends Component{
         </button>
         <div className="collapse navbar-collapse" id="basicExampleNav">
           <ul className="navbar-nav mr-auto">
-            <li className={"nav-item " + this.state.active === 1 ? 'active' : ''}>
+            <li className={"nav-item " + (this.state.active === 1 ? 'active-nav-bar' : '')}>
               <a
-                className="nav-link"
+                className="nav-link nav-bar-link"
                 href=""
-                style={{float:'left'}}
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,1,'/')}>
-                Home
+                <i class="fas fa-home" style={{paddingTop: '5%'}}></i>
+                &nbsp;Home
               </a>
             </li>
-            <li className={"nav-item " + this.state.active === 2 ? 'active' : ''}>
+            <li className={"nav-item " + (this.state.active === 2 ? 'active-nav-bar' : '')}>
               <a
-                className="nav-link"
+                className="nav-link nav-bar-link"
                 href=""
-                style={{float:'left'}}
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,2,'/buy')}>
-                Buy
+                <i class="fas fa-shopping-bag" style={{paddingTop: '5%'}}></i>
+                &nbsp;Buy
               </a>
             </li>
-            <li className={"nav-item " + this.state.active === 3 ? 'active' : ''}>
+            <li className={"nav-item " + (this.state.active === 3 ? 'active-nav-bar' : '')}>
               <a
-                className="nav-link"
+                className="nav-link nav-bar-link"
                 href=""
-                style={{float:'left'}}
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,3,'/contact')}>
-                Contact us
+                <i class="fas fa-address-card" style={{paddingTop: '5%'}}></i>
+                &nbsp;Contact us
               </a>
             </li>
-            <li className={"nav-item " + this.state.active === 4 ? 'active' : ''}>
+            <li className={"nav-item " + (this.state.active === 4 ? 'active-nav-bar' : '')}>
               <a
-                className="nav-link"
+                className="nav-link nav-bar-link"
                 href=""
-                style={{float:'left'}}
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,4,'/howWork')}>
-                How Work
+                <i class="fas fa-cog" style={{paddingTop: '5%'}}></i>
+                &nbsp;How Work
               </a>
             </li>
-            <li className={"nav-item " + this.state.active === 5 ? 'active' : ''}>
+            <li className={"nav-item " + (this.state.active === 5 ? 'active-nav-bar' : '')}>
               <a
-                className="nav-link"
+                className="nav-link nav-bar-link"
                 href=""
-                style={{float:'left'}}
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,5,'/win')}>
-                Win 500'000 euro
+                <i class="fas fa-money-bill-alt" style={{paddingTop: '3%'}}></i>
+                &nbsp;Win 500'000 euro
               </a>
             </li>
           </ul>
@@ -144,11 +152,11 @@ class NavbarCustom extends Component{
             <ul className="navbar-nav ">
               <li className="">
                 <a
-                  className="nav-link"
+                  className="nav-link nav-bar-link"
                   href=""
-                  style={{float:'left'}}
                   onClick={(e)=>this.admin(e)}>
-                  Admin
+                  <i class="fas fa-user-cog" style={{paddingTop: '5%'}}></i>
+                  &nbsp;Admin
                 </a>
               </li>
             </ul>
@@ -157,13 +165,13 @@ class NavbarCustom extends Component{
           }
           {!sessionStorage.getItem('isAuthBasic') && !sessionStorage.getItem('isAuth') ?
             <ul className="navbar-nav ">
-              <li className="">
+              <li className={"nav-item " + (this.state.active === 7 ? 'active-nav-bar' : '')}>
                 <a
-                  className="nav-link"
+                  className="nav-link nav-bar-link"
                   href=""
-                  style={{float:'left'}}
                   onClick={(e)=>this.registrati(e)}>
-                  Registrati
+                  <i class="fas fa-plus-square" style={{paddingTop: '5%'}}></i>
+                  &nbsp;Registrati
                 </a>
               </li>
             </ul>
@@ -172,13 +180,13 @@ class NavbarCustom extends Component{
           }
           {!sessionStorage.getItem('isAuthBasic') && !sessionStorage.getItem('isAuth') ?
             <ul className="navbar-nav ">
-              <li className="">
+              <li className={"nav-item " + (this.state.active === 6 ? 'active-nav-bar' : '')}>
                 <a
-                  className="nav-link"
+                  className="nav-link nav-bar-link"
                   href=""
-                  style={{float:'left'}}
                   onClick={(e)=>this.login(e)}>
-                  Login
+                  <i class="fas fa-sign-in-alt" style={{paddingTop: '7%'}}></i>
+                  &nbsp;Login
                 </a>
               </li>
             </ul>
@@ -189,11 +197,11 @@ class NavbarCustom extends Component{
             <ul className="navbar-nav ">
               <li className="">
                 <a
-                  className="nav-link"
+                  className="nav-link nav-bar-link"
                   href=""
-                  style={{float:'left'}}
                   onClick={(e)=>this.logout(e)}>
-                  Logout
+                  <i class="fas fa-sign-out-alt" style={{paddingTop: '7%'}}></i>
+                  &nbsp;Logout
                 </a>
               </li>
             </ul>

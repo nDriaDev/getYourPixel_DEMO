@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@chilkat/ck-node14-linux64": "^9.50.84",
+    "@fortawesome/fontawesome-free": "^5.15.2",
     "@stripe/react-stripe-js": "^1.1.2",
     "@stripe/stripe-js": "^1.11.0",
     "@testing-library/jest-dom": "^5.11.6",

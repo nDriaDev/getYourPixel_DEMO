@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import {Form, Button, Row, Col} from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import {PixelSpinner} from 'react-epic-spinners';
+import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
+import '@fortawesome/fontawesome-free/css/solid.min.css';
 import Const from './../../../util/Costanti';
 import axios from 'axios';
 
@@ -107,7 +109,7 @@ const RemovePixel = ({spinnerCommand}) => {
   return (
     <div className="mx-auto mb-5" style={{maxWidth:'512px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
       <div className="mt-2" align="center">
-        <h1 style={{color:'#333'}}>Remove Client</h1>
+        <h1 style={{color:'#28a745'}}>Remove Client</h1>
       </div>
       <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
         <Form noValidate validated={validated} onSubmit={onSubmit}>
@@ -170,6 +172,7 @@ const RemovePixel = ({spinnerCommand}) => {
             </Col>
           </Row>
           <Button variant="success" type="submit">
+            <i class="fas fa-user-times" style={{paddingRight:'4%'}}></i>
             {'Rimuovi'}
           </Button>
         </Form>

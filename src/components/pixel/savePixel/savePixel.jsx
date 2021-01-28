@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {Form, Button, Row, Col} from 'react-bootstrap';
 import { toast } from 'react-toastify';
-import Const from './../../../util/Costanti';
+import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
+import '@fortawesome/fontawesome-free/css/solid.min.css';import Const from './../../../util/Costanti';
 import axios from 'axios';
 
 
@@ -164,10 +165,10 @@ const SavePixel = ({spinnerCommand}) => {
       { pixelNumber &&
         <div className="mx-auto mb-5" style={{maxWidth:'408px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
         <div className="mt-2" align="center">
-          <h1 style={{color:'#333'}}>Save Client</h1>
+          <h1 style={{color:'#28a745'}}>Save Client</h1>
         </div>
         <div className="mt-2" align="center">
-          <h4 style={{color:'#333'}}>Pixels disponibili</h4>
+          <h4 style={{color:'white'}}>Pixels disponibili</h4>
           <h2 style={{color:'white'}}>{pixelNumber}</h2>
         </div>
         <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
@@ -275,7 +276,8 @@ const SavePixel = ({spinnerCommand}) => {
               </Col>
             </Row>
             <Button variant="success" type="submit">
-              {'Invia'}
+              <i className="fas fa-user-plus" style={{paddingRight:'4%'}}></i>
+              {'Salva'}
             </Button>
           </Form>
         </div>

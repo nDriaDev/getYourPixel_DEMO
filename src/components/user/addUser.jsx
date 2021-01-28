@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import { useHistory } from 'react-router-dom';
 import {Form, Button} from 'react-bootstrap';
 import { toast } from 'react-toastify';
+import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
+import '@fortawesome/fontawesome-free/css/solid.min.css';
 import Const from './../../util/Costanti';
 import axios from 'axios';
 
@@ -90,7 +92,7 @@ const AddUser = ({spinnerCommand}) => {
   return (
     <div className="mx-auto mb-5" style={{maxWidth:'408px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
       <div className="mt-2" align="center">
-        <h1 style={{color:'#333'}}>Add User</h1>
+        <h1 style={{color:'#28a745'}}>Add Partner</h1>
       </div>
       <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
         <Form noValidate validated={validated} onSubmit={onSubmit}>
@@ -132,6 +134,7 @@ const AddUser = ({spinnerCommand}) => {
             </Form.Control>
           </Form.Group>
           <Button variant="success" type="submit">
+            <i class="fas fa-hands-helping" style={{paddingRight:'4%'}}></i>
             {'Aggiungi'}
           </Button>
         </Form>

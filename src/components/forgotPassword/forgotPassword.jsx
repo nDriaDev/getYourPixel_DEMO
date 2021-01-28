@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {useHistory} from 'react-router-dom';
 import {Form, Button} from 'react-bootstrap';
 import { toast } from 'react-toastify';
+import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
+import '@fortawesome/fontawesome-free/css/solid.min.css';
 import Const from './../../util/Costanti';
 import axios from 'axios';
 
@@ -71,7 +73,7 @@ const ForgotPassword = (props) => {
   return (
     <div className="mx-auto mb-5" style={{maxWidth:'370px',maxHeight:'240px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
       <div className="display-grid mt-3 mb-3 ml-3 mr-3" align="center">
-        <h1  style={{color:'#333'}}>Reset Password</h1>
+        <h1  style={{color:'#28a745'}}>Reset Password</h1>
       </div>
       <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
         <Form noValidate validated={validated} onSubmit={onSubmit}>
@@ -88,7 +90,8 @@ const ForgotPassword = (props) => {
           </Form.Group>
 
           <Button variant="success" type="submit">
-            {'Invia'}
+            <i class="fas fa-sync-alt" style={{paddingRight: '4%'}}></i>
+            {'Reset'}
           </Button>
           <Form.Group controlId="formBasicForgotPassword" style={{textAlign:'left'}}>
             <Form.Label className="label-underline-link" onClick={()=> goTo("/login")}>Torna alla login</Form.Label>

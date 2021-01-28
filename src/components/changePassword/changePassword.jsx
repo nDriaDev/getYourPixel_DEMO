@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import { useHistory } from 'react-router-dom';
 import {Form, Button} from 'react-bootstrap';
 import { toast } from 'react-toastify';
+import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
+import '@fortawesome/fontawesome-free/css/solid.min.css';
 import Const from './../../util/Costanti';
 import axios from 'axios';
 
@@ -115,7 +117,7 @@ const ChangePassword = ({spinnerCommand}) => {
   return (
     <div className="mx-auto mb-5" style={{maxWidth:'408px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
       <div className="mt-2" align="center">
-        <h1 style={{color:'#333'}}>Change Password</h1>
+        <h1 style={{color:'#28a745'}}>Change Password</h1>
       </div>
       <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
         <Form noValidate className="mx-auto mt-3" onSubmit={onSubmit}>
@@ -159,7 +161,8 @@ const ChangePassword = ({spinnerCommand}) => {
               </Form.Control.Feedback>
           </Form.Group>
           <Button variant="success" type="submit">
-            {'Invia'}
+            <i class="fas fa-lock" style={{paddingRight:'4%'}}></i>
+            {'Aggiorna'}
           </Button>
         </Form>
       </div>

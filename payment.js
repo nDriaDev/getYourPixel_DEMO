@@ -2,8 +2,7 @@ const stripe = require('stripe')(
   process.env.PRV_KEY_STRIPE ? process.env.PRV_KEY_STRIPE :
   '<your private key here>'
 );
-
-const PRODUCT_DESCRIPTION = "Eccoti l'opportunità per ottenere il TUO spazio sul web!\nAcquista subito i tuoi pixel inserendo i dati dopo aver premuto il pulsante qui sotto.\nRiceverai un'email per la conferma dell'ordine alla quale dovrai rispondere inserendo i dati necessari per concludere l'operazione:\nimmagine, link della tua pagina ecc.\n(non ti preoccupare ora, è tutto spiegato nella email che riceverai).";
+const PRODUCT_DESCRIPTION = "Inizia subito ad utilizzare la nostra piattaforma.\nPotrai finalmente anche tu raggiungere milioni di persone!\nAcquista il tuo spazio inserendo i dati dopo aver premuto \nil pulsante qua sotto. Riceverai un'email per la conferma \ndell'ordine alla quale dovrai rispondere inserendo i dati \nnecessari per concludere l'operazione:\nimmagine, link della tua pagina ecc. \n \nNon ti preoccupare ora,\ne' tutto spiegato nella email che riceverai"
 
 
 class Payment {

@@ -10,7 +10,7 @@ const stripePromise = loadStripe(process.env.REACT_APP_PUB_KEY_STRIPE);
 const ProductDisplay = ({ product, quantity, handleQuantityChange, handleClick }) => {
   return (
     <div className="col-lg-4 col-md-12 mb-lg-0 mb-2 mx-auto div-buy">
-      <div className="card-container">
+      <div className="card-container" style={{width: '470px'}}>
         <div className="card-body">
           <h1 className="mb-2" style={{fontSize:'2.7rem'}}>{product.name}</h1>
           <div className="d-flex justify-content-center mb-2">
@@ -34,7 +34,7 @@ const ProductDisplay = ({ product, quantity, handleQuantityChange, handleClick }
             <button onClick={e=>handleQuantityChange(e)} ><i name="plus" className="fa fa-plus" aria-hidden="true" style={{fontSize: '1.0rem'}}></i></button>
           </div>
           <div className="col-xs-12">
-            <button className="btn-checkout" onClick={handleClick}>Checkout</button>
+            <button className="btn-success btn-checkout" onClick={handleClick}>Checkout</button>
           </div>
         </div>
       </div>
