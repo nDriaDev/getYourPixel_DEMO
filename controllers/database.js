@@ -34,6 +34,7 @@ class DataBase {
               let secret = uuid();
               req.session.secret = secret;
               req.session.email = req.body.email;
+              req.session.type = result.type;
               let token = jwt.sign({email:req.body.email}, secret, {expiresIn: '1h'});
               res.cookie('token', token, {httpOnly: true}).status(200).send(result)
             } else {
@@ -120,7 +121,15 @@ class DataBase {
         let email = req.body.email ? req.body.email : req.session.email;
         db.getUser(email)
           .then(result => {
-            res.status(200).send(result)
+            if(result) {
+              res.status(200).send(result)
+            } else {
+              if(req.session.type === 'Client') {
+                res.status(200).send({code:200,type:req.session.type})
+              } else {
+                res.status(200).send(result)
+              }
+            }
           })
           .catch(e => {
             console.log("database_Controller - [getUser] - ERROR -", e.message);
@@ -201,6 +210,7 @@ class DataBase {
               let secret = uuid();
               req.session.secret = secret;
               req.session.email = req.body.email;
+              req.session.type = result.type;
               let token = jwt.sign({email:req.body.email}, secret, {expiresIn: '1h'});
               res.cookie('token', token, {httpOnly: true}).status(200).send(result)
             } else {

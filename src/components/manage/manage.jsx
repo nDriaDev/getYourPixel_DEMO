@@ -36,9 +36,16 @@ const Manage = (props) => {
     props.enableSpinner();
     return axios.post(Const.GET_USER,{})
     .then(res => {
-      if(res.data) {
+      if(res.data && !res.data.code) {
         setRole(res.data.type)
         props.disableSpinner();
+      } else if(res.data && res.data.code){
+        if(res.data.code === 401) {
+          throw new Error(res.data.message);
+        }
+        //Se l'utente che cerca di accedere a manage non è un admin nè un collaboratore
+        props.disableSpinner();
+        history.push('/')
       } else {
         props.disableSpinner();
         toast.error('User not exist', {
@@ -49,7 +56,7 @@ const Manage = (props) => {
           pauseOnHover: false,
           draggable: true,
           progress: undefined,
-          onClose:()=>{history.push('/manage')}
+          onClose:()=>{history.push('/login')}
         });
       }
     }).catch(err => {
@@ -62,7 +69,7 @@ const Manage = (props) => {
         pauseOnHover: false,
         draggable: true,
         progress: undefined,
-        onClose:()=>{history.push('/manage')}
+        onClose:()=>{history.push('/login')}
       });
     })
   },[])

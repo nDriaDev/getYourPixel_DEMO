@@ -911,7 +911,8 @@ class MongoDB {
                       if (same) {
                         resolve({
                           code: 200,
-                          message: 'Credenziali valide'
+                          message: 'Credenziali valide',
+                          type: result.type
                         })
                       } else {
                         resolve({
@@ -1632,7 +1633,8 @@ class MongoDB {
                       if (same) {
                         resolve({
                           code: 200,
-                          message: 'Credenziali valide'
+                          message: 'Credenziali valide',
+                          type: result.type
                         })
                       } else {
                         resolve({
