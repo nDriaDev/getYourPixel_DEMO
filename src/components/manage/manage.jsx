@@ -119,7 +119,7 @@ const Manage = (props) => {
                     role && role !== Const.USER_TYPE.BASIC ?
                     <li className={"nav-item " + active[3]}
                       onClick={()=>activing(3)}>
-                      <Link style={{textAlign:'left'}} to={`${path}/addUser`}> Add User </Link>
+                      <Link style={{textAlign:'left'}} to={`${path}/addUser`}> Add Partner </Link>
                     </li>
                     :
                     null
@@ -128,7 +128,7 @@ const Manage = (props) => {
                     role && role !== Const.USER_TYPE.BASIC ?
                     <li className={"nav-item " + active[4]}
                       onClick={()=>activing(4)}>
-                      <Link style={{textAlign:'left'}} to={`${path}/removeUser`}> Remove User </Link>
+                      <Link style={{textAlign:'left'}} to={`${path}/removeUser`}> Remove Partner </Link>
                     </li>
                     :
                     null
