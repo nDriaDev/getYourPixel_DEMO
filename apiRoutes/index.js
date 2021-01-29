@@ -119,6 +119,10 @@ try {
     controllers.database.registryClient,
     controllers.mailer.sendActivationEmail
   )
+  .post(
+    '/deleteClient',
+    controllers.database.deleteClient
+  )
   .get(
     '/activeClient/:activeToken',
     controllers.database.activeClient
