@@ -96,6 +96,25 @@ class DataBase {
     }
   }
 
+  deleteClient(req, res, next) {
+    try {
+      console.log("database_Controller - [deleteClient] - START");
+      db
+      .deleteClient({email: req.body.email ? req.body.email : req.session.email})
+      .then(result => {
+        res.status(200).send(result)
+      })
+      .catch(err => {
+        res.status(200).send(err)
+      })
+    } catch (e) {
+      console.log("database_Controller - [deleteClient] - ERROR", e.message);
+      next(e.message);
+    } finally {
+      console.log("database_Controller - [deleteClient] - FINISH");
+    }
+  }
+
   saveClick(req, res, next) {
       try {
         console.log("database_Controller - [saveClick] - START");

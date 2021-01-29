@@ -1142,7 +1142,7 @@ class MongoDB {
                           } else {
                             resolve({
                               code: 404,
-                              message: "Nessun utente e' stato trovato alcun utente"
+                              message: "Non e' stato trovato alcun utente"
                             })
                           }
                         })
@@ -1995,6 +1995,97 @@ class MongoDB {
       } finally {
         this.client.close().then(() => {
             console.log("database - [saveClick] - FINISH");
+          })
+          .catch(err => {
+            reject(err.message);
+          })
+      }
+    })
+  }
+
+  deleteClient(body) {
+    console.log("database - [deleteClient] - START");
+    return new Promise((resolve, reject) => {
+      try {
+        var {
+          email
+        } = body;
+        this.initialize();
+        this.client
+          .connect()
+          .then(() => {
+            this.client
+              .db(DB_NAME)
+              .collection(COLLECTION_CLIENT)
+              .findOne({
+                "$and": [{
+                  "$or": [{
+                    "email": email
+                  }, {
+                    "username": email,
+                  }]
+                }, {
+                  "active": true,
+                }]
+              })
+              .then(result => {
+                if (result) {
+                  let user = {
+                    "_id": result._id
+                  }
+                  this.client
+                    .connect()
+                    .then(() => {
+                      this.client
+                        .db(DB_NAME)
+                        .collection(COLLECTION_CLIENT)
+                        .deleteOne(user)
+                        .then(result => {
+                          if (result.deletedCount === 1) {
+                            resolve({
+                              code: 200,
+                              message: "L'utente e' stato rimosso correttamente"
+                            })
+                          } else {
+                            resolve({
+                              code: 404,
+                              message: "Non e' stato trovato alcun utente"
+                            })
+                          }
+                        })
+                        .catch(err => {
+                          console.log(err);
+                          resolve({
+                            code: 404,
+                            message: err.message
+                          })
+                        })
+                    })
+                } else {
+                  resolve({
+                    code: 404,
+                    message: "Utente inesistente"
+                  })
+                }
+              })
+              .catch(err=> {
+                console.log("database - [deleteClient - findUser] - ERROR -", err.message);
+                resolve({
+                  code: 404,
+                  message: "Non e' stato trovato alcun utente"
+                })
+              })
+          })
+          .catch(err => {
+            console.log("database - [deleteClient] - ERROR -", err.message);
+            reject(err);
+          })
+      } catch (e) {
+        console.log("database - [deleteClient] - ERROR -", e.message);
+        reject(e)
+      } finally {
+        this.client.close().then(() => {
+            console.log("database - [deleteClient] - FINISH");
           })
           .catch(err => {
             reject(err.message);
