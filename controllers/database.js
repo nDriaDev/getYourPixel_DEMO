@@ -99,7 +99,7 @@ class DataBase {
   saveClick(req, res, next) {
       try {
         console.log("database_Controller - [saveClick] - START");
-        db.saveClick({emailClient:req.session.email, urlClicked: req.body.url})
+        db.saveClick(req.session.email, req.body.url)
           .then(result => {
             res.status(200).send(result)
           })

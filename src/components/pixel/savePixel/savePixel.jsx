@@ -96,7 +96,7 @@ const SavePixel = ({spinnerCommand}) => {
         }
       })
     } else {
-      if(['col','row','positionRow','positionCol'].includes(name) && value !== '' && !value.match(new RegExp(/^[1-9]+$/g))) {
+      if(['col','row','positionRow','positionCol'].includes(name) && value !== '' && !value.match(new RegExp(/^[1-9]+[0-9]*$/g))) {
         event.target.value = '';
       } else {
         setForm({...form, [name]:value});

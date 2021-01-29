@@ -1,28 +1,80 @@
 import React, {useState, useEffect} from 'react';
 import { toast } from 'react-toastify';
 import Const from './../../util/Costanti';
+import {Button, Modal } from 'react-bootstrap';
 import $ from 'jquery';
 import axios from 'axios';
 
 const SquarePixeled = ({enableSpinner,disableSpinner}) =>{
   const [matrix,setMatrix] = useState(null);
+  const [show, setShow] = useState(false);
+  const [url, setUrl] = useState(null);
 
-  const redirectUrl = (e,url) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if(url) {
-        axios.post(Const.SAVE_CLICK,{'url':url})
-        .then(result => {
-          if(url) {
-            window.location = url.indexOf('http') === -1 ? 'https://' + url : url;
-          }
-        })
-        .catch(err => {
-          if(url) {
-            window.location = url.indexOf('http') === -1 ? 'https://' + url : url;
-          }
-        })
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const callRedirect = () => {
+    handleClose();
+    redirectUrl(url);
+  }
+
+  const verifyUser = (e,url) => {
+    e.preventDefault();
+    e.stopPropagation();
+    axios.get(Const.CHECK_TOKEN)
+    .then(result => {
+      if(result.data.code === 200) {
+        handleClose();
+        redirectUrl(url);
+      } else {
+        setUrl(url);
+        handleShow(true);
       }
+    })
+    .catch(err => {
+      toast.error(err.message != null ? err.message : "ERRORE", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+      });
+    })
+  }
+
+  const redirectUrl = (url) => {
+    enableSpinner();
+    if(url) {
+      axios.get(Const.LOGOUT)
+      .then(result => {
+        if (result.data.code === 200) {
+          sessionStorage.clear();
+          axios.post(Const.SAVE_CLICK,{'url':url})
+          .then(result => {
+            disableSpinner();
+            if(url) {
+              window.location.assign(url.indexOf('http') === -1 ? 'http://' + url : url);
+            }
+          })
+          .catch(err => {
+            disableSpinner();
+            if(url) {
+              window.location.assign(url.indexOf('http') === -1 ? 'http://' + url : url);
+            }
+          })
+        } else {
+          throw new Error(result.data.message);
+        }
+      })
+      .catch(err => {
+        sessionStorage.clear();
+        if(url) {
+          window.location.assign(url.indexOf('http') === -1 ? 'http://' + url : url);
+        }
+      })
+    }
   }
 
   const showTip = (text, id) => {
@@ -63,7 +115,7 @@ const SquarePixeled = ({enableSpinner,disableSpinner}) =>{
                     key={'c-' + index + index2}
                     className="image-pixeled"
                     style={style}
-                    onClick={(e)=>redirectUrl(e,param)}
+                    onClick={(e)=>verifyUser(e,param)}
                     onMouseEnter={()=>showTip(titleText,('c-'+index+index2))}
                     />
                 )
@@ -106,6 +158,25 @@ const SquarePixeled = ({enableSpinner,disableSpinner}) =>{
 
   return(
     <>
+    <Modal
+      show={show}
+      onHide={handleClose}
+      backdrop="static"
+      keyboard={false}
+    >
+      <Modal.Header closeButton>
+        <Modal.Title>Attenzione</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        {'Sembra che tu non sia loggato.\nSei sicuro di voler continuare?'}
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleClose}>
+          Annulla
+        </Button>
+        <Button variant="primary" style={{backgroundColor:'#28a745', borderColor:'#28a745'}} onClick={callRedirect}>Continua</Button>
+      </Modal.Footer>
+    </Modal>
       {matrix}
     </>
   )

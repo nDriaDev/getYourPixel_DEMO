@@ -102,7 +102,7 @@ class MongoDB {
                   .then(() => {
                     let data = {};
                     if (company === '') {
-                      if(positionRow === '' && positionCol === '') {
+                      if (positionRow === '' && positionCol === '') {
                         data = {
                           "email": email,
                           "url": url,
@@ -111,7 +111,7 @@ class MongoDB {
                           "col": col,
                           "date": new Date(),
                         }
-                      } else if(positionRow === '' && positionCol !== '') {
+                      } else if (positionRow === '' && positionCol !== '') {
                         data = {
                           "email": email,
                           "url": url,
@@ -119,17 +119,17 @@ class MongoDB {
                           "row": row,
                           "col": col,
                           "positionRow": 0,
-                          "positionCol": (+positionCol)-1,
+                          "positionCol": (+positionCol) - 1,
                           "date": new Date(),
                         }
-                      } else if(positionRow !== '' && positionCol === '') {
+                      } else if (positionRow !== '' && positionCol === '') {
                         data = {
                           "email": email,
                           "url": url,
                           "file": file,
                           "row": row,
                           "col": col,
-                          "positionRow": (+positionRow)-1,
+                          "positionRow": (+positionRow) - 1,
                           "positionCol": 0,
                           "date": new Date(),
                         }
@@ -140,13 +140,13 @@ class MongoDB {
                           "file": file,
                           "row": row,
                           "col": col,
-                          "positionRow": (+positionRow)-1,
-                          "positionCol": (+positionCol)-1,
+                          "positionRow": (+positionRow) - 1,
+                          "positionCol": (+positionCol) - 1,
                           "date": new Date(),
                         }
                       }
                     } else {
-                      if(positionRow === '' && positionCol === '') {
+                      if (positionRow === '' && positionCol === '') {
                         data = {
                           "email": email,
                           "url": url,
@@ -156,7 +156,7 @@ class MongoDB {
                           "col": col,
                           "date": new Date(),
                         }
-                      } else if(positionRow === '' && positionCol !== '') {
+                      } else if (positionRow === '' && positionCol !== '') {
                         data = {
                           "email": email,
                           "url": url,
@@ -165,10 +165,10 @@ class MongoDB {
                           "row": row,
                           "col": col,
                           "positionRow": 0,
-                          "positionCol": (+positionCol)-1,
+                          "positionCol": (+positionCol) - 1,
                           "date": new Date(),
                         }
-                      } else if(positionRow !== '' && positionCol === '') {
+                      } else if (positionRow !== '' && positionCol === '') {
                         data = {
                           "email": email,
                           "url": url,
@@ -176,7 +176,7 @@ class MongoDB {
                           "file": file,
                           "row": row,
                           "col": col,
-                          "positionRow": (+positionRow)-1,
+                          "positionRow": (+positionRow) - 1,
                           "positionCol": 0,
                           "date": new Date(),
                         }
@@ -188,8 +188,8 @@ class MongoDB {
                           "file": file,
                           "row": row,
                           "col": col,
-                          "positionRow": (+positionRow)-1,
-                          "positionCol": (+positionCol)-1,
+                          "positionRow": (+positionRow) - 1,
+                          "positionCol": (+positionCol) - 1,
                           "date": new Date(),
                         }
                       }
@@ -1288,12 +1288,12 @@ class MongoDB {
                 } else {
                   // resolve({code:404, message:"Email inserted not exist"})
                   this.resetPasswordClient(body)
-                  .then(result => {
-                    resolve(result);
-                  })
-                  .catch(err => {
-                    reject(err);
-                  })
+                    .then(result => {
+                      resolve(result);
+                    })
+                    .catch(err => {
+                      reject(err);
+                    })
                 }
               })
               .catch(err => {
@@ -1610,13 +1610,13 @@ class MongoDB {
               .db(DB_NAME)
               .collection(COLLECTION_CLIENT)
               .findOne({
-                "$and":[{
-                  "$or":[{
+                "$and": [{
+                  "$or": [{
                     "email": email
-                  },{
+                  }, {
                     "username": email,
                   }]
-                },{
+                }, {
                   "active": true,
                 }]
               }, {
@@ -1697,7 +1697,7 @@ class MongoDB {
                       reject(new Error("Impossibile salvare l'utente"))
                     }
                   } else {
-                    crypto.randomBytes(20, (err,buf) => {
+                    crypto.randomBytes(20, (err, buf) => {
                       user = {
                         "_id": new this.ObjectID(),
                         "username": username,
@@ -1705,7 +1705,7 @@ class MongoDB {
                         "password": password,
                         "type": 'Client',
                         "active": false,
-                        "activeExpires": Date.now() + (3600*1000),
+                        "activeExpires": Date.now() + (3600 * 1000),
                       }
                       user.activeToken = user._id.id.toString('hex') + buf.toString('hex');
                     })
@@ -1721,8 +1721,8 @@ class MongoDB {
                               code: 200,
                               message: "L'email con il link di attivazione è stata inviata. Questo scadra' entro un ora",
                               activeToken: user.activeToken,
-                              email:user.email,
-                              username:user.username
+                              email: user.email,
+                              username: user.username
                             })
                           })
                           .catch(err => {
@@ -1767,7 +1767,9 @@ class MongoDB {
         let user = {
           "activeToken": activeToken.activeToken,
           "active": false,
-          "activeExpires": {"$gt": Date.now()}
+          "activeExpires": {
+            "$gt": Date.now()
+          }
         };
         this.initialize();
         this.client
@@ -1778,76 +1780,80 @@ class MongoDB {
               .collection(COLLECTION_CLIENT)
               .findOne(user)
               .then(value => {
-                if(value) {
+                if (value) {
                   let data = {
                     "$set": {
                       "active": true
                     },
                     '$unset': {
-                      'activeExpires':"",
-                      'activeToken':""
+                      'activeExpires': "",
+                      'activeToken': ""
                     }
                   }
                   let options = {
                     "upsert": false,
                   };
                   this.client
-                  .db(DB_NAME)
-                  .collection(COLLECTION_CLIENT)
-                  .updateOne({
-                    "_id": value['_id']
-                  }, data, options)
-                  .then(value => {
-                    const {
-                      matchedCount,
-                      modifiedCount
-                    } = value;
-                    if (matchedCount && modifiedCount) {
-                      resolve(true)
-                    } else {
-                      resolve(false);
-                    }
-                  })
-                  .catch(err => {
-                    console.log("database - [editPixel] - ERROR -", err);
-                    reject(err);
-                  })
+                    .db(DB_NAME)
+                    .collection(COLLECTION_CLIENT)
+                    .updateOne({
+                      "_id": value['_id']
+                    }, data, options)
+                    .then(value => {
+                      const {
+                        matchedCount,
+                        modifiedCount
+                      } = value;
+                      if (matchedCount && modifiedCount) {
+                        resolve(true)
+                      } else {
+                        resolve(false);
+                      }
+                    })
+                    .catch(err => {
+                      console.log("database - [editPixel] - ERROR -", err);
+                      reject(err);
+                    })
                 } else {
                   this.client
-                  .db(DB_NAME)
-                  .collection(COLLECTION_CLIENT)
-                  .findOne({
-                    "activeToken": user.activeToken,
-                    "active": false,
-                    "$and":[{
-                      "active": false
-                    },{
-                      "activeExpires": {"$lt": Date.now()}
-                    }]
-                  })
-                  .then(result => {
-                    if(result) {
-                      this.client
-                      .db(DB_NAME)
-                      .collection(COLLECTION_CLIENT)
-                      .deleteOne({"_id": result._id})
-                      .then(result => {
-                        if(result.deletedCount === 1) {
-                          resolve(false)
-                        } else {
-                          resolve(false)
+                    .db(DB_NAME)
+                    .collection(COLLECTION_CLIENT)
+                    .findOne({
+                      "activeToken": user.activeToken,
+                      "active": false,
+                      "$and": [{
+                        "active": false
+                      }, {
+                        "activeExpires": {
+                          "$lt": Date.now()
                         }
-                      })
-                      .catch(err => {
-                        reject(new Error("non e' stato possibile eliminare l'utente"))
-                      })
-                    } else {
-                      resolve(false);
-                    }
-                  })
-                  .catch(err=>{
-                    reject(err);
-                  })
+                      }]
+                    })
+                    .then(result => {
+                      if (result) {
+                        this.client
+                          .db(DB_NAME)
+                          .collection(COLLECTION_CLIENT)
+                          .deleteOne({
+                            "_id": result._id
+                          })
+                          .then(result => {
+                            if (result.deletedCount === 1) {
+                              resolve(false)
+                            } else {
+                              resolve(false)
+                            }
+                          })
+                          .catch(err => {
+                            reject(new Error("non e' stato possibile eliminare l'utente"))
+                          })
+                      } else {
+                        resolve(false);
+                      }
+                    })
+                    .catch(err => {
+                      reject(err);
+                    })
                 }
               })
               .catch(err => {
@@ -1883,7 +1889,7 @@ class MongoDB {
           .then(() => {
             this.client
               .db(DB_NAME)
-              .collection(COLLECTION_CLICK)
+              .collection(COLLECTION_USER)
               .findOne({
                 "email": emailClient,
               }, {
@@ -1893,71 +1899,90 @@ class MongoDB {
               })
               .then(result => {
                 if (result) {
-                  if (!result.urls.includes(urlClicked)) {
-                    let urls = result.urls;
-                    urls.push(urlClicked);
-                    this.client
+                  resolve("Click non salvato poiche' l'utente loggato e' un admin/partner")
+                } else {
+                  this.client
+                    .db(DB_NAME)
+                    .collection(COLLECTION_CLICK)
+                    .findOne({
+                      "email": emailClient,
+                    }, {
+                      projection: {
+                        "_id": 0,
+                      }
+                    })
+                    .then(result => {
+                      if (result) {
+                        if (!result.urls.includes(urlClicked)) {
+                          let urls = result.urls;
+                          urls.push(urlClicked);
+                          this.client
+                          .connect()
+                          .then(() => {
+                            this.client
+                              .db(DB_NAME)
+                              .collection(COLLECTION_CLICK)
+                              .updateOne({
+                                "email": emailClient,
+                              }, {
+                                "$set": {
+                                  "urls": urls
+                                }
+                              }, {
+                                "upsert": false
+                              })
+                              .then(value => {
+                                const {
+                                  matchedCount,
+                                  modifiedCount
+                                } = value;
+                                if (matchedCount && modifiedCount) {
+                                  resolve("Click salvato")
+                                }
+                              })
+                              .catch(err => {
+                                console.log("database - [saveClick] - ERROR -", err);
+                              })
+                          })
+                          .catch(err => {
+                            console.log("database - [saveClick] - ERROR -", err);
+                          })
+                      }
+                      resolve('Click già presente')
+                    } else {
+                      let urls = [];
+                      urls.push(urlClicked);
+                      this.client
                       .connect()
                       .then(() => {
                         this.client
                           .db(DB_NAME)
                           .collection(COLLECTION_CLICK)
-                          .updateOne({
+                          .insertOne({
                             "email": emailClient,
-                          }, {
-                            "$set": {
-                              "urls": urls
-                            }
-                          }, {
-                            "upsert": false
+                            "urls": urls,
                           })
                           .then(value => {
-                            const {
-                              matchedCount,
-                              modifiedCount
-                            } = value;
-                            if (matchedCount && modifiedCount) {
-                              resolve("Click salvato")
-                            }
+                            resolve("Click salvato")
                           })
                           .catch(err => {
                             console.log("database - [saveClick] - ERROR -", err);
+                            reject(err);
                           })
                       })
                       .catch(err => {
                         console.log("database - [saveClick] - ERROR -", err);
+                        reject(err);
                       })
-                  }
-                  resolve('Click già presente')
-                } else {
-                  let urls = [];
-                  urls.push(urlClicked);
-                  this.client
-                    .connect()
-                    .then(() => {
-                      this.client
-                        .db(DB_NAME)
-                        .collection(COLLECTION_CLICK)
-                        .insertOne({
-                          "email": emailClient,
-                          "urls": urls,
-                        })
-                        .then(value => {
-                          resolve("Click salvato")
-                        })
-                        .catch(err => {
-                          console.log("database - [saveClick] - ERROR -", err);
-                          reject(err);
-                        })
-                    })
-                    .catch(err => {
-                      console.log("database - [saveClick] - ERROR -", err);
-                      reject(err);
-                    })
+                    }
+                  })
+                  .catch(err => {
+                    reject(new Error("Impossibile salvare il click"))
+                  })
                 }
               })
               .catch(err => {
-                reject(new Error("Impossibile salvare il click"))
+                reject(new Error("Impossibile verificare l'utente loggato"))
               })
           })
           .catch(err => {
