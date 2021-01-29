@@ -8,7 +8,7 @@ import Const from './../../../util/Costanti';
 import axios from 'axios';
 
 
-const EditPixel = ({spinnerCommand}) => {
+const EditClient = ({spinnerCommand}) => {
   const [validated, setValidated] = useState(false);
   const [selectSpinner, setSelectSpinner] = useState([{enabled:true},{enabled:true}]);
   const [form, setForm] = useState({
@@ -96,7 +96,7 @@ const EditPixel = ({spinnerCommand}) => {
           })
       } else {
         setSelectSpinner({...selectSpinner,[0]:{disabled:true}});
-        axios.post(Const.GET_PIXELS_FILTERED, {'filtro':value})
+        axios.post(Const.GET_CLIENTS_FILTERED, {'filtro':value})
         .then(res => {
           setForm({
             filtro:value,
@@ -161,7 +161,7 @@ const EditPixel = ({spinnerCommand}) => {
           })
       } else {
         setSelectSpinner({...selectSpinner,[1]:{disabled:true}});
-        axios.post(Const.GET_FULL_PIXEL, {'filtro': form.filtro, 'target': value})
+        axios.post(Const.GET_CLIENT, {'filtro': form.filtro, 'target': value})
         .then(res => {
           if(res.data.code === 200) {
             setForm({
@@ -283,7 +283,7 @@ const EditPixel = ({spinnerCommand}) => {
       if(obj.company === '') {
         delete obj.company;
       }
-      axios.post(Const.EDIT_PIXEL, obj)
+      axios.post(Const.EDIT_CLIENT, obj)
       .then(res => {
         if (res.data.code === 200) {
           spinnerCommand(false);
@@ -521,4 +521,4 @@ const EditPixel = ({spinnerCommand}) => {
   )
 }
 
-export default EditPixel;
+export default EditClient;

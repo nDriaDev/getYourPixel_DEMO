@@ -8,7 +8,7 @@ import Const from './../../util/Costanti';
 import axios from 'axios';
 
 
-const AddUser = ({spinnerCommand}) => {
+const AddAdmin = ({spinnerCommand}) => {
   const history = useHistory();
   const [validated, setValidated] = useState(false);
   const [form, setForm] = useState({
@@ -19,10 +19,10 @@ const AddUser = ({spinnerCommand}) => {
 
   useEffect(()=>{
     spinnerCommand(true);
-    return axios.post(Const.GET_USER,{})
+    return axios.post(Const.GET_ADMIN,{})
     .then(value => {
       if(value) {
-        if(value.type === Const.USER_TYPE.BASIC) {
+        if(value.type === Const.ADMIN_TYPE.BASIC) {
           spinnerCommand(false);
           history.push('/manage');
         } else {
@@ -52,7 +52,7 @@ const AddUser = ({spinnerCommand}) => {
       setValidated(true);
     } else {
       spinnerCommand(true);
-      axios.post(Const.ADD_USER, form)
+      axios.post(Const.ADD_ADMIN, form)
       .then(res => {
         if (res.data.code === 200) {
           setForm({
@@ -143,4 +143,4 @@ const AddUser = ({spinnerCommand}) => {
   )
 }
 
-export default AddUser;
+export default AddAdmin;

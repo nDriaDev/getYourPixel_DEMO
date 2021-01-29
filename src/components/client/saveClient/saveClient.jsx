@@ -6,7 +6,7 @@ import '@fortawesome/fontawesome-free/css/solid.min.css';import Const from './..
 import axios from 'axios';
 
 
-const SavePixel = ({spinnerCommand}) => {
+const SaveClient = ({spinnerCommand}) => {
   const [validated, setValidated] = useState(false);
   const [validFile, setValidFile] = useState ('label-border-none');
   const [form, setForm] = useState({
@@ -119,7 +119,7 @@ const SavePixel = ({spinnerCommand}) => {
       setValidFile('label-border-red');
     } else {
       spinnerCommand(true);
-      axios.post(Const.SAVE_PIXEL, form)
+      axios.post(Const.SAVE_CLIENT, form)
       .then(res => {
         if (res.data.code === 200) {
           formSet[3].value = null;
@@ -297,4 +297,4 @@ const SavePixel = ({spinnerCommand}) => {
   )
 }
 
-export default SavePixel;
+export default SaveClient;

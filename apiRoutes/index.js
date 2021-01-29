@@ -32,41 +32,41 @@ try {
     controllers.stripe.createSession
   )
   .get(
-    '/getPixels',
-    controllers.database.getPixels
+    '/getClientsPixels',
+    controllers.database.getClientsPixels
   )
   .post(
-    '/savePixel',
+    '/saveClient',
     auth,
-    controllers.database.savePixel
+    controllers.database.saveClient
   )
   .post(
-    '/getPixelsFiltered',
+    '/getClientsFiltered',
     auth,
-    controllers.database.getPixelsFiltered
+    controllers.database.getClientsFiltered
   )
   .post(
-    '/getFullPixel',
-    controllers.database.getFullPixel
+    '/getClient',
+    controllers.database.getClient
   )
   .post(
-    '/editPixel',
-    controllers.database.editPixel
+    '/editClient',
+    controllers.database.editClient
   )
   .post(
-    '/removePixel',
+    '/deleteClient',
     auth,
-    controllers.database.removePixel
+    controllers.database.deleteClient
   )
   .post(
-    '/addUser',
+    '/addAdmin',
     auth,
-    controllers.database.addUser
+    controllers.database.addAdmin
   )
   .post(
-    '/deleteUser',
+    '/deleteAdmin',
     auth,
-    controllers.database.deleteUser
+    controllers.database.deleteAdmin
   )
   .get(
     '/login',
@@ -86,14 +86,14 @@ try {
     controllers.database.changePassword
   )
   .post(
-    '/getUser',
+    '/getAdmin',
     auth,
-    controllers.database.getUser
+    controllers.database.getAdmin
   )
   .post(
-    '/getUsers',
+    '/getAdmins',
     auth,
-    controllers.database.getUsers
+    controllers.database.getAdmins
   )
   .get(
     '/countPixels',
@@ -106,26 +106,26 @@ try {
     controllers.database.verifyPassword
   )
   .post(
-    '/loginClient',
-    controllers.database.loginClient
+    '/loginUser',
+    controllers.database.loginUser
   )
   .post(
-    '/getClient',
+    '/getUser',
     auth,
-    controllers.database.getClient
+    controllers.database.getUser
   )
   .post(
-    '/registryClient',
-    controllers.database.registryClient,
+    '/saveUser',
+    controllers.database.saveUser,
     controllers.mailer.sendActivationEmail
   )
   .post(
-    '/deleteClient',
-    controllers.database.deleteClient
+    '/deleteUser',
+    controllers.database.deleteUser
   )
   .get(
-    '/activeClient/:activeToken',
-    controllers.database.activeClient
+    '/activeUser/:activeToken',
+    controllers.database.activeUser
   )
   .post(
     '/saveClick',

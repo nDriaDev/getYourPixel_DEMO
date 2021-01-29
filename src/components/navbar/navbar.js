@@ -11,7 +11,7 @@ class NavbarCustom extends Component{
   constructor(props){
     super(props);
     let pathname = window.location.pathname;
-    pathname = pathname === Const.PATH_ERROR ? 'error' : (pathname === '/' ? '' : (pathname === Const.PATH_BUY ? 'buy' : (pathname === Const.PATH_CONTACT ? 'contact' : (pathname === Const.PATH_HOW_WORK ? 'howWork':(pathname === '/login' ? 'login':(pathname === '/registerClient' ? 'register':(pathname === '/win'? 'win': 'error')))))));
+    pathname = pathname === Const.PATH_ERROR ? 'error' : (pathname === '/' ? '' : (pathname === Const.PATH_BUY ? 'buy' : (pathname === Const.PATH_CONTACT ? 'contact' : (pathname === Const.PATH_HOW_WORK ? 'howWork':(pathname === '/login' ? 'login':(pathname === '/register' ? 'register':(pathname === '/win'? 'win': 'error')))))));
     this.state = {
       origin: window.location.origin,
       active: pathname === 'error' ? 0 : (pathname === '' ? 1 : (pathname === 'buy' ? 2 : (pathname === 'contact' ? 3 : (pathname === 'howWork' ? 4 : (pathname === 'win' ? 5 : (pathname === 'login' ? 6 : 7)))))),
@@ -64,7 +64,7 @@ class NavbarCustom extends Component{
     event.preventDefault();
     event.stopPropagation();
     this.changeActive(7)
-    this.props.history.push('/registerClient');
+    this.props.history.push('/register');
   }
 
   login(event){

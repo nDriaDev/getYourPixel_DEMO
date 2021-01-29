@@ -6,7 +6,7 @@ import Const from './../../util/Costanti';
 import axios from 'axios';
 
 
-const RegisterClient = (props) => {
+const SaveUser = (props) => {
   const history = useHistory();
   const [validated, setValidated] = useState(false);
   const [form, setForm] = useState({
@@ -35,7 +35,7 @@ const RegisterClient = (props) => {
       setValidated(true);
     } else {
       enableSpinner();
-      axios.post(Const.REGISTRY_CLIENT, form)
+      axios.post(Const.SAVE_USER, form)
       .then(res => {
         if (res.data.code === 200) {
           setForm({
@@ -122,4 +122,4 @@ const RegisterClient = (props) => {
   )
 }
 
-export default RegisterClient;
+export default SaveUser;

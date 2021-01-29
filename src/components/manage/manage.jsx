@@ -20,10 +20,10 @@ const Manage = (props) => {
       else if(pathSpli[pathSpli.length-1] === 'removeClient') {
         return ['','','active-v-bar','','',''];
       }
-      else if(pathSpli[pathSpli.length-1] === 'addUser') {
+      else if(pathSpli[pathSpli.length-1] === 'addAdmin') {
         return ['','','','active-v-bar','',''];
       }
-      else if(pathSpli[pathSpli.length-1] === 'removeUser') {
+      else if(pathSpli[pathSpli.length-1] === 'removeAdmin') {
         return ['','','','','active-v-bar',''];
       } else {
         return ['','','','','','active-v-bar'];
@@ -36,7 +36,7 @@ const Manage = (props) => {
 
   useEffect(()=>{
     props.enableSpinner();
-    return axios.post(Const.GET_USER,{})
+    return axios.post(Const.GET_ADMIN,{})
     .then(res => {
       if(res.data && !res.data.code) {
         sessionStorage.setItem('isAuth', true)
@@ -128,24 +128,24 @@ const Manage = (props) => {
                     </Link>
                   </li>
                   {
-                    role && role !== Const.USER_TYPE.BASIC ?
+                    role && role !== Const.ADMIN_TYPE.BASIC ?
                     <li className={"nav-item " + active[3]}
                       onClick={()=>activing(3)}>
-                      <Link style={{textAlign:'left'}} to={`${path}/addUser`}>
+                      <Link style={{textAlign:'left'}} to={`${path}/addAdmin`}>
                         <i className="fas fa-hands-helping" style={{paddingRight:'4%'}}></i>
-                        Add Partner
+                        Add Admin
                       </Link>
                     </li>
                     :
                     null
                   }
                   {
-                    role && role !== Const.USER_TYPE.BASIC ?
+                    role && role !== Const.ADMIN_TYPE.BASIC ?
                     <li className={"nav-item " + active[4]}
                       onClick={()=>activing(4)}>
-                      <Link style={{textAlign:'left'}} to={`${path}/removeUser`}>
+                      <Link style={{textAlign:'left'}} to={`${path}/removeAdmin`}>
                         <i className="fas fa-hands-wash" style={{paddingRight:'4%'}}></i>
-                        Remove Partner
+                        Remove Admin
                       </Link>
                     </li>
                     :

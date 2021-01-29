@@ -100,7 +100,11 @@ exports.sendMailResetPassword = (params, callback) => {
 
 exports.sendActivationEmail = (host, email, username, activeToken, callback) => {
   console.log("mailer - [sendActivationEmail] - START");
-  let link = 'http://' + host + '/api/activeClient/' + activeToken;
+  let protocol = 'http://';
+  if(process.env.NODE_ENV === 'production') {
+    protocol = 'https://';
+  }
+  let link = protocol + host + '/api/activeUser/' + activeToken;
   readTemplate('./templateActivationEmail.html',(err, html) => {
     let transporter = nodemailer.createTransport(opts);
     try {

@@ -7,7 +7,7 @@ import Home from './components/home/home';
 import Buy from './components/buy/buy';
 import Contact from './components/contact/contact';
 import Login from './components/login/login';
-import RegisterClient from './components/registerClient/registerClient';
+import SaveUser from './components/user/saveUser';
 import ErrorPage from './components/errorPage/errorPage';
 import Legal from './components/legal/legal';
 import Spinner from './components/spinner/spinner';
@@ -112,9 +112,9 @@ class App extends Component {
                 )}
               />
               <Route
-                path='/registerClient'
+                path='/register'
                 render={(props) => (
-                  <RegisterClient {...props}
+                  <SaveUser {...props}
                     enableSpinner={this.enableSpinner}
                     disableSpinner={this.disableSpinner} />
                 )}

@@ -10,10 +10,10 @@ const crypto = require('crypto');
 const Compressor = require('./compressionUtil');
 const ImageBuilder = require('./imageUtil');
 const DB_NAME = 'getYourPixels';
+const COLLECTION_ADMIN = '_admin';
 const COLLECTION_USER = '_user';
-const COLLECTION_CLIENT = '_client';
 const COLLECTION_CLICK = '_click';
-const COLLECTION_PIXEL = '_pixel';
+const COLLECTION_CLIENT = '_client';
 const SALT_ROUNDS = 10;
 
 class MongoDB {
@@ -76,8 +76,8 @@ class MongoDB {
     })
   }
 
-  savePixel(body) {
-    console.log("database - [savePixels] - START");
+  saveClient(body) {
+    console.log("database - [saveClient] - START");
     return new Promise((resolve, reject) => {
       try {
         let {
@@ -196,7 +196,7 @@ class MongoDB {
                     }
                     this.client
                       .db(DB_NAME)
-                      .collection(COLLECTION_PIXEL)
+                      .collection(COLLECTION_CLIENT)
                       .findOne({
                         email: data.email,
                         url: data.url,
@@ -217,7 +217,7 @@ class MongoDB {
                             .then(() => {
                               this.client
                                 .db(DB_NAME)
-                                .collection(COLLECTION_PIXEL)
+                                .collection(COLLECTION_CLIENT)
                                 .insertOne(
                                   data
                                 )
@@ -228,22 +228,22 @@ class MongoDB {
                                   })
                                 })
                                 .catch(err => {
-                                  console.log("database - [savePixels] - ERROR -", err);
+                                  console.log("database - [saveClient] - ERROR -", err);
                                   reject(err);
                                 })
                             }).catch(err => {
-                              console.log("database - [savePixels] - ERROR -", err);
+                              console.log("database - [saveClient] - ERROR -", err);
                               reject(err)
                             })
                         }
                       })
                       .catch(err => {
-                        console.log("database - [savePixels] - ERROR -", err);
+                        console.log("database - [saveClient] - ERROR -", err);
                         reject(err);
                       });
                   })
                   .catch(err => {
-                    console.log("database - [savePixels] - ERROR -", err);
+                    console.log("database - [saveClient] - ERROR -", err);
                     reject(err);
                   })
               })
@@ -252,11 +252,11 @@ class MongoDB {
             reject(err);
           })
       } catch (e) {
-        console.log("database - [savePixels] - ERROR -", e);
+        console.log("database - [saveClient] - ERROR -", e);
         reject(e)
       } finally {
         this.client.close().then(() => {
-            console.log("database - [savePixels] - FINISH");
+            console.log("database - [saveClient] - FINISH");
           })
           .catch(err => {
             reject(err.message);
@@ -265,8 +265,8 @@ class MongoDB {
     })
   }
 
-  getPixels() {
-    console.log("database - [getPixels] - START");
+  getClientsPixels() {
+    console.log("database - [getClientsPixels] - START");
     return new Promise((resolve, reject) => {
       try {
         this.initialize();
@@ -275,7 +275,7 @@ class MongoDB {
           .then(value => {
             this.client
               .db(DB_NAME)
-              .collection(COLLECTION_PIXEL)
+              .collection(COLLECTION_CLIENT)
               .find({
 
               }, {
@@ -310,26 +310,26 @@ class MongoDB {
                         resolve(value);
                       })
                       .catch(err => {
-                        console.log("database - [getPixels] - ERROR -", err.message);
+                        console.log("database - [getClientsPixels] - ERROR -", err.message);
                         reject(err);
                       })
                   })
                   .catch(err => {
-                    console.log("database - [getPixels] - ERROR -", err.message);
+                    console.log("database - [getClientsPixels] - ERROR -", err.message);
                     reject(err);
                   })
               })
           })
           .catch(err => {
-            console.log("database - [getPixels] - ERROR -");
+            console.log("database - [getClientsPixels] - ERROR -");
             reject(err);
           })
       } catch (e) {
-        console.log("database - [getPixels] - ERROR -");
+        console.log("database - [getClientsPixels] - ERROR -");
         reject(e);
       } finally {
         this.client.close().then(() => {
-            console.log("database - [getPixels] - FINISH");
+            console.log("database - [getClientsPixels] - FINISH");
           })
           .catch(err => {
             reject(err.message);
@@ -338,8 +338,8 @@ class MongoDB {
     })
   }
 
-  getFullPixel(body) {
-    console.log("database - [getFullPixel] - START");
+  getClient(body) {
+    console.log("database - [getClient] - START");
     return new Promise((resolve, reject) => {
       try {
         const {
@@ -360,7 +360,7 @@ class MongoDB {
           .then(value => {
             this.client
               .db(DB_NAME)
-              .collection(COLLECTION_PIXEL)
+              .collection(COLLECTION_CLIENT)
               .findOne(
                 query, {
                   sort: {
@@ -382,15 +382,15 @@ class MongoDB {
               })
           })
           .catch(err => {
-            console.log("database - [getFullPixel] - ERROR -", err);
+            console.log("database - [getClient] - ERROR -", err);
             reject(err);
           })
       } catch (e) {
-        console.log("database - [getFullPixel] - ERROR -", e);
+        console.log("database - [getClient] - ERROR -", e);
         reject(e);
       } finally {
         this.client.close().then(() => {
-            console.log("database - [getFullPixel] - FINISH");
+            console.log("database - [getClient] - FINISH");
           })
           .catch(err => {
             reject(err);
@@ -399,8 +399,8 @@ class MongoDB {
     })
   }
 
-  getPixelsFiltered(body) {
-    console.log("database - [getPixelsFiltered] - START");
+  getClientsFiltered(body) {
+    console.log("database - [getClientsFiltered] - START");
     return new Promise((resolve, reject) => {
       try {
         const {
@@ -444,7 +444,7 @@ class MongoDB {
           .then(value => {
             this.client
               .db(DB_NAME)
-              .collection(COLLECTION_PIXEL)
+              .collection(COLLECTION_CLIENT)
               .find({
 
               }, {
@@ -468,15 +468,15 @@ class MongoDB {
               })
           })
           .catch(err => {
-            console.log("database - [getPixelsFiltered] - ERROR -");
+            console.log("database - [getClientsFiltered] - ERROR -");
             reject(err);
           })
       } catch (e) {
-        console.log("database - [getPixelsFiltered] - ERROR -");
+        console.log("database - [getClientsFiltered] - ERROR -");
         reject(e);
       } finally {
         this.client.close().then(() => {
-            console.log("database - [getPixelsFiltered] - FINISH");
+            console.log("database - [getClientsFiltered] - FINISH");
           })
           .catch(err => {
             reject(err.message);
@@ -485,8 +485,8 @@ class MongoDB {
     })
   }
 
-  editPixel(body) {
-    console.log("database - [editPixel] - START");
+  editClient(body) {
+    console.log("database - [editClient] - START");
     return new Promise((resolve, reject) => {
       try {
         let {
@@ -504,7 +504,7 @@ class MongoDB {
           .then(result => {
             this.client
               .db(DB_NAME)
-              .collection(COLLECTION_PIXEL)
+              .collection(COLLECTION_CLIENT)
               .findOne({
                 //Converto in mongoDB ObjectID la stringa _id
                 "_id": require('mongodb').ObjectID(id)
@@ -552,7 +552,7 @@ class MongoDB {
                               .then(() => {
                                 this.client
                                   .db(DB_NAME)
-                                  .collection(COLLECTION_PIXEL)
+                                  .collection(COLLECTION_CLIENT)
                                   .updateOne({
                                     "_id": result['_id']
                                   }, data, options)
@@ -570,22 +570,22 @@ class MongoDB {
                                     }
                                   })
                                   .catch(err => {
-                                    console.log("database - [editPixel] - ERROR -", err);
+                                    console.log("database - [editClient] - ERROR -", err);
                                     reject(err);
                                   })
                               })
                               .catch(err => {
-                                console.log("database - [editPixel] - ERROR -", err);
+                                console.log("database - [editClient] - ERROR -", err);
                                 reject(err);
                               })
                           })
                           .catch(err => {
-                            console.log("database - [editPixel] - ERROR -", err);
+                            console.log("database - [editClient] - ERROR -", err);
                             reject(err);
                           })
                       })
                       .catch(err => {
-                        console.log("database - [editPixel] - ERROR -", err);
+                        console.log("database - [editClient] - ERROR -", err);
                         reject(err);
                       })
                   } else {
@@ -618,7 +618,7 @@ class MongoDB {
                       .then(() => {
                         this.client
                           .db(DB_NAME)
-                          .collection(COLLECTION_PIXEL)
+                          .collection(COLLECTION_CLIENT)
                           .updateOne({
                             "_id": result['_id']
                           }, data, options)
@@ -632,12 +632,12 @@ class MongoDB {
                             }
                           })
                           .catch(err => {
-                            console.log("database - [editPixel] - ERROR -", err);
+                            console.log("database - [editClient] - ERROR -", err);
                             reject(err);
                           })
                       })
                       .catch(err => {
-                        console.log("database - [editPixel] - ERROR -", err);
+                        console.log("database - [editClient] - ERROR -", err);
                         reject(err);
                       })
                   }
@@ -646,20 +646,20 @@ class MongoDB {
                 }
               })
               .catch(err => {
-                console.log("database - [editPixel] - ERROR -", err);
+                console.log("database - [editClient] - ERROR -", err);
                 reject(err);
               })
           })
           .catch(err => {
-            console.log("database - [editPixel] - ERROR -", err);
+            console.log("database - [editClient] - ERROR -", err);
             reject(err);
           })
       } catch (e) {
-        console.log("database - [editPixel] - ERROR -", e);
+        console.log("database - [editClient] - ERROR -", e);
         reject(e)
       } finally {
         this.client.close().then(() => {
-            console.log("database - [editPixel] - FINISH");
+            console.log("database - [editClient] - FINISH");
           })
           .catch(err => {
             reject(err.message);
@@ -668,8 +668,8 @@ class MongoDB {
     })
   }
 
-  removePixel(body) {
-    console.log("database - [removePixel] - START");
+  deleteClient(body) {
+    console.log("database - [deleteClient] - START");
     return new Promise((resolve, reject) => {
       try {
         let {
@@ -685,14 +685,13 @@ class MongoDB {
             },
           ]
         }
-
         this.initialize();
         this.client
           .connect()
           .then(() => {
             this.client
               .db(DB_NAME)
-              .collection(COLLECTION_PIXEL)
+              .collection(COLLECTION_CLIENT)
               .findOne(
                 query, {
                   projection: {
@@ -710,39 +709,39 @@ class MongoDB {
                     .then(() => {
                       this.client
                         .db(DB_NAME)
-                        .collection(COLLECTION_PIXEL)
+                        .collection(COLLECTION_CLIENT)
                         .deleteOne(pixel)
                         .then(result => {
                           this.client.close().then(() => {
                               if (result.deletedCount === 1) {
                                 resolve({
                                   code: 200,
-                                  message: "L'immagine e' stata rimossa correttamente"
+                                  message: "Il cliente e' stata rimossa correttamente"
                                 })
                               } else {
                                 resolve({
                                   code: 404,
-                                  message: "Nessun immagine e' stato trovato con i criteri specificati"
+                                  message: "Nessun cliente e' stato trovato con i criteri specificati"
                                 })
                               }
-                              console.log("database - [removePixel] - FINISH");
+                              console.log("database - [deleteClient] - FINISH");
                             })
                             .catch(err => {
                               this.client.close().then(() => {
-                                console.log("database - [removePixel] - ERROR -", err.message);
+                                console.log("database - [deleteClient] - ERROR -", err.message);
                                 reject(err.message);
-                                console.log("database - [removePixel] - FINISH");
+                                console.log("database - [deleteClient] - FINISH");
                               })
                             })
                         })
                         .catch(err => {
                           this.client.close().then(() => {
-                            console.log("database - [removePixel] - ERROR -", err.message);
+                            console.log("database - [deleteClient] - ERROR -", err.message);
                             resolve({
                               code: 404,
                               message: err.message
                             })
-                            console.log("database - [removePixel] - FINISH");
+                            console.log("database - [deleteClient] - FINISH");
                           })
                         })
                     })
@@ -750,7 +749,7 @@ class MongoDB {
                   this.client.close().then(() => {
                     resolve({
                       code: 404,
-                      message: "Immagine inesistente"
+                      message: "Cliente inesistente"
                     })
                   })
                 }
@@ -758,23 +757,23 @@ class MongoDB {
           })
           .catch(err => {
             this.client.close().then(() => {
-              console.log("database - [removePixel] - ERROR -", err.message);
+              console.log("database - [deleteClient] - ERROR -", err.message);
               reject(err.message);
-              console.log("database - [removePixel] - FINISH");
+              console.log("database - [deleteClient] - FINISH");
             })
           })
       } catch (e) {
         this.client.close().then(() => {
-          console.log("database - [removePixel] - ERROR -", e.message);
+          console.log("database - [deleteClient] - ERROR -", e.message);
           reject(e)
-          console.log("database - [removePixel] - FINISH");
+          console.log("database - [deleteClient] - FINISH");
         })
       }
     })
   }
 
-  getUser(email) {
-    console.log("database - [getUser] - START");
+  getAdmin(email) {
+    console.log("database - [getAdmin] - START");
     return new Promise((resolve, reject) => {
       try {
         this.initialize();
@@ -783,7 +782,7 @@ class MongoDB {
           .then(() => {
             this.client
               .db(DB_NAME)
-              .collection(COLLECTION_USER)
+              .collection(COLLECTION_ADMIN)
               .findOne({
                 "email": email,
               }, {
@@ -800,15 +799,15 @@ class MongoDB {
               })
           })
           .catch(err => {
-            console.log("database - [getUser] - ERROR -", err.message);
+            console.log("database - [getAdmin] - ERROR -", err.message);
             reject(err);
           })
       } catch (e) {
-        console.log("database - [getUser] - ERROR -", e.message);
+        console.log("database - [getAdmin] - ERROR -", e.message);
         reject(e)
       } finally {
         this.client.close().then(() => {
-            console.log("database - [getUser] - FINISH");
+            console.log("database - [getAdmin] - FINISH");
           })
           .catch(err => {
             reject(err.message);
@@ -817,8 +816,8 @@ class MongoDB {
     })
   }
 
-  getUsers(type) {
-    console.log("database - [getUsers] - START");
+  getAdmins(type) {
+    console.log("database - [getAdmins] - START");
     return new Promise((resolve, reject) => {
       try {
         let query = {};
@@ -845,7 +844,7 @@ class MongoDB {
           .then(() => {
             this.client
               .db(DB_NAME)
-              .collection(COLLECTION_USER)
+              .collection(COLLECTION_ADMIN)
               .find(
                 query, {
                   projection: {
@@ -863,15 +862,15 @@ class MongoDB {
               })
           })
           .catch(err => {
-            console.log("database - [getUsers] - ERROR -", err.message);
+            console.log("database - [getAdmins] - ERROR -", err.message);
             reject(err);
           })
       } catch (e) {
-        console.log("database - [getUsers] - ERROR -", e.message);
+        console.log("database - [getAdmins] - ERROR -", e.message);
         reject(e)
       } finally {
         this.client.close().then(() => {
-            console.log("database - [getUsers] - FINISH");
+            console.log("database - [getAdmins] - FINISH");
           })
           .catch(err => {
             reject(err.message);
@@ -894,7 +893,7 @@ class MongoDB {
           .then(() => {
             this.client
               .db(DB_NAME)
-              .collection(COLLECTION_USER)
+              .collection(COLLECTION_ADMIN)
               .findOne({
                 "email": email,
               }, {
@@ -962,7 +961,7 @@ class MongoDB {
           .then(() => {
             this.client
               .db(DB_NAME)
-              .collection(COLLECTION_USER)
+              .collection(COLLECTION_ADMIN)
               .findOne({
                 "email": email,
               }, {
@@ -1027,8 +1026,8 @@ class MongoDB {
     })
   }
 
-  addUser(body) {
-    console.log("database - [addUser] - START");
+  addAdmin(body) {
+    console.log("database - [addAdmin] - START");
     return new Promise((resolve, reject) => {
       try {
         let {
@@ -1043,16 +1042,16 @@ class MongoDB {
             this.generateHashedPassword(password)
               .then(result => {
                 password = result.hash;
-                this.getUser(email).then(value => {
+                this.getAdmin(email).then(value => {
                   if (value) {
-                    reject(new Error("Utente già esistente"))
+                    reject(new Error("Admin già esistente"))
                   } else {
                     this.client
                       .connect()
                       .then(() => {
                         this.client
                           .db(DB_NAME)
-                          .collection(COLLECTION_USER)
+                          .collection(COLLECTION_ADMIN)
                           .insertOne({
                             "email": email,
                             "password": password,
@@ -1061,36 +1060,36 @@ class MongoDB {
                           .then(value => {
                             resolve({
                               code: 200,
-                              message: "Utente inserito correttamente"
+                              message: "Admin inserito correttamente"
                             })
                           })
                           .catch(err => {
-                            console.log("database - [addUser] - ERROR -", err);
+                            console.log("database - [addAdmin] - ERROR -", err);
                             reject(err);
                           })
                       })
                       .catch(err => {
-                        console.log("database - [addUser] - ERROR -", err);
+                        console.log("database - [addAdmin] - ERROR -", err);
                         reject(err);
                       })
                   }
                 })
               })
               .catch(err => {
-                console.log("database - [addUser] - ERROR -", err);
+                console.log("database - [addAdmin] - ERROR -", err);
                 reject(err);
               })
           })
           .catch(err => {
-            console.log("database - [addUser] - ERROR -", err.message);
+            console.log("database - [addAdmin] - ERROR -", err.message);
             reject(err);
           })
       } catch (e) {
-        console.log("database - [addUser] - ERROR -", e);
+        console.log("database - [addAdmin] - ERROR -", e);
         reject(e)
       } finally {
         this.client.close().then(() => {
-            console.log("database - [addUser] - FINISH");
+            console.log("database - [addAdmin] - FINISH");
           })
           .catch(err => {
             reject(err.message);
@@ -1099,8 +1098,8 @@ class MongoDB {
     })
   }
 
-  deleteUser(body) {
-    console.log("database - [deleteUser] - START");
+  deleteAdmin(body) {
+    console.log("database - [deleteAdmin] - START");
     return new Promise((resolve, reject) => {
       try {
         var {
@@ -1113,7 +1112,7 @@ class MongoDB {
           .then(() => {
             this.client
               .db(DB_NAME)
-              .collection(COLLECTION_USER)
+              .collection(COLLECTION_ADMIN)
               .findOne({
                 "email": email,
               }, {
@@ -1131,18 +1130,18 @@ class MongoDB {
                     .then(() => {
                       this.client
                         .db(DB_NAME)
-                        .collection(COLLECTION_USER)
+                        .collection(COLLECTION_ADMIN)
                         .deleteOne(user)
                         .then(result => {
                           if (result.deletedCount === 1) {
                             resolve({
                               code: 200,
-                              message: "L'utente e' stato rimosso correttamente"
+                              message: "L'admin e' stato rimosso correttamente"
                             })
                           } else {
                             resolve({
                               code: 404,
-                              message: "Non e' stato trovato alcun utente"
+                              message: "Non e' stato trovato alcun admin"
                             })
                           }
                         })
@@ -1157,21 +1156,21 @@ class MongoDB {
                 } else {
                   resolve({
                     code: 404,
-                    message: "Utente inesistente"
+                    message: "Admin inesistente"
                   })
                 }
               })
           })
           .catch(err => {
-            console.log("database - [deleteUser] - ERROR -", err.message);
+            console.log("database - [deleteAdmin] - ERROR -", err.message);
             reject(err);
           })
       } catch (e) {
-        console.log("database - [deleteUser] - ERROR -", e.message);
+        console.log("database - [deleteAdmin] - ERROR -", e.message);
         reject(e)
       } finally {
         this.client.close().then(() => {
-            console.log("database - [deleteUser] - FINISH");
+            console.log("database - [deleteAdmin] - FINISH");
           })
           .catch(err => {
             reject(err.message);
@@ -1190,7 +1189,7 @@ class MongoDB {
           .then(value => {
             this.client
               .db(DB_NAME)
-              .collection(COLLECTION_PIXEL)
+              .collection(COLLECTION_CLIENT)
               .find({
 
               }, {
@@ -1250,7 +1249,7 @@ class MongoDB {
           .then(() => {
             this.client
               .db(DB_NAME)
-              .collection(COLLECTION_USER)
+              .collection(COLLECTION_ADMIN)
               .findOne({
                 "email": email
               }, {
@@ -1276,7 +1275,7 @@ class MongoDB {
                       };
                       this.client
                         .db(DB_NAME)
-                        .collection(COLLECTION_USER)
+                        .collection(COLLECTION_ADMIN)
                         .updateOne(filter, updateDoc, options)
                         .then(value => {
                           resolve(password.real);
@@ -1331,7 +1330,7 @@ class MongoDB {
           .then(value => {
             this.client
               .db(DB_NAME)
-              .collection(COLLECTION_USER)
+              .collection(COLLECTION_ADMIN)
               .findOne({
                 "email": email,
               }, {
@@ -1357,7 +1356,7 @@ class MongoDB {
                       };
                       this.client
                         .db(DB_NAME)
-                        .collection(COLLECTION_USER)
+                        .collection(COLLECTION_ADMIN)
                         .updateOne(filter, updateDoc, options)
                         .then(value => {
                           resolve(password);
@@ -1410,7 +1409,7 @@ class MongoDB {
           .then(value => {
             this.client
               .db(DB_NAME)
-              .collection(COLLECTION_CLIENT)
+              .collection(COLLECTION_USER)
               .findOne({
                 "email": email,
               }, {
@@ -1436,7 +1435,7 @@ class MongoDB {
                       };
                       this.client
                         .db(DB_NAME)
-                        .collection(COLLECTION_CLIENT)
+                        .collection(COLLECTION_USER)
                         .updateOne(filter, updateDoc, options)
                         .then(value => {
                           resolve(password);
@@ -1481,7 +1480,7 @@ class MongoDB {
           .then(() => {
             this.client
               .db(DB_NAME)
-              .collection(COLLECTION_CLIENT)
+              .collection(COLLECTION_USER)
               .findOne({
                 "email": email
               }, {
@@ -1507,7 +1506,7 @@ class MongoDB {
                       };
                       this.client
                         .db(DB_NAME)
-                        .collection(COLLECTION_CLIENT)
+                        .collection(COLLECTION_USER)
                         .updateOne(filter, updateDoc, options)
                         .then(value => {
                           resolve(password.real);
@@ -1544,8 +1543,8 @@ class MongoDB {
     })
   }
 
-  getClient(email, username = null) {
-    console.log("database - [getClient] - START");
+  getUser(email, username = null) {
+    console.log("database - [getUser] - START");
     return new Promise((resolve, reject) => {
       try {
         let query = {
@@ -1560,7 +1559,7 @@ class MongoDB {
           .then(() => {
             this.client
               .db(DB_NAME)
-              .collection(COLLECTION_CLIENT)
+              .collection(COLLECTION_USER)
               .findOne(
                 query, {
                   projection: {
@@ -1577,15 +1576,15 @@ class MongoDB {
               })
           })
           .catch(err => {
-            console.log("database - [getClient] - ERROR -", err.message);
+            console.log("database - [getUser] - ERROR -", err.message);
             reject(err);
           })
       } catch (e) {
-        console.log("database - [getClient] - ERROR -", e.message);
+        console.log("database - [getUser] - ERROR -", e.message);
         reject(e)
       } finally {
         this.client.close().then(() => {
-            console.log("database - [getClient] - FINISH");
+            console.log("database - [getUser] - FINISH");
           })
           .catch(err => {
             reject(err.message);
@@ -1594,8 +1593,8 @@ class MongoDB {
     })
   }
 
-  loginClient(body) {
-    console.log("database - [loginClient] - START");
+  loginUser(body) {
+    console.log("database - [loginUser] - START");
     return new Promise((resolve, reject) => {
       try {
         const {
@@ -1608,7 +1607,7 @@ class MongoDB {
           .then(() => {
             this.client
               .db(DB_NAME)
-              .collection(COLLECTION_CLIENT)
+              .collection(COLLECTION_USER)
               .findOne({
                 "$and": [{
                   "$or": [{
@@ -1647,21 +1646,21 @@ class MongoDB {
                 } else {
                   resolve({
                     code: 404,
-                    message: "User not exist"
+                    message: "User inesistente"
                   })
                 }
               })
           })
           .catch(err => {
-            console.log("database - [loginClient] - ERROR -", err.message);
+            console.log("database - [loginUser] - ERROR -", err.message);
             reject(err);
           })
       } catch (e) {
-        console.log("database - [loginClient] - ERROR -", e.message);
+        console.log("database - [loginUser] - ERROR -", e.message);
         reject(e)
       } finally {
         this.client.close().then(() => {
-            console.log("database - [loginClient] - FINISH");
+            console.log("database - [loginUser] - FINISH");
           })
           .catch(err => {
             reject(err.message);
@@ -1670,8 +1669,8 @@ class MongoDB {
     })
   }
 
-  registryClient(body) {
-    console.log("database - [registryClient] - START");
+  saveUser(body) {
+    console.log("database - [saveUser] - START");
     return new Promise((resolve, reject) => {
       try {
         let {
@@ -1687,7 +1686,7 @@ class MongoDB {
             this.generateHashedPassword(password)
               .then(result => {
                 password = result.hash;
-                this.getClient(email, username).then(value => {
+                this.getUser(email, username).then(value => {
                   if (value) {
                     if (value.username !== username && value.email === email) {
                       reject(new Error("Username già esistente"));
@@ -1714,44 +1713,44 @@ class MongoDB {
                       .then(() => {
                         this.client
                           .db(DB_NAME)
-                          .collection(COLLECTION_CLIENT)
+                          .collection(COLLECTION_USER)
                           .insertOne(user)
                           .then(value => {
                             resolve({
                               code: 200,
-                              message: "L'email con il link di attivazione è stata inviata. Questo scadra' entro un ora",
+                              message: "L'email con il link di attivazione è stata inviata. Scadra' entro un ora",
                               activeToken: user.activeToken,
                               email: user.email,
                               username: user.username
                             })
                           })
                           .catch(err => {
-                            console.log("database - [registryClient] - ERROR -", err);
+                            console.log("database - [saveUser] - ERROR -", err);
                             reject(err);
                           })
                       })
                       .catch(err => {
-                        console.log("database - [registryClient] - ERROR -", err);
+                        console.log("database - [saveUser] - ERROR -", err);
                         reject(err);
                       })
                   }
                 })
               })
               .catch(err => {
-                console.log("database - [registryClient] - ERROR -", err);
+                console.log("database - [saveUser] - ERROR -", err);
                 reject(err);
               })
           })
           .catch(err => {
-            console.log("database - [registryClient] - ERROR -", err.message);
+            console.log("database - [saveUser] - ERROR -", err.message);
             reject(err);
           })
       } catch (e) {
-        console.log("database - [registryClient] - ERROR -", e);
+        console.log("database - [saveUser] - ERROR -", e);
         reject(e)
       } finally {
         this.client.close().then(() => {
-            console.log("database - [registryClient] - FINISH");
+            console.log("database - [saveUser] - FINISH");
           })
           .catch(err => {
             reject(err.message);
@@ -1760,8 +1759,8 @@ class MongoDB {
     })
   }
 
-  activeClient(activeToken) {
-    console.log("database - [activeClient] - START");
+  activeUser(activeToken) {
+    console.log("database - [activeUser] - START");
     return new Promise((resolve, reject) => {
       try {
         let user = {
@@ -1777,7 +1776,7 @@ class MongoDB {
           .then(() => {
             this.client
               .db(DB_NAME)
-              .collection(COLLECTION_CLIENT)
+              .collection(COLLECTION_USER)
               .findOne(user)
               .then(value => {
                 if (value) {
@@ -1795,7 +1794,7 @@ class MongoDB {
                   };
                   this.client
                     .db(DB_NAME)
-                    .collection(COLLECTION_CLIENT)
+                    .collection(COLLECTION_USER)
                     .updateOne({
                       "_id": value['_id']
                     }, data, options)
@@ -1811,13 +1810,13 @@ class MongoDB {
                       }
                     })
                     .catch(err => {
-                      console.log("database - [editPixel] - ERROR -", err);
+                      console.log("database - [activeUser] - ERROR -", err);
                       reject(err);
                     })
                 } else {
                   this.client
                     .db(DB_NAME)
-                    .collection(COLLECTION_CLIENT)
+                    .collection(COLLECTION_USER)
                     .findOne({
                       "activeToken": user.activeToken,
                       "active": false,
@@ -1833,7 +1832,7 @@ class MongoDB {
                       if (result) {
                         this.client
                           .db(DB_NAME)
-                          .collection(COLLECTION_CLIENT)
+                          .collection(COLLECTION_USER)
                           .deleteOne({
                             "_id": result._id
                           })
@@ -1857,20 +1856,20 @@ class MongoDB {
                 }
               })
               .catch(err => {
-                console.log("database - [activeClient] - ERROR -", err);
+                console.log("database - [activeUser] - ERROR -", err);
                 reject(err);
               })
           })
           .catch(err => {
-            console.log("database - [activeClient] - ERROR -", err.message);
+            console.log("database - [activeUser] - ERROR -", err.message);
             reject(err);
           })
       } catch (e) {
-        console.log("database - [activeClient] - ERROR -", e);
+        console.log("database - [activeUser] - ERROR -", e);
         reject(e)
       } finally {
         this.client.close().then(() => {
-            console.log("database - [activeClient] - FINISH");
+            console.log("database - [activeUser] - FINISH");
           })
           .catch(err => {
             reject(err.message);
@@ -1889,7 +1888,7 @@ class MongoDB {
           .then(() => {
             this.client
               .db(DB_NAME)
-              .collection(COLLECTION_USER)
+              .collection(COLLECTION_ADMIN)
               .findOne({
                 "email": emailClient,
               }, {
@@ -2003,8 +2002,8 @@ class MongoDB {
     })
   }
 
-  deleteClient(body) {
-    console.log("database - [deleteClient] - START");
+  deleteUser(body) {
+    console.log("database - [deleteUser] - START");
     return new Promise((resolve, reject) => {
       try {
         var {
@@ -2016,7 +2015,7 @@ class MongoDB {
           .then(() => {
             this.client
               .db(DB_NAME)
-              .collection(COLLECTION_CLIENT)
+              .collection(COLLECTION_USER)
               .findOne({
                 "$and": [{
                   "$or": [{
@@ -2038,7 +2037,7 @@ class MongoDB {
                     .then(() => {
                       this.client
                         .db(DB_NAME)
-                        .collection(COLLECTION_CLIENT)
+                        .collection(COLLECTION_USER)
                         .deleteOne(user)
                         .then(result => {
                           if (result.deletedCount === 1) {
@@ -2069,7 +2068,7 @@ class MongoDB {
                 }
               })
               .catch(err=> {
-                console.log("database - [deleteClient - findUser] - ERROR -", err.message);
+                console.log("database - [deleteUser - findUser] - ERROR -", err.message);
                 resolve({
                   code: 404,
                   message: "Non e' stato trovato alcun utente"
@@ -2077,15 +2076,15 @@ class MongoDB {
               })
           })
           .catch(err => {
-            console.log("database - [deleteClient] - ERROR -", err.message);
+            console.log("database - [deleteUser] - ERROR -", err.message);
             reject(err);
           })
       } catch (e) {
-        console.log("database - [deleteClient] - ERROR -", e.message);
+        console.log("database - [deleteUser] - ERROR -", e.message);
         reject(e)
       } finally {
         this.client.close().then(() => {
-            console.log("database - [deleteClient] - FINISH");
+            console.log("database - [deleteUser] - FINISH");
           })
           .catch(err => {
             reject(err.message);

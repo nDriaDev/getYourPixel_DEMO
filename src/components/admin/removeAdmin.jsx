@@ -8,7 +8,7 @@ import Const from './../../util/Costanti';
 import axios from 'axios';
 
 
-const RemoveUser = ({spinnerCommand}) => {
+const RemoveAdmin = ({spinnerCommand}) => {
   const history = useHistory();
   const [form, setForm] = useState({
     email: '',
@@ -17,14 +17,14 @@ const RemoveUser = ({spinnerCommand}) => {
   const [valid, setValid] = useState(false);
   useEffect(()=>{
     spinnerCommand(true);
-    axios.post(Const.GET_USER,{})
+    axios.post(Const.GET_ADMIN,{})
     .then(res => {
       if(res.data && !res.data.code) {
-        if(res.data.type === Const.USER_TYPE.BASIC) {
+        if(res.data.type === Const.ADMIN_TYPE.BASIC) {
           spinnerCommand(false);
           history.push('/manage');
         } else {
-          axios.post(Const.GET_USERS, {"type":res.data.type})
+          axios.post(Const.GET_ADMINS, {"type":res.data.type})
           .then(res => {
             setForm({...form,["usersList"]: res.data});
             spinnerCommand(false);
@@ -66,11 +66,11 @@ const RemoveUser = ({spinnerCommand}) => {
       return;
     }
     spinnerCommand(true);
-    axios.post(Const.DELETE_USER, {"email": form.email})
+    axios.post(Const.DELETE_ADMIN, {"email": form.email})
     .then(res => {
       if (res.data.code === 200) {
         let mess = res.data.message;
-        axios.post(Const.GET_USERS, {"type":res.data.type})
+        axios.post(Const.GET_ADMINS, {"type":res.data.type})
         .then(res => {
           setForm({...form,["usersList"]: res.data, ['email']:''});
           spinnerCommand(false);
@@ -149,4 +149,4 @@ const RemoveUser = ({spinnerCommand}) => {
   )
 }
 
-export default RemoveUser;
+export default RemoveAdmin;

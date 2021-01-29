@@ -84,7 +84,7 @@ const SquarePixeled = ({enableSpinner,disableSpinner}) =>{
 
   useEffect(()=>{
     enableSpinner();
-    axios.get(Const.GET_PIXELS)
+    axios.get(Const.GET_CLIENTS_PIXELS)
     .then(res => {
         let matr = res.data.array.map((row,index) => {
           return (

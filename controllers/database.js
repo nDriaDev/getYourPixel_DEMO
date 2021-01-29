@@ -5,30 +5,30 @@ const { v4: uuid } = require('uuid');
 
 class DataBase {
 
-  getClient(req, res, next) {
+  getUser(req, res, next) {
       try {
-        console.log("database_Controller - [getClient] - START");
+        console.log("database_Controller - [getUser] - START");
         let email = req.body.email ? req.body.email : req.session.email;
-        db.getClient(email)
+        db.getUser(email)
           .then(result => {
             res.status(200).send(result)
           })
           .catch(e => {
-            console.log("database_Controller - [getClient] - ERROR -", e.message);
+            console.log("database_Controller - [getUser] - ERROR -", e.message);
             res.status(200).send({code:500,message:e.message});
           })
       } catch (e) {
-        console.log("database_Controller - [getClient] - ERROR -", e.message);
+        console.log("database_Controller - [getUser] - ERROR -", e.message);
         next(e.message);
       } finally {
-        console.log("database_Controller - [getClient] - FINISH");
+        console.log("database_Controller - [getUser] - FINISH");
       }
   }
 
-  loginClient(req, res, next) {
+  loginUser(req, res, next) {
       try {
-        console.log("database_Controller - [loginClient] - START");
-        db.loginClient(req.body)
+        console.log("database_Controller - [loginUser] - START");
+        db.loginUser(req.body)
           .then(result => {
             if(result.code === 200){
               let secret = uuid();
@@ -42,41 +42,41 @@ class DataBase {
             }
           })
           .catch(e => {
-            console.log("database_Controller - [loginClient] - ERROR -", e.message);
+            console.log("database_Controller - [loginUser] - ERROR -", e.message);
             next(e.message);
           })
       } catch (e) {
-        console.log("database_Controller - [loginClient] - ERROR -", e.message);
+        console.log("database_Controller - [loginUser] - ERROR -", e.message);
         next(e.message);
       } finally {
-        console.log("database_Controller - [loginClient] - FINISH");
+        console.log("database_Controller - [loginUser] - FINISH");
       }
   }
 
-  registryClient(req, res, next) {
+  saveUser(req, res, next) {
       try {
-        console.log("database_Controller - [registryClient] - START");
-        db.registryClient(req.body)
+        console.log("database_Controller - [saveUser] - START");
+        db.saveUser(req.body)
           .then(result => {
             res.locals.result = result;
             next();
           })
           .catch(e => {
-            console.log("database_Controller - [registryClient] - ERROR -", e.message);
+            console.log("database_Controller - [saveUser] - ERROR -", e.message);
             res.status(200).send({code:500,message:e.message});
           })
       } catch (e) {
-        console.log("database_Controller - [registryClient] - ERROR -", e.message);
+        console.log("database_Controller - [saveUser] - ERROR -", e.message);
         next(e.message);
       } finally {
-        console.log("database_Controller - [registryClient] - FINISH");
+        console.log("database_Controller - [saveUser] - FINISH");
       }
   }
 
-  activeClient(req, res, next) {
+  activeUser(req, res, next) {
     try {
-      console.log("database_Controller - [registryClient] - START");
-      db.activeClient({activeToken:req.params.activeToken})
+      console.log("database_Controller - [activeUser] - START");
+      db.activeUser({activeToken:req.params.activeToken})
       .then(result => {
         if(result) {
           res.sendFile((require("path")).resolve(__dirname, '..','templateActivationSuccess.html'));
@@ -85,22 +85,22 @@ class DataBase {
         }
       })
       .catch(err => {
-        console.log("database_Controller - [registryClient] - ERROR -", err.message);
+        console.log("database_Controller - [activeUser] - ERROR -", err.message);
         next(err.message)
       })
     } catch (e) {
-      console.log("database_Controller - [registryClient] - ERROR -", e.message);
+      console.log("database_Controller - [activeUser] - ERROR -", e.message);
       next(e.message);
     } finally {
-      console.log("database_Controller - [registryClient] - FINISH");
+      console.log("database_Controller - [activeUser] - FINISH");
     }
   }
 
-  deleteClient(req, res, next) {
+  deleteUser(req, res, next) {
     try {
-      console.log("database_Controller - [deleteClient] - START");
+      console.log("database_Controller - [deleteUser] - START");
       db
-      .deleteClient({email: req.body.email ? req.body.email : req.session.email})
+      .deleteUser({email: req.body.email ? req.body.email : req.session.email})
       .then(result => {
         res.status(200).send(result)
       })
@@ -108,10 +108,10 @@ class DataBase {
         res.status(200).send(err)
       })
     } catch (e) {
-      console.log("database_Controller - [deleteClient] - ERROR", e.message);
+      console.log("database_Controller - [deleteUser] - ERROR", e.message);
       next(e.message);
     } finally {
-      console.log("database_Controller - [deleteClient] - FINISH");
+      console.log("database_Controller - [deleteUser] - FINISH");
     }
   }
 
@@ -134,11 +134,11 @@ class DataBase {
       }
   }
 
-  getUser(req, res, next) {
+  getAdmin(req, res, next) {
       try {
-        console.log("database_Controller - [getUser] - START");
+        console.log("database_Controller - [getAdmin] - START");
         let email = req.body.email ? req.body.email : req.session.email;
-        db.getUser(email)
+        db.getAdmin(email)
           .then(result => {
             if(result) {
               res.status(200).send(result)
@@ -151,61 +151,61 @@ class DataBase {
             }
           })
           .catch(e => {
-            console.log("database_Controller - [getUser] - ERROR -", e.message);
+            console.log("database_Controller - [getAdmin] - ERROR -", e.message);
             res.status(200).send({code:500,message:e.message});
           })
       } catch (e) {
-        console.log("database_Controller - [getUser] - ERROR -", e.message);
+        console.log("database_Controller - [getAdmin] - ERROR -", e.message);
         next(e.message);
       } finally {
-        console.log("database_Controller - [getUser] - FINISH");
+        console.log("database_Controller - [getAdmin] - FINISH");
       }
   }
 
-  getUsers(req, res, next) {
+  getAdmins(req, res, next) {
       try {
-        console.log("database_Controller - [getUsers] - START");
+        console.log("database_Controller - [getAdmins] - START");
         let type = req.body.type ? req.body.type : null;
-        db.getUsers(type)
+        db.getAdmins(type)
           .then(result => {
             res.status(200).send(result)
           })
           .catch(e => {
-            console.log("database_Controller - [getUsers] - ERROR -", e.message);
+            console.log("database_Controller - [getAdmins] - ERROR -", e.message);
             res.status(200).send({code:500,message:e.message});
           })
       } catch (e) {
-        console.log("database_Controller - [getUsers] - ERROR -", e.message);
+        console.log("database_Controller - [getAdmins] - ERROR -", e.message);
         next(e.message);
       } finally {
-        console.log("database_Controller - [getUsers] - FINISH");
+        console.log("database_Controller - [getAdmins] - FINISH");
       }
   }
 
-  addUser(req, res, next) {
+  addAdmin(req, res, next) {
       try {
-        console.log("database_Controller - [addUser] - START");
-        db.addUser(req.body)
+        console.log("database_Controller - [addAdmin] - START");
+        db.addAdmin(req.body)
           .then(result => {
             res.status(200).send(result)
           })
           .catch(e => {
-            console.log("database_Controller - [addUser] - ERROR -", e.message);
+            console.log("database_Controller - [addAdmin] - ERROR -", e.message);
             res.status(200).send({code:500,message:e.message});
           })
       } catch (e) {
-        console.log("database_Controller - [addUser] - ERROR -", e.message);
+        console.log("database_Controller - [addAdmin] - ERROR -", e.message);
         next(e.message);
       } finally {
-        console.log("database_Controller - [addUser] - FINISH");
+        console.log("database_Controller - [addAdmin] - FINISH");
       }
   }
 
-  deleteUser(req, res, next) {
+  deleteAdmin(req, res, next) {
     try {
-      console.log("database_Controller - [deleteUser] - START");
+      console.log("database_Controller - [deleteAdmin] - START");
       db
-      .deleteUser({email: req.body.email})
+      .deleteAdmin({email: req.body.email})
       .then(result => {
         res.status(200).send(result)
       })
@@ -213,10 +213,10 @@ class DataBase {
         res.status(200).send(err)
       })
     } catch (e) {
-      console.log("database_Controller - [deleteUser] - ERROR", e.message);
+      console.log("database_Controller - [deleteAdmin] - ERROR", e.message);
       next(e.message);
     } finally {
-      console.log("database_Controller - [deleteUser] - FINISH");
+      console.log("database_Controller - [deleteAdmin] - FINISH");
     }
   }
 
@@ -267,29 +267,29 @@ class DataBase {
     }
   }
 
-  getPixels(req, res, next) {
+  getClientsPixels(req, res, next) {
     try {
-    console.log("database_Controller - [getPixels] - START");
-      db.getPixels()
+    console.log("database_Controller - [getClientsPixels] - START");
+      db.getClientsPixels()
       .then(result => {
         res.status(200).send(result);
       })
       .catch(err => {
-        console.log("database_Controller - [getPixels] - ERROR -", err.message);
+        console.log("database_Controller - [getClientsPixels] - ERROR -", err.message);
         next(err);
       })
     } catch (e) {
-      console.log("database_Controller - [getPixels] - ERROR -", e.message);
+      console.log("database_Controller - [getClientsPixels] - ERROR -", e.message);
       next(e.message);
     } finally {
-      console.log("database_Controller - [getPixels] - FINISH");
+      console.log("database_Controller - [getClientsPixels] - FINISH");
     }
   }
 
-  getFullPixel(req, res, next) {
+  getClient(req, res, next) {
     try {
-    console.log("database_Controller - [getFullPixel] - START");
-      db.getFullPixel(req.body)
+    console.log("database_Controller - [getClient] - START");
+      db.getClient(req.body)
       .then(result => {
         if(result) {
           res.status(200).send({code:200, item:result});
@@ -298,21 +298,21 @@ class DataBase {
         }
       })
       .catch(err => {
-        console.log("database_Controller - [getFullPixel] - ERROR -", err.message);
+        console.log("database_Controller - [getClient] - ERROR -", err.message);
         next(err.message);
       })
     } catch (e) {
-      console.log("database_Controller - [getFullPixel] - ERROR -", e.message);
+      console.log("database_Controller - [getClient] - ERROR -", e.message);
       next(e.message);
     } finally {
-      console.log("database_Controller - [getFullPixel] - FINISH");
+      console.log("database_Controller - [getClient] - FINISH");
     }
   }
 
-  editPixel(req, res, next) {
+  editClient(req, res, next) {
     try {
-    console.log("database_Controller - [editPixel] - START");
-      db.editPixel(req.body)
+    console.log("database_Controller - [editClient] - START");
+      db.editClient(req.body)
       .then(result => {
         if(result) {
           res.status(200).send({code:200, message:result});
@@ -321,60 +321,60 @@ class DataBase {
         }
       })
       .catch(err => {
-        console.log("database_Controller - [editPixel] - ERROR -", err.message);
+        console.log("database_Controller - [editClient] - ERROR -", err.message);
         next(err);
       })
     } catch (e) {
-      console.log("database_Controller - [editPixel] - ERROR -", e.message);
+      console.log("database_Controller - [editClient] - ERROR -", e.message);
       next(e.message);
     } finally {
-      console.log("database_Controller - [editPixel] - FINISH");
+      console.log("database_Controller - [editClient] - FINISH");
     }
   }
 
-  savePixel(req, res, next) {
+  saveClient(req, res, next) {
     try {
-    console.log("database_Controller - [savePixel] - START");
-      db.savePixel(req.body)
+    console.log("database_Controller - [saveClient] - START");
+      db.saveClient(req.body)
       .then(result => {
         res.status(200).send(result);
       })
       .catch(err => {
-        console.log("database_Controller - [savePixel] - ERROR -", err.message);
+        console.log("database_Controller - [saveClient] - ERROR -", err.message);
         next(err);
       })
     } catch (e) {
-      console.log("database_Controller - [savePixel] - ERROR -", e.message);
+      console.log("database_Controller - [saveClient] - ERROR -", e.message);
       next(e.message);
     } finally {
-      console.log("database_Controller - [savePixel] - FINISH");
+      console.log("database_Controller - [saveClient] - FINISH");
     }
   }
 
-  getPixelsFiltered(req, res, next) {
+  getClientsFiltered(req, res, next) {
     try {
-    console.log("database_Controller - [getPixelsFiltered] - START");
-      db.getPixelsFiltered(req.body)
+    console.log("database_Controller - [getClientsFiltered] - START");
+      db.getClientsFiltered(req.body)
       .then(result => {
         res.status(200).send(result);
       })
       .catch(err => {
-        console.log("database_Controller - [getPixelsFiltered] - ERROR -", err.message);
+        console.log("database_Controller - [getClientsFiltered] - ERROR -", err.message);
         res.status(500).send(err);
       })
     } catch (e) {
-      console.log("database_Controller - [getPixelsFiltered] - ERROR -", e.message);
+      console.log("database_Controller - [getClientsFiltered] - ERROR -", e.message);
       next(e.message);
     } finally {
-      console.log("database_Controller - [getPixelsFiltered] - FINISH");
+      console.log("database_Controller - [getClientsFiltered] - FINISH");
     }
   }
 
-  removePixel(req, res, next) {
+  deleteClient(req, res, next) {
     try {
-      console.log("database_Controller - [removePixel] - START");
+      console.log("database_Controller - [deleteClient] - START");
       db
-      .removePixel(req.body)
+      .deleteClient(req.body)
       .then(result => {
         res.status(200).send(result)
       })
@@ -382,10 +382,10 @@ class DataBase {
         res.status(200).send(err)
       })
     } catch (e) {
-      console.log("database_Controller - [removePixel] - ERROR", e.message);
+      console.log("database_Controller - [deleteClient] - ERROR", e.message);
       next(e.message);
     } finally {
-      console.log("database_Controller - [removePixel] - FINISH");
+      console.log("database_Controller - [deleteClient] - FINISH");
     }
   }
 

@@ -58,7 +58,7 @@ const Login = (props) => {
         }
       })
       .catch(err => {
-        axios.post(Const.LOGIN_CLIENT, form)
+        axios.post(Const.LOGIN_USER, form)
         .then(res => {
           if (res.data.code === 200) {
             sessionStorage.setItem('isAuthBasic', true)

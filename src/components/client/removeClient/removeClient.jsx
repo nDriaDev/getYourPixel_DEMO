@@ -8,7 +8,7 @@ import Const from './../../../util/Costanti';
 import axios from 'axios';
 
 
-const RemovePixel = ({spinnerCommand}) => {
+const RemoveClient = ({spinnerCommand}) => {
   const [validated, setValidated] = useState(false);
   const [selectSpinner, setSelectSpinner] = useState({enabled:true});
   const [form, setForm] = useState({
@@ -28,7 +28,7 @@ const RemovePixel = ({spinnerCommand}) => {
           })
       } else {
         setSelectSpinner({disabled:true});
-        axios.post(Const.GET_PIXELS_FILTERED, {'filtro':value})
+        axios.post(Const.GET_CLIENTS_FILTERED, {'filtro':value})
         .then(res => {
           setForm({
             filtro:value,
@@ -70,7 +70,7 @@ const RemovePixel = ({spinnerCommand}) => {
       setValidated(true);
     } else {
       spinnerCommand(true);
-      axios.post(Const.REMOVE_PIXEL, {'target': form.target})
+      axios.post(Const.DELETE_CLIENT, {'target': form.target})
       .then(res => {
         if (res.data.code === 200) {
           setForm({
@@ -181,4 +181,4 @@ const RemovePixel = ({spinnerCommand}) => {
   )
 }
 
-export default RemovePixel;
+export default RemoveClient;
