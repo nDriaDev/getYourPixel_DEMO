@@ -134,7 +134,7 @@ const AddUser = ({spinnerCommand}) => {
             </Form.Control>
           </Form.Group>
           <Button variant="success" type="submit">
-            <i class="fas fa-hands-helping" style={{paddingRight:'4%'}}></i>
+            <i className="fas fa-hands-helping" style={{paddingRight:'4%'}}></i>
             {'Aggiungi'}
           </Button>
         </Form>

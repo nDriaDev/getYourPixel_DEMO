@@ -172,7 +172,7 @@ const RemovePixel = ({spinnerCommand}) => {
             </Col>
           </Row>
           <Button variant="success" type="submit">
-            <i class="fas fa-user-times" style={{paddingRight:'4%'}}></i>
+            <i className="fas fa-user-times" style={{paddingRight:'4%'}}></i>
             {'Rimuovi'}
           </Button>
         </Form>

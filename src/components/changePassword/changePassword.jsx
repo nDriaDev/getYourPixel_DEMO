@@ -161,7 +161,7 @@ const ChangePassword = ({spinnerCommand}) => {
               </Form.Control.Feedback>
           </Form.Group>
           <Button variant="success" type="submit">
-            <i class="fas fa-lock" style={{paddingRight:'4%'}}></i>
+            <i className="fas fa-lock" style={{paddingRight:'4%'}}></i>
             {'Aggiorna'}
           </Button>
         </Form>

@@ -39,7 +39,6 @@ const ForgotPassword = (props) => {
       enableSpinner();
       axios.post(Const.RESET_PASSWORD, form)
       .then(res => {
-        console.log("RES", res);
         if(res.data.code === 200) {
           disableSpinner();
           toast.success(res.data.message, {
@@ -90,7 +89,7 @@ const ForgotPassword = (props) => {
           </Form.Group>
 
           <Button variant="success" type="submit">
-            <i class="fas fa-sync-alt" style={{paddingRight: '4%'}}></i>
+            <i className="fas fa-sync-alt" style={{paddingRight: '4%'}}></i>
             {'Reset'}
           </Button>
           <Form.Group controlId="formBasicForgotPassword" style={{textAlign:'left'}}>

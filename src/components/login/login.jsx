@@ -118,7 +118,7 @@ const Login = (props) => {
             <Form.Label className="label-underline-link" onClick={()=> goTo("/forgotPassword")}>Password dimenticata</Form.Label>
           </Form.Group>
           <Button variant="success" type="submit">
-            <i class="fas fa-sign-in-alt" style={{paddingRight: '4%'}}></i>
+            <i className="fas fa-sign-in-alt" style={{paddingRight: '4%'}}></i>
             {'Login'}
           </Button>
         </Form>

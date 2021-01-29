@@ -96,7 +96,11 @@ const SavePixel = ({spinnerCommand}) => {
         }
       })
     } else {
-      setForm({...form, [name]:value});
+      if(['col','row','positionRow','positionCol'].includes(name) && value !== '' && !value.match(new RegExp(/^[1-9]+$/g))) {
+        event.target.value = '';
+      } else {
+        setForm({...form, [name]:value});
+      }
     }
   }
 
@@ -163,7 +167,7 @@ const SavePixel = ({spinnerCommand}) => {
   return (
     <>
       { pixelNumber &&
-        <div className="mx-auto mb-5" style={{maxWidth:'408px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
+        <div className="mx-auto mb-5" style={{maxWidth:'520px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
         <div className="mt-2" align="center">
           <h1 style={{color:'#28a745'}}>Save Client</h1>
         </div>
@@ -173,58 +177,67 @@ const SavePixel = ({spinnerCommand}) => {
         </div>
         <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
           <Form noValidate validated={validated} onSubmit={onSubmit}>
-            <Form.Group controlId="formBasicEmail">
-              <Form.Label style={{float: 'left', color:'white'}}>Email Cliente *</Form.Label>
-              <Form.Control
-                type="email"
-                name="email"
-                placeholder=""
-                value={form.email}
-                onChange={e => handleInputChange(e)}
-                required
-                />
-            </Form.Group>
-            <Form.Group controlId="formBasicCompany">
-              <Form.Label style={{float: 'left', color:'white'}}>Sito da Pubblicizzare *</Form.Label>
-              <Form.Control
-                type="text"
-                name="url"
-                placeholder=""
-                value={form.url}
-                onChange={e => handleInputChange(e)}
-                required
-                />
-            </Form.Group>
-            <Form.Group controlId="formBasicCompany">
-              <Form.Label style={{float: 'left', color:'white'}}>Azienda Cliente</Form.Label>
-              <Form.Control
-                type="text"
-                name="company"
-                placeholder=""
-                value={form.company}
-                onChange={e => handleInputChange(e)}
-                />
-            </Form.Group>
-            <Row style={{marginBottom:'1rem'}}>
-              <Form.Label column sm="12" style={{textAlign: 'left', color:'white'}}>Immagine *</Form.Label>
-              <Col sm="12">
-                <Form.File id="formBasicFile" custom>
-                  <Form.File.Input
-                    name="file"
+            <Row>
+              <Col sm="6">
+                <Form.Group controlId="formBasicEmail">
+                  <Form.Label style={{float: 'left', color:'white'}}>Email Cliente *</Form.Label>
+                  <Form.Control
+                    type="email"
+                    name="email"
+                    placeholder=""
+                    value={form.email}
                     onChange={e => handleInputChange(e)}
+                    required
                     />
-                  <Form.File.Label className={"position-label " + validFile} data-browse="Carica immagine">{form.file.name }</Form.File.Label>
-                </Form.File>
+                </Form.Group>
+              </Col>
+              <Col sm="6">
+                <Form.Group controlId="formBasicCompany">
+                  <Form.Label style={{float: 'left', color:'white'}}>Sito da Pubblicizzare *</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="url"
+                    placeholder=""
+                    value={form.url}
+                    onChange={e => handleInputChange(e)}
+                    required
+                    />
+                </Form.Group>
               </Col>
             </Row>
-            <Row style={{marginBottom:'1rem'}}>
+            <Row>
+              <Col sm="6">
+                <Form.Group controlId="formBasicCompany">
+                  <Form.Label style={{float: 'left', color:'white'}}>Azienda Cliente</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="company"
+                    placeholder=""
+                    value={form.company}
+                    onChange={e => handleInputChange(e)}
+                    />
+                </Form.Group>
+              </Col>
               <Col sm="6" style={{padding:'0'}}>
-                <Form.Label column sm="12" style={{textAlign: 'left', color:'white'}}>{'Pixels in verticale *'}</Form.Label>
+                <Form.Label column sm="12" style={{textAlign: 'left', color:'white', paddingTop:'0'}}>Immagine *</Form.Label>
+                <Col sm="12">
+                  <Form.File id="formBasicFile" custom>
+                    <Form.File.Input
+                      name="file"
+                      onChange={e => handleInputChange(e)}
+                      />
+                    <Form.File.Label className={"position-label " + validFile} data-browse="Carica">{form.file.name }</Form.File.Label>
+                  </Form.File>
+                </Col>
+              </Col>
+            </Row>
+            <Row style={{marginBottom:'.8rem'}}>
+              <Col sm="6" style={{padding:'0'}}>
+                <Form.Label column sm="12" style={{textAlign: 'left', color:'white', paddingTop:'0'}}>{'Pixels in verticale *'}</Form.Label>
                 <Col sm="8">
                   <Form.Control
-                    type="number"
+                    type="text"
                     name="row"
-                    min="1"
                     placeholder=""
                     value={form.row}
                     onChange={e => handleInputChange(e)}
@@ -233,12 +246,11 @@ const SavePixel = ({spinnerCommand}) => {
                 </Col>
               </Col>
               <Col sm="6" style={{padding:'0'}}>
-                <Form.Label column sm="12" style={{textAlign: 'left', color:'white'}}>{'Pixels in orizzontale *'}</Form.Label>
+                <Form.Label column sm="12" style={{textAlign: 'left', color:'white', paddingTop:'0'}}>{'Pixels in orizzontale *'}</Form.Label>
                 <Col sm="8">
                   <Form.Control
-                    type="number"
+                    type="text"
                     name="col"
-                    min="1"
                     placeholder=""
                     value={form.col}
                     onChange={e => handleInputChange(e)}
@@ -247,14 +259,13 @@ const SavePixel = ({spinnerCommand}) => {
                 </Col>
               </Col>
             </Row>
-            <Row style={{marginBottom:'1rem'}}>
+            <Row style={{marginBottom:'.8rem'}}>
               <Col sm="6" style={{padding:'0'}}>
-                <Form.Label column sm="12" style={{textAlign: 'left', color:'white'}}>{'Posizione in griglia: Riga'}</Form.Label>
+                <Form.Label column sm="12" style={{textAlign: 'left', color:'white', paddingTop:'0'}}>{'Posizione in griglia: Riga'}</Form.Label>
                 <Col sm="8">
                   <Form.Control
-                    type="number"
+                    type="text"
                     name="positionRow"
-                    min="1"
                     placeholder=""
                     value={form.positionRow}
                     onChange={e => handleInputChange(e)}
@@ -262,12 +273,11 @@ const SavePixel = ({spinnerCommand}) => {
                 </Col>
               </Col>
               <Col sm="6" style={{padding:'0'}}>
-                <Form.Label column sm="12" style={{textAlign: 'left', color:'white'}}>{'Posizione in griglia: Colonna'}</Form.Label>
+                <Form.Label column sm="12" style={{textAlign: 'left', color:'white', paddingTop:'0'}}>{'Posizione in griglia: Colonna'}</Form.Label>
                 <Col sm="8">
                   <Form.Control
-                    type="number"
+                    type="text"
                     name="positionCol"
-                    min="1"
                     placeholder=""
                     value={form.positionCol}
                     onChange={e => handleInputChange(e)}

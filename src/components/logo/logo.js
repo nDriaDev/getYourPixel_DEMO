@@ -6,7 +6,7 @@ class Logo extends Component{
     return(
       <div className="display-logo">
         <img className="logo-size" alt="logo" src={Img}/>
-        <h2 className="slogan-h2">Take your internet space.</h2>
+        <h2 className="slogan-h2">Raggiungi l'irraggiungibile</h2>
       </div>
     )
   }

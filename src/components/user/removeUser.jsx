@@ -140,7 +140,7 @@ const RemoveUser = ({spinnerCommand}) => {
               </Form.Control>
             </Form.Group>
             <Button variant="success" type="submit">
-              <i class="fas fa-hands-wash" style={{paddingRight:'4%'}}></i>
+              <i className="fas fa-hands-wash" style={{paddingRight:'4%'}}></i>
               {'Rimuovi'}
             </Button>
           </Form>

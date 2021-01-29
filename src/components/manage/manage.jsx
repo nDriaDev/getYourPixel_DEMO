@@ -123,7 +123,7 @@ const Manage = (props) => {
                   <li className={"nav-item " + active[2]}
                     onClick={()=>activing(2)}>
                     <Link style={{textAlign:'left'}} to={`${path}/removeClient`}>
-                      <i class="fas fa-user-times" style={{paddingRight:'4%'}}></i>
+                      <i className="fas fa-user-times" style={{paddingRight:'4%'}}></i>
                       Remove Client
                     </Link>
                   </li>
@@ -132,7 +132,7 @@ const Manage = (props) => {
                     <li className={"nav-item " + active[3]}
                       onClick={()=>activing(3)}>
                       <Link style={{textAlign:'left'}} to={`${path}/addUser`}>
-                        <i class="fas fa-hands-helping" style={{paddingRight:'4%'}}></i>
+                        <i className="fas fa-hands-helping" style={{paddingRight:'4%'}}></i>
                         Add Partner
                       </Link>
                     </li>
@@ -144,7 +144,7 @@ const Manage = (props) => {
                     <li className={"nav-item " + active[4]}
                       onClick={()=>activing(4)}>
                       <Link style={{textAlign:'left'}} to={`${path}/removeUser`}>
-                        <i class="fas fa-hands-wash" style={{paddingRight:'4%'}}></i>
+                        <i className="fas fa-hands-wash" style={{paddingRight:'4%'}}></i>
                         Remove Partner
                       </Link>
                     </li>
@@ -154,7 +154,7 @@ const Manage = (props) => {
                   <li className={"nav-item " + active[5]}
                     onClick={()=>activing(5)}>
                     <Link style={{textAlign:'left'}} to={`${path}/changePassword`}>
-                      <i class="fas fa-lock" style={{paddingRight:'4%'}}></i>
+                      <i className="fas fa-lock" style={{paddingRight:'4%'}}></i>
                       Change Password
                     </Link>
                   </li>

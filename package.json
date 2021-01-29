@@ -13,7 +13,7 @@
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.1.2",
     "@testing-library/user-event": "^12.2.2",
-    "aos": "^2.3.4",
+    "animate.css": "^4.1.1",
     "axios": "^0.21.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",

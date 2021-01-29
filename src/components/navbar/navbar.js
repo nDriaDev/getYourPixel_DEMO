@@ -11,7 +11,7 @@ class NavbarCustom extends Component{
   constructor(props){
     super(props);
     let pathname = window.location.pathname;
-    pathname = pathname === Const.PATH_ERROR ? 'error' : (pathname === '/' ? '' : (pathname === Const.PATH_BUY ? 'buy' : (pathname === Const.PATH_CONTACT ? 'contact' : (pathname === Const.PATH_HOW_WORK ? 'howWork':(pathname === '/login' ? 'login':(pathname === '/registerClient' ? 'register':'win'))))));
+    pathname = pathname === Const.PATH_ERROR ? 'error' : (pathname === '/' ? '' : (pathname === Const.PATH_BUY ? 'buy' : (pathname === Const.PATH_CONTACT ? 'contact' : (pathname === Const.PATH_HOW_WORK ? 'howWork':(pathname === '/login' ? 'login':(pathname === '/registerClient' ? 'register':(pathname === '/win'? 'win': 'error')))))));
     this.state = {
       origin: window.location.origin,
       active: pathname === 'error' ? 0 : (pathname === '' ? 1 : (pathname === 'buy' ? 2 : (pathname === 'contact' ? 3 : (pathname === 'howWork' ? 4 : (pathname === 'win' ? 5 : (pathname === 'login' ? 6 : 7)))))),
@@ -37,7 +37,6 @@ class NavbarCustom extends Component{
       }
     })
     .catch(err => {
-      console.log(err);
       sessionStorage.clear();
       this.props.disableSpinner();
       toast.error(err.message != null ? err.message : "ERRORE", {
@@ -90,7 +89,6 @@ class NavbarCustom extends Component{
   }
 
   render(){
-    console.log("ACTIVE", this.state.active);
     return(
       <nav className="navbar navbar-expand-lg navbar-dark primary-color">
         <a className="navbar-brand" href="" onClick={(e)=>this.changeActiveAndHistoryPush(e,1, '/')}>
@@ -107,7 +105,7 @@ class NavbarCustom extends Component{
                 className="nav-link nav-bar-link"
                 href=""
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,1,'/')}>
-                <i class="fas fa-home" style={{paddingTop: '5%'}}></i>
+                <i className="fas fa-home" style={{paddingTop: '5%'}}></i>
                 &nbsp;Home
               </a>
             </li>
@@ -116,7 +114,7 @@ class NavbarCustom extends Component{
                 className="nav-link nav-bar-link"
                 href=""
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,2,'/buy')}>
-                <i class="fas fa-shopping-bag" style={{paddingTop: '5%'}}></i>
+                <i className="fas fa-shopping-bag" style={{paddingTop: '5%'}}></i>
                 &nbsp;Buy
               </a>
             </li>
@@ -125,7 +123,7 @@ class NavbarCustom extends Component{
                 className="nav-link nav-bar-link"
                 href=""
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,3,'/contact')}>
-                <i class="fas fa-address-card" style={{paddingTop: '5%'}}></i>
+                <i className="fas fa-address-card" style={{paddingTop: '5%'}}></i>
                 &nbsp;Contact us
               </a>
             </li>
@@ -134,7 +132,7 @@ class NavbarCustom extends Component{
                 className="nav-link nav-bar-link"
                 href=""
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,4,'/howWork')}>
-                <i class="fas fa-cog" style={{paddingTop: '5%'}}></i>
+                <i className="fas fa-cog" style={{paddingTop: '5%'}}></i>
                 &nbsp;How Work
               </a>
             </li>
@@ -143,7 +141,7 @@ class NavbarCustom extends Component{
                 className="nav-link nav-bar-link"
                 href=""
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,5,'/win')}>
-                <i class="fas fa-money-bill-alt" style={{paddingTop: '3%'}}></i>
+                <i className="fas fa-money-bill-alt" style={{paddingTop: '3%'}}></i>
                 &nbsp;Win 500'000 euro
               </a>
             </li>
@@ -155,7 +153,7 @@ class NavbarCustom extends Component{
                   className="nav-link nav-bar-link"
                   href=""
                   onClick={(e)=>this.admin(e)}>
-                  <i class="fas fa-user-cog" style={{paddingTop: '5%'}}></i>
+                  <i className="fas fa-user-cog" style={{paddingTop: '5%'}}></i>
                   &nbsp;Admin
                 </a>
               </li>
@@ -170,7 +168,7 @@ class NavbarCustom extends Component{
                   className="nav-link nav-bar-link"
                   href=""
                   onClick={(e)=>this.registrati(e)}>
-                  <i class="fas fa-plus-square" style={{paddingTop: '5%'}}></i>
+                  <i className="fas fa-plus-square" style={{paddingTop: '5%'}}></i>
                   &nbsp;Registrati
                 </a>
               </li>
@@ -185,7 +183,7 @@ class NavbarCustom extends Component{
                   className="nav-link nav-bar-link"
                   href=""
                   onClick={(e)=>this.login(e)}>
-                  <i class="fas fa-sign-in-alt" style={{paddingTop: '7%'}}></i>
+                  <i className="fas fa-sign-in-alt" style={{paddingTop: '7%'}}></i>
                   &nbsp;Login
                 </a>
               </li>
@@ -200,7 +198,7 @@ class NavbarCustom extends Component{
                   className="nav-link nav-bar-link"
                   href=""
                   onClick={(e)=>this.logout(e)}>
-                  <i class="fas fa-sign-out-alt" style={{paddingTop: '7%'}}></i>
+                  <i className="fas fa-sign-out-alt" style={{paddingTop: '7%'}}></i>
                   &nbsp;Logout
                 </a>
               </li>
