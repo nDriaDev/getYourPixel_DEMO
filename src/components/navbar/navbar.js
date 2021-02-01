@@ -115,7 +115,7 @@ class NavbarCustom extends Component{
                 href=""
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,2,'/buy')}>
                 <i className="fas fa-shopping-bag" style={{paddingTop: '5%'}}></i>
-                &nbsp;Buy
+                &nbsp;Acquista
               </a>
             </li>
             <li className={"nav-item " + (this.state.active === 3 ? 'active-nav-bar' : '')}>
@@ -124,7 +124,7 @@ class NavbarCustom extends Component{
                 href=""
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,3,'/contact')}>
                 <i className="fas fa-address-card" style={{paddingTop: '5%'}}></i>
-                &nbsp;Contact us
+                &nbsp;Contattaci
               </a>
             </li>
             <li className={"nav-item " + (this.state.active === 4 ? 'active-nav-bar' : '')}>
@@ -133,7 +133,7 @@ class NavbarCustom extends Component{
                 href=""
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,4,'/howWork')}>
                 <i className="fas fa-cog" style={{paddingTop: '5%'}}></i>
-                &nbsp;How Work
+                &nbsp;Come funziona
               </a>
             </li>
             <li className={"nav-item " + (this.state.active === 5 ? 'active-nav-bar' : '')}>
@@ -142,7 +142,7 @@ class NavbarCustom extends Component{
                 href=""
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,5,'/win')}>
                 <i className="fas fa-money-bill-alt" style={{paddingTop: '3%'}}></i>
-                &nbsp;Win 500'000 euro
+                &nbsp;Vinci 500'000€
               </a>
             </li>
           </ul>

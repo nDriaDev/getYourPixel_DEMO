@@ -9,7 +9,7 @@ function BuyButton(){
         id="btn-buy"
         className="button-fixed"
         onClick={()=>history.push('/buy')}>
-        BUY
+        ACQUISTA
       </button>
     </div>
   )

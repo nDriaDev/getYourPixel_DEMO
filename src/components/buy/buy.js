@@ -27,14 +27,14 @@ const ProductDisplay = ({ product, quantity, handleQuantityChange, handleClick }
             </div>
           </div>
           <h2 className="font-weight-bold my-2">{Const.setDecimalCurrencyNumber(product.price.unit_amount * quantity, product.price.currency)}</h2>
-          <h5 className="grey-text" style={{fontSize: '1.0rem'}}>{product.description}</h5>
+          <h5 className="grey-text" style={{fontSize: '.95rem'}}>{product.description}</h5>
           <div className="qt-plus-minut my-2">
             <button onClick={e=>handleQuantityChange(e)}><i name="minus" className="fa fa-minus" aria-hidden="true" style={{fontSize: '0.9rem'}}></i></button>
             <input className="qt-input" style={{fontSize: '1.8rem'}} min="1" name="quantity" value={quantity} type="number" readOnly/>
             <button onClick={e=>handleQuantityChange(e)} ><i name="plus" className="fa fa-plus" aria-hidden="true" style={{fontSize: '1.0rem'}}></i></button>
           </div>
           <div className="col-xs-12">
-            <button className="btn-success btn-checkout" onClick={handleClick}>Checkout</button>
+            <button className="btn-success btn-checkout" onClick={handleClick}>Acquista</button>
           </div>
         </div>
       </div>

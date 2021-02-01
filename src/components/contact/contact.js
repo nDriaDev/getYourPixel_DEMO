@@ -59,7 +59,7 @@ const Contact = (props) => {
   }
 
   return(
-    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" style={{paddingBottom:'20%'}}>
       <div className="container-fluid container-v-bar">
           <div className="mx-auto" style={{marginBottom:'4rem!important',maxWidth:'512px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
             <div className="mt-2" align="center">
@@ -68,11 +68,11 @@ const Contact = (props) => {
             <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
               <Form noValidate validated={validated} onSubmit={onSubmit}>
               <Form.Row>
-                <span className="form-title" style={{textAlign: 'center',fontSize: '16px',lineHeight:'1.4',color:'white'}}>
+                <span className="form-title" style={{textAlign: 'center',fontSize: '0.95rem',lineHeight:'1.4',color:'white'}}>
                   Per qualsiasi dubbio, problema o informazione, non esitare a contattarci completando il form
-                  sottostante. Ti preghiamo di inserire anche il tuo numero di telefono all'interno del messaggio.
-                  Riceverai una risposta da un membro del nostro team entro 24 ore
-                  direttamente all'email indicata da te.
+                  sottostante. Riceverai una risposta da un membro del nostro team entro 24 ore direttamente
+                  all'indirizzo email da te indicato. Ti invitiamo ad inserire anche il tuo numero di telefono
+                  all'interno del messaggio, per poter essere d'aiuto in modo pi&ugrave; semplice e immediato.
                 </span>
               </Form.Row>
               <Form.Row>
@@ -152,7 +152,7 @@ const Contact = (props) => {
               </Form.Row>
               <Form.Row>
                 <Col md="4" className="mx-auto">
-                  <button type="submit" className="btn-contact">
+                  <button type="submit" className="btn-contact btn-success">
                     Invia
                     <i className="fa fa-long-arrow-right m-l-7" aria-hidden="false"></i>
                   </button>

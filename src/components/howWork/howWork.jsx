@@ -162,7 +162,9 @@ const HowWork = (props) => {
           <h2>&nbsp;</h2>
           <h2>&nbsp;</h2>
           <span>
-            Get your pixels &egrave; una piazza dove mostrare a tutti il proprio prodotto, la propria azienda, il proprio sito o qualunque cosa si voglia. E’ infatti il sito che offre spazi acquistabili per essere utilizzati come pubblicit&agrave;. Una volta selezionato il numero di pixel che si desidera acquistare sar&agrave; sufficiente dirigersi alla pagina di check out per inserire i dati necessari e in un paio di minuti si diventa proprietari di uno degli spazi pi&ugrave; unici ed esclusivi del web!
+            Get your pixels &egrave; una piazza digitale dove mostrare a tutti il proprio prodotto, la propria azienda, il proprio sito o qualunque cosa si voglia. Il sito infatti offre spazi online acquistabili da utilizzare come pubblicit&agrave;. Una volta selezionato il numero di pixel che desideri acquistare, sar&agrave; sufficiente dirigerti alla pagina di
+            <a className="a-animated" href="/buy"> Checkout</a>
+            , inserire i dati necessari e in un paio di minuti sarai proprietario di uno degli spazi pi&ugrave; unici ed esclusivi del web!
           </span>
         </div>
 
@@ -170,11 +172,11 @@ const HowWork = (props) => {
           <h2 style={{marginBottom: '1.2rem', fontSize: '1.8rem'}}>
             Paga una volta e mai pi&ugrave;!
           </h2>
-          <span style={{fontSize:'.8rem', textAlign: 'justify'}}>
+          <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
             Questo &egrave; l’unico sistema che ti permette di pagare la pubblicit&agrave;
           </span>
           <br></br>
-          <span style={{fontSize:'.8rem', textAlign: 'justify'}}>
+          <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
             una volta soltanto e continuare ad utilizzarla per sempre!
           </span>
         </div>
@@ -183,16 +185,16 @@ const HowWork = (props) => {
           <h2 style={{marginBottom: '1.2rem', fontSize: '1.8rem'}}>
             Due metodi di pagamento
           </h2>
-          <span style={{fontSize:'.8rem', textAlign: 'justify'}}>
-            Il primo &egrave; attraverso il nostro sistema sicuro di pagamenti, tramite la sezione
-            <a className="a-animated" href="/buy"> BUY</a>
-            ,che si appoggia a Stripe (una delle pi&ugrave; grandi aziende al mondo che permette a privati e aziende di inviare e ricevere pagamenti via internet).
+          <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
+            Puoi acquistare attraverso il nostro sistema sicuro di pagamenti, tramite la sezione
+            <a className="a-animated" href="/buy"> ACQUISTA</a>
+            , che si appoggia a Stripe (una delle pi&ugrave; grandi aziende al mondo che permette a privati e imprese di inviare e ricevere pagamenti via Internet).
           </span>
           <br></br>
-          <span style={{fontSize:'.8rem', textAlign: 'justify'}}>
-            In alternativa per quanto riguarda ordini di portata maggiore contattaci pure nella sezione
-            <a className="a-animated" href="/contact"> CONTACT</a>
-            . In questo modo potremmo fornirti tutti i dati necessari per effettuare un bonifico bancario.
+          <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
+            In alternativa, per quanto riguarda ordini di portata maggiore, contattaci pure nella sezione
+            <a className="a-animated" href="/contact"> CONTATTACI</a>
+            . Ti forniremo personalmente tutte le informazioni necessarie per effettuare un bonifico bancario.
           </span>
         </div>
 
@@ -200,11 +202,11 @@ const HowWork = (props) => {
           <h2 style={{marginBottom: '1.2rem', textAlign:'center', fontSize: '1.8rem'}}>
             Come funziona
           </h2>
-          <span style={{fontSize:'.8rem', textAlign: 'justify'}}>
-            Una volta ricevuto il tuo pagamento ti invieremo una email nella quale ti richiederemo tutti i dati necessari per concludere l’operazione. Dovrai quindi allegare nella mail di risposta un’immagine, che andr&agrave; a sostituire lo spazio bianco, e un link, che verr&agrave; collegato al tuo spazio. In oltre ti chiederemo di segnalarci eventualmente anche le coordinate dei quadratini scelti, in alternativa verranno assegnati casualmente.
-            Tutto questo sar&agrave; meglio specificato nella mail che riceverai.
-            In futuro, nel caso ti interessasse, avrai sempre la possibilit&agrave; di inviarci una nuova immagine per sostituire quella presente e anche un nuovo link da collegare.
-            In pi&ugrave; a fine semestre vi verr&agrave; inviato un resoconto in modo che possiate analizzare voi stessi qual &egrave; l’andamento della vostra campagna pubblicitaria.
+          <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
+            Una volta ricevuto il tuo pagamento, ti invieremo una email nella quale richiederemo tutti i dati necessari per concludere l’operazione. Baster&agrave; allegare nell'email di risposta un’immagine, che andr&agrave; a sostituire lo spazio bianco dei pixel, e un link, che verr&agrave; collegato al tuo spazio. Inoltre, potrai segnalarci le coordinate dei quadratini che preferisci acquistare. In alternativa ti verranno assegnati casualmente.
+            Per ogni dubbio potrai contattarci via email. Rimarremo a tua disposizione!
+            In futuro, nel caso ti interessasse, avrai sempre la possibilit&agrave; di inviarci una nuova immagine per sostituire quella presente e/o un nuovo link da collegare.
+            In pi&ugrave;, a fine semestre, ti verr&agrave; inviato un resoconto per poter analizzare con i tuoi occhi l’andamento della tua campagna pubblicitaria.
           </span>
         </div>
 
@@ -212,19 +214,21 @@ const HowWork = (props) => {
           <h2 style={{marginBottom: '1.2rem', fontSize: '1.8rem'}}>
             Attenzione!
           </h2>
-          <span style={{fontSize:'.8rem', textAlign: 'justify'}}>
-            Sul sito sono acquistabili 1 milione di pixel al prezzo di 1 euro ciascuno, ma questo prezzo non sar&agrave; per sempre. Esaurita la prima met&agrave; di pixel disponibili il prezzo raddoppier&agrave; arrivando quindi a 2 euro per pixel. Questo succeder&agrave; per ottenere il denaro necessario a finanziare l’estrazione che porter&agrave; qualcuno di voi (magari proprio tu che stai leggendo) a vincere dai 100'000 ai 500'000 euro!
+          <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
+            Sul sito sono acquistabili 1 milione di pixel al prezzo di 1€ ciascuno, ma questo prezzo non sar&agrave; per sempre. Esaurita la prima met&agrave; di pixel disponibili il prezzo raddoppier&agrave;, arrivando quindi a 2€ per pixel. L'aumento di prezzo aiuter&agrave; a finanziare il concorso che porter&agrave; qualcuno di voi (magari proprio te che stai leggendo) a vincere dai 100'000 ai 500'000€!
           </span>
           <br></br>
           <br></br>
-          <span style={{fontSize:'.8rem', textAlign: 'justify'}}>
-            Per una spiegazione pi&ugrave; approfondita su come ottenere questa cifra visita la pagina
-            <a className="a-animated" href="/win"> WIN 500'000 euro!</a>
+          <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
+            Per sapere come vincere questa cifra visita la pagina
+            <a className="a-animated" href="/win"> VINCI 500'000€!</a>
           </span>
           <br></br>
           <br></br>
-          <span style={{fontSize:'.8rem', textAlign: 'justify'}}>
+          <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
             Per qualsiasi dubbio o problema non esitare a contattarci tramite la sezione dedicata!
+            <br></br>
+            Grazie mille!
           </span>
         </div>
       </div>
