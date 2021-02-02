@@ -8,7 +8,7 @@
 /* THANKS */
 
 /* SITE */
-          Version: 3.0.0
-          Last update: 2020/01/29
+          Version: 3.1.0
+          Last update: 2021/02/02
           Language: Italian
           Doctype: React Web App

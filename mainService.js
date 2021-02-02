@@ -1437,11 +1437,21 @@ class MainService {
     console.log("mainService - [getUser] - START");
     return new Promise((resolve, reject) => {
       try {
-        let query = {
-          "email": email
-        }
+        let query = {}
         if (username) {
-          query.username = username;
+          query = {
+            "$and": [{
+              "$or": [{
+                "email": email
+              }, {
+                "username": username,
+              }]
+            }]
+          }
+        } else {
+          query = {
+            "email": email
+          }
         }
         this.db
           .collection(COLLECTION_USER)
@@ -1562,9 +1572,8 @@ class MainService {
                     "active": false,
                     "activeExpires": Date.now() + (3600 * 1000),
                   }
-                  user.activeToken = user._id.id.toString('hex') + buf.toString('hex');
-                })
-                this.db
+                  user["activeToken"] = user._id.id.toString('hex') + buf.toString('hex');
+                  this.db
                   .collection(COLLECTION_USER)
                   .insertOne(user)
                   .then(value => {
@@ -1580,6 +1589,7 @@ class MainService {
                     console.log("mainService - [saveUser] - ERROR -", err);
                     reject(err);
                   })
+                })
               }
             })
           })
