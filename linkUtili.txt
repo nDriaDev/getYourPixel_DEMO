@@ -1,3 +1,8 @@
+########### NODE JS WORKERS THREAD - WORKER POOL ###########
+https://www.nearform.com/blog/learning-to-swim-with-piscina-the-node-js-worker-pool/
+https://medium.com/@nodesource/understanding-worker-threads-in-node-js-2c854dfd291c
+
+
 ########### NODE JS - EXPRESS JS - MONGODB ###########
 https://blog.fullstacktraining.com/sharing-a-mongodb-connection-in-node-js-express/
 https://blog.mlab.com/2017/05/mongodb-connection-pooling-for-express-applications/
@@ -102,7 +107,8 @@ https://blog.carbonfive.com/replacing-component-lifecycle-methods-with-react-hoo
 https://blog.8bitzen.com/posts/how-to-use-componentWillMount-with-react-hooks
 https://daveceddia.com/useeffect-vs-uselayouteffect/
 
-########### REACT NODEMAILER MAILGUN ###########
+########### REACT NODEMAILER - GMAIL - MAILGUN ###########
+https://medium.com/@nickroach_50526/sending-emails-with-node-js-using-smtp-gmail-and-oauth2-316fe9c790a1
 https://blog.mailtrap.io/react-send-email/#Setting_up_an_Express_backend_and_connecting_3rd_parties
 https://jay315.medium.com/sending-email-using-express-js-with-nodemailer-in-heroku-71741f29463c
 https://blog.mailtrap.io/nodemailer-gmail/

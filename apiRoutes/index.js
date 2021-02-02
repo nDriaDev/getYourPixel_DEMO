@@ -33,40 +33,40 @@ try {
   )
   .get(
     '/getClientsPixels',
-    controllers.database.getClientsPixels
+    controllers.mainController.getClientsPixels
   )
   .post(
     '/saveClient',
     auth,
-    controllers.database.saveClient
+    controllers.mainController.saveClient
   )
   .post(
     '/getClientsFiltered',
     auth,
-    controllers.database.getClientsFiltered
+    controllers.mainController.getClientsFiltered
   )
   .post(
     '/getClient',
-    controllers.database.getClient
+    controllers.mainController.getClient
   )
   .post(
     '/editClient',
-    controllers.database.editClient
+    controllers.mainController.editClient
   )
   .post(
     '/deleteClient',
     auth,
-    controllers.database.deleteClient
+    controllers.mainController.deleteClient
   )
   .post(
     '/addAdmin',
     auth,
-    controllers.database.addAdmin
+    controllers.mainController.addAdmin
   )
   .post(
     '/deleteAdmin',
     auth,
-    controllers.database.deleteAdmin
+    controllers.mainController.deleteAdmin
   )
   .get(
     '/login',
@@ -74,62 +74,62 @@ try {
   )
   .post(
     '/login',
-    controllers.database.login
+    controllers.mainController.login
   )
   .post(
     '/resetPassword',
-    controllers.database.resetPassword
+    controllers.mainController.resetPassword
   )
   .post(
     '/changePassword',
     auth,
-    controllers.database.changePassword
+    controllers.mainController.changePassword
   )
   .post(
     '/getAdmin',
     auth,
-    controllers.database.getAdmin
+    controllers.mainController.getAdmin
   )
   .post(
     '/getAdmins',
     auth,
-    controllers.database.getAdmins
+    controllers.mainController.getAdmins
   )
   .get(
     '/countPixels',
     auth,
-    controllers.database.countPixels
+    controllers.mainController.countPixels
   )
   .post(
     '/verifyPassword',
     auth,
-    controllers.database.verifyPassword
+    controllers.mainController.verifyPassword
   )
   .post(
     '/loginUser',
-    controllers.database.loginUser
+    controllers.mainController.loginUser
   )
   .post(
     '/getUser',
     auth,
-    controllers.database.getUser
+    controllers.mainController.getUser
   )
   .post(
     '/saveUser',
-    controllers.database.saveUser,
+    controllers.mainController.saveUser,
     controllers.mailer.sendActivationEmail
   )
   .post(
     '/deleteUser',
-    controllers.database.deleteUser
+    controllers.mainController.deleteUser
   )
   .get(
     '/activeUser/:activeToken',
-    controllers.database.activeUser
+    controllers.mainController.activeUser
   )
   .post(
     '/saveClick',
-    controllers.database.saveClick
+    controllers.mainController.saveClick
   )
   .get(
     '/logout',

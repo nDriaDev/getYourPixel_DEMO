@@ -1,13 +1,40 @@
 var nodemailer = require('nodemailer');
+var { google } = require("googleapis");
+var { OAuth2 } = google.auth;
 var fs = require('fs');
 var handlebars = require('handlebars');
 
-var opts = {
-  service: 'gmail',
-  auth: {
-    //Check use secure less app gmail account
-    user: '<insert email gmail here>',
-    pass: '<insert password gmail here>',
+const {
+  MAILING_SERVICE_CLIENT_ID,
+  MAILING_SERVICE_CLIENT_SECRET,
+  MAILING_SERVICE_CLIENT_REFRESH_TOKEN,
+  MAILING_SERVICE_SENDER_EMAIL_ADDRESS,
+  MAILING_SERVICE_OAUTH_PLAYGROUND,
+}
+=
+process.env;
+
+const oauth2Client = new OAuth2(
+     MAILING_SERVICE_CLIENT_ID, // ClientID
+     MAILING_SERVICE_CLIENT_SECRET, // Client Secret
+     MAILING_SERVICE_OAUTH_PLAYGROUND // Redirect URL
+);
+
+const setOptionsTrasporter = () => {
+  oauth2Client.setCredentials({
+    refresh_token: MAILING_SERVICE_CLIENT_REFRESH_TOKEN
+  });
+
+  return {
+    service: 'gmail',
+    auth: {
+      type: 'OAuth2',
+      user: MAILING_SERVICE_SENDER_EMAIL_ADDRESS,
+      clientId: MAILING_SERVICE_CLIENT_ID,
+      clientSecret: MAILING_SERVICE_CLIENT_SECRET,
+      refreshToken: MAILING_SERVICE_CLIENT_REFRESH_TOKEN,
+      accessToken: oauth2Client.getAccessToken()
+    }
   }
 }
 
@@ -27,7 +54,7 @@ var readTemplate = (path, callback) => {
 exports.sendMail = (name, email, subject, message, callback) => {
   console.log("mailer - [sendMail] - START");
   readTemplate('./templateEmail.html',(err, html) => {
-    let transporter = nodemailer.createTransport(opts);
+    let transporter = nodemailer.createTransport(setOptionsTrasporter());
     try {
       let template = handlebars.compile(html);
       let replace = {
@@ -39,8 +66,7 @@ exports.sendMail = (name, email, subject, message, callback) => {
       let htmlToSend = template(replace);
       let mailOptions = {
         sender: name,
-        from: 'info@getyourpixels.com',
-        // to: '<where send email>',
+        from: MAILING_SERVICE_SENDER_EMAIL_ADDRESS,
         to: 'info@getyourpixels.com',
         subject: 'Get Your Pixels Contacting',
         html: htmlToSend
@@ -66,7 +92,7 @@ exports.sendMail = (name, email, subject, message, callback) => {
 
 exports.sendMailResetPassword = (params, callback) => {
   console.log("mailer - [sendMailResetPassword] - START");
-  let transporter = nodemailer.createTransport(opts);
+  let transporter = nodemailer.createTransport(setOptionsTrasporter());
   try {
     const {
       password,
@@ -75,7 +101,7 @@ exports.sendMailResetPassword = (params, callback) => {
 
     let mailOptions = {
       sender: 'Administrator',
-      from: 'info@getyourpixels.com',
+      from: MAILING_SERVICE_SENDER_EMAIL_ADDRESS,
       to: email,
       subject: 'Get Your Pixels - reset password',
       text: 'La richiesta di reset password è stata effettuata con successo.\nEcco la tua nuova password:\n\n' + password + '\n\nCambiala il prima possibile!',
@@ -106,7 +132,7 @@ exports.sendActivationEmail = (host, email, username, activeToken, callback) => 
   }
   let link = protocol + host + '/api/activeUser/' + activeToken;
   readTemplate('./templateActivationEmail.html',(err, html) => {
-    let transporter = nodemailer.createTransport(opts);
+    let transporter = nodemailer.createTransport(setOptionsTrasporter());
     try {
       let template = handlebars.compile(html);
       let replace = {
@@ -115,8 +141,7 @@ exports.sendActivationEmail = (host, email, username, activeToken, callback) => 
       }
       let htmlToSend = template(replace);
       let mailOptions = {
-        from: 'info@getyourpixels.com',
-        // to: '<where send email>',
+        from: MAILING_SERVICE_SENDER_EMAIL_ADDRESS,
         to: email,
         subject: 'Get Your Pixels Contacting',
         html: htmlToSend

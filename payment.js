@@ -55,7 +55,7 @@ class Payment {
           prod.description = prod.description == null ? PRODUCT_DESCRIPTION : prod.description;
           stripe.prices.list().then((result2) =>{
             for(let i in result2.data){
-              if(result2.data[i].product == prod.id){
+              if(result2.data[i].product === prod.id){
                 prod.price = result2.data[i]
               }
             }

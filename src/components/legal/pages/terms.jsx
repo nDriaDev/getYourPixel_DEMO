@@ -1,12 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import { useRouteMatch, Link } from 'react-router-dom';
-import {toast} from 'react-toastify';
-import Const from './../../../util/Costanti';
-import axios from 'axios';
 
 const Terms = ({spinnerCommand}) => {
   const [html, setHtml] = useState(null);
-  let {path} = useRouteMatch();
 
   useEffect(() => {
     spinnerCommand(true);
