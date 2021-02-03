@@ -5,7 +5,7 @@ import {Button, Modal } from 'react-bootstrap';
 import $ from 'jquery';
 import axios from 'axios';
 
-const SquarePixeled = ({enableSpinner,disableSpinner}) =>{
+const SquarePixeled = ({enableSpinner,disableSpinner, setAuth}) =>{
   const [matrix,setMatrix] = useState(null);
   const [show, setShow] = useState(false);
   const [url, setUrl] = useState(null);
@@ -21,6 +21,9 @@ const SquarePixeled = ({enableSpinner,disableSpinner}) =>{
   const verifyUser = (e,url) => {
     e.preventDefault();
     e.stopPropagation();
+    if(!url) {
+      return;
+    }
     axios.get(Const.CHECK_TOKEN)
     .then(result => {
       if(result.data.code === 200) {
@@ -45,34 +48,31 @@ const SquarePixeled = ({enableSpinner,disableSpinner}) =>{
   }
 
   const redirectUrl = (url) => {
-    enableSpinner();
     if(url) {
-      axios.get(Const.LOGOUT)
+      enableSpinner();
+      axios.post(Const.SAVE_CLICK,{'url':url})
       .then(result => {
-        if (result.data.code === 200) {
-          sessionStorage.clear();
-          axios.post(Const.SAVE_CLICK,{'url':url})
-          .then(result => {
+        axios.get(Const.LOGOUT)
+        .then(result => {
+          if (result.data.code === 200) {
+            // sessionStorage.clear();
+            setAuth(false, false);
             disableSpinner();
-            if(url) {
-              window.location.assign(url.indexOf('http') === -1 ? 'http://' + url : url);
-            }
-          })
-          .catch(err => {
-            disableSpinner();
-            if(url) {
-              window.location.assign(url.indexOf('http') === -1 ? 'http://' + url : url);
-            }
-          })
-        } else {
-          throw new Error(result.data.message);
-        }
+            window.location.assign(url.indexOf('http') === -1 ? 'http://' + url : url);
+          } else {
+            throw new Error(result.data.message);
+          }
+        })
+        .catch(err => {
+          // sessionStorage.clear();
+          setAuth(false, false);
+          disableSpinner();
+          window.location.assign(url.indexOf('http') === -1 ? 'http://' + url : url);
+        })
       })
       .catch(err => {
-        sessionStorage.clear();
-        if(url) {
-          window.location.assign(url.indexOf('http') === -1 ? 'http://' + url : url);
-        }
+        disableSpinner();
+        window.location.assign(url.indexOf('http') === -1 ? 'http://' + url : url);
       })
     }
   }

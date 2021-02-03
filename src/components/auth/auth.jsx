@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const Auth = (props) => {
   const [redirect, setRedirect] = useState(false);
-  const {ComponentToProtect, enableSpinner, disableSpinner} = props;
+  const {ComponentToProtect, enableSpinner, disableSpinner, setAuth} = props;
   useEffect(() => {
     enableSpinner(true);
     axios.get(Const.CHECK_TOKEN)
@@ -14,7 +14,7 @@ const Auth = (props) => {
         setRedirect(false);
         disableSpinner(false);
       } else {
-        sessionStorage.clear();
+        // sessionStorage.clear();
         throw new Error(result.data.message);
       }
     })
@@ -31,6 +31,7 @@ const Auth = (props) => {
       :
       <ComponentToProtect
         {...props}
+        setAuth={setAuth}
         enableSpinner={enableSpinner}
         disableSpinner={disableSpinner}/>
     }

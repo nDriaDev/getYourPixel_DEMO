@@ -28,7 +28,8 @@ class NavbarCustom extends Component{
     axios.get(Const.LOGOUT)
     .then(result => {
       if (result.data.code === 200) {
-        sessionStorage.clear();
+        // sessionStorage.clear();
+        this.props.setAuth(false,false);
         this.props.disableSpinner();
         this.changeActive(6)
         this.props.history.push('/login');
@@ -37,7 +38,8 @@ class NavbarCustom extends Component{
       }
     })
     .catch(err => {
-      sessionStorage.clear();
+      // sessionStorage.clear();
+      this.props.setAuth(false,false)
       this.props.disableSpinner();
       toast.error(err.message != null ? err.message : "ERRORE", {
         position: "top-center",
@@ -146,7 +148,7 @@ class NavbarCustom extends Component{
               </a>
             </li>
           </ul>
-          {sessionStorage.getItem('isAuth') ?
+          {this.props.isAuth ?
             <ul className="navbar-nav ">
               <li className="">
                 <a
@@ -161,7 +163,7 @@ class NavbarCustom extends Component{
             :
             null
           }
-          {!sessionStorage.getItem('isAuthBasic') && !sessionStorage.getItem('isAuth') ?
+          {!this.props.isAuthBasic && !this.props.isAuth ?
             <ul className="navbar-nav ">
               <li className={"nav-item " + (this.state.active === 7 ? 'active-nav-bar' : '')}>
                 <a
@@ -176,7 +178,7 @@ class NavbarCustom extends Component{
             :
             null
           }
-          {!sessionStorage.getItem('isAuthBasic') && !sessionStorage.getItem('isAuth') ?
+          {!this.props.isAuthBasic && !this.props.isAuth ?
             <ul className="navbar-nav ">
               <li className={"nav-item " + (this.state.active === 6 ? 'active-nav-bar' : '')}>
                 <a
@@ -191,7 +193,7 @@ class NavbarCustom extends Component{
             :
             null
           }
-          {sessionStorage.getItem('isAuth') || sessionStorage.getItem('isAuthBasic') ?
+          {this.props.isAuthBasic || this.props.isAuth ?
             <ul className="navbar-nav ">
               <li className="">
                 <a

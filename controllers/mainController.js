@@ -441,6 +441,15 @@ class MainController {
         } else{
           req.session.password = result;
           req.session.email = req.body.email;
+          /*
+          * non avendo sessione quando eseguo questo servizio, devo fare la save su session per forzare il salvataggio
+          * dei dati in sessione e richiamarli in un altro end point. Si poteva evitare in questo modo:
+          * strutturando l'endpoint a richiamare i due controller
+          * nel primo salvare i dati in res.locals
+          * eseguire la next() per andare al secondo controller
+          * richiamare i dati da res.locals nel secondo controllers
+          * (vedi saveUser)
+          */
           req.session.save(function(err) {
             if(err) {
               console.log("main_Controller - [resetPassword - session] - ERROR", err);

@@ -1711,6 +1711,9 @@ class MainService {
     console.log("mainService - [saveClick] - START");
     return new Promise((resolve, reject) => {
       try {
+        if(!emailClient) {
+          resolve("Click non salvato poiche' non è un utente loggato");
+        }
         this.db
           .collection(COLLECTION_ADMIN)
           .findOne({
@@ -1725,23 +1728,43 @@ class MainService {
               resolve("Click non salvato poiche' l'utente loggato e' un admin/partner")
             } else {
               this.db
-                .collection(COLLECTION_CLICK)
-                .findOne({
-                  "email": emailClient,
+              .collection(COLLECTION_USER)
+              .findOne({
+                "$and": [{
+                  "$or": [{
+                    "email": emailClient
+                  }, {
+                    "username": emailClient,
+                  }]
                 }, {
-                  projection: {
-                    "_id": 0,
-                  }
-                })
-                .then(result => {
-                  if (result) {
-                    if (!result.urls.includes(urlClicked)) {
-                      let urls = result.urls;
-                      urls.push(urlClicked);
-                      this.db
+                  "active": true,
+                }]
+              }, {
+                projection: {
+                  "_id": 0,
+                }
+              })
+              .then(result => {
+                if(result) {
+                  this.db
+                  .collection(COLLECTION_CLICK)
+                  .findOne({
+                    "email": result.email,
+                  }, {
+                    projection: {
+                      "_id": 0,
+                    }
+                  })
+                  .then(result1 => {
+                    if (result1) {
+                      if (!result1.urls.includes(urlClicked)) {
+                        let urls = result1.urls;
+                        urls.push(urlClicked);
+                        this.db
                         .collection(COLLECTION_CLICK)
                         .updateOne({
-                          "email": emailClient,
+                          "email": result1.email,
+                          "username": result1.username
                         }, {
                           "$set": {
                             "urls": urls
@@ -1760,16 +1783,18 @@ class MainService {
                         })
                         .catch(err => {
                           console.log("mainService - [saveClick] - ERROR -", err);
+                          reject(err);
                         })
-                    }
-                    resolve('Click già presente')
-                  } else {
-                    let urls = [];
-                    urls.push(urlClicked);
-                    this.db
+                      }
+                      resolve('Click già presente')
+                    } else {
+                      let urls = [];
+                      urls.push(urlClicked);
+                      this.db
                       .collection(COLLECTION_CLICK)
                       .insertOne({
-                        "email": emailClient,
+                        "email": result.email,
+                        "username": result.username,
                         "urls": urls,
                       })
                       .then(value => {
@@ -1779,11 +1804,20 @@ class MainService {
                         console.log("mainService - [saveClick] - ERROR -", err);
                         reject(err);
                       })
-                  }
-                })
-                .catch(err => {
-                  reject(new Error("Impossibile salvare il click"))
-                })
+                    }
+                  })
+                  .catch(err => {
+                    reject(new Error("Impossibile salvare il click"))
+                  })
+                } else {
+                  console.log("mainService - [saveClick] - ERROR - Utente non trovato");
+                  reject({message:"Utente non trovato"});
+                }
+              })
+              .catch(err => {
+                console.log("mainService - [saveClick] - ERROR -", err);
+                reject(err);
+              })
             }
           })
           .catch(err => {

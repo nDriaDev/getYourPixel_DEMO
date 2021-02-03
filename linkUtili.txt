@@ -12,12 +12,23 @@ https://blog.mlab.com/2017/05/mongodb-connection-pooling-for-express-application
 https://snipcart.com/blog/reactjs-wordpress-rest-api-example
 
 
-########### EXPRESSJS APP.LOCALS vs RES.LOCALS vs REQ.session  ###########
+########### EXPRESSJS SEND DATA BETWEEN ROUTES - APP.LOCALS vs RES.LOCALS vs REQ.session  ###########
 https://stackoverflow.com/questions/15294941/express-js-app-locals-vs-res-locals-vs-req-session#:~:text=locals%20%2D%2D%20good%20for%20storing%20variables%20for%20the%20specific%20request,(e.g.%2C%20user%20name)
+https://medium.com/@ravaeimohamad/send-data-between-different-routes-in-nodejs-using-sessions-774a7a95189e
 
 
 ########### REACT ANIMATIONS  ###########
 https://bashooka.com/coding/react-animation-examples/
+
+
+########### NODEJS EXECUTE FUNCTION ON EXIT  ###########
+https://stackoverflow.com/questions/14031763/doing-a-cleanup-action-just-before-node-js-exits
+
+
+########### REACT TEMPLATE LANDING PAGE  ###########
+https://github.com/cruip/open-react-template
+https://medium.com/hackernoon/5-ways-to-animate-a-reactjs-app-in-2019-56eb9af6e3bf
+https://animate.style/
 
 
 ########### CREATE EMAIL WITH ACTIVATION CODE REGISTERED USER  ###########
@@ -108,6 +119,7 @@ https://blog.8bitzen.com/posts/how-to-use-componentWillMount-with-react-hooks
 https://daveceddia.com/useeffect-vs-uselayouteffect/
 
 ########### REACT NODEMAILER - GMAIL - MAILGUN ###########
+https://levelup.gitconnected.com/multi-purposes-mailing-api-using-nodemailer-gmail-google-oauth-28de49118d77
 https://medium.com/@nickroach_50526/sending-emails-with-node-js-using-smtp-gmail-and-oauth2-316fe9c790a1
 https://blog.mailtrap.io/react-send-email/#Setting_up_an_Express_backend_and_connecting_3rd_parties
 https://jay315.medium.com/sending-email-using-express-js-with-nodemailer-in-heroku-71741f29463c

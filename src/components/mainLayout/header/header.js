@@ -9,7 +9,7 @@ class Header extends Component{
     let url = window.location.pathname;
     return(
       <div className="sticky-top background-fusion">
-        <NavbarCustom enableSpinner={this.props.enableSpinner} disableSpinner={this.props.disableSpinner}/>
+        <NavbarCustom enableSpinner={this.props.enableSpinner} disableSpinner={this.props.disableSpinner} setAuth={this.props.setAuth} isAuth={this.props.isAuth} isAuthBasic={this.props.isAuthBasic}/>
           {
             url === Const.PATH_HOME ?
               <div className="display-title">

@@ -23,19 +23,32 @@ class App extends Component {
     super(props);
     this.state = {
       show: true,
+      isAuth: false,
+      isAuthBasic: false,
     }
     this.disableSpinner = this.disableSpinner.bind(this);
     this.enableSpinner = this.enableSpinner.bind(this);
+    this.setAuth = this.setAuth.bind(this);
+  }
+
+  setAuth(isAuth1,isAuthBasic1) {
+    this.setState({
+      ...this.state,
+      isAuth: isAuth1 !== null ? isAuth1 : this.state.isAuth,
+      isAuthBasic: isAuthBasic1 !== null ? isAuthBasic1 : this.state.isAuthBasic
+    })
   }
 
   enableSpinner(){
     this.setState({
+      ...this.state,
       show: true,
     })
   }
 
   disableSpinner(){
     this.setState({
+      ...this.state,
       show: false,
     })
   }
@@ -59,13 +72,14 @@ class App extends Component {
             pauseOnHover={false}
           />
           <Spinner show={this.state.show} />
-          <MainTemplate show={this.state.show} enableSpinner={this.enableSpinner} disableSpinner={this.disableSpinner}>
+          <MainTemplate show={this.state.show} enableSpinner={this.enableSpinner} disableSpinner={this.disableSpinner} setAuth={this.setAuth} isAuth={this.state.isAuth} isAuthBasic={this.state.isAuthBasic}>
             <Switch>
               <Route
                 exact
                 path='/'
                 render={(props) => (
                   <Home {...props}
+                    setAuth={this.setAuth}
                     enableSpinner={this.enableSpinner}
                     disableSpinner={this.disableSpinner} />
                 )}
@@ -75,6 +89,7 @@ class App extends Component {
                  path='/buy'
                  render={(props) => (
                    <Buy {...props}
+                     setAuth={this.setAuth}
                      enableSpinner={this.enableSpinner}
                      disableSpinner={this.disableSpinner} />
                  )}
@@ -83,6 +98,7 @@ class App extends Component {
                 path='/contact'
                 render={(props) => (
                   <Contact {...props}
+                    setAuth={this.setAuth}
                     enableSpinner={this.enableSpinner}
                     disableSpinner={this.disableSpinner} />
                 )}
@@ -91,6 +107,7 @@ class App extends Component {
                 path='/howWork'
                 render={(props) => (
                   <HowWork {...props}
+                    setAuth={this.setAuth}
                     enableSpinner={this.enableSpinner}
                     disableSpinner={this.disableSpinner} />
                 )}
@@ -99,6 +116,7 @@ class App extends Component {
                 path='/win'
                 render={(props) => (
                   <Win {...props}
+                    setAuth={this.setAuth}
                     enableSpinner={this.enableSpinner}
                     disableSpinner={this.disableSpinner} />
                 )}
@@ -107,6 +125,7 @@ class App extends Component {
                 path='/login'
                 render={(props) => (
                   <Login {...props}
+                    setAuth={this.setAuth}
                     enableSpinner={this.enableSpinner}
                     disableSpinner={this.disableSpinner} />
                 )}
@@ -115,6 +134,7 @@ class App extends Component {
                 path='/register'
                 render={(props) => (
                   <SaveUser {...props}
+                    setAuth={this.setAuth}
                     enableSpinner={this.enableSpinner}
                     disableSpinner={this.disableSpinner} />
                 )}
@@ -123,6 +143,7 @@ class App extends Component {
                 path='/forgotPassword'
                 render={(props) => (
                   <ForgotPassword {...props}
+                    setAuth={this.setAuth}
                     isLogged={this.isLogged}
                     enableSpinner={this.enableSpinner}
                     disableSpinner={this.disableSpinner} />
@@ -133,6 +154,7 @@ class App extends Component {
                 path='/error'
                 render = {(props) => (
                   <ErrorPage {...props}
+                    setAuth={this.setAuth}
                     enableSpinner={this.enableSpinner}
                     disableSpinner={this.disableSpinner} />
                 )}
@@ -141,6 +163,7 @@ class App extends Component {
                 path='/legal'
                 render = {(props) => (
                   <Legal {...props}
+                    setAuth={this.setAuth}
                     enableSpinner={this.enableSpinner}
                     disableSpinner={this.disableSpinner}/>
                 )}
@@ -149,6 +172,7 @@ class App extends Component {
                 path='/manage'
                 render = {(props) => (
                   <Auth {...props}
+                    setAuth={this.setAuth}
                     ComponentToProtect={Manage}
                     enableSpinner={this.enableSpinner}
                     disableSpinner={this.disableSpinner} />
@@ -158,6 +182,7 @@ class App extends Component {
                 to="/error"
                 render = {(props) => (
                   <ErrorPage {...props}
+                    setAuth={this.setAuth}
                     enableSpinner={this.enableSpinner}
                     disableSpinner={this.disableSpinner} />
                 )}

@@ -47,10 +47,12 @@ try {
   )
   .post(
     '/getClient',
+    auth,
     controllers.mainController.getClient
   )
   .post(
     '/editClient',
+    auth,
     controllers.mainController.editClient
   )
   .post(
@@ -121,6 +123,7 @@ try {
   )
   .post(
     '/deleteUser',
+    auth,
     controllers.mainController.deleteUser
   )
   .get(

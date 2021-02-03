@@ -34,12 +34,19 @@ const Manage = (props) => {
   const [spinner, setSpinner] = useState(true);
   let {path} = useRouteMatch();
 
+  const checkIfRedirecting = () => {
+    if(history.location === '/manage') {
+      history.push('/login');
+    }
+  }
+
   useEffect(()=>{
     props.enableSpinner();
     return axios.post(Const.GET_ADMIN,{})
     .then(res => {
       if(res.data && !res.data.code) {
-        sessionStorage.setItem('isAuth', true)
+        // sessionStorage.setItem('isAuth', true)
+        props.setAuth(true,null);
         setRole(res.data.type)
         props.disableSpinner();
       } else if(res.data && res.data.code){
@@ -59,7 +66,7 @@ const Manage = (props) => {
           pauseOnHover: false,
           draggable: true,
           progress: undefined,
-          onClose:()=>{history.push('/login')}
+          onClose:()=>checkIfRedirecting()
         });
       }
     }).catch(err => {
@@ -72,7 +79,7 @@ const Manage = (props) => {
         pauseOnHover: false,
         draggable: true,
         progress: undefined,
-        onClose:()=>{history.push('/login')}
+        onClose:()=>checkIfRedirecting()
       });
     })
   },[])

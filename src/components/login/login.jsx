@@ -12,7 +12,7 @@ const Login = (props) => {
     email: '',
     password: '',
   })
-  const {enableSpinner, disableSpinner} = props;
+  const {enableSpinner, disableSpinner, setAuth} = props;
 
   useEffect(() => {
     axios.get(Const.CHECK_TOKEN)
@@ -50,7 +50,8 @@ const Login = (props) => {
       axios.post(Const.LOGIN, form)
       .then(res => {
         if (res.data.code === 200) {
-          sessionStorage.setItem('isAuth', true)
+          // sessionStorage.setItem('isAuth', true)
+          setAuth(true, null);
           disableSpinner();
           props.history.push('/manage');
         } else {
@@ -61,7 +62,8 @@ const Login = (props) => {
         axios.post(Const.LOGIN_USER, form)
         .then(res => {
           if (res.data.code === 200) {
-            sessionStorage.setItem('isAuthBasic', true)
+            // sessionStorage.setItem('isAuthBasic', true)
+            setAuth(null, true);
             disableSpinner();
             props.history.push('/');
           } else {
