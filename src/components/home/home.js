@@ -6,14 +6,13 @@ const Home = ({enableSpinner, disableSpinner, setAuth}) => {
     <>
     <div className="display-grid-blank-60"></div>
     <div style={{
-        height: '100%',
         width: '92vw',
         overflowX: 'scroll',
         marginLeft: '4%',
         marginRight: '4%',
       }} align="center">
       <div id="griglia" style={{
-          maxHeight:'95%',
+          maxHeight:'100%',
           width:'1540px',
           overflowY:'auto'}}>
         <SquarePixeled

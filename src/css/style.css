@@ -168,10 +168,8 @@ li a:hover:not(.active) {
   float: right;
 }
 .bottom-footer{
-  position:fixed;
   bottom:0;
   width:100%;
-  z-index:1020;
   background-color: #000000;
 }
 #designedBy > a{
