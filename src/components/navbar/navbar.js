@@ -93,15 +93,15 @@ class NavbarCustom extends Component{
   render(){
     return(
       <nav className="navbar navbar-expand-lg navbar-dark primary-color">
-        <a className="navbar-brand" href="" onClick={(e)=>this.changeActiveAndHistoryPush(e,1, '/')}>
-          <img src={Img} alt="Logo" className="logo-size-header"></img>
-        </a>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
           aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
+        <a className="navbar-brand" href="" onClick={(e)=>this.changeActiveAndHistoryPush(e,1, '/')}>
+          <img src={Img} alt="Logo" className="logo-size-header"></img>
+        </a>
         <div className="collapse navbar-collapse" id="basicExampleNav">
-          <ul className="navbar-nav mr-auto">
+          <ul id="ulNavSx" className="navbar-nav mr-auto">
             <li className={"nav-item " + (this.state.active === 1 ? 'active-nav-bar' : '')}>
               <a
                 className="nav-link nav-bar-link"
@@ -149,7 +149,7 @@ class NavbarCustom extends Component{
             </li>
           </ul>
           {this.props.isAuth ?
-            <ul className="navbar-nav ">
+            <ul id="ulNavDx1" className="navbar-nav ">
               <li className="">
                 <a
                   className="nav-link nav-bar-link"
@@ -164,7 +164,7 @@ class NavbarCustom extends Component{
             null
           }
           {!this.props.isAuthBasic && !this.props.isAuth ?
-            <ul className="navbar-nav ">
+            <ul id="ulNavDx2" className="navbar-nav ">
               <li className={"nav-item " + (this.state.active === 7 ? 'active-nav-bar' : '')}>
                 <a
                   className="nav-link nav-bar-link"
@@ -179,7 +179,7 @@ class NavbarCustom extends Component{
             null
           }
           {!this.props.isAuthBasic && !this.props.isAuth ?
-            <ul className="navbar-nav ">
+            <ul id="ulNavDx3" className="navbar-nav ">
               <li className={"nav-item " + (this.state.active === 6 ? 'active-nav-bar' : '')}>
                 <a
                   className="nav-link nav-bar-link"
@@ -194,7 +194,7 @@ class NavbarCustom extends Component{
             null
           }
           {this.props.isAuthBasic || this.props.isAuth ?
-            <ul className="navbar-nav ">
+            <ul id="ulNavDx4" className="navbar-nav ">
               <li className="">
                 <a
                   className="nav-link nav-bar-link"

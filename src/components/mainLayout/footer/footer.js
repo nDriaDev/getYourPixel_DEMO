@@ -1,10 +1,27 @@
 import React, {Component} from 'react';
+import $ from 'jquery';
 import { useHistory } from 'react-router-dom';
 
 const Footer = (props) => {
   const history = useHistory();
 
   const goToLegal = () => {
+    let idUls = ['ulNavSx','ulNavDx1','ulNavDx2','ulNavDx3','ulNavDx4',];
+    let trovato = false;
+    for(let i in idUls) {
+      let children = document.getElementById(idUls[i]).childNodes;
+      let array = Array.from(children);
+      for(let j in array) {
+        if(array[j].classList.contains('active-nav-bar')) {
+          array[j].classList.remove('active-nav-bar');
+          trovato = true;
+          break;
+        }
+      }
+      if(trovato) {
+        break;
+      }
+    }
     history.push('/legal');
   }
 

@@ -5,13 +5,25 @@ const Home = ({enableSpinner, disableSpinner, setAuth}) => {
     return(
     <>
     <div className="display-grid-blank-60"></div>
-    <div id="griglia" className="mx-auto" style={{height:'95%',maxHeight:'95%',minWidth:'1550px',overflowY:'auto'}}>
-      <SquarePixeled
-        setAuth={setAuth}
-        enableSpinner={enableSpinner}
-        disableSpinner={disableSpinner}
-      />
+    <div style={{
+        height: '100%',
+        width: '92vw',
+        overflowX: 'scroll',
+        marginLeft: '4%',
+        marginRight: '4%',
+      }} align="center">
+      <div id="griglia" style={{
+          maxHeight:'95%',
+          width:'1540px',
+          overflowY:'auto'}}>
+        <SquarePixeled
+          setAuth={setAuth}
+          enableSpinner={enableSpinner}
+          disableSpinner={disableSpinner}
+          />
+      </div>
     </div>
+
     </>
   )
 }

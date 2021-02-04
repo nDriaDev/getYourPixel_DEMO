@@ -86,45 +86,45 @@ const SquarePixeled = ({enableSpinner,disableSpinner, setAuth}) =>{
     enableSpinner();
     axios.get(Const.GET_CLIENTS_PIXELS)
     .then(res => {
-        let matr = res.data.array.map((row,index) => {
-          return (
-            <div id={'r-' + index} key={'r-'+index}>
-              {row.map((col,index2) => {
-                let style = {};
-                let titleText = '';
-                let param = null;
-                 if(col === 0) {
-                   style = {
-                     cursor:'default',
-                     border: '.2px solid #000',
-                     background: '#fff'
-                   };
-                   titleText = '(' + (index+1) +','+ (index2+1) +')';
-                 } else {
-                  style = {
-                    ...col.style,
-                    backgroundImage: 'url(' + res.data.images[col.image] + ')'
-                  }
-                  titleText = 'Vai al sito';
-                  param = col.url;
-                 }
+      let matr = res.data.array.map((row,index) => {
+        return (
+          <div id={'r-' + index} align='center' key={'r-'+index}>
+            {row.map((col,index2) => {
+              let style = {};
+              let titleText = '';
+              let param = null;
+               if(col === 0) {
+                 style = {
+                   cursor:'default',
+                   border: '.2px solid #000',
+                   background: '#fff'
+                 };
+                 titleText = '(' + (index+1) +','+ (index2+1) +')';
+               } else {
+                style = {
+                  ...col.style,
+                  backgroundImage: 'url(' + res.data.images[col.image] + ')'
+                }
+                titleText = 'Vai al sito';
+                param = col.url;
+               }
 
-                return (
-                  <div
-                    id={'c-' + index + index2}
-                    key={'c-' + index + index2}
-                    className="image-pixeled"
-                    style={style}
-                    onClick={(e)=>verifyUser(e,param)}
-                    onMouseEnter={()=>showTip(titleText,('c-'+index+index2))}
-                    />
-                )
-              })}
-            </div>
-          )
-        })
-        setMatrix(matr);
-        disableSpinner();
+              return (
+                <div
+                  id={'c-' + index + index2}
+                  key={'c-' + index + index2}
+                  className="image-pixeled"
+                  style={style}
+                  onClick={(e)=>verifyUser(e,param)}
+                  onMouseEnter={()=>showTip(titleText,('c-'+index+index2))}
+                  />
+              )
+            })}
+          </div>
+        )
+      })
+      setMatrix(matr);
+      disableSpinner();
     })
     .catch(err => {
       disableSpinner();
@@ -139,6 +139,10 @@ const SquarePixeled = ({enableSpinner,disableSpinner, setAuth}) =>{
       });
     })
   },[])
+
+/* Forza lo scroll a posizionarsi all'inizio di un elemento qualora
+ * il client è un mobile browser. In questo caso si posiziona in
+ * corrispondenza del logo
 
   useEffect(() => {
     if(matrix && Const.isMobileBrowser(navigator.userAgent)) {
@@ -155,6 +159,7 @@ const SquarePixeled = ({enableSpinner,disableSpinner, setAuth}) =>{
       delete griglia.style["overflow-x"];
     }
   },[])
+*/
 
   return(
     <>

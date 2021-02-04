@@ -9,9 +9,12 @@ const Win = (props) => {
   return (
     <>
     <div className="col-sm-12" style={{color:'#FFFFFF', padding:'5% 5% 20% 5%'}}>
-      <h1 style={{textAlign:'center'}}>
-        Vinci dai 100'000 ai 500'000 euro senza spendere un centesimo!
+      <h1 style={{textAlign:'center', color:'#28a745'}}>
+        VINCI DAI 100'000 AI 500'000€ SENZA SPENDERE UN CENTESIMO!
       </h1>
+      <br/>
+      <br/>
+      <br/>
       <br/>
       <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
         Una volta esaurita la prima met&agrave; dei pixel disponibili, avrete la possibilit&agrave; di parte al nostro concorso! Seguendo alcuni semplici passi, sarete inseriti in una lista dalla quale estrarremo 5 fortunati utenti che riceveranno 100'000 € ciascuno!
@@ -33,7 +36,7 @@ const Win = (props) => {
             </span>
             <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
               Registrati.
-              <a className="a-animated" href="/register"> Clicca qui</a>
+              <a className="a-animated" href="/register"> Clicca qui </a>
               e inserisci username, email e password.
             </span>
           </li>
