@@ -198,7 +198,7 @@ const HowWork = (props) => {
           </span>
         </div>
 
-        <div id="centerDescr" className="col-sm-12 animate__animated" style={{marginTop:'10%',marginBottom:'5%'}}>
+        <div id="centerDescr" className="col-sm-12 animate__animated" style={{marginTop:'20%',marginBottom:'5%'}}>
           <h2 style={{marginBottom: '1.2rem', textAlign:'center', fontSize: '1.8rem'}}>
             Come funziona
           </h2>
@@ -206,7 +206,6 @@ const HowWork = (props) => {
             Una volta ricevuto il tuo pagamento, ti invieremo una email nella quale richiederemo tutti i dati necessari per concludere l’operazione. Baster&agrave; allegare nell'email di risposta un’immagine, che andr&agrave; a sostituire lo spazio bianco dei pixel, e un link, che verr&agrave; collegato al tuo spazio. Inoltre, potrai segnalarci le coordinate dei quadratini che preferisci acquistare. In alternativa ti verranno assegnati casualmente.
             Per ogni dubbio potrai contattarci via email. Rimarremo a tua disposizione!
             In futuro, nel caso ti interessasse, avrai sempre la possibilit&agrave; di inviarci una nuova immagine per sostituire quella presente e/o un nuovo link da collegare.
-            In pi&ugrave;, a fine semestre, ti verr&agrave; inviato un resoconto per poter analizzare con i tuoi occhi l’andamento della tua campagna pubblicitaria.
           </span>
         </div>
 
