@@ -97,7 +97,20 @@ class NavbarCustom extends Component{
           aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
-        <a className="navbar-brand" href="" onClick={(e)=>this.changeActiveAndHistoryPush(e,1, '/')}>
+        <span className="navbar-toggler" type="button" data-toggle="collapse" data-target=""
+          aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle Win"
+          onClick={(e)=>this.changeActiveAndHistoryPush(e,5,'/win')} style={{border:'none',paddingLeft:'0',paddingRight:'0'}}>
+          <menu>
+            <a
+              className="nav-link nav-bar-link"
+              href=""
+              onClick={(e)=>this.changeActiveAndHistoryPush(e,5,'/win')}>
+              <i className="fas fa-money-bill-alt" style={{paddingTop: '3%'}}></i>
+              &nbsp;Vinci 500'000€
+            </a>
+          </menu>
+        </span>
+        <a className="navbar-brand" style={{marginRight:'0'}} href="" onClick={(e)=>this.changeActiveAndHistoryPush(e,1, '/')}>
           <img src={Img} alt="Logo" className="logo-size-header"></img>
         </a>
         <div className="collapse navbar-collapse" id="basicExampleNav">
@@ -138,15 +151,19 @@ class NavbarCustom extends Component{
                 &nbsp;Come funziona
               </a>
             </li>
-            <li className={"nav-item " + (this.state.active === 5 ? 'active-nav-bar' : '')}>
-              <a
-                className="nav-link nav-bar-link"
-                href=""
-                onClick={(e)=>this.changeActiveAndHistoryPush(e,5,'/win')}>
-                <i className="fas fa-money-bill-alt" style={{paddingTop: '3%'}}></i>
-                &nbsp;Vinci 500'000€
-              </a>
-            </li>
+            {Const.isMobileBrowser(navigator.userAgent) ?
+              null
+              :
+              <li className={"nav-item " + (this.state.active === 5 ? 'active-nav-bar' : '')}>
+                <a
+                  className="nav-link nav-bar-link"
+                  href=""
+                  onClick={(e)=>this.changeActiveAndHistoryPush(e,5,'/win')}>
+                  <i className="fas fa-money-bill-alt" style={{paddingTop: '3%'}}></i>
+                  &nbsp;Vinci 500'000€
+                </a>
+              </li>
+            }
           </ul>
           {this.props.isAuth ?
             <ul id="ulNavDx1" className="navbar-nav ">

@@ -29,7 +29,6 @@ const MainTemplate = ({children, show, enableSpinner, disableSpinner, setAuth, i
         visibility: isShowed ? 'hidden' : 'visible',
         position: isShowed ? 'absolute' : '',
         zIndex: isShowed ? '1' : '2',
-        width: '100vw',
         height: window.location.pathname === Const.MANAGE ? '0px' : '100%'
       }}>
       <Header enableSpinner={enableSpinner} disableSpinner={disableSpinner} setAuth={setAuth} isAuth={isAuth} isAuthBasic={isAuthBasic}/>

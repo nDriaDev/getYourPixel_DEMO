@@ -1,34 +1,35 @@
 import React, {Component} from 'react';
 import $ from 'jquery';
-import { useHistory } from 'react-router-dom';
+import Const from './../../../util/Costanti.js';
+import {useHistory} from 'react-router-dom';
 
 const Footer = (props) => {
   const history = useHistory();
 
   const goToLegal = () => {
-    let idUls = ['ulNavSx','ulNavDx1','ulNavDx2','ulNavDx3','ulNavDx4',];
+    let idUls = ['ulNavSx', 'ulNavDx1', 'ulNavDx2', 'ulNavDx3', 'ulNavDx4'];
     let trovato = false;
-    for(let i in idUls) {
+    for (let i in idUls) {
       let children = document.getElementById(idUls[i]).childNodes;
       let array = Array.from(children);
-      for(let j in array) {
-        if(array[j].classList.contains('active-nav-bar')) {
+      for (let j in array) {
+        if (array[j].classList.contains('active-nav-bar')) {
           array[j].classList.remove('active-nav-bar');
           trovato = true;
           break;
         }
       }
-      if(trovato) {
+      if (trovato) {
         break;
       }
     }
     history.push('/legal');
   }
 
-  let styleDiv ={
+  let styleDiv = {
     height: '100%',
     fontSize: '0.65em',
-    color:'#FFFFFF80',
+    color: '#FFFFFF80',
     width: '100%'
   }
   let styleCol = {
@@ -38,10 +39,25 @@ const Footer = (props) => {
   let styleSpan = {
     verticalAlign: 'top'
   }
-    return(
-      props.show ? null :
+
+  const getPositionFooter = () => {
+    if(Const.isMobileBrowser(navigator.userAgent) && !window.location.pathname.includes('manage')) {
+      return 'unset';
+    } else {
+      return 'fixed';
+    }
+  }
+
+  let styleFooter = {
+    position: getPositionFooter()
+  };
+
+  return (
+    props.show ?
+      null
+      :
       <div className="display-grid">
-        <div className="bottom-footer">
+        <div className="bottom-footer" style={styleFooter}>
           <div className="container-fluid footer" style={styleDiv}>
             <div className="div-left" style={styleCol}>
               <span style={styleSpan}>
@@ -55,7 +71,6 @@ const Footer = (props) => {
           </div>
         </div>
       </div>
-
     )
 }
 

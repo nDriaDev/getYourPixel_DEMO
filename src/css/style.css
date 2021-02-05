@@ -106,8 +106,18 @@ li a:hover:not(.active) {
 .active {
   background-color: #e5e5e5;
 }
-
-
+menu > a {
+  display: block;
+  color: #28A745 !important;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-family: 'sans-serif';
+  font-weight: bold;
+  font-size: 20px;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
 
 .div-inline{
   display: inline-flex;
@@ -168,8 +178,10 @@ li a:hover:not(.active) {
   float: right;
 }
 .bottom-footer{
+  position: fixed;
   bottom:0;
   width:100%;
+  z-index: 1020;
   background-color: #000000;
 }
 #designedBy > a{

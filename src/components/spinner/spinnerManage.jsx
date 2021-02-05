@@ -8,8 +8,7 @@ const SpinnerManage = ({visible}) => {
           size={100}
           color="#24e959"
           style={{width:'99%',
-            paddingTop: '25%',
-            paddingBottom: '35%',
+            height: '99%',
             background: 'black',
             visibility: visible ? 'visible' : 'hidden',
             position: 'absolute',

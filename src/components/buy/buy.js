@@ -9,8 +9,18 @@ const stripePromise = loadStripe(process.env.REACT_APP_PUB_KEY_STRIPE);
 
 const ProductDisplay = ({ product, quantity, handleQuantityChange, handleClick }) => {
   return (
-    <div className="col-lg-4 col-md-12 mb-lg-0 mb-2 mx-auto div-buy">
-      <div className="card-container" style={{width: '470px'}}>
+    <div style={{
+        width: '92vw',
+        marginLeft: '4%',
+        marginRight: '4%',
+      }} align="center">
+      <div id="griglia" style={{
+          maxHeight:'100%',
+          maxWidth:'480px',
+          border:'2px solid #FFFFFF',
+          borderRadius:'5%',
+          overflowY:'auto'}}>
+        <div className="mx-auto" style={{backgroundColor: 'white'}}>
         <div className="card-body">
           <h1 className="mb-2" style={{fontSize:'2.7rem'}}>{product.name}</h1>
           <div className="d-flex justify-content-center mb-2">
@@ -37,6 +47,7 @@ const ProductDisplay = ({ product, quantity, handleQuantityChange, handleClick }
             <button className="btn-success btn-checkout" onClick={handleClick}>Acquista</button>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );
