@@ -1,3 +1,9 @@
+########### SEO (humans.txt robots.txt sitemap.xml) - SINGLE PAGE APPLICATION ###########
+https://dispatch.moonfarmer.com/seo-for-single-page-applications-5b5cf22834a6
+http://humanstxt.org/
+https://codeburst.io/all-about-humans-humans-txt-actually-f571d37f92d2
+
+
 ########### NODE JS WORKERS THREAD - WORKER POOL ###########
 https://www.nearform.com/blog/learning-to-swim-with-piscina-the-node-js-worker-pool/
 https://medium.com/@nodesource/understanding-worker-threads-in-node-js-2c854dfd291c

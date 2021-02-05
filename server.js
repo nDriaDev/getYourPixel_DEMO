@@ -18,6 +18,8 @@ const port = process.env.PORT || 3000;
 
 const server = express();
 
+server.use(express.static(path.join(__dirname + '/build/robots.txt')));
+
 //creo sessione per express-session
 var sessionOptions = {
   name:'name-'+uuid(),
