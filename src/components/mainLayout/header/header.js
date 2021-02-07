@@ -2,7 +2,6 @@ import React from 'react';
 import {useHistory} from 'react-router-dom';
 import NavbarCustom from './../../navbar/navbar';
 import Img from './../../../images/logo.png';
-import BuyButton from './../../buyButton/buyButton';
 import Const from './../../../util/Costanti.js';
 
 const Header = (props) => {

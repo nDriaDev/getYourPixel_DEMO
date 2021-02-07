@@ -1,5 +1,4 @@
-import React, {Component} from 'react';
-import $ from 'jquery';
+import React from 'react';
 import Const from './../../../util/Costanti.js';
 import {useHistory} from 'react-router-dom';
 
@@ -41,7 +40,9 @@ const Footer = (props) => {
   }
 
   const getPositionFooter = () => {
-    if(Const.isMobileBrowser(navigator.userAgent) && !window.location.pathname.includes('manage')) {
+    debugger;
+    if(Const.isMobileBrowser(navigator.userAgent) &&
+      !window.location.pathname.includes('manage') && !window.location.pathname.includes('termsAndConditions')) {
       return 'unset';
     } else {
       return 'fixed';
