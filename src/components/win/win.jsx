@@ -17,7 +17,7 @@ const Win = (props) => {
       <br/>
       <br/>
       <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
-        Una volta esaurita la prima met&agrave; dei pixel disponibili, avrete la possibilit&agrave; di parte al nostro concorso! Seguendo alcuni semplici passi, sarete inseriti in una lista dalla quale estrarremo 5 fortunati utenti che riceveranno 100'000 € ciascuno!
+        Una volta esaurita la prima met&agrave; dei pixel disponibili, avrete la possibilit&agrave; di partecipare al nostro concorso! Seguendo alcuni semplici passi, sarete inseriti in una lista dalla quale estrarremo 5 fortunati utenti che riceveranno 100'000 € ciascuno!
         Il meccanismo &egrave; semplicissimo.
         Tutto ci&ograve; che dovrete fare, dopo aver effettuato l'accesso con le vostre credenziali, sar&agrave; visitare le pubblicit&agrave; presenti nella homepage. Ogni pubblicit&agrave; visualizzata assegner&agrave; all’utente 1 punto. Pi&ugrave; punti hai pi&ugrave; volte il tuo nome verr&agrave; inserito nell’elenco per l’estrazione.
         Ad esempio, visitando una pubblicit&agrave; il tuo nome verr&agrave; inserito una volta, visitando 20 pubblicit&agrave; il tuo nome verr&agrave; inserito 20 volte.
