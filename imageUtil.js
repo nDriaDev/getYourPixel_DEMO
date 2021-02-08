@@ -129,8 +129,11 @@ class ImageUtil {
           for(let i in images) {
             imgs.push(images[i].file.base64);
           }
+          
+          PixelBuilder.countPixels(images);
+
           console.log("ImageUtil - [createPixels - read] - FINISH",);
-          resolve({images:imgs, array: PixelBuilder.matrix});
+          resolve({images:imgs, array: PixelBuilder.matrix, counter: PixelBuilder.counter});
         })
         .catch(err => {
           console.log("ImageUtil - [createPixels] - ERROR -", err.message);

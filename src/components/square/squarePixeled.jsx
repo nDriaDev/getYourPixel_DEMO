@@ -5,7 +5,7 @@ import {Button, Modal } from 'react-bootstrap';
 import $ from 'jquery';
 import axios from 'axios';
 
-const SquarePixeled = ({enableSpinner,disableSpinner, setAuth}) =>{
+const SquarePixeled = ({enableSpinner,disableSpinner, setAuth, setCounter}) =>{
   const [matrix,setMatrix] = useState(null);
   const [show, setShow] = useState(false);
   const [url, setUrl] = useState(null);
@@ -86,6 +86,7 @@ const SquarePixeled = ({enableSpinner,disableSpinner, setAuth}) =>{
     enableSpinner();
     axios.get(Const.GET_CLIENTS_PIXELS)
     .then(res => {
+      setCounter(res.data.counter)
       let matr = res.data.array.map((row,index) => {
         return (
           <div id={'r-' + index} align='center' key={'r-'+index}>
