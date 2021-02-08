@@ -12,21 +12,27 @@ const Manage = (props) => {
   const [active,setActive] = useState(() => {
       let pathSpli = window.location.pathname.split('/');
       if(pathSpli[pathSpli.length-1] === 'manage') {
-        return ['active-v-bar','','','','',''];
+        return ['','','','','','',''];
+      }
+      else if(pathSpli[pathSpli.length-1] === 'saveClient') {
+        return ['active-v-bar','','','','','',''];
       }
       else if(pathSpli[pathSpli.length-1] === 'editClient') {
-        return ['','active-v-bar','','','',''];
+        return ['','active-v-bar','','','','',''];
       }
       else if(pathSpli[pathSpli.length-1] === 'removeClient') {
-        return ['','','active-v-bar','','',''];
+        return ['','','active-v-bar','','','',''];
       }
       else if(pathSpli[pathSpli.length-1] === 'addAdmin') {
-        return ['','','','active-v-bar','',''];
+        return ['','','','active-v-bar','','',''];
       }
       else if(pathSpli[pathSpli.length-1] === 'removeAdmin') {
-        return ['','','','','active-v-bar',''];
+        return ['','','','','active-v-bar','',''];
+      }
+      else if(pathSpli[pathSpli.length-1] === 'counterUsers') {
+        return ['','','','','','active-v-bar',''];
       } else {
-        return ['','','','','','active-v-bar'];
+        return ['','','','','','','active-v-bar'];
       }
   }
 );
@@ -54,11 +60,24 @@ const Manage = (props) => {
           throw new Error(res.data.message);
         }
         //Se l'utente che cerca di accedere a manage non è un admin nè un collaboratore
-        props.disableSpinner();
-        history.push('/')
+        else if(res.data.code === 200 && res.data.type === 'Client') {
+          axios.post(Const.GET_USER,{})
+          .then(res => {
+            if(res.data && !res.data.code) {
+              props.setAuth(null,true);
+              setRole(res.data.type)
+              props.disableSpinner();
+            } else {
+              throw new Error(res.data.message);
+            }
+          })
+          .catch(err => {
+            throw err;
+          })
+        }
       } else {
         props.disableSpinner();
-        toast.error('User not exist', {
+        toast.error('Utente inesistente', {
           position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
@@ -104,7 +123,7 @@ const Manage = (props) => {
     <>
       {
         role &&
-        <div className="row vertical-bar">
+        <div className="row vertical-bar mx-auto">
           <div className="col-lg-2 col-md-2 col-sm-1 col-xs-1 background-v-nav">
             <nav className="navbar navbar-expand-lg navbar-dark primary-color">
               <button className="navbar-toggler btn-v-bar" type="button" data-toggle="collapse" data-target="#verticalNav"
@@ -113,29 +132,44 @@ const Manage = (props) => {
               </button>
               <div className="collapse navbar-collapse" id="verticalNav">
                 <ul className="navbar-nav ul-v-bar flex-column">
-                  <li className={"nav-item " + active[0]}
-                    onClick={()=>activing(0)}>
-                    <Link style={{textAlign:'left'}} to={path}>
-                      <i className="fas fa-user-plus" style={{paddingRight:'4%'}}></i>
-                      Save Client
-                    </Link>
-                  </li>
-                  <li className={"nav-item " + active[1]}
-                    onClick={()=>activing(1)}>
-                    <Link style={{textAlign:'left'}} to={`${path}/editClient`}>
-                      <i className="fas fa-user-edit" style={{paddingRight:'4%'}}></i>
-                      Edit Client
-                    </Link>
-                  </li>
-                  <li className={"nav-item " + active[2]}
-                    onClick={()=>activing(2)}>
-                    <Link style={{textAlign:'left'}} to={`${path}/removeClient`}>
-                      <i className="fas fa-user-times" style={{paddingRight:'4%'}}></i>
-                      Remove Client
-                    </Link>
-                  </li>
                   {
-                    role && role !== Const.ADMIN_TYPE.BASIC ?
+                    role && ![Const.ADMIN_TYPE.CLIENT].includes(role) ?
+                    <li className={"nav-item " + active[0]}
+                      onClick={()=>activing(0)}>
+                      <Link style={{textAlign:'left'}} to={`${path}/saveClient`}>
+                        <i className="fas fa-user-plus" style={{paddingRight:'4%'}}></i>
+                        Save Client
+                      </Link>
+                    </li>
+                    :
+                    null
+                  }
+                  {
+                    role && ![Const.ADMIN_TYPE.CLIENT].includes(role) ?
+                    <li className={"nav-item " + active[1]}
+                      onClick={()=>activing(1)}>
+                      <Link style={{textAlign:'left'}} to={`${path}/editClient`}>
+                        <i className="fas fa-user-edit" style={{paddingRight:'4%'}}></i>
+                        Edit Client
+                      </Link>
+                    </li>
+                    :
+                    null
+                  }
+                  {
+                    role && ![Const.ADMIN_TYPE.CLIENT].includes(role) ?
+                    <li className={"nav-item " + active[2]}
+                      onClick={()=>activing(2)}>
+                      <Link style={{textAlign:'left'}} to={`${path}/removeClient`}>
+                        <i className="fas fa-user-times" style={{paddingRight:'4%'}}></i>
+                        Remove Client
+                      </Link>
+                    </li>
+                    :
+                    null
+                  }
+                  {
+                    role && ![Const.ADMIN_TYPE.BASIC,Const.ADMIN_TYPE.CLIENT].includes(role) ?
                     <li className={"nav-item " + active[3]}
                       onClick={()=>activing(3)}>
                       <Link style={{textAlign:'left'}} to={`${path}/addAdmin`}>
@@ -147,7 +181,7 @@ const Manage = (props) => {
                     null
                   }
                   {
-                    role && role !== Const.ADMIN_TYPE.BASIC ?
+                    role && ![Const.ADMIN_TYPE.BASIC,Const.ADMIN_TYPE.CLIENT].includes(role) ?
                     <li className={"nav-item " + active[4]}
                       onClick={()=>activing(4)}>
                       <Link style={{textAlign:'left'}} to={`${path}/removeAdmin`}>
@@ -158,8 +192,20 @@ const Manage = (props) => {
                     :
                     null
                   }
-                  <li className={"nav-item " + active[5]}
-                    onClick={()=>activing(5)}>
+                  {
+                    role && ![Const.ADMIN_TYPE.BASIC,Const.ADMIN_TYPE.CLIENT].includes(role) ?
+                    <li className={"nav-item " + active[5]}
+                      onClick={()=>activing(5)}>
+                      <Link style={{textAlign:'left'}} to={`${path}/counterUsers`}>
+                        <i className="fas fa-users" style={{paddingRight:'4%'}}></i>
+                        Utenti Registrati
+                      </Link>
+                    </li>
+                    :
+                    null
+                  }
+                  <li className={"nav-item " + active[6]}
+                    onClick={()=>activing(6)}>
                     <Link style={{textAlign:'left'}} to={`${path}/changePassword`}>
                       <i className="fas fa-lock" style={{paddingRight:'4%'}}></i>
                       Change Password

@@ -5,6 +5,30 @@ const { v4: uuid } = require('uuid');
 
 class MainController {
 
+  countUsers(req, res, next) {
+      try {
+        console.log("main_Controller - [countUsers] - START");
+        service.initialize(req.app.locals.db);
+        service.countUsers()
+          .then(result => {
+            if(result) {
+              res.status(200).send(result)
+            } else {
+              res.status(200).send({code:401,message:'Errore interno'})
+            }
+          })
+          .catch(e => {
+            console.log("main_Controller - [countUsers] - ERROR -", e.message);
+            res.status(200).send({code:500,message:e.message});
+          })
+      } catch (e) {
+        console.log("main_Controller - [countUsers] - ERROR -", e.message);
+        next(e.message);
+      } finally {
+        console.log("main_Controller - [countUsers] - FINISH");
+      }
+  }
+
   getUser(req, res, next) {
       try {
         console.log("main_Controller - [getUser] - START");
@@ -12,7 +36,11 @@ class MainController {
         service.initialize(req.app.locals.db);
         service.getUser(email)
           .then(result => {
-            res.status(200).send(result)
+            if(result) {
+              res.status(200).send(result)
+            } else {
+              res.status(200).send({code:401,message:'Utente inesistente'})
+            }
           })
           .catch(e => {
             console.log("main_Controller - [getUser] - ERROR -", e.message);

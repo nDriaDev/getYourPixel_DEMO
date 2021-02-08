@@ -62,7 +62,10 @@ const ChangePassword = ({spinnerCommand}) => {
             draggable: true,
             progress: undefined,
           });
-        } else {
+        }
+        else if(res.data.code === 401) {
+          throw new Error(res.data.message)
+        }else {
           if(form.password !== form.confirmPassword) {
             setValidated({
               oldPassword: true,
@@ -88,9 +91,28 @@ const ChangePassword = ({spinnerCommand}) => {
                   pauseOnHover: false,
                   draggable: true,
                   progress: undefined,
-                  onClose:()=>{history.push('/login')}
                 });
               }
+              else if(res.data.code === 401) {
+                throw new Error(res.data.message);
+              }
+            })
+            .catch(err => {
+              setValidated({
+                oldPassword: false,
+                password: false,
+                confirmPassword: false,
+              });
+              spinnerCommand(false);
+              toast.error(err.message != null ? err.message : "ERRORE", {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+              });
             })
           }
         }

@@ -71,7 +71,7 @@ const Contact = (props) => {
           borderRadius:'5%',
           overflowY:'auto'}}>
         <div className="mt-2" align="center">
-          <h1 style={{color:'#FFFFFF', paddingBottom:'0.7rem'}}>Contattaci</h1>
+          <h2 style={{fontSize:'2.5rem',color:'#FFFFFF', paddingBottom:'0.7rem'}}>Contattaci</h2>
         </div>
         <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
           <Form noValidate validated={validated} onSubmit={onSubmit}>

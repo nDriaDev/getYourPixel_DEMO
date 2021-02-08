@@ -938,7 +938,7 @@ class MainService {
             if (result) {
               bcrypt.compare(password, result.password, function(err, same) {
                 if (err) {
-                  reject(new Error("Password is invalid"))
+                  reject(new Error("Password non valida"))
                 } else {
                   if (same) {
                     resolve({
@@ -957,7 +957,7 @@ class MainService {
             } else {
               resolve({
                 code: 404,
-                message: "User not exist"
+                message: "Utente inesistente"
               })
             }
           })
@@ -993,7 +993,7 @@ class MainService {
                 if (err) {
                   reject({
                     code: 404,
-                    message: "Password is invalid"
+                    message: "Password invalida"
                   })
                 } else {
                   if (same) {
@@ -1010,11 +1010,54 @@ class MainService {
                 }
               });
             } else {
-              resolve({
-                code: 404,
-                message: "User not exist"
+              this.db
+              .collection(COLLECTION_USER)
+              .findOne({
+                "$and": [{
+                  "$or": [{
+                    "email": email
+                  }, {
+                    "username": email,
+                  }]
+                }, {
+                  "active": true,
+                }]
+              }, {
+                projection: {
+                  "_id": 0,
+                }
+              })
+              .then(result => {
+                if (result) {
+                  bcrypt.compare(password, result.password, function(err, same) {
+                    if (err) {
+                      reject({
+                        code: 404,
+                        message: "Password invalida"
+                      })
+                    } else {
+                      if (same) {
+                        resolve({
+                          code: 200,
+                          message: 'Cambio password avvenuto con successo'
+                        })
+                      } else {
+                        resolve({
+                          code: 404,
+                          message: "La password corrente non e' corretta"
+                        })
+                      }
+                    }
+                  });
+                }
+              })
+              .catch(err => {
+                throw err;
               })
             }
+          })
+          .catch(err => {
+            throw err;
           })
       } catch (e) {
         console.log("mainService - [verifyPassword] - ERROR -", e.message);
@@ -1323,7 +1366,15 @@ class MainService {
         this.db
           .collection(COLLECTION_USER)
           .findOne({
-            "email": email,
+            "$and": [{
+              "$or": [{
+                "email": email
+              }, {
+                "username": email,
+              }]
+            }, {
+              "active": true,
+            }]
           }, {
             projection: {
               "_id": 0,
@@ -1332,7 +1383,7 @@ class MainService {
           .then(value => {
             if (value) {
               const filter = {
-                "email": email
+                "email": value.email
               };
               this.generateHashedPassword(password)
                 .then(result => {
@@ -1356,7 +1407,7 @@ class MainService {
                     })
                 })
             } else {
-              reject(new Error("Password inserted is wrong"))
+              reject(new Error("Password invalida"))
             }
           })
           .catch(err => {
@@ -1417,7 +1468,7 @@ class MainService {
             } else {
               resolve({
                 code: 404,
-                message: "Email inserted not exist"
+                message: "Email inesistente"
               })
             }
           })
@@ -1438,20 +1489,14 @@ class MainService {
     return new Promise((resolve, reject) => {
       try {
         let query = {}
-        if (username) {
-          query = {
-            "$and": [{
-              "$or": [{
-                "email": email
-              }, {
-                "username": username,
-              }]
+        query = {
+          "$and": [{
+            "$or": [{
+              "email": email
+            }, {
+              "username": username ? username : email,
             }]
-          }
-        } else {
-          query = {
-            "email": email
-          }
+          }]
         }
         this.db
           .collection(COLLECTION_USER)
@@ -1468,6 +1513,10 @@ class MainService {
             } else {
               resolve(null)
             }
+          })
+          .catch(err => {
+            console.log("mainService - [getUser] - ERROR -", err.message);
+            reject(err)
           })
       } catch (e) {
         console.log("mainService - [getUser] - ERROR -", e.message);
@@ -1507,7 +1556,7 @@ class MainService {
             if (result) {
               bcrypt.compare(password, result.password, function(err, same) {
                 if (err) {
-                  reject(new Error("Password is invalid"))
+                  reject(new Error("Password invalida"))
                 } else {
                   if (same) {
                     resolve({
@@ -1526,7 +1575,7 @@ class MainService {
             } else {
               resolve({
                 code: 404,
-                message: "User inesistente"
+                message: "Utente inesistente"
               })
             }
           })
@@ -1903,6 +1952,66 @@ class MainService {
     })
   }
 
+  countUsers() {
+    console.log("mainService - [countUsers] - START");
+    return new Promise((resolve,reject) => {
+      try {
+        this.db
+        .collection(COLLECTION_USER)
+        .aggregate([
+          {
+            $lookup:
+            {
+              from: COLLECTION_CLICK,
+              localField: "email",
+              foreignField: 'email',
+              as: "punti"
+            }
+          },
+          {
+            $project:
+            {
+              "_id": 0,
+              "username": 1,
+              "email": 1,
+              "punti":
+              {
+                $cond:
+                {
+                  if:
+                  {
+                    $isArray: "$punti.urls"
+                  },
+                  then:
+                  {
+                    $size: "$punti.urls"
+                  },
+                  else: "0"
+                }
+              }
+            }
+          },
+        ])
+        .toArray()
+        .then(result =>{
+          if(result) {
+            resolve({number:result.length, list: result})
+          } else {
+            resolve(null)
+          }
+        })
+        .catch(err => {
+          console.log("mainService - [countUsers] - ERROR -", err.message);
+          reject(err);
+        })
+      } catch (e) {
+        console.log("mainService - [countUsers] - ERROR -", e.message);
+        reject(e);
+      } finally {
+        console.log("mainService - [countUsers] - FINISH");
+      }
+    })
+  }
 }
 
 

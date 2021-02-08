@@ -9,7 +9,9 @@ import ChangePassword from './../changePassword/changePassword';
 import SaveClient from './../client/saveClient/saveClient';
 import EditClient from './../client/editClient/editClient';
 import RemoveClient from './../client/removeClient/removeClient';
+import CounterUsers from './../user/counterUsers';
 import SpinnerManage from './../spinner/spinnerManage';
+import ManageHome from './manageHome';
 
 const ManageRoute = ({spinner, spinnerCommand}) => {
   let {path} = useRouteMatch();
@@ -22,11 +24,21 @@ const ManageRoute = ({spinner, spinnerCommand}) => {
           path= {path}
           render = {(props) => (
             <Auth {...props}
-              ComponentToProtect={SaveClient}
+              ComponentToProtect={ManageHome}
               enableSpinner={spinnerCommand}
               spinnerCommand={spinnerCommand}
               disableSpinner={spinnerCommand} />
           )}
+          />
+          <Route
+            path= {`${path}/saveClient`}
+            render = {(props) => (
+              <Auth {...props}
+                ComponentToProtect={SaveClient}
+                enableSpinner={spinnerCommand}
+                spinnerCommand={spinnerCommand}
+                disableSpinner={spinnerCommand} />
+            )}
           />
         <Route
           path= {`${path}/editClient`}
@@ -63,6 +75,16 @@ const ManageRoute = ({spinner, spinnerCommand}) => {
           render = {(props) => (
             <Auth {...props}
               ComponentToProtect={RemoveAdmin}
+              enableSpinner={spinnerCommand}
+              spinnerCommand={spinnerCommand}
+              disableSpinner={spinnerCommand} />
+          )}
+          />
+        <Route
+          path= {`${path}/counterUsers`}
+          render = {(props) => (
+            <Auth {...props}
+              ComponentToProtect={CounterUsers}
               enableSpinner={spinnerCommand}
               spinnerCommand={spinnerCommand}
               disableSpinner={spinnerCommand} />

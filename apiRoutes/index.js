@@ -135,6 +135,10 @@ try {
     controllers.mainController.saveClick
   )
   .get(
+    '/countUsers',
+    controllers.mainController.countUsers
+  )
+  .get(
     '/logout',
     auth,
     controllers.logout

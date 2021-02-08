@@ -165,7 +165,7 @@ class NavbarCustom extends Component{
               </li>
             }
           </ul>
-          {this.props.isAuth ?
+          {this.props.isAuth || this.props.isAuthBasic ?
             <ul id="ulNavDx1" className="navbar-nav ">
               <li className="">
                 <a
@@ -173,7 +173,7 @@ class NavbarCustom extends Component{
                   href=""
                   onClick={(e)=>this.admin(e)}>
                   <i className="fas fa-user-cog" style={{paddingTop: '5%'}}></i>
-                  &nbsp;Admin
+                  &nbsp;{this.props.isAuth ? "Admin" : "Account"}
                 </a>
               </li>
             </ul>

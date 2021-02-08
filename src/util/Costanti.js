@@ -59,7 +59,9 @@ let Const = {
   GET_USER: '/api/getUser',
   SAVE_USER: '/api/saveUser',
   SAVE_CLICK: '/api/saveClick',
+  COUNT_USERS: '/api/countUsers',
   ADMIN_TYPE: {
+    CLIENT: 'Client',
     BASIC: 'Basic',
     ADMIN: 'Admin',
     SUPER_ADMIN: 'SuperAdmin',
