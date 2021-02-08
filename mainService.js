@@ -1433,11 +1433,18 @@ class MainService {
         this.db
           .collection(COLLECTION_USER)
           .findOne({
-            "email": email
+            "$and": [{
+              "$or": [{
+                "email": email
+              }, {
+                "username": email,
+              }]
+            }, {
+              "active": true,
+            }]
           }, {
             projection: {
               "_id": 0,
-              "password": 0
             }
           })
           .then(result => {
@@ -1468,7 +1475,7 @@ class MainService {
             } else {
               resolve({
                 code: 404,
-                message: "Email inesistente"
+                message: "Utente inesistente"
               })
             }
           })
@@ -2009,6 +2016,43 @@ class MainService {
         reject(e);
       } finally {
         console.log("mainService - [countUsers] - FINISH");
+      }
+    })
+  }
+
+  countPoints(email) {
+    console.log("mainService - [countPoints] - START");
+    return new Promise((resolve,reject) => {
+      try {
+        this.db
+        .collection(COLLECTION_CLICK)
+        .findOne({
+          "$and": [{
+            "$or": [{
+              "email": email
+            }, {
+              "username": email,
+            }]
+          }]
+        }, {
+          projection: {
+            "_id": 0,
+          }
+        })
+        .then(result => {
+          if(result) {
+            resolve({list:result.urls})
+          } else {
+            resolve({list:[]})
+          }
+        })
+        .catch(err => {
+          reject(err);
+        })
+      } catch (e) {
+
+      } finally {
+        console.log("mainService - [countPoints] - START");
       }
     })
   }

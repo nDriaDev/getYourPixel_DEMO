@@ -15,24 +15,27 @@ const Manage = (props) => {
         return ['','','','','','',''];
       }
       else if(pathSpli[pathSpli.length-1] === 'saveClient') {
-        return ['active-v-bar','','','','','',''];
+        return ['active-v-bar','','','','','','',''];
       }
       else if(pathSpli[pathSpli.length-1] === 'editClient') {
-        return ['','active-v-bar','','','','',''];
+        return ['','active-v-bar','','','','','',''];
       }
       else if(pathSpli[pathSpli.length-1] === 'removeClient') {
-        return ['','','active-v-bar','','','',''];
+        return ['','','active-v-bar','','','','',''];
       }
       else if(pathSpli[pathSpli.length-1] === 'addAdmin') {
-        return ['','','','active-v-bar','','',''];
+        return ['','','','active-v-bar','','','',''];
       }
       else if(pathSpli[pathSpli.length-1] === 'removeAdmin') {
-        return ['','','','','active-v-bar','',''];
+        return ['','','','','active-v-bar','','',''];
       }
       else if(pathSpli[pathSpli.length-1] === 'counterUsers') {
-        return ['','','','','','active-v-bar',''];
+        return ['','','','','','active-v-bar','',''];
+      }
+      else if(pathSpli[pathSpli.length-1] === 'counterPoints') {
+        return ['','','','','','','active-v-bar',''];
       } else {
-        return ['','','','','','','active-v-bar'];
+        return ['','','','','','','','active-v-bar'];
       }
   }
 );
@@ -138,7 +141,7 @@ const Manage = (props) => {
                       onClick={()=>activing(0)}>
                       <Link style={{textAlign:'left'}} to={`${path}/saveClient`}>
                         <i className="fas fa-user-plus" style={{paddingRight:'4%'}}></i>
-                        Save Client
+                        Nuovo Cliente
                       </Link>
                     </li>
                     :
@@ -150,7 +153,7 @@ const Manage = (props) => {
                       onClick={()=>activing(1)}>
                       <Link style={{textAlign:'left'}} to={`${path}/editClient`}>
                         <i className="fas fa-user-edit" style={{paddingRight:'4%'}}></i>
-                        Edit Client
+                        Modifica Cliente
                       </Link>
                     </li>
                     :
@@ -162,7 +165,7 @@ const Manage = (props) => {
                       onClick={()=>activing(2)}>
                       <Link style={{textAlign:'left'}} to={`${path}/removeClient`}>
                         <i className="fas fa-user-times" style={{paddingRight:'4%'}}></i>
-                        Remove Client
+                        Elimina Cliente
                       </Link>
                     </li>
                     :
@@ -174,7 +177,7 @@ const Manage = (props) => {
                       onClick={()=>activing(3)}>
                       <Link style={{textAlign:'left'}} to={`${path}/addAdmin`}>
                         <i className="fas fa-hands-helping" style={{paddingRight:'4%'}}></i>
-                        Add Admin
+                        Aggiungi Admin
                       </Link>
                     </li>
                     :
@@ -186,7 +189,7 @@ const Manage = (props) => {
                       onClick={()=>activing(4)}>
                       <Link style={{textAlign:'left'}} to={`${path}/removeAdmin`}>
                         <i className="fas fa-hands-wash" style={{paddingRight:'4%'}}></i>
-                        Remove Admin
+                        Elimina Admin
                       </Link>
                     </li>
                     :
@@ -204,11 +207,23 @@ const Manage = (props) => {
                     :
                     null
                   }
-                  <li className={"nav-item " + active[6]}
-                    onClick={()=>activing(6)}>
+                  {
+                    role && [Const.ADMIN_TYPE.BASIC,Const.ADMIN_TYPE.CLIENT].includes(role) ?
+                    <li className={"nav-item " + active[6]}
+                      onClick={()=>activing(6)}>
+                      <Link style={{textAlign:'left'}} to={`${path}/counterPoints`}>
+                        <i className="fas fa-trophy" style={{paddingRight:'4%'}}></i>
+                        Punti
+                      </Link>
+                    </li>
+                    :
+                    null
+                  }
+                  <li className={"nav-item " + active[7]}
+                    onClick={()=>activing(7)}>
                     <Link style={{textAlign:'left'}} to={`${path}/changePassword`}>
                       <i className="fas fa-lock" style={{paddingRight:'4%'}}></i>
-                      Change Password
+                      Cambia Password
                     </Link>
                   </li>
                 </ul>

@@ -5,6 +5,30 @@ const { v4: uuid } = require('uuid');
 
 class MainController {
 
+  countPoints(req, res, next) {
+      try {
+        console.log("main_Controller - [countPoints] - START");
+        service.initialize(req.app.locals.db);
+        service.countPoints(req.session.email)
+          .then(result => {
+            if(result) {
+              res.status(200).send(result)
+            } else {
+              res.status(200).send({code:401,message:'Errore interno'})
+            }
+          })
+          .catch(e => {
+            console.log("main_Controller - [countPoints] - ERROR -", e.message);
+            res.status(200).send({code:401,message:e.message});
+          })
+      } catch (e) {
+        console.log("main_Controller - [countPoints] - ERROR -", e.message);
+        next(e.message);
+      } finally {
+        console.log("main_Controller - [countPoints] - FINISH");
+      }
+  }
+
   countUsers(req, res, next) {
       try {
         console.log("main_Controller - [countUsers] - START");

@@ -139,6 +139,10 @@ try {
     controllers.mainController.countUsers
   )
   .get(
+    '/countPoints',
+    controllers.mainController.countPoints
+  )
+  .get(
     '/logout',
     auth,
     controllers.logout

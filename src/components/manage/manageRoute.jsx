@@ -10,6 +10,7 @@ import SaveClient from './../client/saveClient/saveClient';
 import EditClient from './../client/editClient/editClient';
 import RemoveClient from './../client/removeClient/removeClient';
 import CounterUsers from './../user/counterUsers';
+import CounterPoints from './../user/counterPoints';
 import SpinnerManage from './../spinner/spinnerManage';
 import ManageHome from './manageHome';
 
@@ -85,6 +86,16 @@ const ManageRoute = ({spinner, spinnerCommand}) => {
           render = {(props) => (
             <Auth {...props}
               ComponentToProtect={CounterUsers}
+              enableSpinner={spinnerCommand}
+              spinnerCommand={spinnerCommand}
+              disableSpinner={spinnerCommand} />
+          )}
+          />
+        <Route
+          path= {`${path}/counterPoints`}
+          render = {(props) => (
+            <Auth {...props}
+              ComponentToProtect={CounterPoints}
               enableSpinner={spinnerCommand}
               spinnerCommand={spinnerCommand}
               disableSpinner={spinnerCommand} />

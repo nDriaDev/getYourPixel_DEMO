@@ -118,7 +118,7 @@ const RemoveAdmin = ({spinnerCommand}) => {
     form.usersList &&
       <div className="mx-auto mb-5" style={{maxWidth:'408px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
         <div className="mt-2" align="center">
-          <h1  style={{color:'#28a745'}}>Remove Admin</h1>
+          <h1  style={{color:'#28a745'}}>Elimina Admin</h1>
         </div>
         <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
           <Form noValidate validated={valid} onSubmit={onSubmit}>
