@@ -52,23 +52,23 @@ const SquarePixeled = ({enableSpinner,disableSpinner, setAuth}) =>{
       enableSpinner();
       axios.post(Const.SAVE_CLICK,{'url':url})
       .then(result => {
-        axios.get(Const.LOGOUT)
-        .then(result => {
-          if (result.data.code === 200) {
-            // sessionStorage.clear();
-            setAuth(false, false);
+        // axios.get(Const.LOGOUT)
+        // .then(result => {
+        //   if (result.data.code === 200) {
+        //     // sessionStorage.clear();
+        //     setAuth(false, false);
             disableSpinner();
             window.location.assign(url.indexOf('http') === -1 ? 'http://' + url : url);
-          } else {
-            throw new Error(result.data.message);
-          }
-        })
-        .catch(err => {
-          // sessionStorage.clear();
-          setAuth(false, false);
-          disableSpinner();
-          window.location.assign(url.indexOf('http') === -1 ? 'http://' + url : url);
-        })
+        //   } else {
+        //     throw new Error(result.data.message);
+        //   }
+        // })
+        // .catch(err => {
+        //   // sessionStorage.clear();
+        //   setAuth(false, false);
+        //   disableSpinner();
+        //   window.location.assign(url.indexOf('http') === -1 ? 'http://' + url : url);
+        // })
       })
       .catch(err => {
         disableSpinner();
@@ -123,8 +123,31 @@ const SquarePixeled = ({enableSpinner,disableSpinner, setAuth}) =>{
           </div>
         )
       })
-      setMatrix(matr);
-      disableSpinner();
+      axios.post(Const.GET_ADMIN,{})
+      .then(res => {
+        if(res.data && !res.data.code) {
+          // sessionStorage.setItem('isAuth', true)
+          setAuth(true,null);
+          setMatrix(matr);
+          disableSpinner();
+        }
+        else if(res.data.code === 200 && res.data.type === 'Client') {
+          axios.post(Const.GET_USER,{})
+          .then(res => {
+            if(res.data && !res.data.code) {
+              setAuth(null,true);
+              setMatrix(matr);
+              disableSpinner();
+            } else {
+              setMatrix(matr);
+              disableSpinner();
+            }
+          })
+        } else {
+          setMatrix(matr);
+          disableSpinner();
+        }
+      })
     })
     .catch(err => {
       disableSpinner();
