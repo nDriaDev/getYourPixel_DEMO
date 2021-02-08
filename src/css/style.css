@@ -55,28 +55,29 @@
 .my-tooltip:hover .tooltiptext {
     visibility: visible;
 }
+
+/*----------------------------------------------------------------------------*/
+/* -------------------------- SCROLLBAR INVISIBLE ----------------------------*/
 ::-webkit-scrollbar {
   width: 5px;
 }
-
 /* Track */
 ::-webkit-scrollbar-track {
   box-shadow: unset;
   border-radius: 10px;
 }
-
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: black;
+  background: transparent;
   border-radius: 10px;
 }
-
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #b30000;
+  background: transparent;
 }
 
-
+/*----------------------------------------------------------------------------*/
+/* ------------------------------ NAVBAR ---------------------------------*/
 #navbar {
   list-style-type: none;
   margin: 0;
@@ -118,6 +119,11 @@ menu > a {
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
+.no-white-background-ios {
+  appearance: none !important;
+  -moz-appearance: none !important;
+  -webkit-appearance: none !important;
+}
 
 .div-inline{
   display: inline-flex;
@@ -154,6 +160,14 @@ menu > a {
 .display-grid-blank-60{
   display: grid;
   height: 60px !important;
+}
+.display-grid-blank-80{
+  display: grid;
+  height: 80px !important;
+}
+.display-grid-blank-100{
+  display: grid;
+  height: 100px !important;
 }
 .display-list{
   display: contents;
@@ -202,7 +216,7 @@ menu > a {
 }
 .logo-size{
   width: 480px;
-  margin: 25px auto 0px auto;
+  margin: 0px auto 0px auto;
 }
 .logo-size-header{
   width: 30px;

@@ -97,7 +97,7 @@ class NavbarCustom extends Component{
           aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
-        <span className="navbar-toggler" type="button" data-toggle="collapse" data-target=""
+        <span className="navbar-toggler no-white-background-ios" type="button" data-toggle="collapse" data-target=""
           aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle Win"
           onClick={(e)=>this.changeActiveAndHistoryPush(e,5,'/win')} style={{border:'none',paddingLeft:'0',paddingRight:'0'}}>
           <menu>
