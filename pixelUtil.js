@@ -206,7 +206,7 @@ class PixelUtil {
       console.log("PixelUtil - [buildMatrix] - START");
       this._cursore = {row:0,col:0};
       if(image.positionRow) {
-        this._cursore = this._checkPosizioneScelta(image.col, image.row, +image.positionCol, +image.positionRow);
+        this._cursore = this._checkPosizioneScelta(image.col, image.row, +image.positionRow, +image.positionCol);
         if(this._cursore === -2) {
           this._cursore = this._cercaPosizioneCursore(image.col, image.row);
         }

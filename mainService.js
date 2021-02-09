@@ -1970,9 +1970,14 @@ class MainService {
             $lookup:
             {
               from: COLLECTION_CLICK,
-              localField: "email",
-              foreignField: 'email',
-              as: "punti"
+              let : { user_email: "$email"},
+              pipeline: [
+                { $match: { $expr: { $and: [ { $eq: ["$$user_email","$email" ]}]}}},
+                { $project: { "_id": 0, "punti": { $cond: { if: { $isArray: "$urls" }, then: { $size: "$urls" }, else : "0"}}}}
+              ],
+              // localField: "email",
+              // foreignField: 'email',
+              as: "aggreg"
             }
           },
           {
@@ -1981,27 +1986,16 @@ class MainService {
               "_id": 0,
               "username": 1,
               "email": 1,
-              "punti":
-              {
-                $cond:
-                {
-                  if:
-                  {
-                    $isArray: "$punti.urls"
-                  },
-                  then:
-                  {
-                    $size: "$punti.urls"
-                  },
-                  else: "0"
-                }
-              }
+              "punti": "$aggreg.punti"
             }
           },
         ])
         .toArray()
         .then(result =>{
           if(result) {
+            for(let i in result) {
+              result[i].punti = result[i].punti[0] ? result[i].punti[0] : 0;
+            }
             resolve({number:result.length, list: result})
           } else {
             resolve(null)

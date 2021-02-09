@@ -136,10 +136,12 @@ try {
   )
   .get(
     '/countUsers',
+    auth,
     controllers.mainController.countUsers
   )
   .get(
     '/countPoints',
+    auth,
     controllers.mainController.countPoints
   )
   .get(
