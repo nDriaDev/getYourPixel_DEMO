@@ -106,7 +106,7 @@ const CounterUsers = ({spinnerCommand}) => {
         <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
           <Row>
             <Col sm="12" style={{padding:'0'}}>
-              <h3 style={{textAlign: 'center', color:'white', paddingTop:'0', paddingBottom: '10px'}}>{'Utenti registrati: ' + data.number}</h3>
+              <h3 style={{textAlign: 'center', color:'white', paddingTop:'0', paddingBottom: '10px'}}>{data.number}</h3>
             </Col>
           </Row>
           <Row style={{overflowY:'scroll', height:'400px'}}>
