@@ -92,8 +92,8 @@ class MainService {
                 if (company === '') {
                   if (positionRow === '' && positionCol === '') {
                     data = {
-                      "email": email,
-                      "url": url,
+                      "email": email.trim(),
+                      "url": url.trim(),
                       "file": file,
                       "row": row,
                       "col": col,
@@ -101,8 +101,8 @@ class MainService {
                     }
                   } else if (positionRow === '' && positionCol !== '') {
                     data = {
-                      "email": email,
-                      "url": url,
+                      "email": email.trim(),
+                      "url": url.trim(),
                       "file": file,
                       "row": row,
                       "col": col,
@@ -112,8 +112,8 @@ class MainService {
                     }
                   } else if (positionRow !== '' && positionCol === '') {
                     data = {
-                      "email": email,
-                      "url": url,
+                      "email": email.trim(),
+                      "url": url.trim(),
                       "file": file,
                       "row": row,
                       "col": col,
@@ -123,8 +123,8 @@ class MainService {
                     }
                   } else {
                     data = {
-                      "email": email,
-                      "url": url,
+                      "email": email.trim(),
+                      "url": url.trim(),
                       "file": file,
                       "row": row,
                       "col": col,
@@ -136,9 +136,9 @@ class MainService {
                 } else {
                   if (positionRow === '' && positionCol === '') {
                     data = {
-                      "email": email,
-                      "url": url,
-                      "company": company,
+                      "email": email.trim(),
+                      "url": url.trim(),
+                      "company": company.trim(),
                       "file": file,
                       "row": row,
                       "col": col,
@@ -146,9 +146,9 @@ class MainService {
                     }
                   } else if (positionRow === '' && positionCol !== '') {
                     data = {
-                      "email": email,
-                      "url": url,
-                      "company": company,
+                      "email": email.trim(),
+                      "url": url.trim(),
+                      "company": company.trim(),
                       "file": file,
                       "row": row,
                       "col": col,
@@ -158,9 +158,9 @@ class MainService {
                     }
                   } else if (positionRow !== '' && positionCol === '') {
                     data = {
-                      "email": email,
-                      "url": url,
-                      "company": company,
+                      "email": email.trim(),
+                      "url": url.trim(),
+                      "company": company.trim(),
                       "file": file,
                       "row": row,
                       "col": col,
@@ -170,9 +170,9 @@ class MainService {
                     }
                   } else {
                     data = {
-                      "email": email,
-                      "url": url,
-                      "company": company,
+                      "email": email.trim(),
+                      "url": url.trim(),
+                      "company": company.trim(),
                       "file": file,
                       "row": row,
                       "col": col,
@@ -234,11 +234,60 @@ class MainService {
     })
   }
 
-  getClientsPixels() {
+  getClientsPixels(email, type) {
     console.log("mainService - [getClientsPixels] - START");
     return new Promise((resolve, reject) => {
       try {
-        this.db
+        if(email && type === 'Client') {
+          this.countPoints(email)
+          .then(result => {
+            this.db
+            .collection(COLLECTION_CLIENT)
+            .find({
+            }, {
+              sort: {
+                "date": 1
+              },
+              projection: {
+                "_id": 0,
+                "email": 0,
+                "company": 0,
+                "date": 0
+              }
+            })
+            .toArray()
+            .then(items => {
+              var promises = [];
+              for (let i in items) {
+                promises.push(Compressor.decompressChilkat(items[i].file.base64)
+                .then(value => {
+                  // items[i].file.base64 = 'data:' + items[i].file.type + ';base64,' + value;
+                  items[i].file.base64 = value;
+                  return (items[i]);
+                })
+                .catch(err => {
+                  return (err);
+                }))
+              }
+              Promise.all(promises)
+              .then(values => {
+                ImageBuilder.createPixels(values, result.list)
+                .then(value => {
+                  resolve(value);
+                })
+                .catch(err => {
+                  console.log("mainService - [getClientsPixels] - ERROR -", err.message);
+                  reject(err);
+                })
+              })
+              .catch(err => {
+                console.log("mainService - [getClientsPixels] - ERROR -", err.message);
+                reject(err);
+              })
+            })
+          })
+        } else {
+          this.db
           .collection(COLLECTION_CLIENT)
           .find({
           }, {
@@ -257,31 +306,32 @@ class MainService {
             var promises = [];
             for (let i in items) {
               promises.push(Compressor.decompressChilkat(items[i].file.base64)
-                .then(value => {
-                  // items[i].file.base64 = 'data:' + items[i].file.type + ';base64,' + value;
-                  items[i].file.base64 = value;
-                  return (items[i]);
-                })
-                .catch(err => {
-                  return (err);
-                }))
+              .then(value => {
+                // items[i].file.base64 = 'data:' + items[i].file.type + ';base64,' + value;
+                items[i].file.base64 = value;
+                return (items[i]);
+              })
+              .catch(err => {
+                return (err);
+              }))
             }
             Promise.all(promises)
-              .then(values => {
-                ImageBuilder.createPixels(values)
-                  .then(value => {
-                    resolve(value);
-                  })
-                  .catch(err => {
-                    console.log("mainService - [getClientsPixels] - ERROR -", err.message);
-                    reject(err);
-                  })
+            .then(values => {
+              ImageBuilder.createPixels(values, null)
+              .then(value => {
+                resolve(value);
               })
               .catch(err => {
                 console.log("mainService - [getClientsPixels] - ERROR -", err.message);
                 reject(err);
               })
+            })
+            .catch(err => {
+              console.log("mainService - [getClientsPixels] - ERROR -", err.message);
+              reject(err);
+            })
           })
+        }
       } catch (e) {
         console.log("mainService - [getClientsPixels] - ERROR -", e.message);
         reject(e);
@@ -320,6 +370,9 @@ class MainService {
             if (result) {
               //Converto in stringa il mongoDB ObjectID che è usato come chiave unvioca
               result._id = JSON.stringify(result._id);
+              //Modifico la numerazione di positionRow e positionCol per farli partire da 1
+              result.positionRow = (+result.positionRow) + 1;
+              result.positionCol = (+result.positionCol) + 1;
               resolve(result);
             } else {
               resolve(null)
@@ -431,7 +484,7 @@ class MainService {
           }, {})
           .then(result => {
             if (result) {
-              if (file.base64 !== result.file.base64) {
+              if (file.base64 !== result.file.base64 || row !== result.row || col !== result.col) {
                 ImageBuilder.resize(file, row, col)
                   .then(value => {
                     file = value;
@@ -443,11 +496,11 @@ class MainService {
                           "upsert": false
                         };
                         if (company === '') {
-                          if (positionRow === '' && positionCol === '') {
+                          if (positionRow === '' && positionCol === '' || (positionRow === null && positionCol === null)) {
                             data = {
                               "$set": {
-                                "email": email,
-                                "url": url,
+                                "email": email.trim(),
+                                "url": url.trim(),
                                 "file": file,
                                 "row": row,
                                 "col": col,
@@ -460,11 +513,11 @@ class MainService {
                                 'positionCol': ''
                               }
                             }
-                          } else if (positionRow === '' && positionCol !== '') {
+                          } else if ((positionRow === '' || positionRow === null) && (positionCol !== '' || positionCol !== null)) {
                             data = {
                               "$set": {
-                                "email": email,
-                                "url": url,
+                                "email": email.trim(),
+                                "url": url.trim(),
                                 "file": file,
                                 "row": row,
                                 "col": col,
@@ -473,11 +526,11 @@ class MainService {
                                 "date": new Date(),
                               }
                             }
-                          } else if (positionRow !== '' && positionCol === '') {
+                          } else if ((positionRow !== '' || positionRow !== null) && (positionCol === '' || positionCol === null)) {
                             data = {
                               "$set": {
-                                "email": email,
-                                "url": url,
+                                "email": email.trim(),
+                                "url": url.trim(),
                                 "file": file,
                                 "row": row,
                                 "col": col,
@@ -489,8 +542,8 @@ class MainService {
                           } else {
                             data = {
                               "$set": {
-                                "email": email,
-                                "url": url,
+                                "email": email.trim(),
+                                "url": url.trim(),
                                 "file": file,
                                 "row": row,
                                 "col": col,
@@ -508,11 +561,11 @@ class MainService {
                             };
                           }
                         } else {
-                          if (positionRow === '' && positionCol === '') {
+                          if ((positionRow === '' || positionRow === null) && (positionCol === '' || positionCol === null)) {
                             data = {
                               "$set": {
-                                "email": email,
-                                "url": url,
+                                "email": email.trim(),
+                                "url": url.trim(),
                                 "company": company,
                                 "file": file,
                                 "row": row,
@@ -526,11 +579,11 @@ class MainService {
                                 'positionCol': ''
                               }
                             }
-                          } else if (positionRow === '' && positionCol !== '') {
+                          } else if ((positionRow === '' || positionRow === null) && (positionCol !== '' || positionCol !== null)) {
                             data = {
                               "$set": {
-                                "email": email,
-                                "url": url,
+                                "email": email.trim(),
+                                "url": url.trim(),
                                 "company": company,
                                 "file": file,
                                 "row": row,
@@ -540,11 +593,11 @@ class MainService {
                                 "date": new Date(),
                               }
                             }
-                          } else if (positionRow !== '' && positionCol === '') {
+                          } else if ((positionRow !== '' || positionRow !== null) && (positionCol === '' || positionCol === null)) {
                             data = {
                               "$set": {
-                                "email": email,
-                                "url": url,
+                                "email": email.trim(),
+                                "url": url.trim(),
                                 "company": company,
                                 "file": file,
                                 "row": row,
@@ -557,8 +610,8 @@ class MainService {
                           } else {
                             data = {
                               "$set": {
-                                "email": email,
-                                "url": url,
+                                "email": email.trim(),
+                                "url": url.trim(),
                                 "company": company,
                                 "file": file,
                                 "row": row,
@@ -611,8 +664,8 @@ class MainService {
                   if (positionRow === '' && positionCol === '') {
                     data = {
                       "$set": {
-                        "email": email,
-                        "url": url,
+                        "email": email.trim(),
+                        "url": url.trim(),
                         "row": row,
                         "col": col,
                         "date": new Date(),
@@ -627,8 +680,8 @@ class MainService {
                   } else if (positionRow === '' && positionCol !== '') {
                     data = {
                       "$set": {
-                        "email": email,
-                        "url": url,
+                        "email": email.trim(),
+                        "url": url.trim(),
                         "row": row,
                         "col": col,
                         "positionRow": 0,
@@ -639,8 +692,8 @@ class MainService {
                   } else if (positionRow !== '' && positionCol === '') {
                     data = {
                       "$set": {
-                        "email": email,
-                        "url": url,
+                        "email": email.trim(),
+                        "url": url.trim(),
                         "row": row,
                         "col": col,
                         "positionRow": (+positionRow) - 1,
@@ -651,8 +704,8 @@ class MainService {
                   } else {
                     data = {
                       "$set": {
-                        "email": email,
-                        "url": url,
+                        "email": email.trim(),
+                        "url": url.trim(),
                         "row": row,
                         "col": col,
                         "positionRow": (+positionRow) - 1,
@@ -672,8 +725,8 @@ class MainService {
                   if (positionRow === '' && positionCol === '') {
                     data = {
                       "$set": {
-                        "email": email,
-                        "url": url,
+                        "email": email.trim(),
+                        "url": url.trim(),
                         "company": company,
                         "row": row,
                         "col": col,
@@ -689,8 +742,8 @@ class MainService {
                   } else if (positionRow === '' && positionCol !== '') {
                     data = {
                       "$set": {
-                        "email": email,
-                        "url": url,
+                        "email": email.trim(),
+                        "url": url.trim(),
                         "company": company,
                         "row": row,
                         "col": col,
@@ -702,8 +755,8 @@ class MainService {
                   } else if (positionRow !== '' && positionCol === '') {
                     data = {
                       "$set": {
-                        "email": email,
-                        "url": url,
+                        "email": email.trim(),
+                        "url": url.trim(),
                         "company": company,
                         "row": row,
                         "col": col,
@@ -715,8 +768,8 @@ class MainService {
                   } else {
                     data = {
                       "$set": {
-                        "email": email,
-                        "url": url,
+                        "email": email.trim(),
+                        "url": url.trim(),
                         "company": company,
                         "row": row,
                         "col": col,
@@ -847,7 +900,7 @@ class MainService {
         this.db
           .collection(COLLECTION_ADMIN)
           .findOne({
-            "email": email,
+            "email": email.trim(),
           }, {
             projection: {
               "_id": 0,
@@ -928,7 +981,7 @@ class MainService {
         this.db
           .collection(COLLECTION_ADMIN)
           .findOne({
-            "email": email,
+            "email": email.trim(),
           }, {
             projection: {
               "_id": 0,
@@ -1090,7 +1143,7 @@ class MainService {
                 this.db
                   .collection(COLLECTION_ADMIN)
                   .insertOne({
-                    "email": email,
+                    "email": email.trim(),
                     "password": password,
                     "type": type
                   })
@@ -1499,9 +1552,9 @@ class MainService {
         query = {
           "$and": [{
             "$or": [{
-              "email": email
+              "email": email.trim()
             }, {
-              "username": username ? username : email,
+              "username": username ? username.trim() : email.trim(),
             }]
           }]
         }
@@ -1547,9 +1600,9 @@ class MainService {
           .findOne({
             "$and": [{
               "$or": [{
-                "email": email
+                "email": email.trim()
               }, {
-                "username": email,
+                "username": email.trim(),
               }]
             }, {
               "active": true,
@@ -1621,8 +1674,8 @@ class MainService {
                 crypto.randomBytes(20, (err, buf) => {
                   user = {
                     "_id": new this.ObjectID(),
-                    "username": username,
-                    "email": email,
+                    "username": username.trim(),
+                    "email": email.trim(),
                     "password": password,
                     "type": 'Client',
                     "active": false,
@@ -2044,9 +2097,10 @@ class MainService {
           reject(err);
         })
       } catch (e) {
-
+        console.log("mainService - [countPoints] - ERROR", e.message);
+        reject(e);
       } finally {
-        console.log("mainService - [countPoints] - START");
+        console.log("mainService - [countPoints] - FINISH");
       }
     })
   }
