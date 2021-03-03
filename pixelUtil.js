@@ -161,7 +161,7 @@ class PixelUtil {
   }
 
   //inserisce la struttura del pixel secondo i valori di cursore
-  _inserisci(image, indiceImmagine) {
+  _inserisci(image, indiceImmagine, urlsClicked) {
     try {
       console.log("PixelUtil - [_inserisci] - START");
       let width = image.col;
@@ -189,6 +189,24 @@ class PixelUtil {
           this._removeBorder(indiceBlocco,width,height,i,j);
           indiceBlocco = {row:indiceBlocco.row, col:indiceBlocco.col+1}
           bp = {y:bp.y+1, x:bp.x}
+
+          //Set etichetta url visitati o meno se si e' loggati
+          if(limitRow-i === 1 && limitCol-j === 1 && urlsClicked) {
+            if(urlsClicked.includes(image.url)) {
+              this._matrix[i][j].styleLabel = {
+                width: (parseInt(width)*10)/3 + 'px',
+                height: (parseInt(height)*10)/3 + 'px',
+                background: "green"
+              }
+            } else {
+              this._matrix[i][j].styleLabel = {
+                width: (parseInt(width)*10)/3 + 'px',
+                height: (parseInt(height)*10)/3 + 'px',
+                background: "red"
+              }
+            }
+          }
+
         }
         indiceBlocco = {row:indiceBlocco.row+1, col:0}
         bp = {y:0, x:bp.x+1}
@@ -201,7 +219,7 @@ class PixelUtil {
   }
 
   //costruisce la matrice inserendo l'immagine passata come parametro
-  buildMatrix(image, indiceImmagine) {
+  buildMatrix(image, indiceImmagine, urlsClicked) {
     try {
       console.log("PixelUtil - [buildMatrix] - START");
       this._cursore = {row:0,col:0};
@@ -216,7 +234,7 @@ class PixelUtil {
       if(this._cursore === -1) {
         return;
       } else {
-        this._inserisci(image, indiceImmagine);
+        this._inserisci(image, indiceImmagine, urlsClicked);
       }
     } catch (e) {
       console.log("PixelUtil - [buildMatrix] - ERROR -", e.message);

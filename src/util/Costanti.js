@@ -3,6 +3,10 @@ let Const = {
   PATH_BUY: '/buy',
   PATH_CONTACT: '/contact',
   PATH_HOW_WORK: '/howWork',
+  PATH_WIN: '/win',
+  PATH_MANAGE: '/manage',
+  PATH_LOGIN: '/login',
+  PATH_REGISTER: '/register',
   PATH_ERROR: '/error',
   MOBILE_BROWSER: [
     /Android/i,
