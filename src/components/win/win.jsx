@@ -54,6 +54,14 @@ const Win = (props) => {
               3-&nbsp;
             </span>
             <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
+              Tieni il conto dei tuoi punti visitando il tuo profilo alla voce ACCOUNT
+            </span>
+          </li>
+          <li>
+            <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
+              4-&nbsp;
+            </span>
+            <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
               Il giorno dell’estrazione (che avverr&agrave; in presenza di un notaio o figura
                 autorizzata) verranno selezionati casualmente da un sistema 5 nomi utente.
                 Lo stesso nome utente potrebbe essere estratto pi&ugrave; volte.
@@ -61,7 +69,7 @@ const Win = (props) => {
           </li>
           <li>
             <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
-              4-&nbsp;
+              5-&nbsp;
             </span>
             <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
               I vincitori verranno contattati tramite l’email utilizzata per la registrazione per le informazioni riguardanti la consegna del premio.
