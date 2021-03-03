@@ -40,7 +40,6 @@ const Footer = (props) => {
   }
 
   const getPositionFooter = () => {
-    debugger;
     if(Const.isMobileBrowser(navigator.userAgent) &&
       !window.location.pathname.includes('manage') && !window.location.pathname.includes('termsAndConditions')) {
       return 'unset';
@@ -67,7 +66,7 @@ const Footer = (props) => {
               </span>
             </div>
             <div className="div-right" style={styleCol} align="right">
-              <span id="designedBy" style={styleSpan}>Web designed by <a href={process.env.REACT_APP_BASE_URL + "/humans.txt"}>4ndr3w_c0</a></span>
+              <span id="designedBy" style={styleSpan}>Web designed by <a href={process.env.REACT_APP_BASE_URL + "humans.txt"}>4ndr3w_c0</a></span>
             </div>
           </div>
         </div>
