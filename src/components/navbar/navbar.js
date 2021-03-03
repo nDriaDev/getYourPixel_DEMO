@@ -7,6 +7,8 @@ import '@fortawesome/fontawesome-free/css/solid.min.css';
 import Const from './../../util/Costanti.js';
 import axios from 'axios';
 
+var listen, prevLocation = null;
+
 class NavbarCustom extends Component{
   constructor(props){
     super(props);
@@ -14,11 +16,41 @@ class NavbarCustom extends Component{
     pathname = pathname === Const.PATH_ERROR ? 'error' : (pathname === '/' ? '' : (pathname === Const.PATH_BUY ? 'buy' : (pathname === Const.PATH_CONTACT ? 'contact' : (pathname === Const.PATH_HOW_WORK ? 'howWork':(pathname === '/login' ? 'login':(pathname === '/register' ? 'register':(pathname === '/win'? 'win': 'error')))))));
     this.state = {
       origin: window.location.origin,
+      paths : [Const.PATH_HOME,Const.PATH_BUY,Const.PATH_CONTACT,Const.PATH_HOW_WORK,Const.PATH_WIN,Const.PATH_LOGIN,Const.PATH_REGISTER,Const.PATH_MANAGE],
       active: pathname === 'error' ? 0 : (pathname === '' ? 1 : (pathname === 'buy' ? 2 : (pathname === 'contact' ? 3 : (pathname === 'howWork' ? 4 : (pathname === 'win' ? 5 : (pathname === 'login' ? 6 : 7)))))),
     }
     this.changeActive = this.changeActive.bind(this);
+    this.changeActiveMenu = this.changeActiveMenu.bind(this);
+    this.getActiveFromPath = this.getActiveFromPath.bind(this);
     this.logout = this.logout.bind(this);
     this.changeActiveAndHistoryPush = this.changeActiveAndHistoryPush.bind(this);
+  }
+
+
+  componentDidMount() {
+      listen = this.props.history.listen((location, action) => {
+        debugger;
+        if((prevLocation && prevLocation !== location.pathname) || !prevLocation) {
+          prevLocation = location.pathname;
+          this.changeActiveMenu(location.pathname);
+        }
+      })
+  }
+
+  componentWillUnmount() {
+    listen();
+  }
+
+  changeActiveMenu(path) {
+    let newPath = path === '/' ? '/' : '/' + path.split('/')[1];
+    if(this.state.paths.includes(newPath)) {
+      this.getActiveFromPath(newPath.split('/')[1]);
+    }
+  }
+
+  getActiveFromPath(pathname) {
+    let active =  pathname === 'error' ? 0 : (pathname === '' ? 1 : (pathname === 'buy' ? 2 : (pathname === 'contact' ? 3 : (pathname === 'howWork' ? 4 : (pathname === 'win' ? 5 : (pathname === 'login' ? 6 : 7))))));
+    this.changeActive(active);
   }
 
   logout(event){
@@ -31,7 +63,7 @@ class NavbarCustom extends Component{
         // sessionStorage.clear();
         this.props.setAuth(false,false);
         this.props.disableSpinner();
-        this.changeActive(6)
+        // this.changeActive(6)
         this.props.history.push('/login');
       } else {
         throw new Error(result.data.message);
@@ -50,7 +82,7 @@ class NavbarCustom extends Component{
         draggable: true,
         progress: undefined,
       });
-      this.changeActive(6)
+      // this.changeActive(6)
       this.props.history.push('/login');
     })
   }
@@ -58,21 +90,21 @@ class NavbarCustom extends Component{
   admin(event){
     event.preventDefault();
     event.stopPropagation();
-    this.changeActive(0)
+    // this.changeActive(0)
     this.props.history.push('/manage');
   }
 
   registrati(event){
     event.preventDefault();
     event.stopPropagation();
-    this.changeActive(7)
+    // this.changeActive(7)
     this.props.history.push('/register');
   }
 
   login(event){
     event.preventDefault();
     event.stopPropagation();
-    this.changeActive(6)
+    // this.changeActive(6)
     this.props.history.push('/login');
   }
 
@@ -86,7 +118,7 @@ class NavbarCustom extends Component{
   changeActiveAndHistoryPush(event ,menu, path) {
     event.preventDefault();
     event.stopPropagation();
-    this.changeActive(menu);
+    // this.changeActive(menu);
     this.props.history.push(path);
   }
 
@@ -129,7 +161,7 @@ class NavbarCustom extends Component{
                 className="nav-link nav-bar-link"
                 href=""
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,2,'/buy')}>
-                <i className="fas fa-shopping-bag" style={{paddingTop: '5%'}}></i>
+                <i className="fas fa-shopping-bag" style={{paddingTop: '4%'}}></i>
                 &nbsp;Acquista
               </a>
             </li>
@@ -138,7 +170,7 @@ class NavbarCustom extends Component{
                 className="nav-link nav-bar-link"
                 href=""
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,3,'/contact')}>
-                <i className="fas fa-address-card" style={{paddingTop: '5%'}}></i>
+                <i className="fas fa-address-card" style={{paddingTop: '4%'}}></i>
                 &nbsp;Contattaci
               </a>
             </li>
@@ -147,7 +179,7 @@ class NavbarCustom extends Component{
                 className="nav-link nav-bar-link"
                 href=""
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,4,'/howWork')}>
-                <i className="fas fa-cog" style={{paddingTop: '5%'}}></i>
+                <i className="fas fa-cog" style={{paddingTop: '3%'}}></i>
                 &nbsp;Come funziona
               </a>
             </li>
@@ -187,7 +219,7 @@ class NavbarCustom extends Component{
                   className="nav-link nav-bar-link"
                   href=""
                   onClick={(e)=>this.registrati(e)}>
-                  <i className="fas fa-plus-square" style={{paddingTop: '5%'}}></i>
+                  <i className="fas fa-plus-square" style={{paddingTop: '4%'}}></i>
                   &nbsp;Registrati
                 </a>
               </li>
