@@ -4,6 +4,8 @@ const imagemin = require ('imagemin');
 const imageminJpegtran = require('imagemin-jpegtran');
 const imageminPngquant = require('imagemin-pngquant');
 const Pixel = require('./pixelUtil');
+const resizeImg = require('resize-image-buffer');
+var sizeOf = require('buffer-image-size');
 
 class ImageUtil {
   _JimpCompress(buff) {
@@ -72,16 +74,36 @@ class ImageUtil {
       try {
         console.log("ImageUtil - [resize] - START");
 
-        let width = col * 10;
-        let height = row * 10;
+        let width = (col * 10);
+        // width = col === 1 ? (width - 3) : col === 2 ? (width - 2) : width;
+        let height = (row * 10);
+        // height = row === 1 ? (height - 3) : row === 2 ? (height - 2) : height;
         let buff = Buffer.from(file.base64, 'base64');
-        jimp.read(buff).then(image => {
-          image.resize(width,height, jimp.RESIZE_NEAREST_NEIGHBOR);
-          image.getBufferAsync(jimp.AUTO)
+        var dimensions = sizeOf(buff)
+        if(Math.abs(dimensions.width-width) < 2.1 && Math.abs(dimensions.height - height) < 2.1) {
+          this.compress(buff)
+          .then(data => {
+            file.base64 = Buffer.from(data).toString('base64');
+            console.log("ImageUtil - [resize] - FINISH");
+            resolve(file);
+          })
+          .catch(err => {
+            console.log("ImageUtil - [resize - compress] - ERROR -", err.message);
+            reject(err);
+          })
+        } else {
+          resizeImg(buff, {
+            width: width,
+            height: height,
+          })
+          // jimp.read(buff).then(image => {
+            //   image.resize(width,height, jimp.RESIZE_NEAREST_NEIGHBOR);
+            //   image.getBufferAsync(jimp.AUTO)
           .then(value => {
             this.compress(value)
             .then(data => {
               file.base64 = Buffer.from(data).toString('base64');
+              console.log("ImageUtil - [resize] - FINISH");
               resolve(file);
             })
             .catch(err => {
@@ -90,11 +112,10 @@ class ImageUtil {
             })
           })
           .catch(err => {
-            console.log("ImageUtil - [resize - getBufferAsync] - ERROR -", err.message);
-            reject(err);
+              console.log("ImageUtil - [resize - resizeImg] - ERROR -", err.message);
+              reject(err);
           })
-        })
-        console.log("ImageUtil - [resize] - FINISH");
+        }
       } catch (e) {
         console.log("ImageUtil - [resize] - ERROR -", e.message);
         reject(e);
@@ -103,11 +124,11 @@ class ImageUtil {
     })
   }
 
-  async createMatrix(PixelBuilder, images) {
+  async createMatrix(PixelBuilder, images, urls) {
     try {
       for(let i in images) {
         images[i].file.base64 = 'data:' + images[i].file.type + ';base64,' + images[i].file.base64;
-        PixelBuilder.buildMatrix(images[i], i);
+        PixelBuilder.buildMatrix(images[i], i, urls);
       }
       return Promise.resolve(true);
     } catch (e) {
@@ -116,12 +137,12 @@ class ImageUtil {
     }
   }
 
-  createPixels(images) {
+  createPixels(images, urls) {
     return new Promise((resolve,reject) => {
       try {
         console.log("ImageUtil - [createPixels] - START");
         const PixelBuilder = new Pixel();
-        this.createMatrix(PixelBuilder, images)
+        this.createMatrix(PixelBuilder, images, urls)
         .then(value => {
           // Versione che torna la matrice sotto forma di unico array
           // let array = PixelBuilder.matrixToArray();
@@ -129,7 +150,7 @@ class ImageUtil {
           for(let i in images) {
             imgs.push(images[i].file.base64);
           }
-          
+
           PixelBuilder.countPixels(images);
 
           console.log("ImageUtil - [createPixels - read] - FINISH",);
