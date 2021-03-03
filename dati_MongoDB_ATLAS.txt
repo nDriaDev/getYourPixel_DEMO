@@ -18,6 +18,7 @@ utenza di sviluppo
 prova@prova.it
 1234
 
+
 ////////////////////////////////////////////
 ///                                      ///
 ///           CLOUD MONGODB ATLAS        ///
@@ -41,3 +42,22 @@ usacchero@gmail.com
 
 
 mongodb+srv://getYourPixels:O8IcEl3mMwzypoiJ@cluster0.vcfrw.mongodb.net/getYourPixels?retryWrites=true&w=majority
+
+
+////////////////////////////////////////////
+///                                      ///
+///                                      ///
+///             DATI CLIENTE             ///
+///                                      ///
+///                                      ///
+////////////////////////////////////////////
+
+Google email:
+
+email: info@getyourpixels.com
+password: R:1;JN!f5Jhf0
+
+
+Domain.com
+username: getyourpixels.com
+password: Cf472_lo

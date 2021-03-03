@@ -93,6 +93,9 @@ Connector
     console.log("Server running on port: ", port);
   });
 })
+.catch(err =>
+  console.log("Error during connection: ", err)
+)
 
 //do something when app is closing
 process.on('exit', () => {
@@ -138,7 +141,8 @@ process.on('SIGUSR2', ()=>{
 });
 
 //catches uncaught exceptions
-process.on('uncaughtException', ()=>{
+process.on('uncaughtException', (err)=>{
+  console.log("Exception Error Handler: ",err);
   Connector.disconnect()
   .then(result => {
     process.exit();
