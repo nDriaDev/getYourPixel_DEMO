@@ -76,6 +76,11 @@
   background: transparent;
 }
 
+body {
+  -ms-overflow-style: none; /* IE 11 */
+  scrollbar-width: none;
+}
+
 /*----------------------------------------------------------------------------*/
 /* ------------------------------ NAVBAR ---------------------------------*/
 #navbar {
@@ -416,6 +421,16 @@ li.active-nav-bar a {
   color: #FFFFFF !important;
 }
 
+.box-report {
+  height: 65%;
+  max-width: fit-content;
+  max-width: -moz-fit-content;
+  border: 2px solid #FFFFFF80;
+  border-radius: 1%;
+  margin-left: 5%;
+  color: #FFFFFF;
+}
+
 /*----------------------------------------------------------------------------*/
 /* ---------------------------- CONTACT FORM ---------------------------------*/
 .container-form{
@@ -603,6 +618,12 @@ li.active-v-bar a {
 /*----------------------------------------------------------------------------*/
 /* --------------------------- PIXELS HOME PAGE ------------------------------*/
 
+.overlap {
+  position:absolute;
+  bottom:0px;
+  right: 0px;
+}
+
 .image-pixeled {
   cursor: pointer;
   margin: 0 0;
@@ -612,6 +633,7 @@ li.active-v-bar a {
   width: 10px;
   height: 10px;
   display: table-cell;
+  position:relative;
 }
 
 .pixelated-spinner:empty{

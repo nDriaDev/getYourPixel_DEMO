@@ -94,6 +94,7 @@ const SquarePixeled = ({enableSpinner,disableSpinner, setAuth, setCounter}) =>{
               let style = {};
               let titleText = '';
               let param = null;
+              let overlap = null;
                if(col === 0) {
                  style = {
                    cursor:'default',
@@ -108,6 +109,9 @@ const SquarePixeled = ({enableSpinner,disableSpinner, setAuth, setCounter}) =>{
                 }
                 titleText = 'Vai al sito';
                 param = col.url;
+                if(col.styleLabel) {
+                  overlap = <div className="overlap" style={col.styleLabel}></div>
+                }
                }
 
               return (
@@ -118,7 +122,9 @@ const SquarePixeled = ({enableSpinner,disableSpinner, setAuth, setCounter}) =>{
                   style={style}
                   onClick={(e)=>verifyUser(e,param)}
                   onMouseEnter={()=>showTip(titleText,('c-'+index+index2))}
-                  />
+                  >
+                  {overlap}
+                  </div>
               )
             })}
           </div>

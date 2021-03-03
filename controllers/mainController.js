@@ -335,7 +335,7 @@ class MainController {
     try {
       console.log("main_Controller - [getClientsPixels] - START");
       service.initialize(req.app.locals.db);
-      service.getClientsPixels()
+      service.getClientsPixels(req.session.email, req.session.type)
       .then(result => {
         res.status(200).send(result);
       })
