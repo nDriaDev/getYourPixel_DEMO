@@ -5,7 +5,7 @@ import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
 import '@fortawesome/fontawesome-free/css/solid.min.css';
 import Const from './../../util/Costanti';
 import axios from 'axios';
-
+import TrackingGA from './../utils/Tracking';
 
 const CounterPoints = ({spinnerCommand}) => {
   const [data, setData]  = useState({
@@ -21,6 +21,7 @@ const CounterPoints = ({spinnerCommand}) => {
         axios.get(Const.COUNT_POINTS)
         .then(res => {
           if(res.data && !res.data.code) {
+            TrackingGA.event("User", "pagina punti", "utente loggato ha cliccato il menu per visualizzare i suoi punti")
             setData({
               "number": res.data.list.length,
               "list": res.data.list

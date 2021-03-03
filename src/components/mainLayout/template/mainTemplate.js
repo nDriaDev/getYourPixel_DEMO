@@ -4,12 +4,14 @@ import Header from './../header/header';
 import Footer from './../footer/footer';
 import Const from './../../../util/Costanti';
 import axios from 'axios';
+import TrackingGA from './../../utils/Tracking';
 
 const MainTemplate = ({children, show, enableSpinner, disableSpinner, setAuth, isAuth, isAuthBasic}) => {
   let isShowed = show
   const history = useHistory();
   useEffect(() => {
-    const unlisten = history.listen((location,path) => {
+    const unlisten = history.listen((location,action) => {
+      TrackingGA.pageView(location.pathname);
       axios.get(Const.CHECK_TOKEN)
       .then(result => {
         if(result.data.code !== 200) {

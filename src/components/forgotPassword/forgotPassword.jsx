@@ -6,6 +6,7 @@ import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
 import '@fortawesome/fontawesome-free/css/solid.min.css';
 import Const from './../../util/Costanti';
 import axios from 'axios';
+import TrackingGA from './../utils/Tracking';
 
 const ForgotPassword = (props) => {
   const [validated, setValidated] = useState(false);
@@ -40,6 +41,7 @@ const ForgotPassword = (props) => {
       axios.post(Const.RESET_PASSWORD, form)
       .then(res => {
         if(res.data.code === 200) {
+          TrackingGA.event("User/Admin","password dimenticata", "reset password riuscito")
           disableSpinner();
           toast.success(res.data.message, {
             position: "top-center",
@@ -55,6 +57,7 @@ const ForgotPassword = (props) => {
           throw new Error(res.data.message);
         }
       }).catch(err => {
+        TrackingGA.execption("reset password non riuscito: " + err.message); 
         disableSpinner();
         toast.error(err.message != null ? err.message : "ERRORE", {
           position: "top-center",

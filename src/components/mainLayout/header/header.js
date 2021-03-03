@@ -3,10 +3,16 @@ import {useHistory} from 'react-router-dom';
 import NavbarCustom from './../../navbar/navbar';
 import Img from './../../../images/logo.png';
 import Const from './../../../util/Costanti.js';
+import TrackingGA from './../../utils/Tracking';
 
 const Header = (props) => {
   const url = window.location.pathname;
   const history = useHistory();
+
+  const goToBuy = () => {
+    TrackingGA.event("User", "pagina d'acquisto", "indirizzamento alla pagina di acquisto tramite pulsante buy in home page")
+    history.push('/buy');
+  }
 
   let widthLogo = '45%';
   if(Const.isMobileBrowser(navigator.userAgent)) {
@@ -29,7 +35,7 @@ const Header = (props) => {
             <button
               id="btn-buy"
               className="button-fixed"
-              onClick={()=>history.push('/buy')}>
+              onClick={()=> goToBuy()}>
               <span style={{fontSize:'small', textAlign:'center'}}>
                 ACQUISTA
               </span>

@@ -16,7 +16,7 @@ import Manage from './components/manage/manage';
 import ForgotPassword from './components/forgotPassword/forgotPassword';
 import HowWork from './components/howWork/howWork';
 import Win from './components/win/win';
-
+import TrackingGA from './components/utils/Tracking';
 
 class App extends Component {
   constructor(props){
@@ -54,6 +54,8 @@ class App extends Component {
   }
 
   componentDidMount(){
+    TrackingGA.initGA();
+    TrackingGA.pageView('/');
   }
 
 

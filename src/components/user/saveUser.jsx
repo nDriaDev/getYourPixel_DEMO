@@ -4,6 +4,7 @@ import {Form, Button} from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import Const from './../../util/Costanti';
 import axios from 'axios';
+import TrackingGA from './../utils/Tracking';
 
 
 const SaveUser = (props) => {
@@ -38,6 +39,7 @@ const SaveUser = (props) => {
       axios.post(Const.SAVE_USER, form)
       .then(res => {
         if (res.data.code === 200) {
+          TrackingGA.event("User", "registrazione", "registrazione riuscita")
           setForm({
             username:'',
             email: '',
@@ -58,6 +60,7 @@ const SaveUser = (props) => {
         }
       })
       .catch(err => {
+        TrackingGA.execption("registrazione non riuscita " + err.message);
         disableSpinner();
         toast.error(err.message != null ? err.message : "ERRORE", {
           position: "top-center",

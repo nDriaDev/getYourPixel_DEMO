@@ -3,6 +3,7 @@ import {Form, Col} from 'react-bootstrap';
 import Const from './../../util/Costanti';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import TrackingGA from './../utils/Tracking';
 
 const Contact = (props) => {
   const [validated, setValidated] = useState(false);
@@ -32,6 +33,7 @@ const Contact = (props) => {
     } else {
       props.enableSpinner();
       axios.post(Const.SEND_MAIL_PATH, form).then((resp) => {
+        TrackingGA.event("User", "pagina di contatto", "eseguito invio email di informazioni ")
         props.disableSpinner();
         toast.success(Const.MAIL_SUCCESS, {
           position: "top-center",
@@ -43,6 +45,7 @@ const Contact = (props) => {
           progress: undefined,
         });
       }).catch(err => {
+        TrackingGA.execption("Invio email di informazioni non eseguito: " + err.message)
         props.disableSpinner();
         toast.error(Const.MAIL_FAILED, {
           position: "top-center",

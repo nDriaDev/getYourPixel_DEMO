@@ -4,6 +4,7 @@ import Const from './../../util/Costanti';
 import {Button, Modal } from 'react-bootstrap';
 import $ from 'jquery';
 import axios from 'axios';
+import TrackingGA from './../utils/Tracking';
 
 const SquarePixeled = ({enableSpinner,disableSpinner, setAuth, setCounter}) =>{
   const [matrix,setMatrix] = useState(null);
@@ -14,6 +15,7 @@ const SquarePixeled = ({enableSpinner,disableSpinner, setAuth, setCounter}) =>{
   const handleShow = () => setShow(true);
 
   const callRedirect = () => {
+    TrackingGA.event("Visitor", "Click pubblicita'", "utente non loggato ha cliccato su una pubblicita'")
     handleClose();
     redirectUrl(url);
   }
@@ -27,6 +29,7 @@ const SquarePixeled = ({enableSpinner,disableSpinner, setAuth, setCounter}) =>{
     axios.get(Const.CHECK_TOKEN)
     .then(result => {
       if(result.data.code === 200) {
+        TrackingGA.event("User", "Click pubblicita'", "utente loggato ha cliccato su una pubblicita'")
         handleClose();
         redirectUrl(url);
       } else {

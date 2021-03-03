@@ -4,6 +4,8 @@ import {loadStripe} from '@stripe/stripe-js';
 import Const from './../../util/Costanti';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import TrackingGA from './../utils/Tracking';
+
 
 const stripePromise = loadStripe(process.env.REACT_APP_PUB_KEY_STRIPE);
 
@@ -136,12 +138,14 @@ const Buy = ({enableSpinner, disableSpinner}) => {
   const handleClick = async (event) => {
     try {
       enableSpinner();
+      TrackingGA.event("Client", "reindirizzamento alla pagina di checkout", "click sul pulsante checkout all'interno della pagina di acquisto")
       const stripe = await stripePromise;
       const response = await axios.post(Const.PAYMENT_CREATE_SESSION, {quantity});
       const result = await stripe.redirectToCheckout({
         sessionId: response.data.id,
       });
       if (result.error) {
+        TrackingGA.execption("Acquisto non concluso: " + result.error.message)
         disableSpinner();
         toast.error(result.error.message, {
           position: "top-center",
@@ -152,8 +156,20 @@ const Buy = ({enableSpinner, disableSpinner}) => {
           draggable: true,
           progress: undefined,
         });
+      } else {
+        TrackingGA.event("Client", "pagina di checkout", "acquisto concluso")
+        toast.success("Grazie per il tuo acquisto!", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+        });
       }
     } catch (e) {
+      TrackingGA.execption("Acquisto non concluso: " + e.message)
       toast.error(e.message, {
         position: "top-center",
         autoClose: 3000,

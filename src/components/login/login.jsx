@@ -5,6 +5,7 @@ import Const from './../../util/Costanti';
 import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
 import '@fortawesome/fontawesome-free/css/solid.min.css';
 import axios from 'axios';
+import TrackingGA from './../utils/Tracking';
 
 const Login = (props) => {
   const [validated, setValidated] = useState(false);
@@ -51,6 +52,7 @@ const Login = (props) => {
       .then(res => {
         if (res.data.code === 200) {
           // sessionStorage.setItem('isAuth', true)
+          TrackingGA.event("Admin","login","login riuscita")
           setAuth(true, null);
           disableSpinner();
           props.history.push('/manage');
@@ -63,6 +65,7 @@ const Login = (props) => {
         .then(res => {
           if (res.data.code === 200) {
             // sessionStorage.setItem('isAuthBasic', true)
+            TrackingGA.event("User","login","login riuscita")
             setAuth(null, true);
             disableSpinner();
             props.history.push('/');
@@ -71,6 +74,7 @@ const Login = (props) => {
           }
         })
         .catch(err => {
+          TrackingGA.execption("login non riuscita: " + err.message)
           disableSpinner();
           toast.error(err.message != null ? err.message : "ERRORE", {
             position: "top-center",
