@@ -12,7 +12,7 @@ const Home = ({enableSpinner, disableSpinner, setAuth}) => {
   return(
     <>
     <div className="display-grid-blank-100">
-      <div className="my-auto" align="left" style={{height:'65%',maxWidth:'fit-content',border:'2px solid #FFFFFF80', borderRadius:'1%',marginLeft:'5%',color:'#FFFFFF'}}>
+      <div className="my-auto box-report" align="left">
         <h5 style={{marginTop:'4px',marginLeft:'2px'}}>Venduti:&nbsp; <strong>{counter.venduti}</strong></h5>
         <h5 style={{marginTop:'2px',marginLeft:'2px'}}>Disponibili:&nbsp; <strong>{counter.disponibili}</strong></h5>
       </div>
