@@ -3,6 +3,8 @@ var { google } = require("googleapis");
 var { OAuth2 } = google.auth;
 var fs = require('fs');
 var handlebars = require('handlebars');
+const appRoot = require('app-root-path');
+const log = require(appRoot + '/config/winston').getLogger();
 
 const {
   MAILING_SERVICE_CLIENT_ID,
@@ -52,7 +54,7 @@ var readTemplate = (path, callback) => {
 
 
 exports.sendMail = (name, email, subject, message, callback) => {
-  console.log("mailer - [sendMail] - START");
+  log.info("START");
   readTemplate('./templateEmail.html',(err, html) => {
     let transporter = nodemailer.createTransport(setOptionsTrasporter());
     try {
@@ -74,24 +76,24 @@ exports.sendMail = (name, email, subject, message, callback) => {
 
       transporter.sendMail(mailOptions, function(err, data) {
         if (err) {
-          console.log("mailer - [sendMail] - ERROR", err.message);
+          log.error(err);
           callback(err, null);
         } else {
           callback(null, data);
         }
       })
     } catch (e) {
-      console.log("mailer - [sendMail] - ERROR", e.message);
+      log.error(e);
       throw e;
     } finally {
       transporter.close();
-      console.log("mailer - [sendMail] - FINISH");
+      log.info("FINISH");
     }
   })
 }
 
 exports.sendMailResetPassword = (params, callback) => {
-  console.log("mailer - [sendMailResetPassword] - START");
+  log.info("START");
   let transporter = nodemailer.createTransport(setOptionsTrasporter());
   try {
     const {
@@ -109,23 +111,23 @@ exports.sendMailResetPassword = (params, callback) => {
 
     transporter.sendMail(mailOptions, function(err, data) {
       if (err) {
-        console.log("mailer - [sendMailResetPassword] - ERROR", err.message);
+        log.error(err);
         callback(err, null);
       } else {
         callback(null, data);
       }
     })
   } catch (e) {
-    console.log("mailer - [sendMailResetPassword] - ERROR", e.message);
+    log.error(e);
     throw e;
   } finally {
     transporter.close();
-    console.log("mailer - [sendMailResetPassword] - FINISH");
+    log.info("FINISH");
   }
 }
 
 exports.sendActivationEmail = (host, email, username, activeToken, callback) => {
-  console.log("mailer - [sendActivationEmail] - START");
+  log.info("START");
   let protocol = 'http://';
   if(process.env.NODE_ENV === 'production') {
     protocol = 'https://';
@@ -149,18 +151,18 @@ exports.sendActivationEmail = (host, email, username, activeToken, callback) => 
 
       transporter.sendMail(mailOptions, function(err, data) {
         if (err) {
-          console.log("mailer - [sendActivationEmail] - ERROR", err.message);
+          log.error(err);
           callback(err, null);
         } else {
           callback(null, data);
         }
       })
     } catch (e) {
-      console.log("mailer - [sendActivationEmail] - ERROR", e.message);
+      log.error(e);
       throw e;
     } finally {
       transporter.close();
-      console.log("mailer - [sendActivationEmail] - FINISH");
+      log.info("FINISH");
     }
   })
 }

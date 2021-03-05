@@ -1,3 +1,5 @@
+const appRoot = require('app-root-path');
+const log = require(appRoot + '/config/winston').getLogger();
 var {
   MongoClient
 } = require('mongodb');
@@ -9,15 +11,15 @@ const DB_NAME = 'getYourPixels';
 
 class Connector{
   constructor() {
-    console.log("ConnectionDB - [constructor] - START");
+    log.info("START")
     this.client = null;
-    console.log("ConnectionDB - [constructor] - FINISH");
+    log.info("FINISH")
   }
 
   connect() {
     return new Promise((resolve,reject) => {
       try {
-        console.log("ConnectionDB - [connect] - START");
+        log.info("START")
         MongoClient.connect(urlDB, {
           useNewUrlParser: true,
           useUnifiedTopology: true,
@@ -32,33 +34,34 @@ class Connector{
           throw err;
         })
       } catch (e) {
-        console.log("ConnectionDB - [connect] - ERROR", e);
+        log.error(e);
         reject(e);
       } finally{
-        console.log("ConnectionDB - [connect] - FINISH");
+        log.info("FINISH")
       }
     })
   };
 
   disconnect() {
-    try {
-      return new Promise((resolve,reject) => {
+    return new Promise((resolve,reject) => {
+      try {
+        log.info("START")
         if(this.client.isConnected()) {
           this.client.close().then(() => {
-            console.log("database - [getAdmin] - FINISH");
             resolve(true);
           })
           .catch(err => {
-            reject(err)
+            throw err
           })
         }
         resolve(true);
-      })
-    } catch (e) {
-      console.log("ConnectionDB - [disconnect] - ERROR", e);
-    } finally {
-      console.log("ConnectionDB - [disconnect] - FINISH");
-    }
+      } catch (e) {
+        log.error(e);
+        reject(e);
+      } finally {
+        log.info("FINISH")
+      }
+    })
   }
 }
 
