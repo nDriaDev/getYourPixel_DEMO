@@ -3,8 +3,8 @@ import ReactGA from 'react-ga';
 class TrackingGA {
 
   initGA() {
-    let id = process.env.GA_TRACKING_ID ?
-      process.env.GA_TRACKING_ID
+    let id = process.env.REACT_APP_GA_TRACKING_ID ?
+      process.env.REACT_APP_GA_TRACKING_ID
       :
       '<your tracking_id here>'
 
