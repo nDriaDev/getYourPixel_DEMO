@@ -18,11 +18,11 @@ class Mailer {
         if (err) {
           log.error(err);
           res.status(500).send({
-            message: 'Error while sending yur message'
+            message: "Error durante l'invio del messaggio"
           })
         } else {
           res.status(200).send({
-            message: 'Your message was sent'
+            message: "Il messaggio e' stato inviato correttamente"
           })
         }
       })
@@ -53,7 +53,7 @@ class Mailer {
               log.error(err);
               res.status(200).send({
                 code: 500,
-                message: 'Error while sending reset password email'
+                message: "Errore durante l'invio della email di reset password"
               })
             } else {
               res.status(200).send({
@@ -90,7 +90,7 @@ class Mailer {
           log.error(err);
           res.status(200).send({
             code: 500,
-            message: 'Error while sending email with activation link'
+            message: "Errore durante l'invio della email con il link di attivazione"
           })
         } else {
           res.status(200).send({

@@ -137,9 +137,9 @@ class MainController {
       service.activeUser({activeToken:req.params.activeToken})
       .then(result => {
         if(result) {
-          res.sendFile((require("path")).resolve(__dirname, '..','templateActivationSuccess.html'));
+          res.sendFile(appRoot + '/resources/templateActivationSuccess.html');
         } else {
-          res.sendFile((require("path")).resolve(__dirname, '..','templateActivationFail.html'));
+          res.sendFile(appRoot + '/resources/templateActivationFail.html');
         }
       })
       .catch(err => {
