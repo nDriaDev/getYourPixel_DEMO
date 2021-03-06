@@ -41,7 +41,7 @@ const setOptionsTrasporter = () => {
 }
 
 var readTemplate = (path, callback) => {
-  fs.readFile(path, {
+  fs.readFile(appRoot + '/resources/' + path, {
     encoding: 'utf-8'
   }, (err, html) => {
     if (err) {
@@ -55,7 +55,7 @@ var readTemplate = (path, callback) => {
 
 exports.sendMail = (name, email, subject, message, callback) => {
   log.info("START");
-  readTemplate('./templateEmail.html',(err, html) => {
+  readTemplate('templateEmail.html',(err, html) => {
     let transporter = nodemailer.createTransport(setOptionsTrasporter());
     try {
       let template = handlebars.compile(html);
@@ -133,7 +133,7 @@ exports.sendActivationEmail = (host, email, username, activeToken, callback) => 
     protocol = 'https://';
   }
   let link = protocol + host + '/api/activeUser/' + activeToken;
-  readTemplate('./templateActivationEmail.html',(err, html) => {
+  readTemplate('templateActivationEmail.html',(err, html) => {
     let transporter = nodemailer.createTransport(setOptionsTrasporter());
     try {
       let template = handlebars.compile(html);
