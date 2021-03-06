@@ -9,6 +9,6 @@
 
 /* SITE */
           Version: 3.2.0
-          Last update: 2021/02/08
+          Last update: 2021/03/06
           Language: Italian
           Doctype: React Web App
