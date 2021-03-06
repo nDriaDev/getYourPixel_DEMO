@@ -13,7 +13,6 @@ class CompressorUtil {
 
   compressLZMA(input){
       log.info("START");
-      debugger;
       return new Promise((resolve,reject) => {
         try {
           lzma.compress(input,7)
@@ -34,7 +33,6 @@ class CompressorUtil {
 
   decompressLZMA(input) {
     log.info("START");
-    debugger;
     return new Promise((resolve,reject) => {
       try {
         lzma.decompress(input.buffer)
