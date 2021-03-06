@@ -1,7 +1,9 @@
+const appRoot = require('app-root-path');
+const log = require(appRoot + '/configs/winston').getLogger();
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
-const Compressor = require('./compressionUtil');
-const ImageBuilder = require('./imageUtil');
+const Compressor = require(appRoot + '/utils/compressionUtil');
+const ImageBuilder = require(appRoot + '/utils/imageUtil');
 const COLLECTION_ADMIN = '_admin';
 const COLLECTION_USER = '_user';
 const COLLECTION_CLICK = '_click';
@@ -43,7 +45,7 @@ class MainService {
       bcrypt.hash(password, SALT_ROUNDS,
         function(err, hashedPassword) {
           if (err) {
-            console.log("mainService - [generateHashedPassword] - ERROR -", err.message);
+            log.error(err);
             reject(err);
           } else {
             resolve({
@@ -69,7 +71,7 @@ class MainService {
   }
 
   saveClient(body) {
-    console.log("mainService - [saveClient] - START");
+    log.info("START");
     return new Promise((resolve, reject) => {
       try {
         let {
@@ -85,7 +87,7 @@ class MainService {
         ImageBuilder.resize(file, row, col)
           .then(value => {
             file = value;
-            Compressor.compressChilkat(file.base64)
+            Compressor.compressLZMA(file.base64)
               .then(value => {
                 file.base64 = value;
                 let data = {};
@@ -211,31 +213,32 @@ class MainService {
                           })
                         })
                         .catch(err => {
-                          console.log("mainService - [saveClient] - ERROR -", err);
+                          log.error(err);
                           reject(err);
                         })
                     }
                   })
                   .catch(err => {
-                    console.log("mainService - [saveClient] - ERROR -", err);
+                    log.error(err);
                     reject(err);
                   });
               })
           })
           .catch(err => {
+            log.error(err);
             reject(err);
           })
       } catch (e) {
-        console.log("mainService - [saveClient] - ERROR -", e);
+        log.error(e);
         reject(e)
       } finally {
-        console.log("mainService - [saveClient] - FINISH");
+        log.info("FINISH");
       }
     })
   }
 
   getClientsPixels(email, type) {
-    console.log("mainService - [getClientsPixels] - START");
+    log.info("START");
     return new Promise((resolve, reject) => {
       try {
         if(email && type === 'Client') {
@@ -259,7 +262,7 @@ class MainService {
             .then(items => {
               var promises = [];
               for (let i in items) {
-                promises.push(Compressor.decompressChilkat(items[i].file.base64)
+                promises.push(Compressor.decompressLZMA(items[i].file.base64)
                 .then(value => {
                   // items[i].file.base64 = 'data:' + items[i].file.type + ';base64,' + value;
                   items[i].file.base64 = value;
@@ -276,12 +279,12 @@ class MainService {
                   resolve(value);
                 })
                 .catch(err => {
-                  console.log("mainService - [getClientsPixels] - ERROR -", err.message);
+                  log.error(err);
                   reject(err);
                 })
               })
               .catch(err => {
-                console.log("mainService - [getClientsPixels] - ERROR -", err.message);
+                log.error(err);
                 reject(err);
               })
             })
@@ -305,7 +308,7 @@ class MainService {
           .then(items => {
             var promises = [];
             for (let i in items) {
-              promises.push(Compressor.decompressChilkat(items[i].file.base64)
+              promises.push(Compressor.decompressLZMA(items[i].file.base64)
               .then(value => {
                 // items[i].file.base64 = 'data:' + items[i].file.type + ';base64,' + value;
                 items[i].file.base64 = value;
@@ -322,27 +325,27 @@ class MainService {
                 resolve(value);
               })
               .catch(err => {
-                console.log("mainService - [getClientsPixels] - ERROR -", err.message);
+                log.error(err);
                 reject(err);
               })
             })
             .catch(err => {
-              console.log("mainService - [getClientsPixels] - ERROR -", err.message);
+              log.error(err);
               reject(err);
             })
           })
         }
       } catch (e) {
-        console.log("mainService - [getClientsPixels] - ERROR -", e.message);
+        log.error(e);
         reject(e);
       } finally {
-        console.log("mainService - [getClientsPixels] - FINISH");
+        log.info("FINISH");
       }
     })
   }
 
   getClient(body) {
-    console.log("mainService - [getClient] - START");
+    log.info("START");
     return new Promise((resolve, reject) => {
       try {
         const {
@@ -382,16 +385,16 @@ class MainService {
             resolve(err);
           })
       } catch (e) {
-        console.log("mainService - [getClient] - ERROR -", e);
+        log.error(e);
         reject(e);
       } finally {
-        console.log("mainService - [getClient] - FINISH");
+        log.info("FINISH");
       }
     })
   }
 
   getClientsFiltered(body) {
-    console.log("mainService - [getClientsFiltered] - START");
+    log.info("START");
     return new Promise((resolve, reject) => {
       try {
         const {
@@ -453,16 +456,16 @@ class MainService {
             resolve(err);
           })
       } catch (e) {
-        console.log("mainService - [getClientsFiltered] - ERROR -");
+        log.error(e);
         reject(e);
       } finally {
-        console.log("mainService - [getClientsFiltered] - FINISH");
+        log.info("FINISH");
       }
     })
   }
 
   editClient(body) {
-    console.log("mainService - [editClient] - START");
+    log.info("START");
     return new Promise((resolve, reject) => {
       try {
         let {
@@ -484,11 +487,13 @@ class MainService {
           }, {})
           .then(result => {
             if (result) {
-              if (file.base64 !== result.file.base64 || row !== result.row || col !== result.col) {
-                ImageBuilder.resize(file, row, col)
-                  .then(value => {
-                    file = value;
-                    Compressor.compressChilkat(file.base64)
+                Compressor.decompressLZMA(result.file.base64)
+                .then(val => {
+                  if (file.base64 !== val || row !== result.row || col !== result.col) {
+                    ImageBuilder.resize(file, row, col)
+                    .then(value => {
+                      file = value;
+                      Compressor.compressLZMA(file.base64)
                       .then(value => {
                         file.base64 = value;
                         let data = {};
@@ -624,200 +629,205 @@ class MainService {
                           }
                         }
                         this.db
-                          .collection(COLLECTION_CLIENT)
-                          .updateOne({
-                            "_id": result['_id']
-                          }, data, options)
-                          .then(value => {
-                            const {
-                              matchedCount,
-                              modifiedCount
-                            } = value;
-                            if (matchedCount && modifiedCount) {
-                              resolve("Dati modificati correttamente")
-                            } else {
-                              reject({
-                                message: "Non e' stato possibile modificare i dati del cliente"
-                              })
-                            }
-                          })
-                          .catch(err => {
-                            console.log("mainService - [editClient] - ERROR -", err);
-                            reject(err);
-                          })
+                        .collection(COLLECTION_CLIENT)
+                        .updateOne({
+                          "_id": result['_id']
+                        }, data, options)
+                        .then(value => {
+                          const {
+                            matchedCount,
+                            modifiedCount
+                          } = value;
+                          if (matchedCount && modifiedCount) {
+                            resolve("Dati modificati correttamente")
+                          } else {
+                            reject({
+                              message: "Non e' stato possibile modificare i dati del cliente"
+                            })
+                          }
+                        })
+                        .catch(err => {
+                          log.error(err);
+                          reject(err);
+                        })
                       })
                       .catch(err => {
-                        console.log("mainService - [editClient] - ERROR -", err);
+                        log.error(err);
                         reject(err);
                       })
-                  })
-                  .catch(err => {
-                    console.log("mainService - [editClient] - ERROR -", err);
-                    reject(err);
-                  })
-              } else {
-                let data = {};
-                let options = {
-                  "upsert": false
-                };
-                if (company === '') {
-                  if (positionRow === '' && positionCol === '') {
-                    data = {
-                      "$set": {
-                        "email": email.trim(),
-                        "url": url.trim(),
-                        "row": row,
-                        "col": col,
-                        "date": new Date(),
-                      }
-                    }
-                    if(result.positionRow) {
-                      data['$unset'] = {
-                        'positionRow': '',
-                        'positionCol': ''
-                      }
-                    }
-                  } else if (positionRow === '' && positionCol !== '') {
-                    data = {
-                      "$set": {
-                        "email": email.trim(),
-                        "url": url.trim(),
-                        "row": row,
-                        "col": col,
-                        "positionRow": 0,
-                        "positionCol": (+positionCol) - 1,
-                        "date": new Date(),
-                      }
-                    }
-                  } else if (positionRow !== '' && positionCol === '') {
-                    data = {
-                      "$set": {
-                        "email": email.trim(),
-                        "url": url.trim(),
-                        "row": row,
-                        "col": col,
-                        "positionRow": (+positionRow) - 1,
-                        "positionCol": 0,
-                        "date": new Date(),
-                      }
-                    }
+                    })
+                    .catch(err => {
+                      log.error(err);
+                      reject(err);
+                    })
                   } else {
-                    data = {
-                      "$set": {
-                        "email": email.trim(),
-                        "url": url.trim(),
-                        "row": row,
-                        "col": col,
-                        "positionRow": (+positionRow) - 1,
-                        "positionCol": (+positionCol) - 1,
-                        "date": new Date(),
-                      }
-                    }
-                  }
-                  if(data['$unset']) {
-                    data['$unset'].company = '';
-                  } else {
-                    data['$unset'] = {
-                      'company': ""
+                    let data = {};
+                    let options = {
+                      "upsert": false
                     };
+                    if (company === '') {
+                      if (positionRow === '' && positionCol === '') {
+                        data = {
+                          "$set": {
+                            "email": email.trim(),
+                            "url": url.trim(),
+                            "row": row,
+                            "col": col,
+                            "date": new Date(),
+                          }
+                        }
+                        if(result.positionRow) {
+                          data['$unset'] = {
+                            'positionRow': '',
+                            'positionCol': ''
+                          }
+                        }
+                      } else if (positionRow === '' && positionCol !== '') {
+                        data = {
+                          "$set": {
+                            "email": email.trim(),
+                            "url": url.trim(),
+                            "row": row,
+                            "col": col,
+                            "positionRow": 0,
+                            "positionCol": (+positionCol) - 1,
+                            "date": new Date(),
+                          }
+                        }
+                      } else if (positionRow !== '' && positionCol === '') {
+                        data = {
+                          "$set": {
+                            "email": email.trim(),
+                            "url": url.trim(),
+                            "row": row,
+                            "col": col,
+                            "positionRow": (+positionRow) - 1,
+                            "positionCol": 0,
+                            "date": new Date(),
+                          }
+                        }
+                      } else {
+                        data = {
+                          "$set": {
+                            "email": email.trim(),
+                            "url": url.trim(),
+                            "row": row,
+                            "col": col,
+                            "positionRow": (+positionRow) - 1,
+                            "positionCol": (+positionCol) - 1,
+                            "date": new Date(),
+                          }
+                        }
+                      }
+                      if(data['$unset']) {
+                        data['$unset'].company = '';
+                      } else {
+                        data['$unset'] = {
+                          'company': ""
+                        };
+                      }
+                    } else {
+                      if (positionRow === '' && positionCol === '') {
+                        data = {
+                          "$set": {
+                            "email": email.trim(),
+                            "url": url.trim(),
+                            "company": company,
+                            "row": row,
+                            "col": col,
+                            "date": new Date(),
+                          }
+                        }
+                        if(result.positionRow) {
+                          data['$unset'] = {
+                            'positionRow': '',
+                            'positionCol': ''
+                          }
+                        }
+                      } else if (positionRow === '' && positionCol !== '') {
+                        data = {
+                          "$set": {
+                            "email": email.trim(),
+                            "url": url.trim(),
+                            "company": company,
+                            "row": row,
+                            "col": col,
+                            "positionRow": 0,
+                            "positionCol": (+positionCol) - 1,
+                            "date": new Date(),
+                          }
+                        }
+                      } else if (positionRow !== '' && positionCol === '') {
+                        data = {
+                          "$set": {
+                            "email": email.trim(),
+                            "url": url.trim(),
+                            "company": company,
+                            "row": row,
+                            "col": col,
+                            "positionRow": (+positionRow) - 1,
+                            "positionCol": 0,
+                            "date": new Date(),
+                          }
+                        }
+                      } else {
+                        data = {
+                          "$set": {
+                            "email": email.trim(),
+                            "url": url.trim(),
+                            "company": company,
+                            "row": row,
+                            "col": col,
+                            "positionRow": (+positionRow) - 1,
+                            "positionCol": (+positionCol) - 1,
+                            "date": new Date(),
+                          }
+                        }
+                      }
+                    }
+                    this.db
+                    .collection(COLLECTION_CLIENT)
+                    .updateOne({
+                      "_id": result['_id']
+                    }, data, options)
+                    .then(value => {
+                      const {
+                        matchedCount,
+                        modifiedCount
+                      } = value;
+                      if (matchedCount && modifiedCount) {
+                        resolve("Dati modificati correttamente")
+                      }
+                    })
+                    .catch(err => {
+                      log.error(err);
+                      reject(err);
+                    })
                   }
-                } else {
-                  if (positionRow === '' && positionCol === '') {
-                    data = {
-                      "$set": {
-                        "email": email.trim(),
-                        "url": url.trim(),
-                        "company": company,
-                        "row": row,
-                        "col": col,
-                        "date": new Date(),
-                      }
-                    }
-                    if(result.positionRow) {
-                      data['$unset'] = {
-                        'positionRow': '',
-                        'positionCol': ''
-                      }
-                    }
-                  } else if (positionRow === '' && positionCol !== '') {
-                    data = {
-                      "$set": {
-                        "email": email.trim(),
-                        "url": url.trim(),
-                        "company": company,
-                        "row": row,
-                        "col": col,
-                        "positionRow": 0,
-                        "positionCol": (+positionCol) - 1,
-                        "date": new Date(),
-                      }
-                    }
-                  } else if (positionRow !== '' && positionCol === '') {
-                    data = {
-                      "$set": {
-                        "email": email.trim(),
-                        "url": url.trim(),
-                        "company": company,
-                        "row": row,
-                        "col": col,
-                        "positionRow": (+positionRow) - 1,
-                        "positionCol": 0,
-                        "date": new Date(),
-                      }
-                    }
-                  } else {
-                    data = {
-                      "$set": {
-                        "email": email.trim(),
-                        "url": url.trim(),
-                        "company": company,
-                        "row": row,
-                        "col": col,
-                        "positionRow": (+positionRow) - 1,
-                        "positionCol": (+positionCol) - 1,
-                        "date": new Date(),
-                      }
-                    }
-                  }
-                }
-                this.db
-                  .collection(COLLECTION_CLIENT)
-                  .updateOne({
-                    "_id": result['_id']
-                  }, data, options)
-                  .then(value => {
-                    const {
-                      matchedCount,
-                      modifiedCount
-                    } = value;
-                    if (matchedCount && modifiedCount) {
-                      resolve("Dati modificati correttamente")
-                    }
-                  })
-                  .catch(err => {
-                    console.log("mainService - [editClient] - ERROR -", err);
-                    reject(err);
-                  })
-              }
+                })
+                .catch(e => {
+                  log.error(e);
+                  reject(e);
+                })
             } else {
               resolve(null);
             }
           })
           .catch(err => {
-            console.log("mainService - [editClient] - ERROR -", err);
+            log.error(err);
             reject(err);
           })
       } catch (e) {
-        console.log("mainService - [editClient] - ERROR -", e);
+        log.error(e);
         reject(e)
       } finally {
-        console.log("mainService - [editClient] - FINISH");
+        log.info("FINISH");
       }
     })
   }
 
   deleteClient(body) {
-    console.log("mainService - [deleteClient] - START");
+    log.info("START");
     return new Promise((resolve, reject) => {
       try {
         let {
@@ -864,7 +874,7 @@ class MainService {
                   }
                 })
                 .catch(err => {
-                  console.log("mainService - [deleteClient] - ERROR -", err.message);
+                  log.error(err);
                   resolve({
                     code: 404,
                     message: err.message
@@ -878,23 +888,23 @@ class MainService {
             }
           })
           .catch(err => {
-            console.log("mainService - [deleteClient] - ERROR -", err.message);
+            log.error(err);
             resolve({
               code: 404,
               message: err.message
             })
           })
       } catch (e) {
-        console.log("mainService - [deleteClient] - ERROR -", e.message);
+        log.error(e);
         reject(e)
       } finally {
-        console.log("mainService - [deleteClient] - FINISH");
+        log.info("FINISH");
       }
     })
   }
 
   getAdmin(email) {
-    console.log("mainService - [getAdmin] - START");
+    log.info("START");
     return new Promise((resolve, reject) => {
       try {
         this.db
@@ -914,16 +924,16 @@ class MainService {
             }
           })
       } catch (e) {
-        console.log("mainService - [getAdmin] - ERROR -", e.message);
+        log.error(e);
         reject(e)
       } finally {
-        console.log("mainService - [getAdmin] - FINISH");
+        log.info("FINISH");
       }
     })
   }
 
   getAdmins(type) {
-    console.log("mainService - [getAdmins] - START");
+    log.info("START");
     return new Promise((resolve, reject) => {
       try {
         let query = {};
@@ -962,16 +972,16 @@ class MainService {
             }
           })
       } catch (e) {
-        console.log("mainService - [getAdmins] - ERROR -", e.message);
+        log.error(e);
         reject(e)
       } finally {
-        console.log("mainService - [getAdmins] - FINISH");
+        log.info("FINISH");
       }
     })
   }
 
   login(body) {
-    console.log("mainService - [login] - START");
+    log.info("START");
     return new Promise((resolve, reject) => {
       try {
         const {
@@ -1015,16 +1025,16 @@ class MainService {
             }
           })
       } catch (e) {
-        console.log("mainService - [login] - ERROR -", e.message);
+        log.error(e);
         reject(e)
       } finally {
-        console.log("mainService - [login] - FINISH");
+        log.info("FINISH");
       }
     })
   }
 
   verifyPassword(body) {
-    console.log("mainService - [verifyPassword] - START");
+    log.info("START");
     return new Promise((resolve, reject) => {
       try {
         const {
@@ -1113,19 +1123,19 @@ class MainService {
             throw err;
           })
       } catch (e) {
-        console.log("mainService - [verifyPassword] - ERROR -", e.message);
+        log.error(e);
         reject({
           code: 404,
           message: e.message
         })
       } finally {
-        console.log("mainService - [verifyPassword] - FINISH");
+        log.info("FINISH");
       }
     })
   }
 
   addAdmin(body) {
-    console.log("mainService - [addAdmin] - START");
+    log.info("START");
     return new Promise((resolve, reject) => {
       try {
         let {
@@ -1154,27 +1164,27 @@ class MainService {
                     })
                   })
                   .catch(err => {
-                    console.log("mainService - [addAdmin] - ERROR -", err);
+                    log.error(err);
                     reject(err);
                   })
               }
             })
           })
           .catch(err => {
-            console.log("mainService - [addAdmin] - ERROR -", err);
+            log.error(err);
             reject(err);
           })
       } catch (e) {
-        console.log("mainService - [addAdmin] - ERROR -", e);
+        log.info(e);
         reject(e)
       } finally {
-        console.log("mainService - [addAdmin] - FINISH");
+        log.info("FINISH");
       }
     })
   }
 
   deleteAdmin(body) {
-    console.log("mainService - [deleteAdmin] - START");
+    log.info("START");
     return new Promise((resolve, reject) => {
       try {
         var {
@@ -1212,7 +1222,7 @@ class MainService {
                   }
                 })
                 .catch(err => {
-                  console.log(err);
+                  log.info(err);
                   resolve({
                     code: 404,
                     message: err.message
@@ -1226,16 +1236,16 @@ class MainService {
             }
           })
       } catch (e) {
-        console.log("mainService - [deleteAdmin] - ERROR -", e.message);
+        log.error(e);
         reject(e)
       } finally {
-        console.log("mainService - [deleteAdmin] - FINISH");
+        log.info("FINISH");
       }
     })
   }
 
   countPixels() {
-    console.log("mainService - [countPixel] - START");
+    log.info("START");
     return new Promise((resolve, reject) => {
       try {
         this.db
@@ -1264,20 +1274,20 @@ class MainService {
             resolve(40128 - pixelRemaining);
           })
           .catch(err => {
-            console.log("mainService - [countPixel] - ERROR -", err.message);
+            log.error(err);
             reject(err);
           })
       } catch (e) {
-        console.log("mainService - [countPixel] - ERROR -", e.message);
+        log.error(e);
         reject(e);
       } finally {
-        console.log("mainService - [countPixel] - FINISH");
+        log.info("FINISH");
       }
     })
   }
 
   resetPassword(body) {
-    console.log("mainService - [resetPassword] - START");
+    log.info("START");
     return new Promise((resolve, reject) => {
       try {
         const {
@@ -1333,16 +1343,16 @@ class MainService {
             reject(err);
           })
       } catch (e) {
-        console.log("mainService - [resetPassword] - ERROR", e.message);
+        log.error(e);
         reject(e);
       } finally {
-        console.log("mainService - [resetPassword] - FINISH");
+        log.info("FINISH");
       }
     })
   }
 
   changePassword(body) {
-    console.log("mainService - [changePassword] - START");
+    log.info("START");
     return new Promise((resolve, reject) => {
       try {
         const {
@@ -1396,20 +1406,20 @@ class MainService {
             }
           })
           .catch(err => {
-            console.log("mainService - [changePassword] - ERROR", err.message);
+            log.error(err);
             reject(err);
           })
       } catch (e) {
-        console.log("mainService - [changePassword] - ERROR", e.message);
+        log.error(e);
         reject(e);
       } finally {
-        console.log("mainService - [changePassword] - FINISH");
+        log.info("FINISH");
       }
     })
   }
 
   changePasswordClient(body) {
-    console.log("mainService - [changePasswordClient] - START");
+    log.info("START");
     return new Promise((resolve, reject) => {
       try {
         const {
@@ -1464,20 +1474,20 @@ class MainService {
             }
           })
           .catch(err => {
-            console.log("mainService - [changePasswordClient] - ERROR", err.message);
+            log.error(err);
             reject(err);
           })
       } catch (e) {
-        console.log("mainService - [changePasswordClient] - ERROR", e.message);
+        log.error(e);
         reject(e);
       } finally {
-        console.log("mainService - [changePasswordClient] - FINISH");
+        log.info("FINISH");
       }
     })
   }
 
   resetPasswordClient(body) {
-    console.log("mainService - [resetPasswordClient] - START");
+    log.info("START");
     return new Promise((resolve, reject) => {
       try {
         const {
@@ -1536,16 +1546,16 @@ class MainService {
             reject(err);
           })
       } catch (e) {
-        console.log("mainService - [resetPasswordClient] - ERROR", e.message);
+        log.error(e);
         reject(e);
       } finally {
-        console.log("mainService - [resetPasswordClient] - FINISH");
+        log.info("FINISH");
       }
     })
   }
 
   getUser(email, username = null) {
-    console.log("mainService - [getUser] - START");
+    log.info("START");
     return new Promise((resolve, reject) => {
       try {
         let query = {}
@@ -1575,20 +1585,20 @@ class MainService {
             }
           })
           .catch(err => {
-            console.log("mainService - [getUser] - ERROR -", err.message);
+            log.error(err);
             reject(err)
           })
       } catch (e) {
-        console.log("mainService - [getUser] - ERROR -", e.message);
+        log.error(e);
         reject(e)
       } finally {
-        console.log("mainService - [getUser] - FINISH");
+        log.info("FINISH");
       }
     })
   }
 
   loginUser(body) {
-    console.log("mainService - [loginUser] - START");
+    log.info("START");
     return new Promise((resolve, reject) => {
       try {
         const {
@@ -1640,16 +1650,16 @@ class MainService {
             }
           })
       } catch (e) {
-        console.log("mainService - [loginUser] - ERROR -", e.message);
+        log.error(e);
         reject(e)
       } finally {
-        console.log("mainService - [loginUser] - FINISH");
+        log.info("FINISH");
       }
     })
   }
 
   saveUser(body) {
-    console.log("mainService - [saveUser] - START");
+    log.info("START");
     return new Promise((resolve, reject) => {
       try {
         let {
@@ -1664,7 +1674,9 @@ class MainService {
             this.getUser(email, username).then(value => {
               if (value) {
                 if (value.username !== username && value.email === email) {
-                  reject(new Error("Username già esistente"));
+                  reject(new Error("Email già esistente"));
+                } else if (value.username === username && value.email !== email) {
+                  reject(new Error("Username già esistente"))
                 } else if (value.username === username && value.email === email) {
                   reject(new Error("Utente già esistente"))
                 } else {
@@ -1695,7 +1707,7 @@ class MainService {
                     })
                   })
                   .catch(err => {
-                    console.log("mainService - [saveUser] - ERROR -", err);
+                    log.error(err);
                     reject(err);
                   })
                 })
@@ -1703,20 +1715,20 @@ class MainService {
             })
           })
           .catch(err => {
-            console.log("mainService - [saveUser] - ERROR -", err);
+            log.error(err);
             reject(err);
           })
       } catch (e) {
-        console.log("mainService - [saveUser] - ERROR -", e);
+        log.error(e);
         reject(e)
       } finally {
-        console.log("mainService - [saveUser] - FINISH");
+        log.info("FINISH");
       }
     })
   }
 
   activeUser(activeToken) {
-    console.log("mainService - [activeUser] - START");
+    log.info("START");
     return new Promise((resolve, reject) => {
       try {
         let user = {
@@ -1760,7 +1772,7 @@ class MainService {
                   }
                 })
                 .catch(err => {
-                  console.log("mainService - [activeUser] - ERROR -", err);
+                  log.error(err);
                   reject(err);
                 })
             } else {
@@ -1804,20 +1816,20 @@ class MainService {
             }
           })
           .catch(err => {
-            console.log("mainService - [activeUser] - ERROR -", err);
+            log.error(err);
             reject(err);
           })
       } catch (e) {
-        console.log("mainService - [activeUser] - ERROR -", e);
+        log.error(e);
         reject(e)
       } finally {
-        console.log("mainService - [activeUser] - FINISH");
+        log.info("FINISH");
       }
     })
   }
 
   saveClick(emailClient, urlClicked) {
-    console.log("mainService - [saveClick] - START");
+    log.info("START");
     return new Promise((resolve, reject) => {
       try {
         if(!emailClient) {
@@ -1891,7 +1903,7 @@ class MainService {
                           }
                         })
                         .catch(err => {
-                          console.log("mainService - [saveClick] - ERROR -", err);
+                          log.error(err);
                           reject(err);
                         })
                       }
@@ -1910,7 +1922,7 @@ class MainService {
                         resolve("Click salvato")
                       })
                       .catch(err => {
-                        console.log("mainService - [saveClick] - ERROR -", err);
+                        log.error(err);
                         reject(err);
                       })
                     }
@@ -1919,12 +1931,12 @@ class MainService {
                     reject(new Error("Impossibile salvare il click"))
                   })
                 } else {
-                  console.log("mainService - [saveClick] - ERROR - Utente non trovato");
+                  log.error(new Error("Utente non trovato"));
                   reject({message:"Utente non trovato"});
                 }
               })
               .catch(err => {
-                console.log("mainService - [saveClick] - ERROR -", err);
+                log.error(err);
                 reject(err);
               })
             }
@@ -1933,16 +1945,16 @@ class MainService {
             reject(new Error("Impossibile verificare l'utente loggato"))
           })
       } catch (e) {
-        console.log("mainService - [saveClick] - ERROR -", e);
+        log.error(e);
         reject(e)
       } finally {
-        console.log("mainService - [saveClick] - FINISH");
+        log.info("FINISH");
       }
     })
   }
 
   deleteUser(body) {
-    console.log("mainService - [deleteUser] - START");
+    log.info("START");
     return new Promise((resolve, reject) => {
       try {
         var {
@@ -1983,7 +1995,7 @@ class MainService {
                   }
                 })
                 .catch(err => {
-                  console.log(err);
+                  log.info(err);
                   resolve({
                     code: 404,
                     message: err.message
@@ -1997,23 +2009,23 @@ class MainService {
             }
           })
           .catch(err => {
-            console.log("mainService - [deleteUser - findUser] - ERROR -", err.message);
+            log.error(err);
             resolve({
               code: 404,
               message: "Non e' stato trovato alcun utente"
             })
           })
       } catch (e) {
-        console.log("mainService - [deleteUser] - ERROR -", e.message);
+        log.error(e);
         reject(e)
       } finally {
-        console.log("mainService - [deleteUser] - FINISH");
+        log.info("FINISH");
       }
     })
   }
 
   countUsers() {
-    console.log("mainService - [countUsers] - START");
+    log.info("START");
     return new Promise((resolve,reject) => {
       try {
         this.db
@@ -2055,20 +2067,20 @@ class MainService {
           }
         })
         .catch(err => {
-          console.log("mainService - [countUsers] - ERROR -", err.message);
+          log.error(err);
           reject(err);
         })
       } catch (e) {
-        console.log("mainService - [countUsers] - ERROR -", e.message);
+        log.error(e);
         reject(e);
       } finally {
-        console.log("mainService - [countUsers] - FINISH");
+        log.info("FINISH");
       }
     })
   }
 
   countPoints(email) {
-    console.log("mainService - [countPoints] - START");
+    log.info("START");
     return new Promise((resolve,reject) => {
       try {
         this.db
@@ -2097,10 +2109,10 @@ class MainService {
           reject(err);
         })
       } catch (e) {
-        console.log("mainService - [countPoints] - ERROR", e.message);
+        log.error(e);
         reject(e);
       } finally {
-        console.log("mainService - [countPoints] - FINISH");
+        log.info("FINISH");
       }
     })
   }

@@ -1,3 +1,5 @@
+const appRoot = require('app-root-path');
+const log = require(appRoot + '/configs/winston').getLogger();
 const stripe = require('stripe')(
   process.env.PRV_KEY_STRIPE ? process.env.PRV_KEY_STRIPE :
   '<your private key here>'
@@ -48,6 +50,7 @@ class Payment {
         })
       }
       try {
+        log.info("START")
         let prod = {};
         stripe.products.list(
         ).then((result) => {
@@ -59,20 +62,25 @@ class Payment {
                 prod.price = result2.data[i]
               }
             }
+            log.info("FINISH");
             resolve(prod);
           }).catch(err => {
+            log.error(err);
             reject(err);
           })
         }).catch(err => {
+          log.error(err);
           reject(err);
         })
       } catch (e) {
+        log.error(e);
         reject(e);
       }
     })
   }
   createOrder(product, quantity){
     return new Promise((resolve,reject)=>{
+      log.info("START")
       stripe.checkout.sessions.create({
         payment_method_types: ['card','sepa_debit'],
         line_items: [
@@ -92,8 +100,10 @@ class Payment {
         success_url: (process.env.BUY_URL ? process.env.BUY_URL : '<your url page to redirect here>' ) + '?success=true',
         cancel_url: (process.env.BUY_URL ? process.env.BUY_URL : '<your url page to redirect here>' ) + '?canceled=true',
       }).then(result => {
+        log.info("FINISH")
         resolve(result);
       }).catch(err => {
+        log.error(err);
         reject(err);
       })
     })

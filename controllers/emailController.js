@@ -1,10 +1,12 @@
-var mailer = require('../mail');
+const appRoot = require('app-root-path');
+const log = require(appRoot + '/configs/winston').getLogger();
+var mailer = require(appRoot + '/services/mailService');
 
 
 class Mailer {
   sendMail(req, res, next) {
     try {
-      console.log("mailer_Controller - [sendMail] - START");
+      log.info("START");
       const {
         name,
         email,
@@ -14,7 +16,7 @@ class Mailer {
 
       mailer.sendMail(name, email, subject, message, (err, data) => {
         if (err) {
-          console.log("mailer_Controller - [sendMail] - ERROR", err.message);
+          log.error(err);
           res.status(500).send({
             message: 'Error while sending yur message'
           })
@@ -25,30 +27,30 @@ class Mailer {
         }
       })
     } catch (e) {
-      console.log("mailer_Controller - [sendMail] - ERROR", e.message);
+      log.error(e);
       next(e.message);
     } finally {
-      console.log("mailer_Controller - [sendMail] - FINISH");
+      log.info("FINISH");
     }
   }
 
   sendMailResetPassword(req, res, next) {
     try {
-      console.log("mailer_Controller - [sendMailResetPassword] - START");
+      log.info("START");
       let password = req.session.password;
       let email = req.session.email;
       req.session.email = null;
       req.session.password = null;
       req.session.save((err) => {
         if (err) {
-          console.log("mailer_Controller - [sendMailResetPassword-session] - ERROR", err);
+          log.error(err);
         } else {
           mailer.sendMailResetPassword({
             password: password,
             email: email
           }, (err, data) => {
             if (err) {
-              console.log("mailer_Controller - [sendMailResetPassword] - ERROR", err.message);
+              log.error(err);
               res.status(200).send({
                 code: 500,
                 message: 'Error while sending reset password email'
@@ -63,16 +65,16 @@ class Mailer {
         }
       });
     } catch (e) {
-      console.log("mailer_Controller - [sendMailResetPassword] - ERROR", e.message);
+      log.error(e);
       next(e.message);
     } finally {
-      console.log("mailer_Controller - [sendMailResetPassword] - FINISH");
+      log.info("FINISH");
     }
   }
 
   sendActivationEmail(req, res, next) {
     try {
-      console.log("mailer_Controller - [sendActivationEmail] - START");
+      log.info("START");
       let email = res.locals.result.email;
       let activeToken = res.locals.result.activeToken;
       let message = res.locals.result.message;
@@ -85,7 +87,7 @@ class Mailer {
         activeToken,
         (err, data) => {
         if (err) {
-          console.log("mailer_Controller - [sendActivationEmail] - ERROR", err.message);
+          log.error(err);
           res.status(200).send({
             code: 500,
             message: 'Error while sending email with activation link'
@@ -98,10 +100,10 @@ class Mailer {
         }
       })
     } catch (e) {
-      console.log("mailer_Controller - [sendActivationEmail] - ERROR", e.message);
+      log.error(e);
       next(e.message);
     } finally {
-      console.log("mailer_Controller - [sendActivationEmail] - FINISH");
+      log.info("FINISH");
     }
   }
 

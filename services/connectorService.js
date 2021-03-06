@@ -1,5 +1,5 @@
 const appRoot = require('app-root-path');
-const log = require(appRoot + '/config/winston').getLogger();
+const log = require(appRoot + '/configs/winston').getLogger();
 var {
   MongoClient
 } = require('mongodb');

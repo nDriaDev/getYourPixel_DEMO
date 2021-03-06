@@ -4,7 +4,7 @@ var { OAuth2 } = google.auth;
 var fs = require('fs');
 var handlebars = require('handlebars');
 const appRoot = require('app-root-path');
-const log = require(appRoot + '/config/winston').getLogger();
+const log = require(appRoot + '/configs/winston').getLogger();
 
 const {
   MAILING_SERVICE_CLIENT_ID,

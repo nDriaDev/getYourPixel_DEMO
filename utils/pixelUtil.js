@@ -1,3 +1,6 @@
+const appRoot = require('app-root-path');
+const log = require(appRoot + '/configs/winston').getLogger();
+
 class PixelUtil {
   _cursore;
   _matrix;
@@ -57,7 +60,7 @@ class PixelUtil {
   //Cerca una posizione di partenza valida nella matrice secondo i pixel in altezza e larghezza dell'immagine considerata
   _cercaPosizioneCursore(width,height) {
     try {
-      console.log("PixelUtil - [_cercaPosizioneCursore] - START");
+      log.info("START");
       for(let i=this._cursore.row; i<this._matrix.length; i++) {
         for(let j=this._cursore.col; j<this._matrix[i].length; j++) {
           if(this._matrix[i][j] === 0) {
@@ -82,17 +85,17 @@ class PixelUtil {
       }
       return -1;
     } catch (e) {
-      console.log("PixelUtil - [_cercaPosizioneCursore] - ERROR -", e.message);
+      log.error(e);
       throw e;
     } finally {
-      console.log("PixelUtil - [_cercaPosizioneCursore] - FINISH");
+      log.info("FINISH");
     }
   }
 
   //Controlla se la posizione specificata per dove inserire l'immagine è valida altrimenti restituisce -2
   _checkPosizioneScelta(width,height,initWidth,initHeight) {
     try {
-      console.log("PixelUtil - [_checkPosizioneScelta] - START");
+      log.info("START");
       for(let i=initWidth; i<this._matrix.length; i++) {
         for(let j=initHeight; j<this._matrix[i].length; j++) {
           if(this._matrix[i][j] === 0) {
@@ -117,10 +120,10 @@ class PixelUtil {
       }
       return -2;
     } catch (e) {
-      console.log("PixelUtil - [_checkPosizioneScelta] - ERROR -", e.message);
+      log.error(e);
       throw e;
     } finally {
-      console.log("PixelUtil - [_checkPosizioneScelta] - FINISH");
+      log.info("FINISH");
     }
   }
 
@@ -163,7 +166,7 @@ class PixelUtil {
   //inserisce la struttura del pixel secondo i valori di cursore
   _inserisci(image, indiceImmagine, urlsClicked) {
     try {
-      console.log("PixelUtil - [_inserisci] - START");
+      log.info("START");
       let width = image.col;
       let height = image.row;
       let bp= {y:0,x:0};
@@ -212,16 +215,16 @@ class PixelUtil {
         bp = {y:0, x:bp.x+1}
       }
     } catch (e) {
-        console.log("PixelUtil - [_inserisci] - Error -", e.message);
-        throw e;
+      log.error(e);
+      throw e;
     }
-    console.log("PixelUtil - [_inserisci] - FINISH");
+    log.info("FINISH");
   }
 
   //costruisce la matrice inserendo l'immagine passata come parametro
   buildMatrix(image, indiceImmagine, urlsClicked) {
     try {
-      console.log("PixelUtil - [buildMatrix] - START");
+      log.info("START");
       this._cursore = {row:0,col:0};
       if(image.positionRow) {
         this._cursore = this._checkPosizioneScelta(image.col, image.row, +image.positionRow, +image.positionCol);
@@ -237,10 +240,10 @@ class PixelUtil {
         this._inserisci(image, indiceImmagine, urlsClicked);
       }
     } catch (e) {
-      console.log("PixelUtil - [buildMatrix] - ERROR -", e.message);
+      log.error(e);
       throw e;
     }
-    console.log("PixelUtil - [buildMatrix] - FINISH");
+    log.info("FINISH");
   }
 
   //restituisce il totale dei pixel venduti e quelli disponibili
@@ -259,7 +262,7 @@ class PixelUtil {
   //Restituisce la matrice sotto forma di array
   matrixToArray() {
     try {
-      console.log("PixelUtil - [matrixToArray] - START");
+      log.info("START");
       let array = [];
       for(let i in this._matrix) {
         for(let j in this._matrix[i]) {
@@ -272,10 +275,10 @@ class PixelUtil {
       //   obj[j]= array.slice(i,i+2508);
       // }
       // return obj;
-      console.log("PixelUtil - [matrixToArray] - FINISH");
+      log.info("FINISH");
       return array;
     } catch (e) {
-      console.log("PixelUtil - [matrixToArray] - ERROR -", e.message);
+      log.error(e);
       throw e;
     }
   }

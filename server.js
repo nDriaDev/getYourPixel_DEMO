@@ -10,15 +10,19 @@ const compression = require('compression');
 const helmet = require('helmet');
 const apiRoutes = require('./apiRoutes');
 const indexRoute = require('./indexRoute');
-var ForceSsl = require('./ssl');
+const morgan = require('morgan');
+const Logger = require('./configs/winston');
+var log = Logger.getLogger();
+var ForceSsl = require('./utils/sslUtil');
 ForceSsl = new ForceSsl();
-const Connector = require('./connectionDB');
+const Connector = require('./services/connectorService');
 
 const port = process.env.PORT || 3000;
 
 const server = express();
 
 server.use(express.static(path.join(__dirname + '/build/robots.txt')));
+
 
 //creo sessione per express-session
 var sessionOptions = {
@@ -37,15 +41,21 @@ var sessionOptions = {
   rolling: true,
 }
 
+
 if (ForceSsl.getEnv() === 'production') {
   console.log = function () {};
   server.use(ForceSsl.forceSsl);
   server.set('trust proxy', 1) // trust first proxy
   sessionOptions.cookie.secure = true
   sessionOptions.store = new FileStore({logFn: function(){}, ttl:(60*30), reapInterval: (60*15)});
+
+  Logger.setLogProduction();
 }
 
+
 server.set('sessionName', sessionOptions.name);
+
+server.use(morgan('combined', {stream: Logger.stream}));
 
 server.use(cookieParser(sessionOptions.secret));
 server.use(bodyParser.json({limit: '15mb'}))
@@ -75,14 +85,14 @@ server.use('/api', apiRoutes);
 server.use(indexRoute);
 
 server.use((req, res, next) => {
-  console.log("server - [GenericErrorHandler] - ERROR");
+  log.error("server - [GenericErrorHandler] - ERROR");
   let msg = "Endpoint [" + req.url + ',' + req.method + "] not exist";
   next(msg);
 });
 
 server.use((err,req,res,next)=>{
-  console.log("server - [ErrorHandler] - ERROR -", err);
-  res.status(404).send({message: err});
+  log.error(err);
+  res.status(404).send({message: "Errore generico"});
 })
 
 Connector
@@ -90,11 +100,11 @@ Connector
 .then(result =>{
   server.locals.db = result;
   server.listen(port,()=>{
-    console.log("Server running on port: ", port);
+    log.info("Server running on port: " + port);
   });
 })
 .catch(err =>
-  console.log("Error during connection: ", err)
+  log.error(err, "Error during connection")
 )
 
 //do something when app is closing
@@ -104,7 +114,7 @@ process.on('exit', () => {
     process.exit();
   })
   .catch(err => {
-    console.log(err);
+    log.error(err);
   })
 });
 
@@ -115,7 +125,7 @@ process.on('SIGINT', ()=>{
     process.exit();
   })
   .catch(err => {
-    console.log(err);
+    log.error(err);
   })
 });
 
@@ -126,7 +136,7 @@ process.on('SIGUSR1', ()=>{
     process.exit();
   })
   .catch(err => {
-    console.log(err);
+    log.error(err);
   })
 });
 
@@ -142,12 +152,12 @@ process.on('SIGUSR2', ()=>{
 
 //catches uncaught exceptions
 process.on('uncaughtException', (err)=>{
-  console.log("Exception Error Handler: ",err);
+  log.error(err, "Exception Error Handler");
   Connector.disconnect()
   .then(result => {
     process.exit();
   })
   .catch(err => {
-    console.log(err);
+    log.error(err);
   })
 });

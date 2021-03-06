@@ -29,7 +29,6 @@ class NavbarCustom extends Component{
 
   componentDidMount() {
       listen = this.props.history.listen((location, action) => {
-        debugger;
         if((prevLocation && prevLocation !== location.pathname) || !prevLocation) {
           prevLocation = location.pathname;
           this.changeActiveMenu(location.pathname);

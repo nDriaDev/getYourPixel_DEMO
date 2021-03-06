@@ -1,16 +1,18 @@
 // const { createCanvas, loadImage, createImageData, Image } = require('canvas')
+const appRoot = require('app-root-path');
 const jimp = require('jimp');
 const imagemin = require ('imagemin');
 const imageminJpegtran = require('imagemin-jpegtran');
 const imageminPngquant = require('imagemin-pngquant');
-const Pixel = require('./pixelUtil');
+const Pixel = require(appRoot + '/utils/pixelUtil');
 const resizeImg = require('resize-image-buffer');
 var sizeOf = require('buffer-image-size');
+const log = require(appRoot + '/configs/winston').getLogger();
 
 class ImageUtil {
   _JimpCompress(buff) {
     return new Promise((resolve,reject) => {
-      console.log("ImageUtil - [JimpCompress] - START");
+      log.info("START");
       jimp.read(buff)
       .then(image => {
         image.quality(65); // set Image quality
@@ -19,22 +21,22 @@ class ImageUtil {
           resolve(buffer);
         })
         .catch(err => {
-          console.log("ImageUtil - [JimpCompress - getBufferAsync] - ERROR", err.message);
+          log.error(err);
           reject(err);
         })
       })
       .catch(err => {
-        console.log("ImageUtil - [JimpCompress - read] - ERROR", err.message);
+        log.error(err);
         reject(err);
       })
-      console.log("ImageUtil - [JimpCompress] - FINISH");
+      log.info("FINISH");
     })
   }
 
   compress(buff, min = 0.6, max = 0.8) {
     return new Promise((resolve,reject) => {
       try {
-        console.log("ImageUtil - [compress] - START");
+        log.info("START");
         imagemin.buffer(buff, {
           // destination: imageminOut,
           plugins: [
@@ -48,7 +50,7 @@ class ImageUtil {
           resolve(value);
         })
         .catch(err => {
-          console.log("ImageUtil - [compress] - ERROR -",err.message);
+          log.error(err);
           reject(err);
         })
       } catch (e) {
@@ -61,18 +63,18 @@ class ImageUtil {
             reject(err);
           })
         } else {
-          console.log("ImageUtil - [compress] - ERROR -", e.message);
+          log.error(e);
           reject(e);
         }
       }
-      console.log("ImageUtil - [compress] - FINISH");
+      log.info("FINISH");
     })
   }
 
   resize(file, row, col) {
     return new Promise((resolve,reject) => {
       try {
-        console.log("ImageUtil - [resize] - START");
+        log.info("START");
 
         let width = (col * 10);
         // width = col === 1 ? (width - 3) : col === 2 ? (width - 2) : width;
@@ -84,11 +86,11 @@ class ImageUtil {
           this.compress(buff)
           .then(data => {
             file.base64 = Buffer.from(data).toString('base64');
-            console.log("ImageUtil - [resize] - FINISH");
+            log.info("FINISH");
             resolve(file);
           })
           .catch(err => {
-            console.log("ImageUtil - [resize - compress] - ERROR -", err.message);
+            log.error(err);
             reject(err);
           })
         } else {
@@ -103,23 +105,23 @@ class ImageUtil {
             this.compress(value)
             .then(data => {
               file.base64 = Buffer.from(data).toString('base64');
-              console.log("ImageUtil - [resize] - FINISH");
+              log.info("FINISH");
               resolve(file);
             })
             .catch(err => {
-              console.log("ImageUtil - [resize - compress] - ERROR -", err.message);
+              log.error(err);
               reject(err);
             })
           })
           .catch(err => {
-              console.log("ImageUtil - [resize - resizeImg] - ERROR -", err.message);
-              reject(err);
+            log.error(err);
+            reject(err);
           })
         }
       } catch (e) {
-        console.log("ImageUtil - [resize] - ERROR -", e.message);
+        log.error(e);
         reject(e);
-        console.log("ImageUtil - [reducesize] - FINISH");
+        log.info("FINISH");
       }
     })
   }
@@ -132,7 +134,7 @@ class ImageUtil {
       }
       return Promise.resolve(true);
     } catch (e) {
-      console.log("ImageUtil - [createPixels - createMatrix] - ERROR -", e.message);
+      log.error(e);
       return Promise.reject(e);
     }
   }
@@ -140,7 +142,7 @@ class ImageUtil {
   createPixels(images, urls) {
     return new Promise((resolve,reject) => {
       try {
-        console.log("ImageUtil - [createPixels] - START");
+        log.info("START");
         const PixelBuilder = new Pixel();
         this.createMatrix(PixelBuilder, images, urls)
         .then(value => {
@@ -153,15 +155,15 @@ class ImageUtil {
 
           PixelBuilder.countPixels(images);
 
-          console.log("ImageUtil - [createPixels - read] - FINISH",);
+          log.info("FINISH");
           resolve({images:imgs, array: PixelBuilder.matrix, counter: PixelBuilder.counter});
         })
         .catch(err => {
-          console.log("ImageUtil - [createPixels] - ERROR -", err.message);
+          log.error(err);
           reject(err)
         })
       } catch (e) {
-        console.log("ImageUtil - [createPixels - generic] - ERROR -", e.message);
+        log.error(e);
         reject(e);
       }
     })

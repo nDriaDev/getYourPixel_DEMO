@@ -1,35 +1,36 @@
+const appRoot = require('app-root-path');
+const log = require(appRoot + '/configs/winston').getLogger();
+const controllers = require(appRoot + '/controllers');
 const router = require('express').Router();
-const auth = require('../authMiddleware');
-const controllers = require('../controllers');
 
 try {
-  console.log("router - [loadApiRoutes] - START")
+  log.info("START")
   router.get(
     '/',
-    controllers.init
+    controllers.initController
   )
   .get(
     '/checkToken',
-    auth,
+    controllers.authMiddlewareController,
     (req, res, next) => {
       res.status(200).send({code:200,message:'Authorized'});
     }
   )
   .post(
     '/email',
-    controllers.mailer.sendMail
+    controllers.mailerController.sendMail
   )
   .get(
     '/sendMailResetPassword',
-    controllers.mailer.sendMailResetPassword
+    controllers.mailerController.sendMailResetPassword
   )
   .post(
     '/products',
-    controllers.stripe.getProduct
+    controllers.stripeController.getProduct
   )
   .post(
     '/create-session',
-    controllers.stripe.createSession
+    controllers.stripeController.createSession
   )
   .get(
     '/getClientsPixels',
@@ -37,42 +38,42 @@ try {
   )
   .post(
     '/saveClient',
-    auth,
+    controllers.authMiddlewareController,
     controllers.mainController.saveClient
   )
   .post(
     '/getClientsFiltered',
-    auth,
+    controllers.authMiddlewareController,
     controllers.mainController.getClientsFiltered
   )
   .post(
     '/getClient',
-    auth,
+    controllers.authMiddlewareController,
     controllers.mainController.getClient
   )
   .post(
     '/editClient',
-    auth,
+    controllers.authMiddlewareController,
     controllers.mainController.editClient
   )
   .post(
     '/deleteClient',
-    auth,
+    controllers.authMiddlewareController,
     controllers.mainController.deleteClient
   )
   .post(
     '/addAdmin',
-    auth,
+    controllers.authMiddlewareController,
     controllers.mainController.addAdmin
   )
   .post(
     '/deleteAdmin',
-    auth,
+    controllers.authMiddlewareController,
     controllers.mainController.deleteAdmin
   )
   .get(
     '/login',
-    controllers.init
+    controllers.initController
   )
   .post(
     '/login',
@@ -84,27 +85,27 @@ try {
   )
   .post(
     '/changePassword',
-    auth,
+    controllers.authMiddlewareController,
     controllers.mainController.changePassword
   )
   .post(
     '/getAdmin',
-    auth,
+    controllers.authMiddlewareController,
     controllers.mainController.getAdmin
   )
   .post(
     '/getAdmins',
-    auth,
+    controllers.authMiddlewareController,
     controllers.mainController.getAdmins
   )
   .get(
     '/countPixels',
-    auth,
+    controllers.authMiddlewareController,
     controllers.mainController.countPixels
   )
   .post(
     '/verifyPassword',
-    auth,
+    controllers.authMiddlewareController,
     controllers.mainController.verifyPassword
   )
   .post(
@@ -113,17 +114,17 @@ try {
   )
   .post(
     '/getUser',
-    auth,
+    controllers.authMiddlewareController,
     controllers.mainController.getUser
   )
   .post(
     '/saveUser',
     controllers.mainController.saveUser,
-    controllers.mailer.sendActivationEmail
+    controllers.mailerController.sendActivationEmail
   )
   .post(
     '/deleteUser',
-    auth,
+    controllers.authMiddlewareController,
     controllers.mainController.deleteUser
   )
   .get(
@@ -136,24 +137,24 @@ try {
   )
   .get(
     '/countUsers',
-    auth,
+    controllers.authMiddlewareController,
     controllers.mainController.countUsers
   )
   .get(
     '/countPoints',
-    auth,
+    controllers.authMiddlewareController,
     controllers.mainController.countPoints
   )
   .get(
     '/logout',
-    auth,
-    controllers.logout
+    controllers.authMiddlewareController,
+    controllers.logoutController
   )
 
-  console.log("router - [loadApiRoutes] - FINISH")
+  log.info("FINISH")
 
 } catch (e) {
-  console.log("router - [loadApiRoutes] - ERROR -", e.message);
+  log.error(e);
   throw e;
 }
 

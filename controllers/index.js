@@ -1,8 +1,9 @@
-const init = require('./init');
-const mailer = require('./email');
+const initController = require('./initController');
+const mailerController = require('./emailController');
 const mainController = require('./mainController');
-const stripe = require('./stripe');
-const logout = require('./logout');
+const stripeController = require('./stripeController');
+const logoutController = require('./logoutController');
+const authMiddlewareController = require('./authMiddlewareController');
 
 
 
@@ -10,9 +11,10 @@ const logout = require('./logout');
 
 module.exports =
 {
-    init,
-    mailer,
-    stripe,
+    initController,
+    mailerController,
+    stripeController,
     mainController,
-    logout,
+    logoutController,
+    authMiddlewareController,
 }

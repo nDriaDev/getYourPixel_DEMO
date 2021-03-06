@@ -1,4 +1,6 @@
-var MainService = require('../mainService');
+const appRoot = require('app-root-path');
+const log = require(appRoot + '/configs/winston').getLogger();
+var MainService = require(appRoot + '/services/mainService');
 var service = new MainService();
 const jwt = require('jsonwebtoken');
 const { v4: uuid } = require('uuid');
@@ -7,7 +9,7 @@ class MainController {
 
   countPoints(req, res, next) {
       try {
-        console.log("main_Controller - [countPoints] - START");
+        log.info("START");
         service.initialize(req.app.locals.db);
         service.countPoints(req.session.email)
           .then(result => {
@@ -18,20 +20,20 @@ class MainController {
             }
           })
           .catch(e => {
-            console.log("main_Controller - [countPoints] - ERROR -", e.message);
+            log.error(e);
             res.status(200).send({code:401,message:e.message});
           })
       } catch (e) {
-        console.log("main_Controller - [countPoints] - ERROR -", e.message);
+        log.error(e);
         next(e.message);
       } finally {
-        console.log("main_Controller - [countPoints] - FINISH");
+        log.info("FINISH");
       }
   }
 
   countUsers(req, res, next) {
       try {
-        console.log("main_Controller - [countUsers] - START");
+        log.info("START");
         service.initialize(req.app.locals.db);
         service.countUsers()
           .then(result => {
@@ -42,20 +44,20 @@ class MainController {
             }
           })
           .catch(e => {
-            console.log("main_Controller - [countUsers] - ERROR -", e.message);
+            log.error(e);
             res.status(200).send({code:500,message:e.message});
           })
       } catch (e) {
-        console.log("main_Controller - [countUsers] - ERROR -", e.message);
+        log.error(e);
         next(e.message);
       } finally {
-        console.log("main_Controller - [countUsers] - FINISH");
+        log.info("FINISH");
       }
   }
 
   getUser(req, res, next) {
       try {
-        console.log("main_Controller - [getUser] - START");
+        log.info("START");
         let email = req.body.email ? req.body.email : req.session.email;
         service.initialize(req.app.locals.db);
         service.getUser(email)
@@ -67,20 +69,20 @@ class MainController {
             }
           })
           .catch(e => {
-            console.log("main_Controller - [getUser] - ERROR -", e.message);
+            log.error(e);
             res.status(200).send({code:500,message:e.message});
           })
       } catch (e) {
-        console.log("main_Controller - [getUser] - ERROR -", e.message);
+        log.error(e);
         next(e.message);
       } finally {
-        console.log("main_Controller - [getUser] - FINISH");
+        log.info("FINISH");
       }
   }
 
   loginUser(req, res, next) {
       try {
-        console.log("main_Controller - [loginUser] - START");
+        log.info("START");
         service.initialize(req.app.locals.db);
         service.loginUser(req.body)
           .then(result => {
@@ -96,20 +98,20 @@ class MainController {
             }
           })
           .catch(e => {
-            console.log("main_Controller - [loginUser] - ERROR -", e.message);
+            log.error(e);
             next(e.message);
           })
       } catch (e) {
-        console.log("main_Controller - [loginUser] - ERROR -", e.message);
+        log.error(e);
         next(e.message);
       } finally {
-        console.log("main_Controller - [loginUser] - FINISH");
+        log.info("FINISH");
       }
   }
 
   saveUser(req, res, next) {
       try {
-        console.log("main_Controller - [saveUser] - START");
+        log.info("START");
         service.initialize(req.app.locals.db);
         service.saveUser(req.body)
           .then(result => {
@@ -117,20 +119,20 @@ class MainController {
             next();
           })
           .catch(e => {
-            console.log("main_Controller - [saveUser] - ERROR -", e.message);
+            log.error(e);
             res.status(200).send({code:500,message:e.message});
           })
       } catch (e) {
-        console.log("main_Controller - [saveUser] - ERROR -", e.message);
+        log.info("main_Controller - [saveUser] - ERROR -", e.message);
         next(e.message);
       } finally {
-        console.log("main_Controller - [saveUser] - FINISH");
+        log.info("FINISH");
       }
   }
 
   activeUser(req, res, next) {
     try {
-      console.log("main_Controller - [activeUser] - START");
+      log.info("START");
       service.initialize(req.app.locals.db);
       service.activeUser({activeToken:req.params.activeToken})
       .then(result => {
@@ -141,20 +143,20 @@ class MainController {
         }
       })
       .catch(err => {
-        console.log("main_Controller - [activeUser] - ERROR -", err.message);
+        log.error(err);
         next(err.message)
       })
     } catch (e) {
-      console.log("main_Controller - [activeUser] - ERROR -", e.message);
+      log.error(e);
       next(e.message);
     } finally {
-      console.log("main_Controller - [activeUser] - FINISH");
+      log.info("FINISH");
     }
   }
 
   deleteUser(req, res, next) {
     try {
-      console.log("main_Controller - [deleteUser] - START");
+      log.info("START");
       service.initialize(req.app.locals.db);
       service
       .deleteUser({email: req.body.email ? req.body.email : req.session.email})
@@ -165,36 +167,36 @@ class MainController {
         res.status(200).send(err)
       })
     } catch (e) {
-      console.log("main_Controller - [deleteUser] - ERROR", e.message);
+      log.error(e);
       next(e.message);
     } finally {
-      console.log("main_Controller - [deleteUser] - FINISH");
+      log.info("FINISH");
     }
   }
 
   saveClick(req, res, next) {
       try {
-        console.log("main_Controller - [saveClick] - START");
+        log.info("START");
         service.initialize(req.app.locals.db);
         service.saveClick(req.session.email, req.body.url)
           .then(result => {
             res.status(200).send(result)
           })
           .catch(e => {
-            console.log("main_Controller - [saveClick] - ERROR -", e.message);
+            log.error(e);
             res.status(200).send({code:500,message:e.message});
           })
       } catch (e) {
-        console.log("main_Controller - [saveClick] - ERROR -", e.message);
+        log.error(e);
         next(e.message);
       } finally {
-        console.log("main_Controller - [saveClick] - FINISH");
+        log.info("FINISH");
       }
   }
 
   getAdmin(req, res, next) {
       try {
-        console.log("main_Controller - [getAdmin] - START");
+        log.info("START");
         let email = req.body.email ? req.body.email : req.session.email;
         service.initialize(req.app.locals.db);
         service.getAdmin(email)
@@ -210,20 +212,20 @@ class MainController {
             }
           })
           .catch(e => {
-            console.log("main_Controller - [getAdmin] - ERROR -", e.message);
+            log.error(e);
             res.status(200).send({code:500,message:e.message});
           })
       } catch (e) {
-        console.log("main_Controller - [getAdmin] - ERROR -", e.message);
+        log.error(e);
         next(e.message);
       } finally {
-        console.log("main_Controller - [getAdmin] - FINISH");
+        log.info("FINISH");
       }
   }
 
   getAdmins(req, res, next) {
       try {
-        console.log("main_Controller - [getAdmins] - START");
+        log.info("START");
         let type = req.body.type ? req.body.type : null;
         service.initialize(req.app.locals.db);
         service.getAdmins(type)
@@ -231,40 +233,40 @@ class MainController {
             res.status(200).send(result)
           })
           .catch(e => {
-            console.log("main_Controller - [getAdmins] - ERROR -", e.message);
+            log.error(e);
             res.status(200).send({code:500,message:e.message});
           })
       } catch (e) {
-        console.log("main_Controller - [getAdmins] - ERROR -", e.message);
+        log.error(e);
         next(e.message);
       } finally {
-        console.log("main_Controller - [getAdmins] - FINISH");
+        log.info("FINISH");
       }
   }
 
   addAdmin(req, res, next) {
       try {
-        console.log("main_Controller - [addAdmin] - START");
+        log.info("START");
         service.initialize(req.app.locals.db);
         service.addAdmin(req.body)
           .then(result => {
             res.status(200).send(result)
           })
           .catch(e => {
-            console.log("main_Controller - [addAdmin] - ERROR -", e.message);
+            log.error(e);
             res.status(200).send({code:500,message:e.message});
           })
       } catch (e) {
-        console.log("main_Controller - [addAdmin] - ERROR -", e.message);
+        log.error(e);
         next(e.message);
       } finally {
-        console.log("main_Controller - [addAdmin] - FINISH");
+        log.info("FINISH");
       }
   }
 
   deleteAdmin(req, res, next) {
     try {
-      console.log("main_Controller - [deleteAdmin] - START");
+      log.info("START");
       service.initialize(req.app.locals.db);
       service
       .deleteAdmin({email: req.body.email})
@@ -275,16 +277,16 @@ class MainController {
         res.status(200).send(err)
       })
     } catch (e) {
-      console.log("main_Controller - [deleteAdmin] - ERROR", e.message);
+      log.error(e);
       next(e.message);
     } finally {
-      console.log("main_Controller - [deleteAdmin] - FINISH");
+      log.info("FINISH");
     }
   }
 
   login(req, res, next) {
       try {
-        console.log("main_Controller - [login] - START");
+        log.info("START");
         service.initialize(req.app.locals.db);
         service.login(req.body)
           .then(result => {
@@ -300,20 +302,20 @@ class MainController {
             }
           })
           .catch(e => {
-            console.log("main_Controller - [login] - ERROR -", e.message);
+            log.error(e);
             next(e.message);
           })
       } catch (e) {
-        console.log("main_Controller - [login] - ERROR -", e.message);
+        log.error(e);
         next(e.message);
       } finally {
-        console.log("main_Controller - [login] - FINISH");
+        log.info("FINISH");
       }
     }
 
   verifyPassword(req, res, next) {
     try {
-      console.log("main_Controller - [verifyPassword] - START");
+      log.info("START");
       service.initialize(req.app.locals.db);
       service
       .verifyPassword({email: req.session.email, password: req.body.password})
@@ -324,36 +326,36 @@ class MainController {
         res.status(200).send(err)
       })
     } catch (e) {
-      console.log("main_Controller - [verifyPassword] - ERROR", e.message);
+      log.error(e);
       next(e.message);
     } finally {
-      console.log("main_Controller - [verifyPassword] - FINISH");
+      log.info("FINISH");
     }
   }
 
   getClientsPixels(req, res, next) {
     try {
-      console.log("main_Controller - [getClientsPixels] - START");
+      log.info("START");
       service.initialize(req.app.locals.db);
       service.getClientsPixels(req.session.email, req.session.type)
       .then(result => {
         res.status(200).send(result);
       })
       .catch(err => {
-        console.log("main_Controller - [getClientsPixels] - ERROR -", err.message);
+        log.error(err);
         next(err);
       })
     } catch (e) {
-      console.log("main_Controller - [getClientsPixels] - ERROR -", e.message);
+      log.error(e);
       next(e.message);
     } finally {
-      console.log("main_Controller - [getClientsPixels] - FINISH");
+      log.info("FINISH");
     }
   }
 
   getClient(req, res, next) {
     try {
-      console.log("main_Controller - [getClient] - START");
+      log.info("START");
       service.initialize(req.app.locals.db);
       service.getClient(req.body)
       .then(result => {
@@ -364,20 +366,20 @@ class MainController {
         }
       })
       .catch(err => {
-        console.log("main_Controller - [getClient] - ERROR -", err.message);
+        log.error(err);
         next(err.message);
       })
     } catch (e) {
-      console.log("main_Controller - [getClient] - ERROR -", e.message);
+      log.error(e);
       next(e.message);
     } finally {
-      console.log("main_Controller - [getClient] - FINISH");
+      log.info("FINISH");
     }
   }
 
   editClient(req, res, next) {
     try {
-      console.log("main_Controller - [editClient] - START");
+      log.info("START");
       service.initialize(req.app.locals.db);
       service.editClient(req.body)
       .then(result => {
@@ -388,60 +390,60 @@ class MainController {
         }
       })
       .catch(err => {
-        console.log("main_Controller - [editClient] - ERROR -", err.message);
+        log.error(err);
         next(err);
       })
     } catch (e) {
-      console.log("main_Controller - [editClient] - ERROR -", e.message);
+      log.error(e);
       next(e.message);
     } finally {
-      console.log("main_Controller - [editClient] - FINISH");
+      log.info("FINISH");
     }
   }
 
   saveClient(req, res, next) {
     try {
-      console.log("main_Controller - [saveClient] - START");
+      log.info("START");
       service.initialize(req.app.locals.db);
       service.saveClient(req.body)
       .then(result => {
         res.status(200).send(result);
       })
       .catch(err => {
-        console.log("main_Controller - [saveClient] - ERROR -", err.message);
+        log.error(err);
         next(err);
       })
     } catch (e) {
-      console.log("main_Controller - [saveClient] - ERROR -", e.message);
+      log.error(e);
       next(e.message);
     } finally {
-      console.log("main_Controller - [saveClient] - FINISH");
+      log.info("FINISH");
     }
   }
 
   getClientsFiltered(req, res, next) {
     try {
-      console.log("main_Controller - [getClientsFiltered] - START");
+      log.info("START");
       service.initialize(req.app.locals.db);
       service.getClientsFiltered(req.body)
       .then(result => {
         res.status(200).send(result);
       })
       .catch(err => {
-        console.log("main_Controller - [getClientsFiltered] - ERROR -", err.message);
+        log.error(err);
         res.status(500).send(err);
       })
     } catch (e) {
-      console.log("main_Controller - [getClientsFiltered] - ERROR -", e.message);
+      log.error(e);
       next(e.message);
     } finally {
-      console.log("main_Controller - [getClientsFiltered] - FINISH");
+      log.info("FINISH");
     }
   }
 
   deleteClient(req, res, next) {
     try {
-      console.log("main_Controller - [deleteClient] - START");
+      log.info("START");
       service.initialize(req.app.locals.db);
       service
       .deleteClient(req.body)
@@ -452,16 +454,16 @@ class MainController {
         res.status(200).send(err)
       })
     } catch (e) {
-      console.log("main_Controller - [deleteClient] - ERROR", e.message);
+      log.error(e);
       next(e.message);
     } finally {
-      console.log("main_Controller - [deleteClient] - FINISH");
+      log.info("FINISH");
     }
   }
 
   countPixels(req, res, next) {
     try {
-      console.log("main_Controller - [countPixel] - START");
+      log.info("START");
       service.initialize(req.app.locals.db);
       service
       .countPixels()
@@ -472,16 +474,16 @@ class MainController {
         res.status(200).send(err)
       })
     } catch (e) {
-      console.log("main_Controller - [countPixel] - ERROR", e.message);
+      log.error(e);
       next(e.message);
     } finally {
-      console.log("main_Controller - [countPixel] - FINISH");
+      log.info("FINISH");
     }
   }
 
   resetPassword(req, res, next) {
     try {
-      console.log("main_Controller - [resetPassword] - START");
+      log.info("START");
       service.initialize(req.app.locals.db);
       service.resetPassword(req.body)
       .then(result => {
@@ -504,7 +506,7 @@ class MainController {
           */
           req.session.save(function(err) {
             if(err) {
-              console.log("main_Controller - [resetPassword - session] - ERROR", err);
+              log.error(err);
             } else {
               res.redirect('/api/sendMailResetPassword');
             }
@@ -512,20 +514,20 @@ class MainController {
         }
       })
       .catch(err => {
-        console.log("main_Controller - [resetPassword] - ERROR", err.message);
+        log.error(err);
         next(err.message);
       })
     } catch (e) {
-      console.log("main_Controller - [resetPassword] - ERROR", e.message);
+      log.error(e);
       next(e.message);
     } finally{
-      console.log("main_Controller - [resetPassword] - FINISH");
+      log.info("FINISH");
     }
   }
 
   changePassword(req, res, next) {
     try {
-      console.log("main_Controller - [changePassword] - START");
+      log.info("START");
       service.initialize(req.app.locals.db);
       service
       .changePassword({body:req.body, email:req.session.email})
@@ -533,14 +535,14 @@ class MainController {
         res.status(200).send({code:200,message:"Il cambio password è avvenuto correttamente"})
       })
       .catch(err => {
-        console.log("main_Controller - [changePassword] - ERROR", err.message);
+        log.error(err);
         next(err.message);
       })
     } catch (e) {
-      console.log("main_Controller - [changePassword] - ERROR", e.message);
+      log.error(e);
       next(e.message);
     } finally {
-      console.log("main_Controller - [changePassword] - FINISH");
+      log.info("FINISH");
     }
   }
 }

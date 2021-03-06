@@ -1,14 +1,62 @@
 const util = require('lzutf8');
+const lzma = require('lzma-native');
 const chilkat = require('@chilkat/ck-node14-linux64');
+const appRoot = require('app-root-path');
+const log = require(appRoot + '/configs/winston').getLogger();
 
 class CompressorUtil {
   constructor() {
     this.compress = new chilkat.Compression();
     this.compress.Algorithm = "deflate";
   }
+
+
+  compressLZMA(input){
+      log.info("START");
+      debugger;
+      return new Promise((resolve,reject) => {
+        try {
+          lzma.compress(input,7)
+          .then(res => {
+            resolve(res)
+          })
+          .catch(e => {
+            throw e;
+          })
+        } catch (e) {
+          log.error(e);
+          reject(e);
+        } finally {
+          log.info("FINISH")
+        }
+      })
+  }
+
+  decompressLZMA(input) {
+    log.info("START");
+    debugger;
+    return new Promise((resolve,reject) => {
+      try {
+        lzma.decompress(input.buffer)
+        .then(res => {
+          resolve(res.toString())
+        })
+        .catch(e => {
+          log.error(e);
+          reject(e);
+        })
+      } catch (e) {
+        log.error(e);
+        reject(e);
+      } finally {
+        log.info("FINISH")
+      }
+    })
+  }
+
   compressChilkat(input){
       return new Promise((resolve,reject) => {
-        console.log("CompressionUtil - [compressChilkat] - START");
+        log.info("START");
         try {
           let binDat = new chilkat.BinData();
           // Load the base64 data into a BinData object.
@@ -21,17 +69,17 @@ class CompressorUtil {
           // Get the compressed data in base64 format:
           resolve(binDat.GetEncoded("base64"));
         } catch (e) {
-          console.log("CompressionUtil - [compressChilkat] - ERROR", e.message);
+          log.error(e);
           resolve(this.compress(input));
         } finally {
-          console.log("CompressionUtil - [compressChilkat] - FINISH");
+          log.info("FINISH");
         }
       })
   }
 
   decompressChilkat(input){
       return new Promise((resolve,reject) => {
-        console.log("CompressionUtil - [decompressChilkat] - START");
+        log.info("START");
         try {
           let binDat = new chilkat.BinData();
           // Load the base64 data into a BinData object.
@@ -44,23 +92,23 @@ class CompressorUtil {
           // Get the compressed data in base64 format:
           resolve(binDat.GetEncoded("base64"));
         } catch (e) {
-          console.log("CompressionUtil - [decompressChilkat] - ERROR", e.message);
+          log.error(e);
           resolve(this.decompress(input));
         } finally {
-          console.log("CompressionUtil - [decompressChilkat] - FINISH");
+          log.info("FINISH");
         }
       })
   }
 
   compress(input) {
     return new Promise((resolve,reject) => {
-      console.log("CompressorUtil - [compress] - START");
+      log.info("START");
       util.compressAsync(input, {outputEncoding:"Base64"}, (result, error) => {
         if(error) {
-          console.log("CompressorUtil - [compress] - ERROR", error.message);
+          log.error(error);
           reject(error);
         } else {
-          console.log("CompressorUtil - [compress] - FINISH");
+          log.info("FINISH");
           resolve(result);
         }
       })
@@ -69,13 +117,13 @@ class CompressorUtil {
 
   decompress(input) {
     return new Promise((resolve,reject) => {
-      console.log("CompressorUtil - [decompress] - START");
+      log.info("START");
       util.decompressAsync(input, {inputEncoding: "Base64", outputEncoding: "String"}, (result, error) => {
         if(error) {
-          console.log("CompressorUtil - [decompress] - ERROR", error.message);
+          log.error(error);
           reject(error);
         } else {
-          console.log("CompressorUtil - [decompress] - FINISH");
+          log.info("FINISH");
           resolve(result);
         }
       })

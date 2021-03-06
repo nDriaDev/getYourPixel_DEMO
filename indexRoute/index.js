@@ -1,17 +1,19 @@
 const router = require('express').Router();
 const controllers = require('../controllers');
+const appRoot = require('app-root-path');
+const log = require(appRoot + '/configs/winston').getLogger();
 
 try {
-  console.log("router - [loadIndexRoute] - START")
+  log.info("START")
   router.get(
     '*',
-    controllers.init
+    controllers.initController
   )
 
-  console.log("router - [loadIndexRoute] - FINISH")
+  log.info("FINISH")
 
 } catch (e) {
-  console.log("router - [loadIndexRoute] - ERROR -", e.message);
+  log.error(e);
   throw e;
 }
 
