@@ -6,8 +6,7 @@ class TrackingGA {
     let id = process.env.GA_TRACKING_ID ?
       process.env.GA_TRACKING_ID
       :
-      // '<your tracking_id here>'
-      'UA-190924036-1'
+      '<your tracking_id here>'
 
     ReactGA.initialize(id, {
       // debug:true
