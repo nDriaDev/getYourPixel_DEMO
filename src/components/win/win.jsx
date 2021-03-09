@@ -26,6 +26,14 @@ const Win = (props) => {
       <br/>
       <br/>
       <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
+        Per evitare di fare confusione e non ricordare pi&ugrave; quale pubblicità avete gi&agrave; guardato, dopo aver effettuato l’accesso con le vostre credenziali, vedrete nell’angolo in basso a destra di ogni immagine un quadratino. Questo quadratino sar&agrave; di
+        colore rosso se non avete ancora visitato il sito sponsorizzato, mentre sar&agrave; di colore verde se l’avete gi&agrave; visitato e quindi avete gi&agrave; ottenuto il punto.
+      </span>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
         Ecco gli step da seguire:
       </span>
       <br/>
@@ -76,6 +84,8 @@ const Win = (props) => {
             </span>
           </li>
         </ol>
+        <br/>
+        <br/>
         <br/>
         <h5>
           ATTENZIONE!
