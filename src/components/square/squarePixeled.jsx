@@ -60,8 +60,8 @@ const SquarePixeled = ({enableSpinner,disableSpinner, setAuth, setCounter}) =>{
         //   if (result.data.code === 200) {
         //     // sessionStorage.clear();
         //     setAuth(false, false);
-            disableSpinner();
             window.location.assign(url.indexOf('http') === -1 ? 'http://' + url : url);
+            disableSpinner();
         //   } else {
         //     throw new Error(result.data.message);
         //   }
@@ -74,8 +74,8 @@ const SquarePixeled = ({enableSpinner,disableSpinner, setAuth, setCounter}) =>{
         // })
       })
       .catch(err => {
-        disableSpinner();
         window.location.assign(url.indexOf('http') === -1 ? 'http://' + url : url);
+        disableSpinner();
       })
     }
   }

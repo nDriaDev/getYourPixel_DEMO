@@ -148,6 +148,14 @@ class ImageUtil {
         .then(value => {
           // Versione che torna la matrice sotto forma di unico array
           // let array = PixelBuilder.matrixToArray();
+
+          /**
+           * Build a canvas DataURL
+           *
+           */
+          // debugger;
+          // let dataUrl = PixelBuilder.createCanvas(images);
+
           let imgs = [];
           for(let i in images) {
             imgs.push(images[i].file.base64);
@@ -156,7 +164,7 @@ class ImageUtil {
           PixelBuilder.countPixels(images);
 
           log.info("FINISH");
-          resolve({images:imgs, array: PixelBuilder.matrix, counter: PixelBuilder.counter});
+          resolve({images:imgs, array: PixelBuilder.subMatrix(100), counter: PixelBuilder.counter});
         })
         .catch(err => {
           log.error(err);

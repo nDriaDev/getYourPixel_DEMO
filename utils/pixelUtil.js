@@ -1,5 +1,7 @@
 const appRoot = require('app-root-path');
 const log = require(appRoot + '/configs/winston').getLogger();
+const { createCanvas, loadImage, Image } = require('canvas');
+const fs = require('fs');
 
 class PixelUtil {
   _cursore;
@@ -179,6 +181,10 @@ class PixelUtil {
         for(let j=this._cursore.col; j<limitCol && j<this._matrix[i].length; j++) {
           this._matrix[i][j] = {
             url:image.url,
+            //AGGIUNT£ PER CANVAS
+            w: image.col,
+            h: image.row,
+            //////////////////
             style:{
               borderTop: this._isEstremoSup(indiceBlocco,width,height) ? '0.2px solid black' : 'unset',
               borderRight: this._isEstremoDx(indiceBlocco,width,height) ? '0.2px solid black' : 'unset',
@@ -244,6 +250,82 @@ class PixelUtil {
       throw e;
     }
     log.info("FINISH");
+  }
+
+  //costruisce un data url canvas con tutte le immagini e restituisce un oggetto con dataURL e coords (coordinate dimensioni varie immagini e testo tooltip)
+  createCanvas(images) {
+    let canvas = createCanvas(((152*10) +152+1),((264*10)+264+1));
+    let ctx = canvas.getContext('2d');
+    let init = {
+      w: 1,
+      h:1
+    }
+    let coords = [];
+    let visited = [];
+
+    try {
+      loadImage(appRoot + '/resources/WhiteSquare.png').then(image => {
+        for(let i in this._matrix) {
+          init.w = 1;
+          for(let j in this._matrix[i]) {
+            if(this._matrix[i][j].url) {
+              if(!visited.includes(this._matrix[i][j].image)) {
+                let img = new Image();
+                ctx.drawImage(image,init.w,init.h,(this._matrix[i][j].w*10)+this._matrix[i][j].w, (this._matrix[i][j].h*10)+this._matrix[i][j].w);
+                let w = init.w + (this._matrix[i][j].col*10) + this._matrix[i][j].col;
+                let h = init.h + (this._matrix[i][j].row*10) + this._matrix[i][j].row;
+                coords.push({
+                  tooltip: this._matrix[i][j].url,
+                  coords: init.w + "," + init.h + "," + w +"," + h
+                })
+                init.w = w;
+                visited.push(this._matrix[i][j].image);
+              }
+            } else {
+              //WhiteSquare
+              ctx.drawImage(
+                image,
+                init.w,
+                init.h,
+                10+1,
+                10+1
+              )
+              let w = init.w + 10 + 1;
+              let h = init.h + 10 + 1;
+              coords.push({
+                tooltip: "("+ (i+1) + "," + (j+1) + ")",
+                coords: init.w + "," + init.h + "," + w +"," + h
+              })
+              init.w = w;
+            }
+          }
+        }
+
+        return {
+          dataURL: canvas.toDataURL(),
+          coords: coords
+        }
+      })
+    } catch (e) {
+      log.error(e);
+    } finally {
+
+    }
+  }
+
+  /**
+   * restituisce una sottoMatrice di quella originale con un numero di righe pari a quelle indicate
+   * @param numRows
+   * @return {matrix}
+   */
+  subMatrix(numRows) {
+    let mat = []
+    for(let i in this._matrix) {
+      if(i<=numRows){
+        mat.push(this._matrix[i]);
+      }
+    }
+    return mat;
   }
 
   //restituisce il totale dei pixel venduti e quelli disponibili
