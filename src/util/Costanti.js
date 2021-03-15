@@ -7,21 +7,12 @@ let Const = {
   PATH_MANAGE: '/manage',
   PATH_LOGIN: '/login',
   PATH_REGISTER: '/register',
+  PATH_TERM_AND_CONDITIONS: '/termsAndConditions',
   PATH_ERROR: '/error',
-  MOBILE_BROWSER: [
-    /Android/i,
-    /webOS/i,
-    /iPhone/i,
-    /iPad/i,
-    /iPod/i,
-    /BlackBerry/i,
-    /Windows Phone/i
-  ],
+  MOBILE_BROWSER_REGEX: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Windows Phone/i,
   isMobileBrowser(agent){
-    for(let i in this.MOBILE_BROWSER){
-      if(agent.match(this.MOBILE_BROWSER[i])){
+    if(this.MOBILE_BROWSER_REGEX.test(agent)) {
         return true;
-      }
     }
     return false;
   },

@@ -8,7 +8,10 @@ const COLLECTION_ADMIN = '_admin';
 const COLLECTION_USER = '_user';
 const COLLECTION_CLICK = '_click';
 const COLLECTION_CLIENT = '_client';
+const COLLECTION_GRID = '_grid';
 const SALT_ROUNDS = 10;
+const CANVAS_NAME = "CANVAS";
+const DEFAULT_SQUARES = "DEFAULT_SQUARES";
 
 class MainService {
   constructor() {
@@ -237,6 +240,9 @@ class MainService {
     })
   }
 
+  /**
+   * Vecchia Gestione: calcolava la griglia e la tornava a frontend con un elemento per immagine
+   */
   getClientsPixels(email, type) {
     log.info("START");
     return new Promise((resolve, reject) => {
@@ -335,6 +341,214 @@ class MainService {
             })
           })
         }
+      } catch (e) {
+        log.error(e);
+        reject(e);
+      } finally {
+        log.info("FINISH");
+      }
+    })
+  }
+
+  /**
+   * Nuova Gestione: Legge il canvas da DB e se non c'è lo crea (vuol dire che ancora non ci sono immagini)
+   */
+  getClientsPixels_V2(email, type) {
+    log.info("START");
+    return new Promise((resolve, reject) => {
+      try {
+        this.db
+        .collection(COLLECTION_GRID)
+        .findOne({
+          "name": CANVAS_NAME
+        }, {
+          projection: {
+            "_id": 0,
+          }
+        })
+        .then(result => {
+          if(result) {
+            delete result.name;
+            Compressor.decompressLZMA(result.canvas.dataURL)
+            .then(val => {
+              result.canvas.dataURL = val;
+              if(email && type === 'Client') {
+                this.countPoints(email)
+                .then(res => {
+                  this.db
+                  .collection(COLLECTION_GRID)
+                  .findOne({
+                    "name": DEFAULT_SQUARES
+                  }, {
+                    projection: {
+                      "_id": 0,
+                    }
+                  })
+                  .then(squares => {
+                    if(squares) {
+                      ImageBuilder.createLabelVisitedUnvisited(res.list, squares, result)
+                      .then(res => {
+                        let logUser = type === 'Client' ? 'Client' : 'Admin';
+                        res.type = logUser;
+                        resolve(res);
+                      })
+                      .catch(e => {
+                        log.error(e);
+                        reject(e);
+                      })
+                    }
+                  })
+                })
+              } else {
+                if(email && type !== 'Client') {
+                  result.type = 'Admin';
+                }
+                resolve(result);
+              }
+            })
+          } else {
+            this.createCanvas()
+            .then(result => {
+              this.db
+              .collection(COLLECTION_GRID)
+              .findOne({
+                "name": CANVAS_NAME
+              }, {
+                projection: {
+                  "_id": 0,
+                }
+              })
+              .then(result => {
+                if(result) {
+                  delete result.name;
+                  Compressor.decompressLZMA(result.canvas.dataURL)
+                  .then(val => {
+                    result.canvas.dataURL = val;
+                    resolve(result)
+                  })
+                } else {
+                  let err = new Error("Errore durante la lettura del canvas dopo la creazione");
+                  reject(err);
+                }
+              })
+              .catch(err => {
+                log.error(err);
+                reject(err);
+              })
+            })
+            .catch(e => {
+              log.error(e);
+              reject(e);
+            })
+          }
+        })
+        .catch(err => {
+          log.error(err);
+          reject(err);
+        })
+      } catch (e) {
+        log.error(e);
+        reject(e);
+      } finally {
+        log.info("FINISH");
+      }
+    })
+  }
+
+  /**
+   * Chiamato ad ogni salvattagio o modifica di un cliente: calcola un canvas da tutte le immagini e lo salva a db
+   */
+  createCanvas() {
+    log.info("START");
+    return new Promise((resolve, reject) => {
+      try {
+        this.db
+        .collection(COLLECTION_CLIENT)
+        .find({
+        }, {
+          sort: {
+            "date": 1
+          },
+          projection: {
+            "_id": 0,
+            "email": 0,
+            "company": 0,
+            "date": 0
+          }
+        })
+        .toArray()
+        .then(items => {
+          var promises = [];
+          for (let i in items) {
+            promises.push(Compressor.decompressLZMA(items[i].file.base64)
+            .then(value => {
+              // items[i].file.base64 = 'data:' + items[i].file.type + ';base64,' + value;
+              items[i].file.base64 = value;
+              return (items[i]);
+            })
+            .catch(err => {
+              return (err);
+            }))
+          }
+          Promise.all(promises)
+          .then(values => {
+            this.db
+            .collection(COLLECTION_GRID)
+            .findOne({
+              "name": DEFAULT_SQUARES
+            }, {
+              projection: {
+                "_id": 0,
+              }
+            })
+            .then(squares => {
+              if(squares) {
+                ImageBuilder.createCanvas(values, squares)
+                .then(value => {
+                  Compressor.compressLZMA(value.canvas.dataURL)
+                  .then(result => {
+                    value.canvas.dataURL = result;
+                    let val = {
+                      name: CANVAS_NAME,
+                      ...value
+                    }
+                    let query = {name: CANVAS_NAME};
+                    let update = { $set: val};
+                    let options = {upsert: true};
+                    this.db
+                    .collection(COLLECTION_GRID)
+                    .updateOne(query, update, options)
+                    .then(result => {
+                      const {
+                        matchedCount,
+                        modifiedCount,
+                        upsertedCount
+                      } = result;
+                      if (upsertedCount || (matchedCount && modifiedCount)) {
+                        resolve(true);
+                      } else {
+                        reject(new Error("Errore durante salvataggio canvas"))
+                      }
+                    })
+                    .catch( e => {throw new Error(e)})
+                  })
+                })
+                .catch(err => {
+                  log.error(err);
+                  reject(err);
+                })
+              }
+            })
+            .catch(e => {
+              log.error(e);
+              reject(e);
+            })
+          })
+          .catch(err => {
+            log.error(err);
+            reject(err);
+          })
+        })
       } catch (e) {
         log.error(e);
         reject(e);
@@ -641,9 +855,7 @@ class MainService {
                           if (matchedCount && modifiedCount) {
                             resolve("Dati modificati correttamente")
                           } else {
-                            reject({
-                              message: "Non e' stato possibile modificare i dati del cliente"
-                            })
+                            reject(new Error("Non e' stato possibile modificare i dati del cliente"))
                           }
                         })
                         .catch(err => {
@@ -1833,7 +2045,7 @@ class MainService {
     return new Promise((resolve, reject) => {
       try {
         if(!emailClient) {
-          resolve("Click non salvato poiche' non è un utente loggato");
+          resolve({code:401,message:"Click non salvato poiche' non è un utente loggato"});
         }
         this.db
           .collection(COLLECTION_ADMIN)

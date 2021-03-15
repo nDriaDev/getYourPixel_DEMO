@@ -181,10 +181,6 @@ class PixelUtil {
         for(let j=this._cursore.col; j<limitCol && j<this._matrix[i].length; j++) {
           this._matrix[i][j] = {
             url:image.url,
-            //AGGIUNT£ PER CANVAS
-            w: image.col,
-            h: image.row,
-            //////////////////
             style:{
               borderTop: this._isEstremoSup(indiceBlocco,width,height) ? '0.2px solid black' : 'unset',
               borderRight: this._isEstremoDx(indiceBlocco,width,height) ? '0.2px solid black' : 'unset',
@@ -252,65 +248,185 @@ class PixelUtil {
     log.info("FINISH");
   }
 
-  //costruisce un data url canvas con tutte le immagini e restituisce un oggetto con dataURL e coords (coordinate dimensioni varie immagini e testo tooltip)
-  createCanvas(images) {
-    let canvas = createCanvas(((152*10) +152+1),((264*10)+264+1));
-    let ctx = canvas.getContext('2d');
-    let init = {
-      w: 1,
-      h:1
-    }
-    let coords = [];
-    let visited = [];
+  /**
+  * Restituisce un dataURL base64 costruito tramite canvas con tutte le immagini e coords (coordinate delle aree delle varie immagini, testo tooltip, url e indice dell'immagine relativa)
+  * <numero riga: Descrizione>
+  * 291: (CONSIDERARE DI LEGGERLA DA DB) Carico l'immagine del quadratino bianco: è tutto bianco, il distacco lo crea il createCanvas
+  * 292: Itero sulle righe della griglia(264 righe)
+  * 293-294: Ad ogni iterazione riporto il cursore di avanzamento larghezza a 0 e incremento quello di avanzamento altezza di 11 (10 del singolo quadrato in griglia e 1 di distacco)
+  * 295: Itero sulle colonne della griglia(152 colonne)
+  * 296: Se la matrice in quella posizione ha un url allora li ho un Immagine
+  * 297: Se l'array "visited" non contiene il riferimento all'immagine vuol dire che la sto incontrando per la prima volta
+  * 298-301: Costruisco le variabili temporanee per l'oggetto riferito all'immagine specifica(obj), per i quadrati in larghezza(wImg) e altezza(hImg), per il base64(a)
+  * 302-310: Costrutisco la variabile temporanea img e tramite onload() creo l'immagine con il base64 e la carico nel context del canvas
+  * a partire dai valori del cursore init :le dimensioni le ottengo invece moltiplicando per 11 il numero di quadrati per riga e colonna
+  * e sottraendo uno; questo perché per ogni quadratino occupato (che misura 10px) devo considerare 1 pixel di distacco, e l'ultimo pixel
+  * di distacco lo sottraggo perche' sara poi il cursore a inserirlo nella sua posizione (init.h a riga 273 e init.w a riga 308). In questo
+  * modo non ho disallineamenti tra i quadratini
+  * 311-318: costruisco i dati dell'immagine in questione: tooltip, url,image(riferimento all'immagine), e points(coordinate spaziali dell'immagine)
+  * 319: avanzo il cursore di init.w di 1 per il distacco dall'immagine in questione
+  * 320: avanzo la variabile di iterazione sulle colonne di quanti sono i quadratini per colonna dell'immagine in questione, poiche' queste
+  * posizioni sono occupate da questa immagine, e sottraggo uno poiche il ciclo incrementera' di default di 1 la variabile alla prossima iterazione
+  * 321: inserisco il riferimento all'immagine nell'array delle immagini visitate "visited"
+  * 323-326: se l'array "visited" contiene il riferimento all'immagine, devo solo avanzare init.w e j dei quadratini per colonna di questa
+  * immagine poiche' sono posizioni occupate dalla stessa
+  * 330-343: Se la matrice in quella posizione non ha un url allora devo aggiungere un quadratino bianco come fatto per l'immagine ma le dimensioni saranno 10x10 e
+  * incremento init.w di 10 + 1 per il distacco e costruisco i dati del quadratino
+  * 348-352: ottengo i dati che mi servono cioe' il dataURL del canvas(un base64 che potro usare come src di um immagine) e i dati di ogni singola immagine/quadratino
+  */
+  createCanvas(images, squares) {
+    return new Promise((resolve,reject) => {
+      let canvas = createCanvas(((152*11)),((264*11)));
+      let ctx = canvas.getContext('2d');
+      let init = {
+        w: 0,
+        h:-11
+      }
+      let coords = [];
+      let visited = [];
 
-    try {
-      loadImage(appRoot + '/resources/WhiteSquare.png').then(image => {
+      try {
         for(let i in this._matrix) {
-          init.w = 1;
-          for(let j in this._matrix[i]) {
+          init.h += 11;
+          init.w = 0;
+          for(let j=0; j<this._matrix[i].length; j++) {
             if(this._matrix[i][j].url) {
               if(!visited.includes(this._matrix[i][j].image)) {
+                let obj = images[this._matrix[i][j].image];
+                let wImg = +obj.col;
+                let hImg = +obj.row;
+                let a = obj.file.base64;
                 let img = new Image();
-                ctx.drawImage(image,init.w,init.h,(this._matrix[i][j].w*10)+this._matrix[i][j].w, (this._matrix[i][j].h*10)+this._matrix[i][j].w);
-                let w = init.w + (this._matrix[i][j].col*10) + this._matrix[i][j].col;
-                let h = init.h + (this._matrix[i][j].row*10) + this._matrix[i][j].row;
+                img.onload = () => {
+                  try {
+                    ctx.drawImage(img,init.w,init.h,(wImg*11)-1, (hImg*11)-1);
+                  } catch (e) {
+                    log.error(e);
+                  }
+                }
+                img.src = a;
+                let w = init.w + (wImg*11)-1;
+                let h = init.h + (hImg*11)-1;
                 coords.push({
-                  tooltip: this._matrix[i][j].url,
-                  coords: init.w + "," + init.h + "," + w +"," + h
+                  name: "Vai al sito",
+                  shape: 'rect',
+                  image: this._matrix[i][j].image,
+                  url: obj.url,
+                  coords: [init.w,init.h,w,h]
                 })
-                init.w = w;
+                init.w = w+1;
+                j = j + wImg -1;
                 visited.push(this._matrix[i][j].image);
+              } else {
+                let obj = images[this._matrix[i][j].image];
+                let wImg = +obj.col;
+                init.w = init.w + (wImg*11);
+                j = j + wImg -1;
               }
             } else {
               //WhiteSquare
-              ctx.drawImage(
-                image,
-                init.w,
-                init.h,
-                10+1,
-                10+1
-              )
-              let w = init.w + 10 + 1;
-              let h = init.h + 10 + 1;
+              let img = new Image();
+              img.onload = () => {
+                try {
+                  ctx.drawImage(
+                    img,
+                    init.w,
+                    init.h,
+                    10,
+                    10
+                  )
+                } catch (e) {
+                  log.error(e);
+                }
+              }
+              img.src = squares.white;
+
+              let w = init.w + 10;
+              let h = init.h + 10;
               coords.push({
-                tooltip: "("+ (i+1) + "," + (j+1) + ")",
-                coords: init.w + "," + init.h + "," + w +"," + h
+                name: "("+ ((+i)+1) + "," + (j+1) + ")",
+                coords: [init.w,init.h,w,h]
               })
-              init.w = w;
+              init.w = w+1;
             }
           }
         }
 
-        return {
+        let a = {
           dataURL: canvas.toDataURL(),
-          coords: coords
+          refer: {
+            name: 'img-map',
+            areas: coords,
+          }
         }
-      })
-    } catch (e) {
-      log.error(e);
-    } finally {
+        resolve(a);
+      } catch (e) {
+        log.error(e);
+        reject(e);
+      }
+    })
+  }
 
+  /**
+   * Set red/green squares on canvas
+   */
+  setSquares(urlsClicked, squares, canvas) {
+    let canva = createCanvas(((152*11)),((264*11)));
+    let ctx = canva.getContext('2d');
+    let img1 = new Image();
+    img1.onload = () => {
+      try {
+        ctx.drawImage(img1,0,0);
+      } catch (e) {
+        log.error(e);
+      }
     }
+    img1.src = canvas.canvas.dataURL;
+    for(let i in canvas.canvas.refer.areas) {
+      if(canvas.canvas.refer.areas[i].url) {
+        if(urlsClicked.includes(canvas.canvas.refer.areas[i].url)) {
+          let coords = canvas.canvas.refer.areas[i].coords;
+          let dim = {
+            x: (coords[2] - coords[0])/3,
+            y: (coords[3] - coords[1])/3
+          }
+          let start = {
+            x: coords[2] - dim.x,
+            y: coords[3] - dim.y,
+          }
+          let img = new Image();
+          img.onload = () => {
+            try {
+              ctx.drawImage(img, start.x, start.y, dim.x, dim.y)
+            } catch (e) {
+              log.error(e);
+            }
+          }
+          img.src = squares.green;
+        } else {
+          let coords = canvas.canvas.refer.areas[i].coords;
+          let dim = {
+            x: (coords[2] - coords[0])/3,
+            y: (coords[3] - coords[1])/3
+          }
+          let start = {
+            x: coords[2] - dim.x,
+            y: coords[3] - dim.y,
+          }
+          let img = new Image();
+          img.onload = () => {
+            try {
+              ctx.drawImage(img, start.x, start.y, dim.x, dim.y)
+            } catch (e) {
+              log.error(e);
+            }
+          }
+          img.src = squares.red;
+        }
+      }
+    }
+    canvas.canvas.dataURL = canva.toDataURL();
+    return canvas;
   }
 
   /**

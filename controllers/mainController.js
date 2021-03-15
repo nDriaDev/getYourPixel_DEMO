@@ -180,7 +180,12 @@ class MainController {
         service.initialize(req.app.locals.db);
         service.saveClick(req.session.email, req.body.url)
           .then(result => {
-            res.status(200).send(result)
+            if(result.code === 401) {
+              log.info(result.message);
+              res.status(200).send({code:401});
+            } else {
+              res.status(200).send(result)
+            }
           })
           .catch(e => {
             log.error(e);
@@ -337,7 +342,7 @@ class MainController {
     try {
       log.info("START");
       service.initialize(req.app.locals.db);
-      service.getClientsPixels(req.session.email, req.session.type)
+      service.getClientsPixels_V2(req.session.email, req.session.type)
       .then(result => {
         res.status(200).send(result);
       })
@@ -384,7 +389,14 @@ class MainController {
       service.editClient(req.body)
       .then(result => {
         if(result) {
-          res.status(200).send({code:200, message:result});
+          service.createCanvas()
+          .then(result1 => {
+            res.status(200).send({code:200, message:result});
+          })
+          .catch(err => {
+            log.error(err);
+            next(err);
+          })
         } else {
           res.status(200).send({code:404, message:"Non è stato possobile modificare i dati del cliente"});
         }
@@ -407,7 +419,14 @@ class MainController {
       service.initialize(req.app.locals.db);
       service.saveClient(req.body)
       .then(result => {
-        res.status(200).send(result);
+        service.createCanvas()
+        .then(result1 => {
+          res.status(200).send(result);
+        })
+        .catch(err => {
+          log.error(err);
+          next(err);
+        })
       })
       .catch(err => {
         log.error(err);
@@ -448,7 +467,14 @@ class MainController {
       service
       .deleteClient(req.body)
       .then(result => {
-        res.status(200).send(result)
+        service.createCanvas()
+        .then(result1 => {
+          res.status(200).send(result)
+        })
+        .catch(err => {
+          log.error(err);
+          next(err);
+        })
       })
       .catch(err => {
         res.status(200).send(err)

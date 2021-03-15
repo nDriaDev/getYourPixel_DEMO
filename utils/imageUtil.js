@@ -139,6 +139,9 @@ class ImageUtil {
     }
   }
 
+  /**
+   * Vecchia Gestione:  con griglia composta da un elemento per ogni immagine
+   */
   createPixels(images, urls) {
     return new Promise((resolve,reject) => {
       try {
@@ -149,27 +152,72 @@ class ImageUtil {
           // Versione che torna la matrice sotto forma di unico array
           // let array = PixelBuilder.matrixToArray();
 
-          /**
-           * Build a canvas DataURL
-           *
-           */
-          // debugger;
-          // let dataUrl = PixelBuilder.createCanvas(images);
-
           let imgs = [];
           for(let i in images) {
             imgs.push(images[i].file.base64);
           }
-
           PixelBuilder.countPixels(images);
 
           log.info("FINISH");
+
           resolve({images:imgs, array: PixelBuilder.subMatrix(100), counter: PixelBuilder.counter});
         })
         .catch(err => {
           log.error(err);
           reject(err)
         })
+      } catch (e) {
+        log.error(e);
+        reject(e);
+      }
+    })
+  }
+
+  /**
+   * Nuova Gestione con un unica immagine derivata dall'unione delle singole immagini tramite canvas
+   */
+  createCanvas(images, squares) {
+    return new Promise((resolve,reject) => {
+      try {
+        log.info("START");
+        const PixelBuilder = new Pixel();
+        this.createMatrix(PixelBuilder, images)
+        .then(value => {
+          PixelBuilder.createCanvas(images, squares)
+          .then(res => {
+
+            PixelBuilder.countPixels(images);
+
+            log.info("FINISH");
+
+            resolve({canvas:res, counter: PixelBuilder.counter});
+          })
+          .catch(e => {
+            log.error(e);
+            reject(e)
+          });
+        })
+        .catch(err => {
+          log.error(err);
+          reject(err)
+        })
+      } catch (e) {
+        log.error(e);
+        reject(e);
+      }
+    })
+  }
+
+  /**
+   * Setta i quadratini verdi e rossi sugli urli cliccati gia e non
+   */
+  createLabelVisitedUnvisited(urlsClicked, squares, canvas) {
+    log.info("START");
+    return new Promise((resolve,reject) => {
+      try {
+        const PixelBuilder = new Pixel();
+        canvas = PixelBuilder.setSquares(urlsClicked, squares, canvas);
+        resolve(canvas);
       } catch (e) {
         log.error(e);
         reject(e);
