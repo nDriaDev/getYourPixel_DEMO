@@ -32,11 +32,13 @@ class App extends Component {
   }
 
   setAuth(isAuth1,isAuthBasic1) {
-    this.setState({
-      ...this.state,
-      isAuth: isAuth1 !== null ? isAuth1 : this.state.isAuth,
-      isAuthBasic: isAuthBasic1 !== null ? isAuthBasic1 : this.state.isAuthBasic
-    })
+    if(this.state.isAuth !== isAuth1 || this.state.isAuthBasic !== isAuthBasic1) {
+      this.setState({
+        ...this.state,
+        isAuth: isAuth1 !== null ? isAuth1 : this.state.isAuth,
+        isAuthBasic: isAuthBasic1 !== null ? isAuthBasic1 : this.state.isAuthBasic
+      })
+    }
   }
 
   enableSpinner(){
@@ -74,13 +76,13 @@ class App extends Component {
             pauseOnHover={false}
           />
           <Spinner show={this.state.show} />
-          <MainTemplate show={this.state.show} enableSpinner={this.enableSpinner} disableSpinner={this.disableSpinner} setAuth={this.setAuth} isAuth={this.state.isAuth} isAuthBasic={this.state.isAuthBasic}>
+          <MainTemplate enableSpinner={this.enableSpinner} disableSpinner={this.disableSpinner} setAuth={this.setAuth} isAuth={this.state.isAuth} isAuthBasic={this.state.isAuthBasic}>
             <Switch>
               <Route
                 exact
                 path='/'
                 render={(props) => (
-                  <Home {...props}
+                  <Home
                     setAuth={this.setAuth}
                     enableSpinner={this.enableSpinner}
                     disableSpinner={this.disableSpinner} />

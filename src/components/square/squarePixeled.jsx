@@ -137,7 +137,7 @@ const SquarePixeled = ({enableSpinner,disableSpinner, setAuth, setCounter}) =>{
       .then(res => {
         if(res.data && !res.data.code) {
           // sessionStorage.setItem('isAuth', true)
-          setAuth(true,null);
+          setAuth(true,false);
           setMatrix(matr);
           disableSpinner();
         }
@@ -145,7 +145,7 @@ const SquarePixeled = ({enableSpinner,disableSpinner, setAuth, setCounter}) =>{
           axios.post(Const.GET_USER,{})
           .then(res => {
             if(res.data && !res.data.code) {
-              setAuth(null,true);
+              setAuth(false,true);
               setMatrix(matr);
               disableSpinner();
             } else {

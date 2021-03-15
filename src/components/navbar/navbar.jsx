@@ -24,6 +24,7 @@ class NavbarCustom extends Component{
     this.getActiveFromPath = this.getActiveFromPath.bind(this);
     this.logout = this.logout.bind(this);
     this.changeActiveAndHistoryPush = this.changeActiveAndHistoryPush.bind(this);
+    this.collapseNavbar = this.collapseNavbar.bind(this);
   }
 
 
@@ -84,6 +85,7 @@ class NavbarCustom extends Component{
       // this.changeActive(6)
       this.props.history.push('/login');
     })
+    this.collapseNavbar();
   }
 
   admin(event){
@@ -91,6 +93,7 @@ class NavbarCustom extends Component{
     event.stopPropagation();
     // this.changeActive(0)
     this.props.history.push('/manage');
+    this.collapseNavbar();
   }
 
   registrati(event){
@@ -98,6 +101,7 @@ class NavbarCustom extends Component{
     event.stopPropagation();
     // this.changeActive(7)
     this.props.history.push('/register');
+    this.collapseNavbar();
   }
 
   login(event){
@@ -105,6 +109,7 @@ class NavbarCustom extends Component{
     event.stopPropagation();
     // this.changeActive(6)
     this.props.history.push('/login');
+    this.collapseNavbar();
   }
 
 
@@ -119,12 +124,19 @@ class NavbarCustom extends Component{
     event.stopPropagation();
     // this.changeActive(menu);
     this.props.history.push(path);
+    this.collapseNavbar();
+  }
+
+  collapseNavbar() {
+    if(Const.isMobileBrowser(navigator.userAgent)) {
+      document.querySelector('#btn-collapse').click();
+    }
   }
 
   render(){
     return(
       <nav className="navbar navbar-expand-lg navbar-dark primary-color">
-        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+        <button id="btn-collapse" className="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
           aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -135,6 +147,7 @@ class NavbarCustom extends Component{
             <a
               className="nav-link nav-bar-link"
               href=""
+              data-toggle="collapse" data-target=".navbar-collapse.show"
               onClick={(e)=>this.changeActiveAndHistoryPush(e,5,'/win')}>
               <i className="fas fa-money-bill-alt" style={{paddingTop: '3%'}}></i>
               &nbsp;Vinci 500'000€
@@ -150,6 +163,7 @@ class NavbarCustom extends Component{
               <a
                 className="nav-link nav-bar-link"
                 href=""
+                data-toggle="collapse" data-target=".navbar-collapse.show"
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,1,'/')}>
                 <i className="fas fa-home" style={{paddingTop: '5%'}}></i>
                 &nbsp;Home
@@ -159,6 +173,7 @@ class NavbarCustom extends Component{
               <a
                 className="nav-link nav-bar-link"
                 href=""
+                data-toggle="collapse" data-target=".navbar-collapse.show"
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,2,'/buy')}>
                 <i className="fas fa-shopping-bag" style={{paddingTop: '4%'}}></i>
                 &nbsp;Acquista
@@ -168,6 +183,7 @@ class NavbarCustom extends Component{
               <a
                 className="nav-link nav-bar-link"
                 href=""
+                data-toggle="collapse" data-target=".navbar-collapse.show"
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,3,'/contact')}>
                 <i className="fas fa-address-card" style={{paddingTop: '4%'}}></i>
                 &nbsp;Contattaci
@@ -177,6 +193,7 @@ class NavbarCustom extends Component{
               <a
                 className="nav-link nav-bar-link"
                 href=""
+                data-toggle="collapse" data-target=".navbar-collapse.show"
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,4,'/howWork')}>
                 <i className="fas fa-cog" style={{paddingTop: '3%'}}></i>
                 &nbsp;Come funziona
@@ -189,6 +206,7 @@ class NavbarCustom extends Component{
                 <a
                   className="nav-link nav-bar-link"
                   href=""
+                  data-toggle="collapse" data-target=".navbar-collapse.show"
                   onClick={(e)=>this.changeActiveAndHistoryPush(e,5,'/win')}>
                   <i className="fas fa-money-bill-alt" style={{paddingTop: '3%'}}></i>
                   &nbsp;Vinci 500'000€
@@ -202,6 +220,7 @@ class NavbarCustom extends Component{
                 <a
                   className="nav-link nav-bar-link"
                   href=""
+                  data-toggle="collapse" data-target=".navbar-collapse.show"
                   onClick={(e)=>this.admin(e)}>
                   <i className="fas fa-user-cog" style={{paddingTop: '5%'}}></i>
                   &nbsp;{this.props.isAuth ? "Admin" : "Account"}
@@ -217,6 +236,7 @@ class NavbarCustom extends Component{
                 <a
                   className="nav-link nav-bar-link"
                   href=""
+                  data-toggle="collapse" data-target=".navbar-collapse.show"
                   onClick={(e)=>this.registrati(e)}>
                   <i className="fas fa-plus-square" style={{paddingTop: '4%'}}></i>
                   &nbsp;Registrati
@@ -232,6 +252,7 @@ class NavbarCustom extends Component{
                 <a
                   className="nav-link nav-bar-link"
                   href=""
+                  data-toggle="collapse" data-target=".navbar-collapse.show"
                   onClick={(e)=>this.login(e)}>
                   <i className="fas fa-sign-in-alt" style={{paddingTop: '7%'}}></i>
                   &nbsp;Login
@@ -247,6 +268,7 @@ class NavbarCustom extends Component{
                 <a
                   className="nav-link nav-bar-link"
                   href=""
+                  data-toggle="collapse" data-target=".navbar-collapse.show"
                   onClick={(e)=>this.logout(e)}>
                   <i className="fas fa-sign-out-alt" style={{paddingTop: '7%'}}></i>
                   &nbsp;Logout

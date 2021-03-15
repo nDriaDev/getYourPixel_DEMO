@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import Img from './../../images/dot.png';
 
-const ErrorPage = ({enableSpinner, disableSpinner}) =>{
+const ErrorPage = React.memo(({enableSpinner, disableSpinner}) =>{
   useEffect(()=>{
     disableSpinner();
   },[disableSpinner])
@@ -15,6 +15,6 @@ const ErrorPage = ({enableSpinner, disableSpinner}) =>{
       </div>
     </div>
   )
-}
+})
 
 export default ErrorPage;

@@ -1,41 +1,48 @@
-import React from 'react';
+import React, { useState, useEffect} from 'react';
 import {useHistory} from 'react-router-dom';
-import NavbarCustom from './../../navbar/navbar';
-import Img from './../../../images/logo.png';
-import Const from './../../../util/Costanti.js';
-import TrackingGA from './../../utils/Tracking';
+import Img from './../../images/logo.png';
+import Const from './../../util/Costanti.js';
+import TrackingGA from './../utils/Tracking';
 
-const Header = (props) => {
-  const url = window.location.pathname;
+
+const LogoButton = () => {
   const history = useHistory();
+
+  const [loc,setLoc] = useState(window.location.pathname);
+  useEffect(() => {
+    const unlisten = history.listen((location,action) => {
+      if(location.pathname === Const.PATH_HOME) {
+        setLoc(location.pathname)
+      } else if(location.pathname !== Const.PATH_HOME) {
+        setLoc(location.pathname);
+      }
+    })
+    return () => unlisten();
+  },[])
 
   const goToBuy = () => {
     TrackingGA.event("User", "pagina d'acquisto", "indirizzamento alla pagina di acquisto tramite pulsante buy in home page")
     history.push('/buy');
   }
 
-  let widthLogo = '45%';
+  let widthLogo = {width: '45%'};
   if(Const.isMobileBrowser(navigator.userAgent)) {
-    widthLogo = '100%';
+    widthLogo.width = '100%';
   }
 
-  return(
-    <div className="sticky-top background-fusion">
-      <NavbarCustom enableSpinner={props.enableSpinner} disableSpinner={props.disableSpinner} setAuth={props.setAuth} isAuth={props.isAuth} isAuthBasic={props.isAuthBasic}/>
+  return (
+    <>
       {
-        url === Const.PATH_HOME ?
+        loc === Const.PATH_HOME ?
         <div className="row" style={{width:'98vw', marginLeft: '1%', marginRight: '1%'}}>
           <div className="col-sm-12" style={{textAlign:'center'}}>
-            <img className="logo-size" style={{
-                width: widthLogo
-              }}
-              alt="logo" src={Img}
-            />
+            <img className="logo-size" style={widthLogo} alt="logo" src={Img}/>
             <h2 className="slogan-h2" style={{fontSize:'x-large'}}>Raggiungi l'irraggiungibile</h2>
             <button
               id="btn-buy"
               className="button-fixed"
-              onClick={()=> goToBuy()}>
+              onClick={()=> goToBuy()}
+            >
               <span style={{fontSize:'small', textAlign:'center'}}>
                 ACQUISTA
               </span>
@@ -45,8 +52,7 @@ const Header = (props) => {
         :
         null
       }
-    </div>
+    </>
   )
 }
-
-export default Header;
+export default LogoButton;

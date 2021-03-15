@@ -55,7 +55,7 @@ const Manage = (props) => {
     .then(res => {
       if(res.data && !res.data.code) {
         // sessionStorage.setItem('isAuth', true)
-        props.setAuth(true,null);
+        props.setAuth(true,false);
         setRole(res.data.type)
         props.disableSpinner();
       } else if(res.data && res.data.code){
@@ -67,7 +67,7 @@ const Manage = (props) => {
           axios.post(Const.GET_USER,{})
           .then(res => {
             if(res.data && !res.data.code) {
-              props.setAuth(null,true);
+              props.setAuth(false,true);
               setRole(res.data.type)
               props.disableSpinner();
             } else {

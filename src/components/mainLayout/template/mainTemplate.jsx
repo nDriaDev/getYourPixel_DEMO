@@ -1,14 +1,15 @@
-import { React, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Header from './../header/header';
+import LogoButton from './../../logo/logoButton';
 import Footer from './../footer/footer';
 import Const from './../../../util/Costanti';
 import axios from 'axios';
 import TrackingGA from './../../utils/Tracking';
 
-const MainTemplate = ({children, show, enableSpinner, disableSpinner, setAuth, isAuth, isAuthBasic}) => {
-  let isShowed = show
+const MainTemplate = React.memo(({children, enableSpinner, disableSpinner, setAuth, isAuth, isAuthBasic}) => {
   const history = useHistory();
+
   useEffect(() => {
     const unlisten = history.listen((location,action) => {
       TrackingGA.pageView(location.pathname);
@@ -28,16 +29,17 @@ const MainTemplate = ({children, show, enableSpinner, disableSpinner, setAuth, i
 
   return(
     <div id="core" className="display-grid" style={{
-        visibility: isShowed ? 'hidden' : 'visible',
-        position: isShowed ? 'absolute' : '',
-        zIndex: isShowed ? '1' : '2',
+        // visibility: show ? 'hidden' : 'visible',
+        // position: show ? 'absolute' : '',
+        // zIndex: show ? '1' : '2',
         height: window.location.pathname === Const.MANAGE ? '0px' : '100%'
       }}>
-      <Header enableSpinner={enableSpinner} disableSpinner={disableSpinner} setAuth={setAuth} isAuth={isAuth} isAuthBasic={isAuthBasic}/>
-      {children}
-      <Footer show={show}/>
+      <Header enableSpinner={enableSpinner} disableSpinner={disableSpinner} setAuth={setAuth} isAuth={isAuth} isAuthBasic={isAuthBasic} pathname={window.location.pathname}/>
+        <LogoButton/>
+        {children}
+      <Footer/>
     </div>
   )
-}
+})
 
 export default MainTemplate;

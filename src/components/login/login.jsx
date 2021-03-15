@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { useHistory } from 'react-router-dom';
 import {Form, Button} from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import Const from './../../util/Costanti';
@@ -7,19 +8,19 @@ import '@fortawesome/fontawesome-free/css/solid.min.css';
 import axios from 'axios';
 import TrackingGA from './../utils/Tracking';
 
-const Login = (props) => {
+const Login = React.memo(({enableSpinner, disableSpinner, setAuth}) => {
+  const history = useHistory();
   const [validated, setValidated] = useState(false);
   const [form, setForm] = useState({
     email: '',
     password: '',
   })
-  const {enableSpinner, disableSpinner, setAuth} = props;
 
   useEffect(() => {
     axios.get(Const.CHECK_TOKEN)
     .then(result => {
       if(result.data.code === 200) {
-        props.history.push('/manage');
+        history.push('/manage');
         disableSpinner();
       } else {
         disableSpinner();
@@ -36,7 +37,7 @@ const Login = (props) => {
   }
 
   const goTo = (path) => {
-    props.history.push(path);
+    history.push(path);
   }
 
   const onSubmit = (event) => {
@@ -53,9 +54,9 @@ const Login = (props) => {
         if (res.data.code === 200) {
           // sessionStorage.setItem('isAuth', true)
           TrackingGA.event("Admin","login","login riuscita")
-          setAuth(true, null);
+          setAuth(true, false);
           disableSpinner();
-          props.history.push('/manage');
+          history.push('/manage');
         } else {
           throw new Error(res.data.message);
         }
@@ -66,9 +67,9 @@ const Login = (props) => {
           if (res.data.code === 200) {
             // sessionStorage.setItem('isAuthBasic', true)
             TrackingGA.event("User","login","login riuscita")
-            setAuth(null, true);
+            setAuth(false, true);
             disableSpinner();
-            props.history.push('/');
+            history.push('/');
           } else {
             throw new Error(res.data.message);
           }
@@ -131,6 +132,6 @@ const Login = (props) => {
       </div>
     </div>
   )
-}
+})
 
 export default Login;

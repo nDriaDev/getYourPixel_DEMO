@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import TrackingGA from './../utils/Tracking';
 
-const Contact = (props) => {
+const Contact = React.memo((props) => {
   const [validated, setValidated] = useState(false);
   const [form,setForm] = useState({
     name: '',
@@ -174,6 +174,6 @@ const Contact = (props) => {
       </div>
     </div>
     )
-}
+})
 
 export default Contact;

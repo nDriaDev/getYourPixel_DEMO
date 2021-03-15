@@ -9,7 +9,7 @@ import TrackingGA from './../utils/Tracking';
 
 const stripePromise = loadStripe(process.env.REACT_APP_PUB_KEY_STRIPE);
 
-const ProductDisplay = ({ product, quantity, handleQuantityChange, handleClick }) => {
+const ProductDisplay = React.memo(({ product, quantity, handleQuantityChange, handleClick }) => {
   return (
     <div style={{
         width: '92vw',
@@ -53,9 +53,9 @@ const ProductDisplay = ({ product, quantity, handleQuantityChange, handleClick }
       </div>
     </div>
   );
-}
+})
 
-const Buy = ({enableSpinner, disableSpinner}) => {
+const Buy = React.memo(({enableSpinner, disableSpinner}) => {
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState({
     images:[],
@@ -183,9 +183,9 @@ const Buy = ({enableSpinner, disableSpinner}) => {
   };
 
   return(
-    <ProductDisplay product={product} quantity={quantity} handleQuantityChange={handleQuantityChange} handleClick={handleClick} />
+    product.description !== '' && <ProductDisplay product={product} quantity={quantity} handleQuantityChange={handleQuantityChange} handleClick={handleClick} />
   )
-}
+})
 
 
 
