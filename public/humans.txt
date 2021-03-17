@@ -1,6 +1,6 @@
 /* TEAM */
           Developer: Andrea Cosentino
-          Contact: a.cosentino1126 [at] gmail.com
+          Contact: andreacosentino.work@gmail.com
           Telegram: @Andre3w_c0
           Twitter: @4ndr3w_c0
           From: Italy
@@ -8,7 +8,7 @@
 /* THANKS */
 
 /* SITE */
-          Version: 3.2.0
-          Last update: 2021/03/06
+          Version: 3.5.0
+          Last update: 2021/03/22
           Language: Italian
-          Doctype: React Web App
+          Doctype: MERN stack web application
