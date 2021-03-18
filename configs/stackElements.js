@@ -82,13 +82,14 @@ class Trace {
 
     let mess = e.message ? e.message : '';
 
-    let stacks = e.stack.split('\n').slice(1);
-
+    let stacks = e.stack ? e.stack.split('\n').slice(1) : null;
+    if(!stacks) {
+      return 'Unhandled error' + (text ? ' - '+ text : '') + (mess ? ' : ' + mess : '');
+    }
     let info = STACK_FUNC_NAME.exec(stacks[0]);
     if(info && info[1] && !info[1].includes("<anonymous>") && info[4] && info[5]) {
       return '[' + info[1] + ' - ' + this._getCustomFilename(info[3]) + ': ' + info[4] + ':' + info[5] + ']' + (text ? ' - ' + text : '') + (mess ? ' : ' + mess : '');
     }
-    return 'Unhandled error' + (text ? ' - '+ text : '') + (mess ? ' : ' + mess : '');
   }
 
   static getTrace(e, text) {
