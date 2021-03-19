@@ -122,6 +122,12 @@ const Manage = (props) => {
     setActive(arr);
   }
 
+  const collapseNavbar = () => {
+      if(Const.isMobileBrowser(navigator.userAgent)) {
+        document.querySelector('#btn-admin-collapse').click();
+      }
+    }
+
   return (
     <>
       {
@@ -129,7 +135,7 @@ const Manage = (props) => {
         <div className="row vertical-bar mx-auto">
           <div className="col-lg-2 col-md-2 col-sm-1 col-xs-1 background-v-nav">
             <nav className="navbar navbar-expand-lg navbar-dark primary-color">
-              <button className="navbar-toggler btn-v-bar" type="button" data-toggle="collapse" data-target="#verticalNav"
+              <button id="btn-admin-collapse" className="navbar-toggler btn-v-bar" type="button" data-toggle="collapse" data-target="#verticalNav"
                 aria-controls="verticalNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
               </button>
