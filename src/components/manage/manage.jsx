@@ -120,6 +120,7 @@ const Manage = (props) => {
       }
     }
     setActive(arr);
+    collapseNavbar();
   }
 
   const collapseNavbar = () => {
