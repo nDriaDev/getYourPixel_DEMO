@@ -585,18 +585,28 @@ class MainService {
           )
           .then(result => {
             if (result) {
-              //Converto in stringa il mongoDB ObjectID che è usato come chiave unvioca
-              result._id = JSON.stringify(result._id);
-              //Modifico la numerazione di positionRow e positionCol per farli partire da 1
-              result.positionRow = (+result.positionRow) + 1;
-              result.positionCol = (+result.positionCol) + 1;
-              resolve(result);
+              Compressor.decompressLZMA(result.file.base64)
+              .then(val => {
+                result.file.base64 = val;
+
+                //Converto in stringa il mongoDB ObjectID che è usato come chiave unvioca
+                result._id = JSON.stringify(result._id);
+                //Modifico la numerazione di positionRow e positionCol per farli partire da 1
+                result.positionRow = (+result.positionRow) + 1;
+                result.positionCol = (+result.positionCol) + 1;
+                resolve(result);
+              })
+              .catch(e => {
+                log.error(e);
+                reject(e);
+              })
             } else {
               resolve(null)
             }
           })
           .catch(err => {
-            resolve(err);
+            log.error(err);
+            reject(err);
           })
       } catch (e) {
         log.error(e);
