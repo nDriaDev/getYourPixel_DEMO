@@ -98,26 +98,31 @@ class PixelUtil {
   _checkPosizioneScelta(width,height,initWidth,initHeight) {
     try {
       log.info("START");
-      for(let i=initWidth; i<this._matrix.length; i++) {
-        for(let j=initHeight; j<this._matrix[i].length; j++) {
-          if(this._matrix[i][j] === 0) {
-            let trovataPorzione = true;
-            for(let k=i; k<(i+(+height)); k++) {
-              if(k>this._matrix.length) {
+      let i = initWidth;
+      let j = initHeight;
+
+      if(i>=this._matrix.length || j>=this._matrix[0].length) {
+        return -2;
+      }
+      if(this._matrix[i][j] === 0) {
+        let trovataPorzione = true;
+        for(let k=i; k<(i+(+height)); k++) {
+          if(!trovataPorzione) {
+            return -2;
+          }
+          if(k>=this._matrix.length) {
+            trovataPorzione = false;
+          }
+          else {
+            for(let l=j; l<(j+(+width)); l++) {
+              if(l>=this._matrix[k].length || this._matrix[k][l] !== 0) {
                 trovataPorzione = false;
               }
-              else {
-                for(let l=j; l<(j+(+width)); l++) {
-                  if(l>this._matrix[k].length || this._matrix[k][l] !== 0) {
-                    trovataPorzione = false;
-                  }
-                }
-              }
-            }
-            if(trovataPorzione) {
-              return {row:i, col:j};
             }
           }
+        }
+        if(trovataPorzione) {
+          return {row:i, col:j};
         }
       }
       return -2;
@@ -228,9 +233,10 @@ class PixelUtil {
     try {
       log.info("START");
       this._cursore = {row:0,col:0};
-      if(image.positionRow) {
+      if(image.positionRow !== undefined) {
         this._cursore = this._checkPosizioneScelta(image.col, image.row, +image.positionRow, +image.positionCol);
         if(this._cursore === -2) {
+          this._cursore = {row:0,col:0};
           this._cursore = this._cercaPosizioneCursore(image.col, image.row);
         }
       } else {
