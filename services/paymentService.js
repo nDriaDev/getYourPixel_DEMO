@@ -1,16 +1,16 @@
 const appRoot = require('app-root-path');
 const log = require(appRoot + '/configs/winston').getLogger();
 const stripe = require('stripe')(
-  process.env.PRV_KEY_STRIPE ? process.env.PRV_KEY_STRIPE :
-  '<your private key here>'
+  process.env.REACT_APP_PRV_KEY_STRIPE ? process.env.REACT_APP_PRV_KEY_STRIPE :
+    '<your private key here>'
 );
 const PRODUCT_DESCRIPTION = "Inizia subito ad utilizzare la nostra piattaforma.\nAnche tu potrai finalmente raggiungere milioni di persone!\nScegli la dimensione del tuo spazio e inserisci i dati, dopo aver premuto il pulsante qua sotto. \nRiceverai un'email di conferma dell'ordine dove ti chiederemo di specificare i dati necessari per concludere l'operazione:\nimmagine, link della tua pagina ecc. \n \nNon ti preoccupare ora,\nper ogni dubbio saremo a tua disposizione!"
 
 
 class Payment {
-  getProduct(){
-    return new Promise((resolve,reject) => {
-      if(process.env.PRV_KEY_STRIPE === undefined) {
+  getProduct() {
+    return new Promise((resolve, reject) => {
+      if (process.env.PRV_KEY_STRIPE === undefined) {
         resolve({
           "id": "prod_IRcHGOTIGBPerO",
           "object": "product",
@@ -56,9 +56,9 @@ class Payment {
         ).then((result) => {
           prod = result.data[0];
           prod.description = prod.description == null ? PRODUCT_DESCRIPTION : prod.description;
-          stripe.prices.list().then((result2) =>{
-            for(let i in result2.data){
-              if(result2.data[i].product === prod.id){
+          stripe.prices.list().then((result2) => {
+            for (let i in result2.data) {
+              if (result2.data[i].product === prod.id) {
                 prod.price = result2.data[i]
               }
             }
@@ -78,11 +78,11 @@ class Payment {
       }
     })
   }
-  createOrder(product, quantity){
-    return new Promise((resolve,reject)=>{
+  createOrder(product, quantity) {
+    return new Promise((resolve, reject) => {
       log.info("START")
       stripe.checkout.sessions.create({
-        payment_method_types: ['card','sepa_debit'],
+        payment_method_types: ['card', 'sepa_debit'],
         line_items: [
           {
             price_data: {
@@ -97,8 +97,8 @@ class Payment {
           },
         ],
         mode: 'payment',
-        success_url: (process.env.BUY_URL ? process.env.BUY_URL : '<your url page to redirect here>' ) + '?success=true',
-        cancel_url: (process.env.BUY_URL ? process.env.BUY_URL : '<your url page to redirect here>' ) + '?canceled=true',
+        success_url: (process.env.BUY_URL ? process.env.BUY_URL : '<your url page to redirect here>') + '?success=true',
+        cancel_url: (process.env.BUY_URL ? process.env.BUY_URL : '<your url page to redirect here>') + '?canceled=true',
       }).then(result => {
         log.info("FINISH")
         resolve(result);
