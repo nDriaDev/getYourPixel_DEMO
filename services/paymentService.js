@@ -10,7 +10,7 @@ const PRODUCT_DESCRIPTION = "Inizia subito ad utilizzare la nostra piattaforma.\
 class Payment {
   getProduct() {
     return new Promise((resolve, reject) => {
-      if (process.env.PRV_KEY_STRIPE === undefined) {
+      if (process.env.REACT_APP_PRV_KEY_STRIPE === undefined) {
         resolve({
           "id": "prod_IRcHGOTIGBPerO",
           "object": "product",
