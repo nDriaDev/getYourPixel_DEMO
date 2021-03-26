@@ -10,11 +10,12 @@ class Mailer {
       const {
         name,
         email,
+        phoneNumber,
         subject,
         message
       } = req.body;
 
-      mailer.sendMail(name, email, subject, message, (err, data) => {
+      mailer.sendMail(name, email, phoneNumber, subject, message, (err, data) => {
         if (err) {
           log.error(err);
           res.status(500).send({

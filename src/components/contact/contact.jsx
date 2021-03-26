@@ -9,6 +9,7 @@ const Contact = React.memo((props) => {
   const [validated, setValidated] = useState(false);
   const [form,setForm] = useState({
     name: '',
+    phoneNumber:'',
     email: '',
     subject: '',
     message: '',
@@ -82,8 +83,7 @@ const Contact = React.memo((props) => {
               <span className="form-title" style={{textAlign: 'center',fontSize: '0.95rem',lineHeight:'1.4',color:'white'}}>
                 Per qualsiasi dubbio, problema o informazione, non esitare a contattarci completando il form
                 sottostante. Riceverai una risposta da un membro del nostro team entro 24 ore direttamente
-                all'indirizzo email da te indicato. Ti invitiamo ad inserire anche il tuo numero di telefono
-                all'interno del messaggio, per poter essere d'aiuto in modo pi&ugrave; semplice e immediato.
+                all'indirizzo email da te indicato.
               </span>
             </Form.Row>
             <Form.Row>
@@ -119,6 +119,25 @@ const Contact = React.memo((props) => {
                     onChange  ={e => handleInputChange(e)}
                     />
                   <Form.Control.Feedback type="invalid">Inserisci email</Form.Control.Feedback>
+                </div>
+              </Form.Group>
+            </Form.Row>
+            <Form.Row>
+              <Form.Group as={Col} md="6" controlId="validationCustom01">
+                <div className="form-input" >
+                  <Form.Label style={{ float: 'left', fontSize: '14px', marginBottom: '0px' }}>
+                    Numero di telefono *
+                  </Form.Label>
+                  <Form.Control
+                    required
+                    name="phoneNumber"
+                    type="text"
+                    placeholder=""
+                    defaultValue=""
+                    className="form-input2 border-input"
+                    onChange={e => handleInputChange(e)}
+                  />
+                  <Form.Control.Feedback type="invalid">Inserisci numero di telefono</Form.Control.Feedback>
                 </div>
               </Form.Group>
             </Form.Row>

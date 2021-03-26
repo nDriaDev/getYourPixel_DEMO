@@ -13,13 +13,13 @@ const {
   MAILING_SERVICE_SENDER_EMAIL_ADDRESS,
   MAILING_SERVICE_OAUTH_PLAYGROUND,
 }
-=
+  =
 process.env;
 
 const oauth2Client = new OAuth2(
-     MAILING_SERVICE_CLIENT_ID, // ClientID
-     MAILING_SERVICE_CLIENT_SECRET, // Client Secret
-     MAILING_SERVICE_OAUTH_PLAYGROUND // Redirect URL
+  MAILING_SERVICE_CLIENT_ID, // ClientID
+  MAILING_SERVICE_CLIENT_SECRET, // Client Secret
+  MAILING_SERVICE_OAUTH_PLAYGROUND // Redirect URL
 );
 
 const setOptionsTrasporter = () => {
@@ -53,14 +53,15 @@ var readTemplate = (path, callback) => {
 }
 
 
-exports.sendMail = (name, email, subject, message, callback) => {
+exports.sendMail = (name, email, phoneNumber, subject, message, callback) => {
   log.info("START");
-  readTemplate('templateEmail.html',(err, html) => {
+  readTemplate('templateEmail.html', (err, html) => {
     let transporter = nodemailer.createTransport(setOptionsTrasporter());
     try {
       let template = handlebars.compile(html);
       let replace = {
         name: name,
+        phoneNumber: phoneNumber,
         subject: subject,
         message: message,
         email: email
@@ -74,7 +75,7 @@ exports.sendMail = (name, email, subject, message, callback) => {
         html: htmlToSend
       }
 
-      transporter.sendMail(mailOptions, function(err, data) {
+      transporter.sendMail(mailOptions, function (err, data) {
         if (err) {
           log.error(err);
           callback(err, null);
@@ -109,7 +110,7 @@ exports.sendMailResetPassword = (params, callback) => {
       text: 'La richiesta di reset password è stata effettuata con successo.\nEcco la tua nuova password:\n\n' + password + '\n\nCambiala il prima possibile!',
     }
 
-    transporter.sendMail(mailOptions, function(err, data) {
+    transporter.sendMail(mailOptions, function (err, data) {
       if (err) {
         log.error(err);
         callback(err, null);
@@ -129,11 +130,11 @@ exports.sendMailResetPassword = (params, callback) => {
 exports.sendActivationEmail = (host, email, username, activeToken, callback) => {
   log.info("START");
   let protocol = 'http://';
-  if(process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === 'production') {
     protocol = 'https://';
   }
   let link = protocol + host + '/api/activeUser/' + activeToken;
-  readTemplate('templateActivationEmail.html',(err, html) => {
+  readTemplate('templateActivationEmail.html', (err, html) => {
     let transporter = nodemailer.createTransport(setOptionsTrasporter());
     try {
       let template = handlebars.compile(html);
@@ -149,7 +150,7 @@ exports.sendActivationEmail = (host, email, username, activeToken, callback) => 
         html: htmlToSend
       }
 
-      transporter.sendMail(mailOptions, function(err, data) {
+      transporter.sendMail(mailOptions, function (err, data) {
         if (err) {
           log.error(err);
           callback(err, null);
