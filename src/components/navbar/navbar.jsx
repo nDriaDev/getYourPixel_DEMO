@@ -128,7 +128,7 @@ class NavbarCustom extends Component{
   }
 
   collapseNavbar() {
-    if(Const.isMobileBrowser(navigator.userAgent)) {
+    if (Const.isMobileBrowser(navigator.userAgent) && document.querySelector('#basicExampleNav').className.indexOf("show") !== -1) {
       document.querySelector('#btn-collapse').click();
     }
   }

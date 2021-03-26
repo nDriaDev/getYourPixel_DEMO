@@ -22,6 +22,10 @@ const Home = React.memo(({setAuth,enableSpinner, disableSpinner}) => {
       overflowY: 'auto',
   }
 
+  if (Const.isMobileBrowser(navigator.userAgent)) {
+    style2.maxHeight = '88%';
+  }
+
   const h5_1 = {
     marginTop:'4px',
     marginLeft:'2px'

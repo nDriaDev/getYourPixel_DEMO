@@ -124,10 +124,10 @@ const Manage = (props) => {
   }
 
   const collapseNavbar = () => {
-      if(Const.isMobileBrowser(navigator.userAgent)) {
+    if (Const.isMobileBrowser(navigator.userAgent) && document.querySelector('#verticalNav').className.indexOf("show") !== -1) {
         document.querySelector('#btn-admin-collapse').click();
-      }
     }
+  }
 
   return (
     <>
