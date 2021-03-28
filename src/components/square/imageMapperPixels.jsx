@@ -19,9 +19,11 @@ const ImageMapperPixels = React.memo(({ enableSpinner, disableSpinner, canvas })
       enableSpinner();
       axios.post(Const.SAVE_CLICK, { 'url': url })
         .then(result => {
+          disableSpinner();
           window.location.href = (url.indexOf('http') === -1 ? 'http://' + url : url);
         })
         .catch(err => {
+          disableSpinner();
           window.location.href = (url.indexOf('http') === -1 ? 'http://' + url : url);
         })
     }
