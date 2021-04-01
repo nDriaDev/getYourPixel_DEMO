@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import {Form, Button} from 'react-bootstrap';
 import { toast } from 'react-toastify';
@@ -31,14 +31,14 @@ const Login = React.memo(({enableSpinner, disableSpinner, setAuth}) => {
     })
   },[]);
 
-  const handleInputChange = event => {
+  const handleInputChange = useCallback(event => {
     let {name, value} = event.target;
     setForm({...form, [name]:value});
-  }
+  },[form])
 
-  const goTo = (path) => {
-    history.push(path);
-  }
+  const forgotPasswordRedirect = useCallback(() => {
+    history.push("/forgotPassword");
+  },[history])
 
   const onSubmit = (event) => {
     let formSet = event.currentTarget;
@@ -105,7 +105,7 @@ const Login = React.memo(({enableSpinner, disableSpinner, setAuth}) => {
               name="email"
               placeholder=""
               value={form.email}
-              onChange={e => handleInputChange(e)}
+              onChange={handleInputChange}
               required
               />
           </Form.Group>
@@ -117,12 +117,12 @@ const Login = React.memo(({enableSpinner, disableSpinner, setAuth}) => {
               type="password"
               placeholder=""
               value={form.password}
-              onChange={e => handleInputChange(e)}
+              onChange={handleInputChange}
               required
               />
           </Form.Group>
           <Form.Group controlId="formBasicForgotPassword" style={{textAlign:'left'}}>
-            <Form.Label className="label-underline-link" onClick={()=> goTo("/forgotPassword")}>Password dimenticata</Form.Label>
+            <Form.Label className="label-underline-link" onClick={forgotPasswordRedirect}>Password dimenticata</Form.Label>
           </Form.Group>
           <Button variant="success" type="submit">
             <i className="fas fa-sign-in-alt" style={{paddingRight: '4%'}}></i>
