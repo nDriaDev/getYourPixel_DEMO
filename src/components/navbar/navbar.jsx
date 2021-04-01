@@ -146,7 +146,7 @@ class NavbarCustom extends Component{
           <menu>
             <a
               className="nav-link nav-bar-link"
-              href=""
+              href="/"
               data-toggle="collapse" data-target=".navbar-collapse.show"
               onClick={(e)=>this.changeActiveAndHistoryPush(e,5,'/win')}>
               <i className="fas fa-money-bill-alt" style={{paddingTop: '3%'}}></i>
@@ -154,7 +154,7 @@ class NavbarCustom extends Component{
             </a>
           </menu>
         </span>
-        <a className="navbar-brand" style={{marginRight:'0'}} href="" onClick={(e)=>this.changeActiveAndHistoryPush(e,1, '/')}>
+        <a className="navbar-brand" style={{marginRight:'0'}} href="/" onClick={(e)=>this.changeActiveAndHistoryPush(e,1, '/')}>
           <img src={Img} alt="Logo" className="logo-size-header"></img>
         </a>
         <div className="collapse navbar-collapse" id="basicExampleNav">
@@ -162,7 +162,7 @@ class NavbarCustom extends Component{
             <li className={"nav-item " + (this.state.active === 1 ? 'active-nav-bar' : '')}>
               <a
                 className="nav-link nav-bar-link"
-                href=""
+                href="/"
                 data-toggle="collapse" data-target=".navbar-collapse.show"
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,1,'/')}>
                 <i className="fas fa-home" style={{paddingTop: '5%'}}></i>
@@ -172,7 +172,7 @@ class NavbarCustom extends Component{
             <li className={"nav-item " + (this.state.active === 2 ? 'active-nav-bar' : '')}>
               <a
                 className="nav-link nav-bar-link"
-                href=""
+                href="/"
                 data-toggle="collapse" data-target=".navbar-collapse.show"
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,2,'/buy')}>
                 <i className="fas fa-shopping-bag" style={{paddingTop: '4%'}}></i>
@@ -182,7 +182,7 @@ class NavbarCustom extends Component{
             <li className={"nav-item " + (this.state.active === 3 ? 'active-nav-bar' : '')}>
               <a
                 className="nav-link nav-bar-link"
-                href=""
+                href="/"
                 data-toggle="collapse" data-target=".navbar-collapse.show"
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,3,'/contact')}>
                 <i className="fas fa-address-card" style={{paddingTop: '4%'}}></i>
@@ -192,7 +192,7 @@ class NavbarCustom extends Component{
             <li className={"nav-item " + (this.state.active === 4 ? 'active-nav-bar' : '')}>
               <a
                 className="nav-link nav-bar-link"
-                href=""
+                href="/"
                 data-toggle="collapse" data-target=".navbar-collapse.show"
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,4,'/howWork')}>
                 <i className="fas fa-cog" style={{paddingTop: '3%'}}></i>
@@ -205,7 +205,7 @@ class NavbarCustom extends Component{
               <li className={"nav-item " + (this.state.active === 5 ? 'active-nav-bar' : '')}>
                 <a
                   className="nav-link nav-bar-link"
-                  href=""
+                  href="/"
                   data-toggle="collapse" data-target=".navbar-collapse.show"
                   onClick={(e)=>this.changeActiveAndHistoryPush(e,5,'/win')}>
                   <i className="fas fa-money-bill-alt" style={{paddingTop: '3%'}}></i>
@@ -219,7 +219,7 @@ class NavbarCustom extends Component{
               <li className="">
                 <a
                   className="nav-link nav-bar-link"
-                  href=""
+                  href="/"
                   data-toggle="collapse" data-target=".navbar-collapse.show"
                   onClick={(e)=>this.admin(e)}>
                   <i className="fas fa-user-cog" style={{paddingTop: '5%'}}></i>
@@ -235,7 +235,7 @@ class NavbarCustom extends Component{
               <li className={"nav-item " + (this.state.active === 7 ? 'active-nav-bar' : '')}>
                 <a
                   className="nav-link nav-bar-link"
-                  href=""
+                  href="/"
                   data-toggle="collapse" data-target=".navbar-collapse.show"
                   onClick={(e)=>this.registrati(e)}>
                   <i className="fas fa-plus-square" style={{paddingTop: '4%'}}></i>
@@ -251,7 +251,7 @@ class NavbarCustom extends Component{
               <li className={"nav-item " + (this.state.active === 6 ? 'active-nav-bar' : '')}>
                 <a
                   className="nav-link nav-bar-link"
-                  href=""
+                  href="/"
                   data-toggle="collapse" data-target=".navbar-collapse.show"
                   onClick={(e)=>this.login(e)}>
                   <i className="fas fa-sign-in-alt" style={{paddingTop: '7%'}}></i>
@@ -267,7 +267,7 @@ class NavbarCustom extends Component{
               <li className="">
                 <a
                   className="nav-link nav-bar-link"
-                  href=""
+                  href="/"
                   data-toggle="collapse" data-target=".navbar-collapse.show"
                   onClick={(e)=>this.logout(e)}>
                   <i className="fas fa-sign-out-alt" style={{paddingTop: '7%'}}></i>
