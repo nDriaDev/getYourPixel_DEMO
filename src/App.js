@@ -17,6 +17,7 @@ import ForgotPassword from './components/forgotPassword/forgotPassword';
 import HowWork from './components/howWork/howWork';
 import Win from './components/win/win';
 import TrackingGA from './components/utils/Tracking';
+import { BuyManager } from './components/buy/buyManager';
 
 class App extends Component {
   constructor(props){
@@ -41,14 +42,20 @@ class App extends Component {
     }
   }
 
-  enableSpinner(){
+  enableSpinner() {
+    if (this.state.show) {
+      return;
+    }
     this.setState({
       ...this.state,
       show: true,
     })
   }
 
-  disableSpinner(){
+  disableSpinner() {
+    if (!this.state.show) {
+      return;
+    }
     this.setState({
       ...this.state,
       show: false,
@@ -92,7 +99,9 @@ class App extends Component {
                  exact
                  path='/buy'
                  render={(props) => (
-                   <Buy {...props}
+                   <BuyManager
+                     component={Buy}
+                     {...props}
                      setAuth={this.setAuth}
                      enableSpinner={this.enableSpinner}
                      disableSpinner={this.disableSpinner} />

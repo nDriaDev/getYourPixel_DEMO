@@ -20,8 +20,20 @@ const Contact = React.memo((props) => {
   },[])
 
   const handleInputChange = event => {
-    let {name, value} = event.target;
+    let { name, value } = event.target;
     setForm({...form, [name]:value});
+  }
+
+  const checkNumber = () => {
+    debugger;
+    if (form.phoneNumber === '') {
+      return null;
+    }
+    else if (form.phoneNumber !== '' && form.phoneNumber.match(/^[0-9]+/g)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   const onSubmit = (event) => {
@@ -87,7 +99,7 @@ const Contact = React.memo((props) => {
               </span>
             </Form.Row>
             <Form.Row>
-              <Form.Group as={Col} md="6" controlId="validationCustom01">
+              <Form.Group as={Col} md="6" controlId="validationCustom00">
                 <div className="form-input" >
                   <Form.Label style={{float:'left', fontSize:'14px', marginBottom:'0px'}}>
                     Nome *
@@ -104,7 +116,27 @@ const Contact = React.memo((props) => {
                   <Form.Control.Feedback type="invalid">Inserisci nome</Form.Control.Feedback>
                 </div>
               </Form.Group>
-              <Form.Group as={Col} md="6" controlId="validationCustom02">
+              <Form.Group as={Col} md="6" controlId="validationCustom01">
+                <div className="form-input" >
+                  <Form.Label style={{ float: 'left', fontSize: '14px', marginBottom: '0px' }}>
+                    Numero di telefono *
+                  </Form.Label>
+                  <Form.Control
+                    required
+                    name="phoneNumber"
+                    type="text"
+                    placeholder=""
+                    defaultValue=""
+                    className="form-input2 border-input"
+                    onChange={e => handleInputChange(e)}
+                    isInvalid={form.phoneNumber !== '' && !form.phoneNumber.match(/^[0-9]*$/g)}
+                  />
+                  <Form.Control.Feedback type="invalid">Inserisci numero di telefono</Form.Control.Feedback>
+                </div>
+              </Form.Group>
+            </Form.Row>
+            <Form.Row>
+              <Form.Group as={Col} md="12" controlId="validationCustom02">
                 <div className="form-input" >
                   <Form.Label style={{float:'left', fontSize:'14px', marginBottom:'0px'}}>
                     Email *
@@ -119,25 +151,6 @@ const Contact = React.memo((props) => {
                     onChange  ={e => handleInputChange(e)}
                     />
                   <Form.Control.Feedback type="invalid">Inserisci email</Form.Control.Feedback>
-                </div>
-              </Form.Group>
-            </Form.Row>
-            <Form.Row>
-              <Form.Group as={Col} md="6" controlId="validationCustom01">
-                <div className="form-input" >
-                  <Form.Label style={{ float: 'left', fontSize: '14px', marginBottom: '0px' }}>
-                    Numero di telefono *
-                  </Form.Label>
-                  <Form.Control
-                    required
-                    name="phoneNumber"
-                    type="text"
-                    placeholder=""
-                    defaultValue=""
-                    className="form-input2 border-input"
-                    onChange={e => handleInputChange(e)}
-                  />
-                  <Form.Control.Feedback type="invalid">Inserisci numero di telefono</Form.Control.Feedback>
                 </div>
               </Form.Group>
             </Form.Row>
