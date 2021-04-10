@@ -1,4 +1,4 @@
-let Const = {
+const Const = {
   PATH_HOME: '/',
   PATH_BUY: '/buy',
   PATH_CONTACT: '/contact',
@@ -16,11 +16,23 @@ let Const = {
     }
     return false;
   },
-  setDecimalCurrencyNumber(val, currency){
+  setDecimalCurrencyNumber(val, currency) {
+    if(val === 0) {
+      return 0;
+    }
     val = "" + val;
     let newVal = val.substring(0,val.length-2);
     newVal = newVal + "." + val.charAt(val.length-2) + val.charAt(val.length-1);
     newVal = currency === 'eur' ? '€ ' + newVal : (currency === 'usd' ? '$ ' + newVal : currency + " " + newVal);
+    return newVal
+  },
+  setDecimalNumber(val) {
+    if (val === 0) {
+      return 0;
+    }
+    val = "" + val;
+    let newVal = val.substring(0, val.length - 2);
+    newVal = newVal + "." + val.charAt(val.length - 2) + val.charAt(val.length - 1);
     return newVal
   },
   PRIVACY_POLICY_LINK : "https://www.iubenda.com/privacy-policy/80858552",
@@ -62,6 +74,16 @@ let Const = {
     ADMIN: 'Admin',
     SUPER_ADMIN: 'SuperAdmin',
   },
+  PAYPAL: {
+    api : {
+      sandbox: 'https://api-m.sandbox.paypal.com',
+      production: 'https://api-m.paypal.com'
+    },
+    sdk: "https://www.paypal.com/sdk/js?client-id=",
+    getAPI: () => {
+      return process.env.NODE_ENV === 'production' ? Const.PAYPAL.api.production : Const.PAYPAL.api.sandbox;
+    }
+  }
 }
 
 

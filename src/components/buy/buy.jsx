@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import { useHistory, useLocation } from 'react-router-dom'
 import {loadStripe} from '@stripe/stripe-js';
 import Const from './../../util/Costanti';
@@ -6,10 +7,9 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import TrackingGA from './../utils/Tracking';
 
-
 const stripePromise = loadStripe(process.env.REACT_APP_PUB_KEY_STRIPE);
 
-const ProductDisplay = React.memo(({ product, quantity, handleQuantityChange, handleClick }) => {
+const ProductDisplay = React.memo(({ buttonDisabled, product, quantity, handleQuantityChange, handleManualQuantityChange, handleClick, PayPalButton, createOrder, onApprove, onError, onCancel }) => {
   return (
     <div style={{
         width: '92vw',
@@ -35,19 +35,35 @@ const ProductDisplay = React.memo(({ product, quantity, handleQuantityChange, ha
                   />
                 :
                 null
-               }
+              }
             </div>
           </div>
           <h2 className="font-weight-bold my-2">{Const.setDecimalCurrencyNumber(product.price.unit_amount * quantity, product.price.currency)}</h2>
           <h5 className="grey-text" style={{fontSize: '.95rem'}}>{product.description}</h5>
           <div className="qt-plus-minut my-2">
             <button onClick={e=>handleQuantityChange(e)}><i name="minus" className="fa fa-minus" aria-hidden="true" style={{fontSize: '0.9rem'}}></i></button>
-            <input className="qt-input" style={{fontSize: '1.8rem'}} min="1" name="quantity" value={quantity} type="number" readOnly/>
+              <input className="qt-input" style={{ fontSize: '1.8rem' }} name="quantity" value={quantity} type="text" onChange={handleManualQuantityChange}/>
             <button onClick={e=>handleQuantityChange(e)} ><i name="plus" className="fa fa-plus" aria-hidden="true" style={{fontSize: '1.0rem'}}></i></button>
-          </div>
-          <div className="col-xs-12">
-            <button className="btn-success btn-checkout" onClick={handleClick}>Acquista</button>
-          </div>
+            </div>
+            <div className="row">
+              <div className="col-sm-6">
+                <button 
+                  className="btn-success btn-checkout"
+                  onClick={handleClick}
+                  disabled={buttonDisabled}
+                  style={{opacity: buttonDisabled ? '0.33' : '1', pointerEvents: buttonDisabled ? 'none' : 'auto' }}
+                >Carta/Bonifico</button>
+              </div>
+            <div className="col-sm-6" style={{ opacity: buttonDisabled ? '0.33' : '1', pointerEvents: buttonDisabled ? 'none' : 'auto'  }}>
+                <PayPalButton
+                  style={{ layout: "horizontal", height: 50 }}
+                  createOrder={(data, actions) => createOrder(data, actions)}
+                  onApprove={(data, actions) => onApprove(data, actions)}
+                  onError={err => onError(err)}
+                  onCancel={(data, actions) => onCancel(data, actions)}
+                ></PayPalButton>
+              </div>
+            </div>
         </div>
       </div>
       </div>
@@ -56,7 +72,10 @@ const ProductDisplay = React.memo(({ product, quantity, handleQuantityChange, ha
 })
 
 const Buy = React.memo(({enableSpinner, disableSpinner}) => {
+
+  const PayPalButton = window.paypal.Buttons.driver("react", { React, ReactDOM });
   const [quantity, setQuantity] = useState(1);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
   const [product, setProduct] = useState({
     images:[],
     name:'',
@@ -128,10 +147,24 @@ const Buy = React.memo(({enableSpinner, disableSpinner}) => {
     } else {
       qt++;
     }
-    if(qt===0){
+    if(qt===0 || qt < 0){
       return;
     }else{
       setQuantity(qt);
+      setButtonDisabled(false);
+    }
+  }
+
+  const handleManualQuantityChange = event => {
+    if (event.target.value !== '-' && !isNaN(event.target.value)) {
+      setQuantity(event.target.value);
+    }
+    if (event.target.value === "" || event.target.value === "0") {
+      setButtonDisabled(true);
+    } else {
+      if (buttonDisabled) {
+        setButtonDisabled(false);
+      }
     }
   }
 
@@ -140,7 +173,7 @@ const Buy = React.memo(({enableSpinner, disableSpinner}) => {
       enableSpinner();
       TrackingGA.event("Client", "reindirizzamento alla pagina di checkout", "click sul pulsante checkout all'interno della pagina di acquisto")
       const stripe = await stripePromise;
-      const response = await axios.post(Const.PAYMENT_CREATE_SESSION, {quantity});
+      const response = await axios.post('http:localhost:3000'+Const.PAYMENT_CREATE_SESSION, {quantity});
       const result = await stripe.redirectToCheckout({
         sessionId: response.data.id,
       });
@@ -158,7 +191,7 @@ const Buy = React.memo(({enableSpinner, disableSpinner}) => {
         });
       } else {
         TrackingGA.event("Client", "pagina di checkout", "acquisto concluso")
-        toast.success("Grazie per il tuo acquisto!", {
+        toast.success("Pagamento Completato. Grazie per il tuo acquisto!", {
           position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
@@ -182,8 +215,72 @@ const Buy = React.memo(({enableSpinner, disableSpinner}) => {
     }
   };
 
+
+  const createOrder = (data, actions) => {
+    try {
+      enableSpinner();
+      return actions.order.create({
+        purchase_units: [
+          {
+            amount: {
+              value: Const.setDecimalNumber(product.price.unit_amount * quantity),
+            },
+            currency_code: 'EUR'
+          },
+        ],
+      });
+    } catch (e) {
+      console.log(e);
+    }
+
+  }
+
+  const onApprove = async (data, actions) => {
+    const order = await actions.order.capture();
+    TrackingGA.event("Client", "pagina di checkout", "acquisto paypal concluso")
+    disableSpinner();
+    toast.success("Pagamento Completato. Grazie per il tuo acquisto!", {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+    });
+
+  };
+
+  const onError = (err) => {
+    TrackingGA.execption("Acquisto con Paypal non concluso: " + err.message)
+    disableSpinner();
+    toast.error(err.message, {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+    });
+  }
+  
+  const onCancel = (data, actions) => {
+    TrackingGA.execption("Acquisto con Paypal cancellato")
+    disableSpinner();
+    toast.success("Ordine cancellato", {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+    });
+  }
+
   return(
-    product.description !== '' && <ProductDisplay product={product} quantity={quantity} handleQuantityChange={handleQuantityChange} handleClick={handleClick} />
+    product.description !== '' && <ProductDisplay buttonDisabled={buttonDisabled} product={product} quantity={quantity} handleQuantityChange={handleQuantityChange} handleManualQuantityChange={handleManualQuantityChange} handleClick={handleClick} PayPalButton={PayPalButton} createOrder={createOrder} onApprove={onApprove} onError={onError} onCancel={onCancel}/>
   )
 })
 
