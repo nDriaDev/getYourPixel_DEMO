@@ -12,7 +12,7 @@ const withAuth = function(req, res, next) {
     var secret = req.session.secret;
     jwt.verify(token, secret, function(err, decoded) {
       if (err) {
-        log.error(err);
+        log.error("Session Expired");
         res.status(200).send({code:401,message:'Sessione scaduta'});
       } else {
         req.email = decoded.email;

@@ -18,6 +18,8 @@ import HowWork from './components/howWork/howWork';
 import Win from './components/win/win';
 import TrackingGA from './components/utils/Tracking';
 import { BuyManager } from './components/buy/buyManager';
+import axios from 'axios';
+import Const from './util/Costanti';
 
 class App extends Component {
   constructor(props){
@@ -65,6 +67,21 @@ class App extends Component {
   componentDidMount(){
     TrackingGA.initGA();
     TrackingGA.pageView('/');
+    axios.get(Const.CHECK_TOKEN)
+      .then(result => {
+        if (result.data.code !== 200) {
+          this.setAuth(false, false);
+        } else {
+          if (result.data.type === 'Client') {
+            this.setAuth(false, true);
+          } else {
+            this.setAuth(true, false);
+          }
+        }
+      })
+      .catch(err => {
+        this.setAuth(false, false)
+      })
   }
 
 
