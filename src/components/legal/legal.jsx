@@ -70,6 +70,21 @@ const Legal = (props) => {
                   onClick={()=>activing(2)}>
                   <Link style={{textAlign:'left'}} to={`${path}/termsAndConditions`}> Terms and Conditions </Link>
                 </li>
+                <li
+                  className="nav-item"
+                  style={{
+                    display: 'block',
+                    color: '#fff',
+                    padding: '14px 16px',
+                    textDecoration: 'none',
+                    fontFamily: '"sans-serif"',
+                    fontWeight: '700',
+                    fontSize: '14px',
+                    lineHeight: '1.7',
+                    textAlign: 'left',
+                  }}>
+                  P.IVA 03936760044
+                </li>
               </ul>
             </div>
           </nav>
