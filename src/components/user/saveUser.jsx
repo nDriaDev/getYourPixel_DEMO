@@ -45,16 +45,10 @@ const SaveUser = (props) => {
             email: '',
             password: '',
           });
-          disableSpinner();
-          toast.success(res.data.message, {
-            position: "top-center",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-          });
+          history.push({
+            pathname: Const.PATH_REGISTRATION_SUCCESS,
+            state: { authorized: true }
+          })
         } else {
           throw new Error(res.data.message);
         }

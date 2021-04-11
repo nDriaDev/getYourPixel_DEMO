@@ -20,6 +20,8 @@ import TrackingGA from './components/utils/Tracking';
 import { BuyManager } from './components/buy/buyManager';
 import axios from 'axios';
 import Const from './util/Costanti';
+import { RestrictedRoute } from './components/routes/restrictedRoute';
+import { RegisterSuccess } from './components/user/RegisterSuccess';
 
 class App extends Component {
   constructor(props){
@@ -208,6 +210,9 @@ class App extends Component {
                     disableSpinner={this.disableSpinner} />
                 )}
               />
+              <RestrictedRoute {...this.props} path="/registrationSuccess">
+                <RegisterSuccess disableSpinner={this.disableSpinner}></RegisterSuccess>
+              </RestrictedRoute>
               <Redirect
                 to="/error"
                 render = {(props) => (

@@ -13,7 +13,7 @@ try {
     '/checkToken',
     controllers.authMiddlewareController,
     (req, res, next) => {
-      res.status(200).send({code:200,message:'Authorized'});
+      res.status(200).send({code:200,message:'Authorized', type:req.session.type});
     }
   )
   .post(

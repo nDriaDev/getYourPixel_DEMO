@@ -10,6 +10,7 @@ const Const = {
   PATH_TERM_AND_CONDITIONS: '/termsAndConditions',
   PATH_LEGAL: '/legal',
   PATH_ERROR: '/error',
+  PATH_REGISTRATION_SUCCESS: '/registrationSuccess',
   MOBILE_BROWSER_REGEX: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Windows Phone/i,
   isMobileBrowser(agent){
     if(this.MOBILE_BROWSER_REGEX.test(agent)) {
