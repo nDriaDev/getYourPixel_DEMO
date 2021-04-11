@@ -293,6 +293,7 @@ class MainController {
       try {
         log.info("START");
         service.initialize(req.app.locals.db);
+        service.removeExpiredUsers();
         service.login(req.body)
           .then(result => {
             if(result.code === 200){

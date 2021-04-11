@@ -2338,6 +2338,25 @@ class MainService {
       }
     })
   }
+
+  async removeExpiredUsers() {
+    log.info("START");
+    try {
+      const result = await this.db
+      .collection(COLLECTION_USER)
+        .deleteMany({
+          "$and": [{
+            active: false,
+          },{
+            activeExpires: { "$exists": true, "$lt": Date.now()}
+          }]
+        })
+      log.info("Deleted " + result.deletedCount + " users")
+      log.info("FINISH")
+    } catch (error) {
+      log.error(error.message)
+    }
+  }
 }
 
 
