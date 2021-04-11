@@ -143,7 +143,9 @@ const HowWork = (props) => {
     props.enableSpinner();
     onScroll(false);
     document.getElementById('container').addEventListener('scroll', onScroll);
-    props.disableSpinner();
+    setTimeout(() => {
+      props.disableSpinner();
+    },100)
     return () => {
       let elem = document.getElementById('container');
       if(elem) {

@@ -8,7 +8,7 @@ const Spinner = React.memo(({show}) => {
         size={100}
         color="#28a745"
         style={{
-          width:'100vw',
+          width:'99vw',
           height: '100vh',
           visibility: show ? 'visible' : 'hidden',
           position: 'absolute',

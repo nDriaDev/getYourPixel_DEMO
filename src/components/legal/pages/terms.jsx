@@ -14,7 +14,7 @@ const Terms = ({spinnerCommand}) => {
 
   return (
     html &&
-    <div className="mb-5" style={{backgroundColor: '#FFFFFF'}}>
+    <div className="" style={{backgroundColor: '#FFFFFF', height:'inherit',overflowY:'scroll'}}>
       <div className="terms-page" style={{paddingLeft:'10%', paddingRight:'10%', width:'100%'}}>
         <h2>1. Prodotti o servizi forniti</h2>
         <ol>

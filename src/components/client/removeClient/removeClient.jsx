@@ -107,14 +107,14 @@ const RemoveClient = ({spinnerCommand}) => {
     }
   }
   return (
-    <div className="mx-auto mb-5" style={{maxWidth:'512px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
+    <div className="mx-auto mb-5" style={{maxWidth:'640px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
       <div className="mt-2" align="center">
         <h1 style={{color:'#28a745'}}>Elimina Cliente</h1>
       </div>
       <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
         <Form noValidate validated={validated} onSubmit={onSubmit}>
           <Row style={{marginBottom:'1rem'}}>
-            <Col sm="5" style={{paddingLeft:'0'}}>
+            <Col sm="7" md="4" style={{padding:'0'}}>
               <Row style={{
                 padding: 'calc(.375rem + 1px) 15px'
               }}>
@@ -135,7 +135,7 @@ const RemoveClient = ({spinnerCommand}) => {
                 <option>Azienda cliente</option>
               </Form.Control>
             </Col>
-            <Col sm="7" style={{padding:'0'}}>
+            <Col sm="7" md={{span:7,offset:1}} style={{padding:'0'}}>
               <Row style={{
                 padding: 'calc(.375rem + 1px) 15px'
               }}>

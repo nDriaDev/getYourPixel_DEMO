@@ -1,5 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import { useRouteMatch, Link, useHistory } from 'react-router-dom';
+import Const from '../../util/Costanti';
 import LegalRoute from './legalRoute';
 
 const Legal = (props) => {
@@ -37,14 +38,21 @@ const Legal = (props) => {
       }
     }
     setActive(arr);
+    collapseNavbar();
   }
+
+  const collapseNavbar = useCallback(() => {
+    if (Const.isMobileBrowser(navigator.userAgent) && document.querySelector('#verticalNav').className.indexOf("show") !== -1) {
+        document.querySelector('#btn-collapse2').click();
+      }
+  },[])
 
   return (
     <>
-      <div className="row vertical-bar">
+      <div className="row vertical-bar mx-auto">
         <div className="col-lg-2 col-md-2 col-sm-1 col-xs-1 background-v-nav">
           <nav className="navbar navbar-expand-lg navbar-dark primary-color">
-            <button className="navbar-toggler btn-v-bar" type="button" data-toggle="collapse" data-target="#verticalNav"
+            <button id="btn-collapse2" className="navbar-toggler btn-v-bar" type="button" data-toggle="collapse" data-target="#verticalNav"
               aria-controls="verticalNav" aria-expanded="false" aria-label="Toggle navigation">
               <span className="navbar-toggler-icon"></span>
             </button>
@@ -66,8 +74,8 @@ const Legal = (props) => {
             </div>
           </nav>
         </div>
-        <div className="col-lg-10 col-md-10 col-sm-11 col-xs-11">
-          <div className="container-fluid container-v-bar" style={{height:'100%'}}>
+        <div className="col-lg-10 col-md-10 col-sm-11 col-xs-11" style={{height:'inherit'}}>
+          <div className="container-fluid container-v-bar" style={{height:'inherit'}}>
             <LegalRoute spinner={spinner} spinnerCommand={spinnerCommand} />
           </div>
         </div>

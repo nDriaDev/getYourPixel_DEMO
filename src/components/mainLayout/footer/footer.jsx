@@ -8,28 +8,30 @@ const Footer = React.memo(() => {
   const [path,setPath] = useState(window.location.pathname);
 
   useEffect(() => {
-    const unlisten = history.listen((location,action) => {
+    const unlisten = history.listen((location, action) => {
       setPath(location.pathname)
     })
     return () => unlisten();
   },[])
 
   const goToLegal = useCallback(() => {
-    let idUls = ['ulNavSx', 'ulNavDx1', 'ulNavDx2', 'ulNavDx3', 'ulNavDx4'];
-    let trovato = false;
-    for (let i in idUls) {
-      let children = document.getElementById(idUls[i]).childNodes;
-      let array = Array.from(children);
-      for (let j in array) {
-        if (array[j].classList.contains('active-nav-bar')) {
-          array[j].classList.remove('active-nav-bar');
-          trovato = true;
+    if (!Const.isMobileBrowser(navigator.userAgent)) {
+      let idUls = ['ulNavSx', 'ulNavDx1', 'ulNavDx2', 'ulNavDx3', 'ulNavDx4'];
+      let trovato = false;
+      for (let i in idUls) {
+        let children = document.getElementById(idUls[i]).childNodes;
+        let array = Array.from(children);
+        for (let j in array) {
+          if (array[j].classList.contains('active-nav-bar')) {
+            array[j].classList.remove('active-nav-bar');
+            trovato = true;
+            break;
+          }
+        }
+        if (trovato) {
           break;
         }
-      }
-      if (trovato) {
-        break;
-      }
+      }      
     }
     history.push('/legal');
   },[])
@@ -49,8 +51,10 @@ const Footer = React.memo(() => {
   }
 
   const getPositionFooter = useCallback(() => {
-    if(Const.isMobileBrowser(navigator.userAgent) &&
-      ![Const.PATH_HOME, Const.PATH_MANAGE, Const.PATH_REGISTER, Const.PATH_TERM_AND_CONDITIONS].includes(path)) {
+    let prv = path.split('/')
+    prv[1] = prv[0] === '' && prv[1] !== '' ? '/'+prv[1] : '/';
+    if(Const.isMobileBrowser(navigator.userAgent) && (
+      ![Const.PATH_HOME, Const.PATH_BUY, Const.PATH_LOGIN, Const.PATH_MANAGE, Const.PATH_REGISTER, Const.PATH_LEGAL + Const.PATH_TERM_AND_CONDITIONS].includes(prv[1]))) {
       return 'unset';
     } else {
       return 'fixed';
@@ -67,7 +71,7 @@ const Footer = React.memo(() => {
         <div className="container-fluid footer" style={styleDiv}>
           <div className="div-left" style={styleCol}>
             <span style={styleSpan}>
-              Copyright &copy; 2020 Get your pixels. Tutti i diritti sono riservati. Non sono responsabile del contenuto di siti esterni.
+              Copyright &copy; 2021 Get your pixels. Tutti i diritti sono riservati. Non sono responsabile del contenuto di siti esterni.
               <span style={{color:'#FFFFFF',cursor:'pointer'}} onClick={()=>goToLegal()}>{' LEGAL'}</span>
             </span>
           </div>

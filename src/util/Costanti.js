@@ -8,6 +8,7 @@ const Const = {
   PATH_LOGIN: '/login',
   PATH_REGISTER: '/register',
   PATH_TERM_AND_CONDITIONS: '/termsAndConditions',
+  PATH_LEGAL: '/legal',
   PATH_ERROR: '/error',
   MOBILE_BROWSER_REGEX: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Windows Phone/i,
   isMobileBrowser(agent){

@@ -17,12 +17,13 @@ const ProductDisplay = React.memo(({ buttonDisabled, product, quantity, handleQu
         marginRight: '4%',
       }} align="center">
       <div id="griglia" style={{
-          maxHeight:'100%',
-          maxWidth:'480px',
-          border:'2px solid #FFFFFF',
-          borderRadius:'5%',
-          overflowY:'auto'}}>
-        <div className="mx-auto" style={{backgroundColor: 'white'}}>
+        backgroundColor: 'white',
+        height:'75vh',
+        maxWidth:'480px',
+        border:'2px solid #FFFFFF',
+        borderRadius:'5%',
+        overflowY:'auto'}}>
+        <div className="mx-auto">
         <div className="card-body">
           <h1 className="mb-2" style={{fontSize:'2.7rem'}}>{product.name}</h1>
           <div className="d-flex justify-content-center mb-2">
@@ -56,7 +57,7 @@ const ProductDisplay = React.memo(({ buttonDisabled, product, quantity, handleQu
               </div>
             <div className="col-sm-6" style={{ opacity: buttonDisabled ? '0.33' : '1', pointerEvents: buttonDisabled ? 'none' : 'auto'  }}>
                 <PayPalButton
-                  style={{ layout: "horizontal", height: 50 }}
+                  style={{ layout: "horizontal", height: 50, tagline:'false' }}
                   createOrder={(data, actions) => createOrder(data, actions)}
                   onApprove={(data, actions) => onApprove(data, actions)}
                   onError={err => onError(err)}

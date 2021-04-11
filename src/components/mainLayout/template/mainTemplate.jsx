@@ -17,6 +17,12 @@ const MainTemplate = React.memo(({children, enableSpinner, disableSpinner, setAu
       .then(result => {
         if(result.data.code !== 200) {
           setAuth(false,false);
+        } else {
+          if (result.data.type === 'Client') {
+            setAuth(false, true);
+          } else {
+            setAuth(true, false);
+          }
         }
       })
       .catch(err => {

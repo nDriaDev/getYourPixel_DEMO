@@ -7,8 +7,8 @@ const Win = (props) => {
   }, []);
 
   return (
-    <>
-    <div className="col-sm-12" style={{color:'#FFFFFF', padding:'5% 5% 20% 5%'}}>
+    <div style={{height:'100%'}}>
+    <div className="col-sm-12" style={{color:'#FFFFFF', height:'75vh', overflowY:'scroll'}}>
       <h1 style={{textAlign:'center', color:'#28a745'}}>
         VINCI DAI 100'000 AI 500'000€ SENZA SPENDERE UN CENTESIMO!
       </h1>
@@ -101,7 +101,7 @@ const Win = (props) => {
           In bocca al lupo!
         </h3>
     </div>
-    </>
+    </div>
   )
 }
 
