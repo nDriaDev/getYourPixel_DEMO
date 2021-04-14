@@ -174,7 +174,7 @@ const Buy = React.memo(({enableSpinner, disableSpinner}) => {
       enableSpinner();
       TrackingGA.event("Client", "reindirizzamento alla pagina di checkout", "click sul pulsante checkout all'interno della pagina di acquisto")
       const stripe = await stripePromise;
-      const response = await axios.post('http:localhost:3000'+Const.PAYMENT_CREATE_SESSION, {quantity});
+      const response = await axios.post(Const.PAYMENT_CREATE_SESSION, {quantity});
       const result = await stripe.redirectToCheckout({
         sessionId: response.data.id,
       });
