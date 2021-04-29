@@ -8,7 +8,7 @@
 /* THANKS */
 
 /* SITE */
-          Version: 3.5.5
-          Last update: 2021/03/25
+          Version: 3.6.0
+          Last update: 2021/04/30
           Language: Italian
           Doctype: MERN stack web application
