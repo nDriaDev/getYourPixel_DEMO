@@ -4,6 +4,8 @@ const Const = {
   PATH_CONTACT: '/contact',
   PATH_HOW_WORK: '/howWork',
   PATH_WIN: '/win',
+  PATH_INVITE: '/invite',
+  PATH_SHARE_CODE: '/sharecode',
   PATH_MANAGE: '/manage',
   PATH_LOGIN: '/login',
   PATH_REGISTER: '/register',
@@ -70,6 +72,7 @@ const Const = {
   SAVE_CLICK: '/api/saveClick',
   COUNT_USERS: '/api/countUsers',
   COUNT_POINTS: '/api/countPoints',
+  EDIT_USER: '/api/editUser',
   ADMIN_TYPE: {
     CLIENT: 'Client',
     BASIC: 'Basic',

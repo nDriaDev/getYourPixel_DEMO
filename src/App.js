@@ -22,6 +22,7 @@ import axios from 'axios';
 import Const from './util/Costanti';
 import { RestrictedRoute } from './components/routes/restrictedRoute';
 import { RegisterSuccess } from './components/user/RegisterSuccess';
+import { Invite } from './components/invite/Invite';
 
 class App extends Component {
   constructor(props){
@@ -149,6 +150,16 @@ class App extends Component {
                 render={(props) => (
                   <Win {...props}
                     setAuth={this.setAuth}
+                    enableSpinner={this.enableSpinner}
+                    disableSpinner={this.disableSpinner} />
+                )}
+              />
+              <Route
+                path='/invite'
+                render={(props) => (
+                  <Invite
+                    isAuth={this.state.isAuth}
+                    isAuthBasic={this.state.isAuthBasic}
                     enableSpinner={this.enableSpinner}
                     disableSpinner={this.disableSpinner} />
                 )}
