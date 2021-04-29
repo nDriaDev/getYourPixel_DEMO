@@ -91,6 +91,13 @@ class Logger {
     let log = {...this.logger};
     log.error = (e, text = '') => {
       // let infoText = this._getFileName(file,text)
+      if (text === '') {
+        if (e.message === undefined) {
+          text = e;
+        } else {
+          text = e.message
+        }
+      }
       let infoText = StackElements.getFormatedStackTraceElement(text, e); // 0 for current level, 1 for parent , ..., 3 for function name in class
       this.winstonLogger.error(infoText)
     }
