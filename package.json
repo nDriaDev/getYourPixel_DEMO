@@ -73,6 +73,10 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "//":{
+    "comment": "proxy serve per evitare errori CORS quando il server è su un porta diversa",
+    "proxy": "http://localhost:3001"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
