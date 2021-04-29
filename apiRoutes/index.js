@@ -118,6 +118,11 @@ try {
     controllers.mainController.getUser
   )
   .post(
+    '/editUser',
+    controllers.authMiddlewareController,
+    controllers.mainController.editUser
+  )
+  .post(
     '/saveUser',
     controllers.mainController.saveUser,
     controllers.mailerController.sendActivationEmail
@@ -129,7 +134,8 @@ try {
   )
   .get(
     '/activeUser/:activeToken',
-    controllers.mainController.activeUser
+    controllers.mainController.activeUser,
+    controllers.mailChimpController.addMemberToList,
   )
   .post(
     '/saveClick',
@@ -149,6 +155,19 @@ try {
     '/logout',
     controllers.authMiddlewareController,
     controllers.logoutController
+  )
+  .post(
+    '/checkIfReferrealExist',
+    controllers.mainController.checkIfReferrealExist
+  )
+  .post(
+    '/mailingList',
+    controllers.mailChimpController.authenticate
+  )
+  .get(
+    '/massiveAccountToMailingList',
+    controllers.mainController.getAllUsers,
+    controllers.mailChimpController.addAllMembersToList,
   )
 
   log.info("FINISH")

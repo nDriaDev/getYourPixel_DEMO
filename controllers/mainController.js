@@ -6,138 +6,169 @@ const jwt = require('jsonwebtoken');
 const { v4: uuid } = require('uuid');
 
 class MainController {
-
+  
+  async checkIfReferrealExist(req, res, next) {
+    service.initialize(req.app.locals.db);
+    const result = await service.checkIfReferrealExist(req.body.ref);
+    if(result) {
+      res.status(200).send("OK");
+    } else {
+      res.status(200).send("NO OK");
+    }
+  }
+  
   countPoints(req, res, next) {
-      try {
-        log.info("START");
-        service.initialize(req.app.locals.db);
-        service.countPoints(req.session.email)
-          .then(result => {
-            if(result) {
-              res.status(200).send(result)
-            } else {
-              res.status(200).send({code:401,message:'Errore interno'})
-            }
-          })
-          .catch(e => {
-            log.error(e);
-            res.status(200).send({code:401,message:e.message});
-          })
-      } catch (e) {
+    try {
+      log.info("START");
+      service.initialize(req.app.locals.db);
+      service.countPoints(req.session.email)
+      .then(result => {
+        if(result) {
+          res.status(200).send(result)
+        } else {
+          res.status(200).send({code:401,message:'Errore interno'})
+        }
+      })
+      .catch(e => {
         log.error(e);
-        next(e.message);
-      } finally {
-        log.info("FINISH");
-      }
+        res.status(200).send({code:401,message:e.message});
+      })
+    } catch (e) {
+      log.error(e);
+      next(e.message);
+    } finally {
+      log.info("FINISH");
+    }
   }
-
+  
   countUsers(req, res, next) {
-      try {
-        log.info("START");
-        service.initialize(req.app.locals.db);
-        service.countUsers()
-          .then(result => {
-            if(result) {
-              res.status(200).send(result)
-            } else {
-              res.status(200).send({code:401,message:'Errore interno'})
-            }
-          })
-          .catch(e => {
-            log.error(e);
-            res.status(200).send({code:500,message:e.message});
-          })
-      } catch (e) {
+    try {
+      log.info("START");
+      service.initialize(req.app.locals.db);
+      service.countUsers()
+      .then(result => {
+        if(result) {
+          res.status(200).send(result)
+        } else {
+          res.status(200).send({code:401,message:'Errore interno'})
+        }
+      })
+      .catch(e => {
         log.error(e);
-        next(e.message);
-      } finally {
-        log.info("FINISH");
-      }
+        res.status(200).send({code:500,message:e.message});
+      })
+    } catch (e) {
+      log.error(e);
+      next(e.message);
+    } finally {
+      log.info("FINISH");
+    }
   }
-
+  
   getUser(req, res, next) {
-      try {
-        log.info("START");
-        let email = req.body.email ? req.body.email : req.session.email;
-        service.initialize(req.app.locals.db);
-        service.getUser(email)
-          .then(result => {
-            if(result) {
-              res.status(200).send(result)
-            } else {
-              res.status(200).send({code:401,message:'Utente inesistente'})
-            }
-          })
-          .catch(e => {
-            log.error(e);
-            res.status(200).send({code:500,message:e.message});
-          })
-      } catch (e) {
+    try {
+      log.info("START");
+      let email = req.body.email ? req.body.email : req.session.email;
+      service.initialize(req.app.locals.db);
+      service.getUser(email)
+      .then(result => {
+        if(result) {
+          res.status(200).send(result)
+        } else {
+          res.status(200).send({code:401,message:'Utente inesistente'})
+        }
+      })
+      .catch(e => {
         log.error(e);
-        next(e.message);
-      } finally {
-        log.info("FINISH");
-      }
+        res.status(200).send({code:500,message:e.message});
+      })
+    } catch (e) {
+      log.error(e);
+      next(e.message);
+    } finally {
+      log.info("FINISH");
+    }
   }
-
+  
   loginUser(req, res, next) {
-      try {
-        log.info("START");
-        service.initialize(req.app.locals.db);
-        service.loginUser(req.body)
-          .then(result => {
-            if(result.code === 200){
-              let secret = uuid();
-              req.session.secret = secret;
-              req.session.email = req.body.email;
-              req.session.type = result.type;
-              let token = jwt.sign({email:req.body.email}, secret, {expiresIn: '1h'});
-              res.cookie('token', token, {httpOnly: true}).status(200).send(result)
-            } else {
-              res.status(200).send({code:result.code, message:result.message});
-            }
-          })
-          .catch(e => {
-            log.error(e);
-            next(e.message);
-          })
-      } catch (e) {
+    try {
+      log.info("START");
+      service.initialize(req.app.locals.db);
+      service.loginUser(req.body)
+      .then(result => {
+        if(result.code === 200){
+          let secret = uuid();
+          req.session.secret = secret;
+          req.session.email = req.body.email;
+          req.session.type = result.type;
+          let token = jwt.sign({email:req.body.email}, secret, {expiresIn: '1h'});
+          res.cookie('token', token, {httpOnly: true}).status(200).send(result)
+        } else {
+          res.status(200).send({code:result.code, message:result.message});
+        }
+      })
+      .catch(e => {
         log.error(e);
         next(e.message);
-      } finally {
-        log.info("FINISH");
-      }
+      })
+    } catch (e) {
+      log.error(e);
+      next(e.message);
+    } finally {
+      log.info("FINISH");
+    }
   }
-
+  
   saveUser(req, res, next) {
-      try {
-        log.info("START");
-        service.initialize(req.app.locals.db);
-        service.saveUser(req.body)
-          .then(result => {
-            res.locals.result = result;
-            next();
-          })
-          .catch(e => {
-            log.error(e);
-            res.status(200).send({code:500,message:e.message});
-          })
-      } catch (e) {
-        log.info("main_Controller - [saveUser] - ERROR -", e.message);
-        next(e.message);
-      } finally {
-        log.info("FINISH");
-      }
+    try {
+      log.info("START");
+      service.initialize(req.app.locals.db);
+      service.saveUser(req.body)
+      .then(result => {
+        res.locals.result = result;
+        next();
+      })
+      .catch(e => {
+        log.error(e);
+        res.status(200).send({code:500,message:e.message});
+      })
+    } catch (e) {
+      log.info("main_Controller - [saveUser] - ERROR -", e.message);
+      next(e.message);
+    } finally {
+      log.info("FINISH");
+    }
   }
-
+  
+  editUser(req, res, next) {
+    try {
+      log.info("START");
+      service.initialize(req.app.locals.db);
+      service.editUser(req.body, req.session.email)
+      .then(result => {
+        res.status(200).send({code:200, message: result})
+      })
+      .catch(e => {
+        log.error(e);
+        res.status(200).send({code:500,message:e.message});
+      })
+    } catch (e) {
+      log.info("main_Controller - [editUser] - ERROR -", e.message);
+      next(e.message);
+    } finally {
+      log.info("FINISH");
+    }
+  }
+  
   activeUser(req, res, next) {
     try {
       log.info("START");
       service.initialize(req.app.locals.db);
       service.activeUser({activeToken:req.params.activeToken})
       .then(result => {
-        if(result) {
-          res.sendFile(appRoot + '/resources/templateActivationSuccess.html');
+        if (result) {
+          res.locals.result = result;
+          next();
         } else {
           res.sendFile(appRoot + '/resources/templateActivationFail.html');
         }
@@ -153,7 +184,7 @@ class MainController {
       log.info("FINISH");
     }
   }
-
+  
   deleteUser(req, res, next) {
     try {
       log.info("START");
@@ -173,102 +204,102 @@ class MainController {
       log.info("FINISH");
     }
   }
-
+  
   saveClick(req, res, next) {
-      try {
-        log.info("START");
-        service.initialize(req.app.locals.db);
-        service.saveClick(req.session.email, req.body.url)
-          .then(result => {
-            if(result.code === 401) {
-              log.info(result.message);
-              res.status(200).send({code:401});
-            } else {
-              res.status(200).send(result)
-            }
-          })
-          .catch(e => {
-            log.error(e);
-            res.status(200).send({code:500,message:e.message});
-          })
-      } catch (e) {
+    try {
+      log.info("START");
+      service.initialize(req.app.locals.db);
+      service.saveClick(req.session.email, req.body.url)
+      .then(result => {
+        if(result.code === 401) {
+          log.info(result.message);
+          res.status(200).send({code:401});
+        } else {
+          res.status(200).send(result)
+        }
+      })
+      .catch(e => {
         log.error(e);
-        next(e.message);
-      } finally {
-        log.info("FINISH");
-      }
+        res.status(200).send({code:500,message:e.message});
+      })
+    } catch (e) {
+      log.error(e);
+      next(e.message);
+    } finally {
+      log.info("FINISH");
+    }
   }
-
+  
   getAdmin(req, res, next) {
-      try {
-        log.info("START");
-        let email = req.body.email ? req.body.email : req.session.email;
-        service.initialize(req.app.locals.db);
-        service.getAdmin(email)
-          .then(result => {
-            if(result) {
-              res.status(200).send(result)
-            } else {
-              if(req.session.type === 'Client') {
-                res.status(200).send({code:200,type:req.session.type})
-              } else {
-                res.status(200).send(result)
-              }
-            }
-          })
-          .catch(e => {
-            log.error(e);
-            res.status(200).send({code:500,message:e.message});
-          })
-      } catch (e) {
+    try {
+      log.info("START");
+      let email = req.body.email ? req.body.email : req.session.email;
+      service.initialize(req.app.locals.db);
+      service.getAdmin(email)
+      .then(result => {
+        if(result) {
+          res.status(200).send(result)
+        } else {
+          if(req.session.type === 'Client') {
+            res.status(200).send({code:200,type:req.session.type})
+          } else {
+            res.status(200).send(result)
+          }
+        }
+      })
+      .catch(e => {
         log.error(e);
-        next(e.message);
-      } finally {
-        log.info("FINISH");
-      }
+        res.status(200).send({code:500,message:e.message});
+      })
+    } catch (e) {
+      log.error(e);
+      next(e.message);
+    } finally {
+      log.info("FINISH");
+    }
   }
-
+  
   getAdmins(req, res, next) {
-      try {
-        log.info("START");
-        let type = req.body.type ? req.body.type : null;
-        service.initialize(req.app.locals.db);
-        service.getAdmins(type)
-          .then(result => {
-            res.status(200).send(result)
-          })
-          .catch(e => {
-            log.error(e);
-            res.status(200).send({code:500,message:e.message});
-          })
-      } catch (e) {
+    try {
+      log.info("START");
+      let type = req.body.type ? req.body.type : null;
+      service.initialize(req.app.locals.db);
+      service.getAdmins(type)
+      .then(result => {
+        res.status(200).send(result)
+      })
+      .catch(e => {
         log.error(e);
-        next(e.message);
-      } finally {
-        log.info("FINISH");
-      }
+        res.status(200).send({code:500,message:e.message});
+      })
+    } catch (e) {
+      log.error(e);
+      next(e.message);
+    } finally {
+      log.info("FINISH");
+    }
   }
-
+  
   addAdmin(req, res, next) {
-      try {
-        log.info("START");
-        service.initialize(req.app.locals.db);
-        service.addAdmin(req.body)
-          .then(result => {
-            res.status(200).send(result)
-          })
-          .catch(e => {
-            log.error(e);
-            res.status(200).send({code:500,message:e.message});
-          })
-      } catch (e) {
+    try {
+      log.info("START");
+      service.initialize(req.app.locals.db);
+      service.addAdmin(req.body)
+      .then(result => {
+        res.status(200).send(result)
+      })
+      .catch(e => {
         log.error(e);
-        next(e.message);
-      } finally {
-        log.info("FINISH");
-      }
+        res.status(200).send({code:500,message:e.message});
+      })
+    } catch (e) {
+      log.error(e);
+      next(e.message);
+    } finally {
+      log.info("FINISH");
+    }
   }
-
+  
   deleteAdmin(req, res, next) {
     try {
       log.info("START");
@@ -288,37 +319,37 @@ class MainController {
       log.info("FINISH");
     }
   }
-
+  
   login(req, res, next) {
-      try {
-        log.info("START");
-        service.initialize(req.app.locals.db);
-        service.removeExpiredUsers();
-        service.login(req.body)
-          .then(result => {
-            if(result.code === 200){
-              let secret = uuid();
-              req.session.secret = secret;
-              req.session.email = req.body.email;
-              req.session.type = result.type;
-              let token = jwt.sign({email:req.body.email}, secret, {expiresIn: '1h'});
-              res.cookie('token', token, {httpOnly: true}).status(200).send(result)
-            } else {
-              res.status(200).send({code:result.code, message:result.message});
-            }
-          })
-          .catch(e => {
-            log.error(e);
-            next(e.message);
-          })
-      } catch (e) {
+    try {
+      log.info("START");
+      service.initialize(req.app.locals.db);
+      service.removeExpiredUsers();
+      service.login(req.body)
+      .then(result => {
+        if(result.code === 200){
+          let secret = uuid();
+          req.session.secret = secret;
+          req.session.email = req.body.email;
+          req.session.type = result.type;
+          let token = jwt.sign({email:req.body.email}, secret, {expiresIn: '1h'});
+          res.cookie('token', token, {httpOnly: true}).status(200).send(result)
+        } else {
+          res.status(200).send({code:result.code, message:result.message});
+        }
+      })
+      .catch(e => {
         log.error(e);
         next(e.message);
-      } finally {
-        log.info("FINISH");
-      }
+      })
+    } catch (e) {
+      log.error(e);
+      next(e.message);
+    } finally {
+      log.info("FINISH");
     }
-
+  }
+  
   verifyPassword(req, res, next) {
     try {
       log.info("START");
@@ -338,7 +369,7 @@ class MainController {
       log.info("FINISH");
     }
   }
-
+  
   getClientsPixels(req, res, next) {
     try {
       log.info("START");
@@ -358,7 +389,7 @@ class MainController {
       log.info("FINISH");
     }
   }
-
+  
   getClient(req, res, next) {
     try {
       log.info("START");
@@ -382,7 +413,7 @@ class MainController {
       log.info("FINISH");
     }
   }
-
+  
   editClient(req, res, next) {
     try {
       log.info("START");
@@ -413,7 +444,7 @@ class MainController {
       log.info("FINISH");
     }
   }
-
+  
   saveClient(req, res, next) {
     try {
       log.info("START");
@@ -440,7 +471,7 @@ class MainController {
       log.info("FINISH");
     }
   }
-
+  
   getClientsFiltered(req, res, next) {
     try {
       log.info("START");
@@ -460,7 +491,7 @@ class MainController {
       log.info("FINISH");
     }
   }
-
+  
   deleteClient(req, res, next) {
     try {
       log.info("START");
@@ -487,7 +518,7 @@ class MainController {
       log.info("FINISH");
     }
   }
-
+  
   countPixels(req, res, next) {
     try {
       log.info("START");
@@ -507,7 +538,7 @@ class MainController {
       log.info("FINISH");
     }
   }
-
+  
   resetPassword(req, res, next) {
     try {
       log.info("START");
@@ -551,7 +582,7 @@ class MainController {
       log.info("FINISH");
     }
   }
-
+  
   changePassword(req, res, next) {
     try {
       log.info("START");
@@ -565,6 +596,21 @@ class MainController {
         log.error(err);
         next(err.message);
       })
+    } catch (e) {
+      log.error(e);
+      next(e.message);
+    } finally {
+      log.info("FINISH");
+    }
+  }
+  
+  async getAllUsers(req, res, next) {
+    try {
+      log.info("START");
+      service.initialize(req.app.locals.db);
+      const accounts = await service.getAllUsers();
+      res.locals.result = { accounts };
+      next();
     } catch (e) {
       log.error(e);
       next(e.message);

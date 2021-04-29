@@ -9,7 +9,7 @@ var urlDB = process.env.MONGODB_URI ?
 
 const DB_NAME = 'getYourPixels';
 
-class Connector{
+class Connector {
   constructor() {
     log.info("START")
     this.client = null;
@@ -17,7 +17,7 @@ class Connector{
   }
 
   connect() {
-    return new Promise((resolve,reject) => {
+    return new Promise((resolve, reject) => {
       try {
         log.info("START")
         MongoClient.connect(urlDB, {
@@ -25,34 +25,34 @@ class Connector{
           useUnifiedTopology: true,
           poolSize: 400
         })
-        .then(client => {
-          this.client = client;
-          let db = client.db(DB_NAME);
-          resolve(db);
-        })
-        .catch(err => {
-          throw err;
-        })
+          .then(client => {
+            this.client = client;
+            let db = client.db(DB_NAME);
+            resolve(db);
+          })
+          .catch(err => {
+            throw err;
+          })
       } catch (e) {
         log.error(e);
         reject(e);
-      } finally{
+      } finally {
         log.info("FINISH")
       }
     })
   };
 
   disconnect() {
-    return new Promise((resolve,reject) => {
+    return new Promise((resolve, reject) => {
       try {
         log.info("START")
-        if(this.client.isConnected()) {
+        if (this.client.isConnected()) {
           this.client.close().then(() => {
             resolve(true);
           })
-          .catch(err => {
-            throw err
-          })
+            .catch(err => {
+              throw err
+            })
         }
         resolve(true);
       } catch (e) {

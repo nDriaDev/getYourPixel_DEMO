@@ -13,6 +13,8 @@ import CounterUsers from './../user/counterUsers';
 import CounterPoints from './../user/counterPoints';
 import SpinnerManage from './../spinner/spinnerManage';
 import ManageHome from './manageHome';
+import { AccountData } from '../user/AccountData';
+import { InviteUsers } from '../invite/InviteUsers';
 
 const ManageRoute = ({spinner, spinnerCommand}) => {
   let {path} = useRouteMatch();
@@ -110,7 +112,27 @@ const ManageRoute = ({spinner, spinnerCommand}) => {
               spinnerCommand={spinnerCommand}
               disableSpinner={spinnerCommand} />
           )}
-          />
+        />
+        <Route
+          path={`${path}/accountData`}
+          render={(props) => (
+            <Auth {...props}
+              ComponentToProtect={AccountData}
+              enableSpinner={spinnerCommand}
+              spinnerCommand={spinnerCommand}
+              disableSpinner={spinnerCommand} />
+          )}
+        />
+        <Route
+          path={`${path}/inviteUsers`}
+          render={(props) => (
+            <Auth {...props}
+              ComponentToProtect={InviteUsers}
+              enableSpinner={spinnerCommand}
+              spinnerCommand={spinnerCommand}
+              disableSpinner={spinnerCommand} />
+          )}
+        />
         <Redirect
           to= {Const.PATH_ERROR}
           render = {(props) => (

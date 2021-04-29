@@ -13,11 +13,11 @@ class NavbarCustom extends Component{
   constructor(props){
     super(props);
     let pathname = window.location.pathname;
-    pathname = pathname === Const.PATH_ERROR ? 'error' : (pathname === '/' ? '' : (pathname === Const.PATH_BUY ? 'buy' : (pathname === Const.PATH_CONTACT ? 'contact' : (pathname === Const.PATH_HOW_WORK ? 'howWork':(pathname === '/login' ? 'login':(pathname === '/register' ? 'register':(pathname === '/win'? 'win': 'error')))))));
+    pathname = pathname === Const.PATH_ERROR ? 'error' : (pathname === '/' ? '' : (pathname === Const.PATH_BUY ? 'buy' : (pathname === Const.PATH_CONTACT ? 'contact' : (pathname === Const.PATH_HOW_WORK ? 'howWork' : (pathname === '/login' ? 'login' : (pathname === '/register' ? 'register' : (pathname === '/win' ? 'win' : (pathname === '/invite' ? 'invite' : 'error'))))))));
     this.state = {
       origin: window.location.origin,
-      paths : [Const.PATH_HOME,Const.PATH_BUY,Const.PATH_CONTACT,Const.PATH_HOW_WORK,Const.PATH_WIN,Const.PATH_LOGIN,Const.PATH_REGISTER,Const.PATH_MANAGE],
-      active: pathname === 'error' ? 0 : (pathname === '' ? 1 : (pathname === 'buy' ? 2 : (pathname === 'contact' ? 3 : (pathname === 'howWork' ? 4 : (pathname === 'win' ? 5 : (pathname === 'login' ? 6 : 7)))))),
+      paths : [Const.PATH_HOME,Const.PATH_BUY,Const.PATH_CONTACT,Const.PATH_HOW_WORK,Const.PATH_WIN,Const.PATH_LOGIN,Const.PATH_REGISTER,Const.PATH_MANAGE, Const.PATH_INVITE],
+      active: pathname === 'error' ? 0 : (pathname === '' ? 1 : (pathname === 'buy' ? 2 : (pathname === 'contact' ? 3 : (pathname === 'howWork' ? 4 : (pathname === 'win' ? 5 : (pathname === 'login' ? 6 : (pathname === 'invite' ? 7 : 8))))))),
     }
     this.changeActive = this.changeActive.bind(this);
     this.changeActiveMenu = this.changeActiveMenu.bind(this);
@@ -49,7 +49,7 @@ class NavbarCustom extends Component{
   }
 
   getActiveFromPath(pathname) {
-    let active =  pathname === 'error' ? 0 : (pathname === '' ? 1 : (pathname === 'buy' ? 2 : (pathname === 'contact' ? 3 : (pathname === 'howWork' ? 4 : (pathname === 'win' ? 5 : (pathname === 'login' ? 6 : 7))))));
+    let active = pathname === 'error' ? 0 : (pathname === '' ? 1 : (pathname === 'buy' ? 2 : (pathname === 'contact' ? 3 : (pathname === 'howWork' ? 4 : (pathname === 'win' ? 5 : (pathname === 'login' ? 6 : (pathname === 'invite' ? 7 : 8)))))));
     this.changeActive(active);
   }
 
@@ -213,6 +213,16 @@ class NavbarCustom extends Component{
                 </a>
               </li>
             }
+            <li className={"nav-item " + (this.state.active === 7 ? 'active-nav-bar' : '')}>
+              <a
+                className="nav-link nav-bar-link"
+                href="/"
+                data-toggle="collapse" data-target=".navbar-collapse.show"
+                onClick={(e) => this.changeActiveAndHistoryPush(e, 5, '/invite')}>
+                <i className="fas fa-gift" style={{ paddingTop: '3%' }}></i>
+                  &nbsp;Invita Amici
+                </a>
+            </li>
           </ul>
           {this.props.isAuth || this.props.isAuthBasic ?
             <ul id="ulNavDx1" className="navbar-nav ">
@@ -232,10 +242,11 @@ class NavbarCustom extends Component{
           }
           {!this.props.isAuthBasic && !this.props.isAuth ?
             <ul id="ulNavDx2" className="navbar-nav ">
-              <li className={"nav-item " + (this.state.active === 7 ? 'active-nav-bar' : '')}>
+              <li className={"nav-item " + (this.state.active === 8 ? 'active-nav-bar' : '')}>
                 <a
                   className="nav-link nav-bar-link"
                   href="/"
+                  id="logout"
                   data-toggle="collapse" data-target=".navbar-collapse.show"
                   onClick={(e)=>this.registrati(e)}>
                   <i className="fas fa-plus-square" style={{paddingTop: '4%'}}></i>
@@ -268,6 +279,7 @@ class NavbarCustom extends Component{
                 <a
                   className="nav-link nav-bar-link"
                   href="/"
+                  id="logout"
                   data-toggle="collapse" data-target=".navbar-collapse.show"
                   onClick={(e)=>this.logout(e)}>
                   <i className="fas fa-sign-out-alt" style={{paddingTop: '7%'}}></i>

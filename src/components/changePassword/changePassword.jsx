@@ -144,7 +144,7 @@ const ChangePassword = ({spinnerCommand}) => {
       <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
         <Form noValidate className="mx-auto mt-3" onSubmit={onSubmit}>
           <Form.Group controlId="formBasicOldPassword">
-            <Form.Label style={{float: 'left', color:'white'}}>Current Password</Form.Label>
+            <Form.Label style={{float: 'left', color:'white'}}>Password attuale</Form.Label>
             <Form.Control
               type="password"
               name="oldPassword"
@@ -156,7 +156,7 @@ const ChangePassword = ({spinnerCommand}) => {
               />
           </Form.Group>
           <Form.Group controlId="formBasicPassword">
-            <Form.Label style={{float: 'left', color:'white'}}>New password</Form.Label>
+            <Form.Label style={{float: 'left', color:'white'}}>Nuova password</Form.Label>
             <Form.Control
               name="password"
               type="password"
@@ -168,7 +168,7 @@ const ChangePassword = ({spinnerCommand}) => {
               />
           </Form.Group>
           <Form.Group controlId="formBasicConfirmPassword">
-            <Form.Label style={{float: 'left', color:'white'}}>Confirm password</Form.Label>
+            <Form.Label style={{float: 'left', color:'white'}}>Conferma password</Form.Label>
             <Form.Control
               type="password"
               name="confirmPassword"

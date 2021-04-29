@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import { useHistory } from 'react-router-dom';
-import {Form, Button} from 'react-bootstrap';
+import { useHistory, useLocation } from 'react-router-dom';
+import {Form, Button, Col, Row} from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import Const from './../../util/Costanti';
 import axios from 'axios';
@@ -9,18 +9,39 @@ import TrackingGA from './../utils/Tracking';
 
 const SaveUser = (props) => {
   const history = useHistory();
+  const location = useLocation();
+
   const [validated, setValidated] = useState(false);
+  const [showPromo, setShowPromo] = useState(false);
   const [form, setForm] = useState({
     username:'',
     email: '',
     password: '',
+    promoCode: '',
   })
 
   const {enableSpinner, disableSpinner} = props;
 
   useEffect(() => {
+    const queryParams = new URLSearchParams(location.search)
+    if (queryParams.has('ref')) {
+      setForm({
+        ...form,
+        promoCode: queryParams.get('ref')
+      })
+      setShowPromo(true);
+      queryParams.delete('ref')
+      history.replace({
+        search: queryParams.toString(),
+      })
+    }
+
     disableSpinner();
   },[])
+
+  const setPromo = () => {
+    setShowPromo(true);
+  }
 
   const handleInputChange = event => {
     let {name, value} = event.target;
@@ -39,12 +60,19 @@ const SaveUser = (props) => {
       axios.post(Const.SAVE_USER, form)
       .then(res => {
         if (res.data.code === 200) {
-          TrackingGA.event("User", "registrazione", "registrazione riuscita")
+          if (form.promoCode !== '') {
+            TrackingGA.event("User", "registrazione", "registrazione REFERREAL riuscita")
+          } else {
+            TrackingGA.event("User", "registrazione", "registrazione riuscita")
+          }
+
           setForm({
             username:'',
             email: '',
             password: '',
+            promoCode: '',
           });
+
           history.push({
             pathname: Const.PATH_REGISTRATION_SUCCESS,
             state: { authorized: true }
@@ -70,7 +98,7 @@ const SaveUser = (props) => {
   }
 
   return (
-    <div className="mx-auto mb-5" style={{maxWidth:'408px',maxHeight:'356px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
+    <div className="mx-auto mb-5" style={{maxWidth:'408px',maxHeight:'466px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
       <div className="mt-2" align="center">
         <h1 style={{color:'#28a745'}}>Registrati</h1>
       </div>
@@ -110,6 +138,27 @@ const SaveUser = (props) => {
               required
               />
           </Form.Group>
+          <Form.Group controlId="formBasicForgotPassword" style={{ textAlign: 'left', marginBottom: '0px' }}>
+            <Form.Label className="label-underline-link" onClick={setPromo}>Ho un codice referreal</Form.Label>
+          </Form.Group>
+          {
+            showPromo &&
+            <Row>
+              <Col xs="6">
+                <Form.Group controlId="formBasicPromoCode">
+                  <Form.Control
+                    name="promoCode"
+                    type="text"
+                    size="sm"
+                    placeholder="Inserisci codice referreal"
+                    value={form.promoCode}
+                    onChange={e => handleInputChange(e)}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+          }
           <Button variant="success" type="submit">
             {'Invia'}
           </Button>

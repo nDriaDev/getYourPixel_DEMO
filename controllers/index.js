@@ -4,6 +4,7 @@ const mainController = require('./mainController');
 const stripeController = require('./stripeController');
 const logoutController = require('./logoutController');
 const authMiddlewareController = require('./authMiddlewareController');
+const mailChimpController = require('./mailChimpController');
 
 
 
@@ -17,4 +18,5 @@ module.exports =
     mainController,
     logoutController,
     authMiddlewareController,
+    mailChimpController
 }

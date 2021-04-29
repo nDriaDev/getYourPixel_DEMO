@@ -72,7 +72,8 @@ exports.sendMail = (name, email, phoneNumber, subject, message, callback) => {
         from: MAILING_SERVICE_SENDER_EMAIL_ADDRESS,
         to: 'info@getyourpixels.com',
         subject: 'Get Your Pixels Contacting',
-        html: htmlToSend
+        html: htmlToSend,
+        text: 'Hai ricevuto una richiesta di informazioni da ' + name + ' con email ' + email + ". Il messaggio e': " + message 
       }
 
       transporter.sendMail(mailOptions, function (err, data) {
@@ -147,7 +148,8 @@ exports.sendActivationEmail = (host, email, username, activeToken, callback) => 
         from: MAILING_SERVICE_SENDER_EMAIL_ADDRESS,
         to: email,
         subject: 'Get Your Pixels Contacting',
-        html: htmlToSend
+        html: htmlToSend,
+        text: 'Benvenut* su Get Your Pixels! Apri il seguente link per attivare il tuo account: ' + link
       }
 
       transporter.sendMail(mailOptions, function (err, data) {

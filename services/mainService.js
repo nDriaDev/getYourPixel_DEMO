@@ -12,6 +12,12 @@ const COLLECTION_GRID = '_grid';
 const SALT_ROUNDS = 10;
 const CANVAS_NAME = "CANVAS";
 const DEFAULT_SQUARES = "DEFAULT_SQUARES";
+const PROMO_CODE_PIXELS = "PIXELS";
+const BONUS_POINTS = {
+  referreal: 25,
+  referred: 5
+}
+const LIMIT_REFERRED_USERS = 50;
 
 class MainService {
   constructor() {
@@ -23,6 +29,10 @@ class MainService {
     if(this.db === null) {
       this.db = db
     }
+  }
+
+  getDB() {
+    return this.db;
   }
 
   generatePassword() {
@@ -43,21 +53,25 @@ class MainService {
     })
   }
 
-  generateHashedPassword(password) {
-    return new Promise((resolve, reject) => {
-      bcrypt.hash(password, SALT_ROUNDS,
-        function(err, hashedPassword) {
-          if (err) {
-            log.error(err);
-            reject(err);
-          } else {
-            resolve({
-              real: password,
-              hash: hashedPassword
-            });
-          }
-        })
-    })
+  async generateHashedPassword(password) {
+    try {
+      return await new Promise((resolve,reject) => {
+        bcrypt.hash(password, SALT_ROUNDS,
+          function(err, hashedPassword) {
+            if (err) {
+              log.error(err);
+              reject(err);
+            } else {
+              resolve({
+                real: password,
+                hash: hashedPassword
+              });
+            }
+          })
+      })
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
 
   resizeImage(file, row, col) {
@@ -1776,47 +1790,31 @@ class MainService {
     })
   }
 
-  getUser(email, username = null) {
+  async getUser(email, username = null) {
     log.info("START");
-    return new Promise((resolve, reject) => {
-      try {
-        let query = {}
-        query = {
-          "$and": [{
-            "$or": [{
-              "email": email.trim()
-            }, {
-              "username": username ? username.trim() : email.trim(),
-            }]
+    try {
+      let query = {}
+      query = {
+        "$and": [{
+          "$or": [{
+            "email": email.trim()
+          }, {
+            "username": username ? username.trim() : email.trim(),
           }]
-        }
-        this.db
-          .collection(COLLECTION_USER)
-          .findOne(
-            query, {
-              projection: {
-                "_id": 0,
-              }
-            }
-          )
-          .then(result => {
-            if (result) {
-              resolve(result);
-            } else {
-              resolve(null)
-            }
-          })
-          .catch(err => {
-            log.error(err);
-            reject(err)
-          })
-      } catch (e) {
-        log.error(e);
-        reject(e)
-      } finally {
-        log.info("FINISH");
+        }]
       }
-    })
+      const result = await this.db.collection(COLLECTION_USER).findOne(query)
+      if (result) {
+        return Promise.resolve(result);
+      } else {
+        return Promise.resolve(null)
+      }
+    } catch (e) {
+      log.error(e);
+      return Promise.reject(e)
+    } finally {
+      log.info("FINISH");
+    }
   }
 
   loginUser(body) {
@@ -1839,18 +1837,44 @@ class MainService {
             }, {
               "active": true,
             }]
-          }, {
-            projection: {
-              "_id": 0,
-            }
           })
           .then(result => {
             if (result) {
+              let db = this.getDB();
               bcrypt.compare(password, result.password, function(err, same) {
                 if (err) {
                   reject(new Error("Password invalida"))
                 } else {
                   if (same) {
+                    if (!result.promoCode) {
+                      let data = {
+                        "$set": {
+                          "promoCode": result.username.toUpperCase() + PROMO_CODE_PIXELS
+                        }}
+                      let options = {
+                        "upsert": false,
+                      };
+                      db
+                        .collection(COLLECTION_USER)
+                        .updateOne({
+                          "_id": result['_id']
+                        }, data, options)
+                        .then(value => {
+                          const {
+                            matchedCount,
+                            modifiedCount
+                          } = value;
+                          if (matchedCount && modifiedCount) {
+                            log.info("PromoCode aggiunto all'utente " + result.username)
+                          } else {
+                            log.info("PromoCode non aggiunto all'utente " + result.username)
+                          }
+                        })
+                        .catch(err => {
+                          log.error(err);
+                          reject(err);
+                        })
+                    }
                     resolve({
                       code: 200,
                       message: 'Credenziali valide',
@@ -1887,8 +1911,10 @@ class MainService {
         let {
           username,
           email,
-          password
+          password,
+          promoCode:referreal=null,
         } = body;
+        
         let user = '';
         this.generateHashedPassword(password)
           .then(result => {
@@ -1905,33 +1931,43 @@ class MainService {
                   reject(new Error("Impossibile salvare l'utente"))
                 }
               } else {
-                crypto.randomBytes(20, (err, buf) => {
-                  user = {
-                    "_id": new this.ObjectID(),
-                    "username": username.trim(),
-                    "email": email.trim(),
-                    "password": password,
-                    "type": 'Client',
-                    "active": false,
-                    "activeExpires": Date.now() + (3600 * 1000),
-                  }
-                  user["activeToken"] = user._id.id.toString('hex') + buf.toString('hex');
-                  this.db
-                  .collection(COLLECTION_USER)
-                  .insertOne(user)
-                  .then(value => {
-                    resolve({
-                      code: 200,
-                      message: "L'email con il link di attivazione è stata inviata. Scadra' entro un ora",
-                      activeToken: user.activeToken,
-                      email: user.email,
-                      username: user.username
+                this.checkIfReferrealExistAndUpdate(referreal)
+                .then(val => {
+                  crypto.randomBytes(20, (err, buf) => {
+                    user = {
+                      "_id": new this.ObjectID(),
+                      "username": username.trim(),
+                      "email": email.trim(),
+                      "password": password,
+                      "type": 'Client',
+                      "active": false,
+                      "activeExpires": Date.now() + (3600 * 1000),
+                      "promoCode": username.trim().toUpperCase() + PROMO_CODE_PIXELS,
+                    }
+                    if(val) {
+                      user["referreal"] = referreal
+                    }
+                    user["activeToken"] = user._id.id.toString('hex') + buf.toString('hex');
+                    this.db
+                    .collection(COLLECTION_USER)
+                    .insertOne(user)
+                    .then(value => {
+                      resolve({
+                        code: 200,
+                        message: "L'email con il link di attivazione è stata inviata. Scadra' entro un ora",
+                        activeToken: user.activeToken,
+                        email: user.email,
+                        username: user.username,
+                      })
+                    })
+                    .catch(err => {
+                      log.error(err);
+                      reject(err);
                     })
                   })
-                  .catch(err => {
-                    log.error(err);
-                    reject(err);
-                  })
+                })
+                .catch(e => {
+                  reject(new Error("Non esiste nessun referreal con questo codice"))
                 })
               }
             })
@@ -1947,6 +1983,103 @@ class MainService {
         log.info("FINISH");
       }
     })
+  }
+
+  async editUser(body, emailSession) {
+    log.info("START");
+    try {
+        let {
+          username,
+          email,
+          password,
+        } = body;
+        
+        let id = '';
+        let emailSess = '';
+        let set = {
+          email: false,
+          password: false,
+          username: false,
+        }
+        const user = await this.getUser(emailSession);
+        
+        if (user) {
+          id = user._id;
+          emailSess = user.email;
+        }
+
+        if(password) {
+          const result = await this.generateHashedPassword(password);
+          password = result.hash;
+          set.password = true;
+        }
+        if(email) {
+          const result = await this.getUser(email);
+          if(result) {
+            return Promise.reject(new Error('Email già esistente'))
+          } else {
+            set.email = true;
+          }
+        }
+        if(username) {
+          const result = await this.getUser(username, username);
+          if(result) {
+            return Promise.reject(new Error('Username già esistente'))
+          } else {
+            set.username = true;
+          }
+        }
+        let data = {
+          "$set": {}
+        };
+        let options = {
+          "upsert": false,
+        };
+        let change = {};
+        if (set.passoword) {
+          data["$set"].password = password;
+        }
+        if(set.username) {
+          data["$set"].username = username;
+          change.username = true;
+        }
+        if(set.email) {
+          data["$set"].email = email;
+          change.email = true;
+        }
+        const res = await this.db.collection(COLLECTION_USER)
+          .updateOne({
+              "_id": id
+            },
+            data, 
+            options)
+        if (res.matchedCount && res.modifiedCount) {
+          if(change.email || change.username) {
+            delete data["$set"].password;
+            let query = {}
+            query = {
+              "email": emailSess
+            }
+            const {matchedCount,modifiedCount} = await this.db.collection(COLLECTION_CLICK)
+              .updateOne(query, data, options)
+            if (matchedCount && modifiedCount) {
+              return Promise.resolve("I dati sono stati aggiornati correttamente. Sarai rimandato alla login")
+            } else {
+              log.error("Non e' stato trovato un utente nella tabella _click con questi dati: " + emailSess);
+              return Promise.resolve("I dati sono stati aggiornati correttamente. Sarai rimandato alla login")
+            }
+          } else {
+            return Promise.resolve("I dati sono stati aggiornati correttamente. Sarai rimandato alla login")
+          }
+        } else {
+          return Promise.reject(new Error("Impossibile aggiornare i dati dell'utente"))
+        }
+      } catch (e) {
+        log.error(e);
+        return Promise.reject(e)
+      } finally {
+        log.info("FINISH");
+      }
   }
 
   activeUser(activeToken) {
@@ -1982,13 +2115,13 @@ class MainService {
                 .updateOne({
                   "_id": value['_id']
                 }, data, options)
-                .then(value => {
+                .then(value1 => {
                   const {
                     matchedCount,
                     modifiedCount
-                  } = value;
+                  } = value1;
                   if (matchedCount && modifiedCount) {
-                    resolve(true)
+                    resolve({email:value.email,username:value.username})
                   } else {
                     resolve(false);
                   }
@@ -2110,7 +2243,8 @@ class MainService {
                           "username": result1.username
                         }, {
                           "$set": {
-                            "urls": urls
+                            "urls": urls,
+                            "points": result1.points + 1
                           }
                         }, {
                           "upsert": false
@@ -2133,17 +2267,25 @@ class MainService {
                     } else {
                       let urls = [];
                       urls.push(urlClicked);
-                      this.db
-                      .collection(COLLECTION_CLICK)
-                      .insertOne({
-                        "email": result.email,
-                        "username": result.username,
-                        "urls": urls,
+                      this.checkIsReferredAndGetBonusPoint(result?.referreal)
+                        .then(bonusPoint => {
+                          this.db
+                          .collection(COLLECTION_CLICK)
+                          .insertOne({
+                            "email": result.email,
+                            "username": result.username,
+                            "urls": urls,
+                            "points": 1 + bonusPoint,
+                          })
+                          .then(value => {
+                            resolve("Click salvato")
+                          })
+                          .catch(err => {
+                            log.error(err);
+                            reject(err);
+                          })
                       })
-                      .then(value => {
-                        resolve("Click salvato")
-                      })
-                      .catch(err => {
+                      .catch(err=> {
                         log.error(err);
                         reject(err);
                       })
@@ -2259,8 +2401,37 @@ class MainService {
               from: COLLECTION_CLICK,
               let : { user_email: "$email"},
               pipeline: [
-                { $match: { $expr: { $and: [ { $eq: ["$$user_email","$email" ]}]}}},
-                { $project: { "_id": 0, "punti": { $cond: { if: { $isArray: "$urls" }, then: { $size: "$urls" }, else : "0"}}}}
+                { 
+                  $match: { 
+                    $expr: { 
+                      $and: [ 
+                        { 
+                          $eq: [
+                            "$$user_email",
+                            "$email" 
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  $project: {
+                    "_id": 0,
+                    "punti": {
+                      $cond: {
+                          if: {
+                              $isArray: "$urls"
+                          },
+                          then: {
+                            //$exists not work in aggreg, so use $ifNull that works without $cond
+                            $ifNull:['$points', {$size:"$urls"}], //if $points != null => $points else $size:"$urls"
+                          }, 
+                          else : "0"
+                      }
+                    }
+                  }
+                }
               ],
               // localField: "email",
               // foreignField: 'email',
@@ -2322,9 +2493,13 @@ class MainService {
         })
         .then(result => {
           if(result) {
-            resolve({list:result.urls})
+            if(result.points) {
+              resolve({list:result.urls, points: result.points})
+            } else {
+            resolve({list:result.urls, points: 0})
+            }
           } else {
-            resolve({list:[]})
+            resolve({list:[], points: 0})
           }
         })
         .catch(err => {
@@ -2354,7 +2529,173 @@ class MainService {
       log.info("Deleted " + result.deletedCount + " users")
       log.info("FINISH")
     } catch (error) {
-      log.error(error.message)
+      log.error(error)
+    }
+  }
+
+  async checkIfReferrealExistAndUpdate(ref) {
+    log.info("START");
+    try {
+      if(!ref) {
+        return Promise.resolve(false);
+      }
+      const result = await this.db
+      .collection(COLLECTION_USER)
+      .findOne({
+        "promoCode": ref
+      })
+      if (result && (!result.referredUsers || (result.referredUsers && result.referredUsers < LIMIT_REFERRED_USERS))) {
+        const result1 = await this.updateCounterUsersReferred(result);
+        if(result1) {
+          return Promise.resolve(true);
+        } else {
+          return Promise.reject(false);
+        }
+      } else {
+        return Promise.reject(false);
+      }
+    } catch (error) {
+      log.error(error);
+      return Promise.reject(error);
+    } finally {
+      log.info("FINISH")
+    }
+  }
+
+  async checkIsReferredAndGetBonusPoint(ref) {
+    log.info("START");
+    try {
+      if(!ref) {
+        return Promise.resolve(0);
+      } else {
+        const result = await this.db
+        .collection(COLLECTION_USER)
+        .aggregate([
+          {
+            $match: {
+              "promoCode": ref
+            }
+          },
+          {
+            $lookup: {
+              from: COLLECTION_CLICK,
+              localField: "email",
+              foreignField: "email",
+              as: "result"
+            }
+          },
+          {
+            $project: {
+              "_id": 0,
+              "email": 1,
+              "username": 1,
+              "elem": {
+                $cond: {
+                  if: {
+                    $eq: ["$result",[]]
+                  },
+                  then: null,
+                  else: {
+                    $arrayElemAt: ["$result", 0]
+                  }
+                }
+              }
+            }
+          }
+        ]).next();
+        if (result && result.elem) {
+          const {modifiedCount} = await this.db
+          .collection(COLLECTION_CLICK)
+          .updateOne({
+            "_id": result.elem._id,
+          }, {
+            "$set": {
+              "points": (result.elem.points ? result.elem.points : result.elem.urls.length) + BONUS_POINTS.referreal
+            }
+          }, {
+            "upsert": false
+          })
+          if(modifiedCount) {
+            return Promise.resolve(BONUS_POINTS.referred)
+          } else {
+            return Promise.reject(new Error("Non sono stati aggiunti i punti extra al referreal"))
+          }
+        } else {
+          const result1 = await this.db
+          .collection(COLLECTION_CLICK)
+          .insertOne({
+            "email": result.email,
+            "username": result.username,
+            "urls": [],
+            "points": BONUS_POINTS.referreal,
+          })
+          if(result1) {
+            return Promise.resolve(BONUS_POINTS.referred)
+          } else {
+            return Promise.reject(new Error("Non sono stati aggiunti i punti extra al referreal"))
+          }
+        }
+      }
+    } catch (error) {
+      log.error(error);
+      return Promise.reject(error);
+    } finally {
+      log.info("FINISH");
+    }
+  }
+
+  async updateCounterUsersReferred(result) {
+    log.info("START");
+    try {
+      const {modifiedCount} = await this.db
+      .collection(COLLECTION_USER)
+      .updateOne(
+        {
+        "_id" : result["_id"]
+        },
+        {
+          $set: {
+            "referredUsers": result.referredUsers ? result.referredUsers + 1 : 1,
+          }
+        },
+        {
+          "upsert": false
+        }
+      )
+      if(modifiedCount) {
+        return Promise.resolve(true);
+      } else {
+        return Promise.reject(new Error("Non e' stato possibile aggiornare il numero degli utenti invitati per l'utente " + result.username))
+      }
+    } catch(error) {
+      log.error(error);
+      return Promise.reject(error);
+    } finally {
+      log.info("FINISH");
+    }
+  }
+
+  async getAllUsers() {
+    log.info("START");
+    try {
+      const result = await this.db.collection(COLLECTION_USER).find().toArray();
+      if (result) {
+        let accounts = [];
+        for(let i in result) {
+          const obj = {};
+          obj.username = result[i].username;
+          obj.email = result[i].email;
+          accounts.push(obj);
+        }
+        return accounts;
+      } else {
+        throw new Error("Non e' stato possibile recuperare gli utenti");
+      }
+    } catch (e) {
+      log.error(e);
+      throw e;
+    } finally {
+      log.info("FINISH");
     }
   }
 }

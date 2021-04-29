@@ -12,30 +12,36 @@ const Manage = (props) => {
   const [active,setActive] = useState(() => {
       let pathSpli = window.location.pathname.split('/');
       if(pathSpli[pathSpli.length-1] === 'manage') {
-        return ['','','','','','',''];
+        return ['','','','','','','','','',''];
       }
       else if(pathSpli[pathSpli.length-1] === 'saveClient') {
-        return ['active-v-bar','','','','','','',''];
+        return ['active-v-bar', '', '', '', '', '', '', '', '', ''];
       }
       else if(pathSpli[pathSpli.length-1] === 'editClient') {
-        return ['','active-v-bar','','','','','',''];
+        return ['', 'active-v-bar', '', '', '', '', '', '', '', ''];
       }
       else if(pathSpli[pathSpli.length-1] === 'removeClient') {
-        return ['','','active-v-bar','','','','',''];
+        return ['', '', 'active-v-bar', '', '', '', '', '', '', ''];
       }
       else if(pathSpli[pathSpli.length-1] === 'addAdmin') {
-        return ['','','','active-v-bar','','','',''];
+        return ['', '', '', 'active-v-bar', '', '', '', '', '', ''];
       }
       else if(pathSpli[pathSpli.length-1] === 'removeAdmin') {
-        return ['','','','','active-v-bar','','',''];
+        return ['', '', '', '', 'active-v-bar', '', '', '', '', ''];
       }
       else if(pathSpli[pathSpli.length-1] === 'counterUsers') {
-        return ['','','','','','active-v-bar','',''];
+        return ['', '', '', '', '', 'active-v-bar', '', '', '', ''];
       }
       else if(pathSpli[pathSpli.length-1] === 'counterPoints') {
-        return ['','','','','','','active-v-bar',''];
-      } else {
-        return ['','','','','','','','active-v-bar'];
+        return ['', '', '', '', '', '', 'active-v-bar', '', '', ''];
+      }
+      else if(pathSpli[pathSpli.length - 1] === 'accountData') {
+        return ['', '', '', '', '', '', '', 'active-v-bar', '', ''];
+      }
+      else if(pathSpli[pathSpli.length - 1] === 'inviteUsers') {
+        return ['', '', '', '', '', '', '', '', 'active-v-bar', ''];
+      }else {
+        return ['', '', '', '', '', '', '', '', '', 'active-v-bar'];
       }
   }
 );
@@ -111,6 +117,7 @@ const Manage = (props) => {
   }
 
   const activing = (value) => {
+    setSpinner(true);
     let arr = [];
     for(let i=0; i<active.length; i++){
       if(i === value) {
@@ -215,6 +222,18 @@ const Manage = (props) => {
                     null
                   }
                   {
+                    role && [Const.ADMIN_TYPE.BASIC, Const.ADMIN_TYPE.CLIENT].includes(role) ?
+                      <li className={"nav-item " + active[7]}
+                        onClick={() => activing(7)}>
+                        <Link style={{ textAlign: 'left' }} to={`${path}/accountData`}>
+                          <i className="fas fa-user-circle" style={{ paddingRight: '4%' }}></i>
+                      Dati Account
+                    </Link>
+                      </li>
+                      :
+                      null
+                  }
+                  {
                     role && [Const.ADMIN_TYPE.BASIC,Const.ADMIN_TYPE.CLIENT].includes(role) ?
                     <li className={"nav-item " + active[6]}
                       onClick={()=>activing(6)}>
@@ -226,13 +245,30 @@ const Manage = (props) => {
                     :
                     null
                   }
-                  <li className={"nav-item " + active[7]}
-                    onClick={()=>activing(7)}>
-                    <Link style={{textAlign:'left'}} to={`${path}/changePassword`}>
-                      <i className="fas fa-lock" style={{paddingRight:'4%'}}></i>
+                  {
+                    role && [Const.ADMIN_TYPE.BASIC, Const.ADMIN_TYPE.CLIENT].includes(role) ?
+                      <li className={"nav-item " + active[9]}
+                        onClick={() => activing(9)}>
+                        <Link style={{ textAlign: 'left' }} to={`${path}/inviteUsers`}>
+                          <i className="fas fa-user-circle" style={{ paddingRight: '4%' }}></i>
+                      Invita
+                    </Link>
+                      </li>
+                      :
+                      null
+                  }
+                  {
+                    role && ![Const.ADMIN_TYPE.CLIENT].includes(role) ?
+                      <li className={"nav-item " + active[8]}
+                        onClick={() => activing(8)}>
+                        <Link style={{ textAlign: 'left' }} to={`${path}/changePassword`}>
+                          <i className="fas fa-lock" style={{ paddingRight: '4%' }}></i>
                       Cambia Password
                     </Link>
-                  </li>
+                      </li>
+                      :
+                      null
+                  }
                 </ul>
               </div>
             </nav>

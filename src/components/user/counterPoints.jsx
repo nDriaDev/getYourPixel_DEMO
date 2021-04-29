@@ -1,8 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Row, Col, Table} from 'react-bootstrap';
 import { toast } from 'react-toastify';
-import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
-import '@fortawesome/fontawesome-free/css/solid.min.css';
 import Const from './../../util/Costanti';
 import axios from 'axios';
 import TrackingGA from './../utils/Tracking';
@@ -16,15 +14,15 @@ const CounterPoints = ({spinnerCommand}) => {
   useEffect(()=>{
     spinnerCommand(true);
     axios.post(Const.GET_USER,{})
-    .then(res => {
+      .then(res => {
       if(res.data && !res.data.code) {
         axios.get(Const.COUNT_POINTS)
         .then(res => {
           if(res.data && !res.data.code) {
             TrackingGA.event("User", "pagina punti", "utente loggato ha cliccato il menu per visualizzare i suoi punti")
             setData({
-              "number": res.data.list.length,
-              "list": res.data.list
+              number: res.data.points,
+              list: res.data.list
             })
           }
         })
@@ -55,7 +53,7 @@ const CounterPoints = ({spinnerCommand}) => {
   },[])
 
   return (
-    data.number &&
+    data.number != null &&
       <div className="mx-auto mb-5" style={{maxWidth:'446px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
         <div className="mt-2" align="center">
           <h1  style={{color:'#28a745'}}>Punti Totalizzati</h1>
