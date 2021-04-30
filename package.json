@@ -9,6 +9,7 @@
   "dependencies": {
     "@chilkat/ck-node14-linux64": "^9.50.84",
     "@fortawesome/fontawesome-free": "^5.15.2",
+    "@mailchimp/mailchimp_marketing": "^3.0.41",
     "@stripe/react-stripe-js": "^1.1.2",
     "@stripe/stripe-js": "^1.11.0",
     "@testing-library/jest-dom": "^5.11.6",
@@ -73,7 +74,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "//":{
+  "//": {
     "comment": "proxy serve per evitare errori CORS quando il server è su un porta diversa",
     "proxy": "http://localhost:3001"
   },
