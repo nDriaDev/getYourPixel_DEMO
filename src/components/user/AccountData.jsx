@@ -229,10 +229,10 @@ export const AccountData = React.memo((props) => {
                                     required
                                     disabled
                                 />
-                                {
+                                {/* {
                                     !validated.email &&
                                     <span style={{ color: 'red', fontSize:'0.90em' }}>Il campo è obbligatorio</span>
-                                }
+                                } */}
                             </div>
                         </div>
                         <div className="col-xs-1" style={{verticalAlign:'bottom', paddingLeft:'5px'}}>

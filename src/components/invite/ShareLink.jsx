@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router';
+import Facebook from './../../images/facebook.png';
+import Messenger from './../../images/messenger.png';
+import Instagram from './../../images/instagram.png';
+import Whatsapp from './../../images/whatsapp.png';
+import Gmail from './../../images/gmail.png';
 
 export const ShareLink = ({ promoCode }) => {
     const location = useLocation();
@@ -32,12 +37,12 @@ export const ShareLink = ({ promoCode }) => {
         copyPromo();
         // 'fb-messenger://share?link='
         // 'http://m.me/'
-        window.location.href = 'https://m.me/';
+        window.location.href = 'http://m.me/';
     }
 
     const shareLinkInstagram = () => {
         copyPromo();
-        window.location.href = 'http://instagr.am/p/';
+        window.location.href = 'http://instagr.am/';
     }
 
     const shareLinkEmail = () => {
@@ -45,7 +50,7 @@ export const ShareLink = ({ promoCode }) => {
     }
 
     const shareLinkWhatsApp = () => {
-        window.location.href = 'https://wa.me/?text=' + 'Iscriviti subito a Get your pixels! Apri il link ' + link;
+        window.location.href = 'https://wa.me/?text=' + 'Iscriviti subito su Get your pixels! Apri il link ' + link;
     }
 
     return (
@@ -57,19 +62,19 @@ export const ShareLink = ({ promoCode }) => {
             <hr />
             <div className="row mt-4 ml-0 mr-0 mb-5">
                 <div className="col" style={{ color: '#4fce5d', fontSize: '24px', cursor: 'pointer' }}>
-                    <i className="fab fa-whatsapp" onClick={shareLinkWhatsApp}></i>
+                    <img className="" style={{width:'100%'}} src={Whatsapp} onClick={shareLinkWhatsApp}></img>
                 </div>
                 <div className="col" style={{ color:'#405DE6', fontSize:'24px', cursor: 'pointer' }}>
-                    <i className="fab fa-facebook-square" onClick={shareLinkFacebook}></i>
+                    <img className="" style={{width:'100%'}} src={Facebook} onClick={shareLinkFacebook}></img>
                 </div>
                 <div className="col" style={{ color:'#405DE6', fontSize:'24px', cursor: 'pointer' }}>
-                    <i className="fab fa-facebook-messenger" onClick={shareLinkMessenger}></i>
+                    <img className="" style={{width:'100%'}} src={Messenger} onClick={shareLinkMessenger}></img>
                 </div>
                 <div className="col" style={{ color:'#fb3958', fontSize:'24px', cursor: 'pointer' }}>
-                    <i className="fab fa-instagram" onClick={shareLinkInstagram}></i>
+                    <img className="" style={{width:'100%'}} src={Instagram} onClick={shareLinkInstagram}></img>
                 </div>
                 <div className="col" style={{color:'#BB001B', fontSize:'24px', cursor: 'pointer' }}>
-                    <i className="far fa-envelope" onClick={shareLinkEmail}></i>
+                    <img className="" style={{width:'100%'}} src={Gmail} onClick={shareLinkEmail}></img>
                 </div>
             </div>
         </>

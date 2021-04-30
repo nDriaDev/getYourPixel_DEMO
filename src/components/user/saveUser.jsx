@@ -139,7 +139,7 @@ const SaveUser = (props) => {
               />
           </Form.Group>
           <Form.Group controlId="formBasicForgotPassword" style={{ textAlign: 'left', marginBottom: '0px' }}>
-            <Form.Label className="label-underline-link" onClick={setPromo}>Ho un codice referreal</Form.Label>
+            <Form.Label className="label-underline-link" onClick={setPromo}>Ho un codice promo</Form.Label>
           </Form.Group>
           {
             showPromo &&
@@ -150,7 +150,7 @@ const SaveUser = (props) => {
                     name="promoCode"
                     type="text"
                     size="sm"
-                    placeholder="Inserisci codice referreal"
+                    placeholder="Inserisci codice promo"
                     value={form.promoCode}
                     onChange={e => handleInputChange(e)}
                     required

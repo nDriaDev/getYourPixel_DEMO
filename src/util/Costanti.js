@@ -5,7 +5,7 @@ const Const = {
   PATH_HOW_WORK: '/howWork',
   PATH_WIN: '/win',
   PATH_INVITE: '/invite',
-  PATH_SHARE_CODE: '/sharecode',
+  PATH_SHARE_CODE: '/inviteUsers',
   PATH_MANAGE: '/manage',
   PATH_LOGIN: '/login',
   PATH_REGISTER: '/register',
