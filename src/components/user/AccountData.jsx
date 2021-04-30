@@ -229,20 +229,20 @@ export const AccountData = React.memo((props) => {
                                     required
                                     disabled
                                 />
-                                {/* {
+                                {
                                     !validated.email &&
                                     <span style={{ color: 'red', fontSize:'0.90em' }}>Il campo è obbligatorio</span>
-                                } */}
+                                }
                             </div>
                         </div>
-                        <div className="col-xs-1" style={{verticalAlign:'bottom', paddingLeft:'5px'}}>
+                        {/* <div className="col-xs-1" style={{verticalAlign:'bottom', paddingLeft:'5px'}}>
                             <i
                                 id="pencil-email"
                                 name="email"
                                 className="fas fa-pencil-alt"
                                 style={{ color: 'white', position:'absolute', top:'202px' }}
                                 onClick={enableChanges}></i>
-                        </div>
+                        </div> */}
                     </div>
                     <div className="row">
                         <div className="col-xs-8">
