@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { Table } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import Const from '../../util/Costanti';
 import { Modal } from '../modal/Modal';
@@ -7,7 +8,7 @@ import { ShareLink } from './ShareLink';
 
 
 export const InviteUsers = (props) => {
-    const [promoCode, setPromoCode] = useState('');
+    const [data, setData] = useState('');
     const [showModal, setShowModal] = useState(false);
 
     const isMobile = Const.isMobileBrowser(navigator.userAgent);
@@ -15,10 +16,13 @@ export const InviteUsers = (props) => {
     useEffect(() => {
         props.disableSpinner();
         props.spinnerCommand(true);
-        axios.post(Const.GET_USER, {})
+        axios.post(Const.GET_USER_AND_REFERRED, {})
             .then(res => {
                 if (!res.data.code) {
-                    setPromoCode(res.data.promoCode);
+                    setData({
+                        promoCode: res.data.promoCode,
+                        referred: res.data.referred
+                    });
                     props.spinnerCommand(false);
                 } else {
                     props.spinnerCommand(false);
@@ -75,7 +79,7 @@ export const InviteUsers = (props) => {
                 <h1 style={{ color: '#28a745' }}>Invita</h1>
             </div>
             <div className="mx-auto" style={{ textAlign: 'center', width: '85%' }}>
-                <form noValidate className="mx-auto mt-5">
+                <form noValidate className="mx-auto mt-3 mb-4">
                     <div className="row mb-5">
                         <div className="col-12">
                             <label htmlFor="promoCode" className="form-label" style= {{color: 'white', fontSize: '1em'}}>Codice Promo</label>
@@ -86,7 +90,7 @@ export const InviteUsers = (props) => {
                                 id="promoCode"
                                 name="promoCode"
                                 className="form-control"
-                                value={promoCode}
+                                value={data.promoCode}
                                 disabled
                             />
                         </div>
@@ -100,12 +104,37 @@ export const InviteUsers = (props) => {
                         Condividi link
                     </button>
                 </form>
+                <div className="row" style={{ overflowY: 'scroll'}}>
+                    <Table responsive>
+                        <thead>
+                            <tr>
+                            <th><i className="fas fa-user" /></th>
+                                <th>Username</th>
+                                <th>Stato</th>
+                            </tr>
+                        </thead>
+                        <tbody style={{ color: 'white' }}>
+                            {data.referred && data.referred.map((item, index) => (
+                                <tr key={'tr_' + index}>
+                                    <td key={'td1_' + index}>{index + 1}</td>
+                                    <td key={'td2_' + index}>{item.username}</td>
+                                    <td key={'td3_' + index}>{
+                                        item.stato ?
+                                            <i className="fas fa-check-circle" style={{ color: 'green' }} />
+                                            :
+                                            <i className="fas fa-times-circle" style={{ color: 'red' }} />
+                                    }</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                </div>
                 <Modal
                     show={showModal}
                     handleClose={() => setShowModal(false)}
                     style={{ background: 'black', width: isMobile ? '65%' : '20%' , height: 'fit-content', fontSize: '1.15em' }}
                 >
-                    <ShareLink promoCode={promoCode} />
+                    <ShareLink promoCode={data.promoCode} />
                 </Modal>
             </div>
         </div>

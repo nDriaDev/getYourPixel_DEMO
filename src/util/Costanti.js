@@ -73,6 +73,8 @@ const Const = {
   COUNT_USERS: '/api/countUsers',
   COUNT_POINTS: '/api/countPoints',
   EDIT_USER: '/api/editUser',
+  GET_USER_AND_REFERRED: '/api/getUserAndReferred',
+  COUNT_POINTS_AND_BONUS: '/api/countPointsAndBonus',
   ADMIN_TYPE: {
     CLIENT: 'Client',
     BASIC: 'Basic',

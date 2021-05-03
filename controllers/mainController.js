@@ -618,6 +618,56 @@ class MainController {
       log.info("FINISH");
     }
   }
+
+  async getUserAndReferred(req, res, next) {
+    try {
+      log.info("START");
+      let email = req.body.email ? req.body.email : req.session.email;
+      service.initialize(req.app.locals.db);
+      service.getUserAndReferred(email)
+        .then(result => {
+          if (result) {
+            res.status(200).send(result)
+          } else {
+            res.status(200).send({ code: 401, message: 'Utente inesistente' })
+          }
+        })
+        .catch(e => {
+          log.error(e);
+          res.status(200).send({ code: 500, message: e.message });
+        })
+    } catch (e) {
+      log.error(e);
+      next(e.message);
+    } finally {
+      log.info("FINISH");
+    }
+  }
+  
+  async countPointsAndBonus(req, res, next) {
+    try {
+      log.info("START");
+      service.initialize(req.app.locals.db);
+      service.countPointsAndBonus(req.session.email)
+        .then(result => {
+          if (result) {
+            res.status(200).send(result)
+          } else {
+            res.status(200).send({ code: 401, message: 'Errore interno' })
+          }
+        })
+        .catch(e => {
+          log.error(e);
+          res.status(200).send({ code: 401, message: e.message });
+        })
+    } catch (e) {
+      log.error(e);
+      next(e.message);
+    } finally {
+      log.info("FINISH");
+    }
+  }
+
 }
 
 module.exports = new MainController();

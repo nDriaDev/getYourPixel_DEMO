@@ -363,7 +363,6 @@ class MainService {
       }
     })
   }
-
   /**
    * Nuova Gestione: Legge il canvas da DB e se non c'è lo crea (vuol dire che ancora non ci sono immagini)
    */
@@ -2698,6 +2697,150 @@ class MainService {
       log.info("FINISH");
     }
   }
+
+  async getUserAndReferred(email, username = null) {
+    log.info("START");
+    try {
+      let query = {}
+      query = {
+        "$and": [{
+          "$or": [{
+            "email": email.trim()
+          }, {
+            "username": username ? username.trim() : email.trim(),
+          }]
+        }]
+      }
+      const result = await this.db.collection(COLLECTION_USER).findOne(query)
+      if (result) {
+        const referred = await this.db.collection(COLLECTION_USER)
+          .aggregate([
+            {
+              "$match": {
+                "referreal": result.promoCode,
+              }
+            },
+            {
+              "$lookup": {
+                "from": COLLECTION_CLICK,
+                "localField": "email",
+                "foreignField": "email",
+                "as": "exist"
+              }
+            },
+            {
+              "$project": {
+                "_id": 0,
+                "email": 1,
+                "username": 1,
+                "stato": {
+                  "$cond": {
+                    if: {
+                      "$eq": ["$exist", []]
+                    },
+                    then: false,
+                    else: true
+                  }
+                }
+              }
+            }
+          ])
+          .toArray();
+        return Promise.resolve({user:result, referred:referred})
+      } else {
+        return Promise.resolve(null)
+      }
+    } catch (e) {
+      log.error(e);
+      return Promise.reject(e)
+    } finally {
+      log.info("FINISH");
+    }
+  }
+
+  async countPointsAndBonus(email) {
+    log.info("START");
+    try {
+      const user = await this.db.collection(COLLECTION_CLICK)
+        .findOne({
+        "$and": [{
+          "$or": [{
+            "email": email
+          }, {
+            "username": email,
+          }]
+        }]
+      }, {
+        projection: {
+          "_id": 0,
+        }
+      })
+      if(user) {
+        let obj = [];
+        if (user.points) {
+          const referred = await this.db.collection(COLLECTION_USER)
+          .aggregate([
+            {
+              "$match": {
+                "email":user.email
+              }
+            },
+            {
+              "$lookup": {
+                "from": COLLECTION_USER,
+                "localField": "promoCode",
+                "foreignField": "referreal",
+                "as": "exist"
+              }
+            },
+            {
+              "$lookup": {
+                "from": COLLECTION_CLICK,
+                "localField": "exist.username",
+                "foreignField": "username",
+                "as": "existClick"
+              }
+            },
+            {
+              "$project": {
+                "_id": 0,
+              }
+            }
+          ])
+          .toArray();
+          if(referred && referred[0].referreal) {
+            obj.push({tipologia: "Codice Promo", dettaglio: referred[0].referreal, punti: BONUS_POINTS.referred})
+          }
+          if(referred && referred[0].exist) {
+            for(let i in referred[0].exist) {
+              for(let j in referred[0].existClick) {
+                if(referred[0].exist[i].username === referred[0].existClick[j].username) {
+                  obj.push({ tipologia: "Invito ad utente", dettaglio: referred[0].exist[i].username, punti: BONUS_POINTS.referreal });
+                }
+              }
+            }
+          }
+          for(let i in user.urls) {
+            obj.push({ tipologia: "Pubblicita'", dettaglio: user.urls[i], punti: 1 })
+          }
+          return Promise.resolve({ list: obj.length === 0 ? [{ tipologia: '', dettaglio: '', punti: '' }] : obj, points: user.points})
+        } else { 
+          for(let i in user.urls) {
+            obj.push({ tipologia: "Pubblicita'", dettaglio: user.urls[i], punti: 1 })
+          }
+          return Promise.resolve({list: obj.length === 0 ? [{tipologia:'', dettaglio: '', punti: ''}] : obj, points: 0})
+        }
+      } else {
+        return Promise.resolve({ list: [{ tipologia: '', dettaglio: '', punti: '' }], points: 0})
+      }
+    } catch (e) {
+      log.error(e);
+      return Promise.reject(e);
+    } finally {
+      log.info("FINISH");
+    }
+  }
+
 }
 
 

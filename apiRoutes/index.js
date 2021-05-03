@@ -118,9 +118,14 @@ try {
     controllers.mainController.getUser
   )
   .post(
-    '/editUser',
+    '/getUserAndReferred',
     controllers.authMiddlewareController,
-    controllers.mainController.editUser
+    controllers.mainController.getUserAndReferred
+  )
+  .post(
+  '/editUser',
+  controllers.authMiddlewareController,
+  controllers.mainController.editUser
   )
   .post(
     '/saveUser',
@@ -150,6 +155,11 @@ try {
     '/countPoints',
     controllers.authMiddlewareController,
     controllers.mainController.countPoints
+  )
+  .get(
+    '/countPointsAndBonus',
+    controllers.authMiddlewareController,
+    controllers.mainController.countPointsAndBonus
   )
   .get(
     '/logout',

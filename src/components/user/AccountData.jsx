@@ -69,7 +69,7 @@ export const AccountData = React.memo((props) => {
         e.stopPropagation();
         document.querySelector('#username').classList.remove('is-invalid');
         document.querySelector('#email').classList.remove('is-invalid');
-        const error = false;
+        let error = false;
         setValidated({
             username: true,
             email: true
