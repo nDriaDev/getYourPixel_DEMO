@@ -114,20 +114,35 @@ export const InviteUsers = (props) => {
                             </tr>
                         </thead>
                         <tbody style={{ color: 'white' }}>
-                            {data.referred && data.referred.map((item, index) => (
-                                <tr key={'tr_' + index}>
-                                    <td key={'td1_' + index}>{index + 1}</td>
-                                    <td key={'td2_' + index}>{item.username}</td>
-                                    <td key={'td3_' + index}>{
-                                        item.stato ?
-                                            <i className="fas fa-check-circle" style={{ color: 'green' }} />
-                                            :
-                                            <i className="fas fa-times-circle" style={{ color: 'red' }} />
-                                    }</td>
-                                </tr>
-                            ))}
+                            {
+                                data?.referred?.length > 0 ?
+                                    data.referred.map((item, index) => (
+                                        <tr key={'tr_' + index}>
+                                            <td key={'td1_' + index}>{index + 1}</td>
+                                            <td key={'td2_' + index}>{item.username}</td>
+                                            <td key={'td3_' + index}>{
+                                                item.stato ?
+                                                    <i className="fas fa-check-circle" style={{ color: 'green' }} />
+                                                    :
+                                                    <i className="fas fa-times-circle" style={{ color: 'red' }} />
+                                            }</td>
+                                        </tr>
+                                    ))
+                                    :
+                                    null
+                            }
                         </tbody>
                     </Table>
+                    {
+                        data?.referred?.length === 0 ?
+                            <div className="mb-3">      
+                                <span>
+                                    Non ci sono elementi da visualizzare
+                                </span>
+                            </div>
+                            :
+                            null
+                    }
                 </div>
                 <Modal
                     show={showModal}

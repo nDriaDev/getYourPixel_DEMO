@@ -75,16 +75,31 @@ const CounterPoints = ({spinnerCommand}) => {
                 </tr>
               </thead>
               <tbody style={{color:'white'}}>
-                {data.list && data.list.map((item,index) => (
-                  <tr key={'tr_'+index}>
-                  <td key={'td1_'+index}>{index+1}</td>
-                    <td key={'td2_' + index}>{item.tipologia}</td>
-                    <td key={'td2_' + index}>{item.dettaglio}</td>
-                    <td key={'td2_' + index}>{item.punti}</td>
-                  </tr>
-                ))}
+              {
+                data?.list?.length > 0 ?
+                  data.list.map((item, index) => (
+                    <tr key={'tr_'+index}>
+                    <td key={'td1_'+index}>{index+1}</td>
+                      <td key={'td2_' + index}>{item.tipologia}</td>
+                      <td key={'td2_' + index}>{item.dettaglio}</td>
+                      <td key={'td2_' + index}>{item.punti}</td>
+                    </tr>
+                  ))
+                  :
+                  null
+              }
               </tbody>
             </Table>
+            {
+              data?.referred?.length === 0 ?
+                <div className="mb-3">
+                  <span>
+                    Non ci sono elementi da visualizzare
+                  </span>
+                </div>
+                :
+                null
+            }
           </Row>
         </div>
       </div>
