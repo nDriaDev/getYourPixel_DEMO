@@ -117,6 +117,10 @@ const Manage = (props) => {
   }
 
   const activing = (value) => {
+    if (value === active.findIndex('active-v-bar')) {
+      return;
+    }
+
     setSpinner(true);
     let arr = [];
     for(let i=0; i<active.length; i++){
