@@ -20,7 +20,7 @@ export const InviteUsers = (props) => {
             .then(res => {
                 if (!res.data.code) {
                     setData({
-                        promoCode: res.data.promoCode,
+                        promoCode: res.data.user.promoCode,
                         referred: res.data.referred
                     });
                     props.spinnerCommand(false);
@@ -110,6 +110,7 @@ export const InviteUsers = (props) => {
                             <tr>
                             <th><i className="fas fa-user" /></th>
                                 <th>Username</th>
+                                <th>Punti</th>
                                 <th>Stato</th>
                             </tr>
                         </thead>
@@ -118,9 +119,10 @@ export const InviteUsers = (props) => {
                                 data?.referred?.length > 0 ?
                                     data.referred.map((item, index) => (
                                         <tr key={'tr_' + index}>
-                                            <td key={'td1_' + index}>{index + 1}</td>
-                                            <td key={'td2_' + index}>{item.username}</td>
-                                            <td key={'td3_' + index}>{
+                                            <td key={'tdInv0_' + index}>{index + 1}</td>
+                                            <td key={'tdInv1_' + index}>{item.username}</td>
+                                            <td key={'tdInv2_' + index}>25</td>
+                                            <td key={'tdInv3_' + index}>{
                                                 item.stato ?
                                                     <i className="fas fa-check-circle" style={{ color: 'green' }} />
                                                     :
