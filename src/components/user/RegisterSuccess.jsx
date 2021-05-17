@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import { Button } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import Const from '../../util/Costanti';
 
 export const RegisterSuccess = React.memo(({ disableSpinner }) => {
-    
+    const { t } = useTranslation();
+
     const history = useHistory();
 
     const goToLogin = () => {
@@ -22,12 +24,11 @@ export const RegisterSuccess = React.memo(({ disableSpinner }) => {
                     <i class="fas fa-paper-plane"></i>
                 </h1>
                 <h3 style={{color:'#28a745'}}>
-                    Grazie per esserti registrato!
+                    {t('registerSuccess.title')}
                 </h3>
                 <br></br>
                 <h7 style={{ color: 'white' }}>
-                    Riceverai a breve un'email di conferma con un link per attivare il tuo account. Se non
-                    visualizzi l'email nella posta ricevuta, controlla nella cartella SPAM
+                    {t('registerSuccess.description')}
                 </h7>
                 <br></br><br></br>
                 <div className="text-center">

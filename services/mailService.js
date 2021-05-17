@@ -128,14 +128,15 @@ exports.sendMailResetPassword = (params, callback) => {
   }
 }
 
-exports.sendActivationEmail = (host, email, username, activeToken, callback) => {
+exports.sendActivationEmail = (host, email, username, activeToken, lang, callback) => {
   log.info("START");
   let protocol = 'http://';
   if (process.env.NODE_ENV === 'production') {
     protocol = 'https://';
   }
-  let link = protocol + host + '/api/activeUser/' + activeToken;
-  readTemplate('templateActivationEmail.html', (err, html) => {
+  let link = protocol + host + '/api/activeUser/' + lang + '/' + activeToken;
+  let template = lang === 'it' ? 'templateActivationEmail_IT.html' : 'templateActivationEmail_ENG.html'
+  readTemplate(template, (err, html) => {
     let transporter = nodemailer.createTransport(setOptionsTrasporter());
     try {
       let template = handlebars.compile(html);

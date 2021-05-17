@@ -12,9 +12,6 @@
     "@mailchimp/mailchimp_marketing": "^3.0.41",
     "@stripe/react-stripe-js": "^1.1.2",
     "@stripe/stripe-js": "^1.11.0",
-    "@testing-library/jest-dom": "^5.11.6",
-    "@testing-library/react": "^11.1.2",
-    "@testing-library/user-event": "^12.2.2",
     "animate.css": "^4.1.1",
     "app-root-path": "^3.0.0",
     "axios": "^0.21.0",
@@ -31,6 +28,9 @@
     "googleapis": "^67.0.0",
     "handlebars": "^4.7.6",
     "helmet": "^4.2.0",
+    "i18next": "^20.2.2",
+    "i18next-browser-languagedetector": "^6.1.1",
+    "i18next-http-backend": "^1.2.2",
     "imagemin": "^7.0.1",
     "imagemin-jpegtran": "^7.0.0",
     "imagemin-pngquant": "^9.0.1",
@@ -39,6 +39,8 @@
     "jsonwebtoken": "^8.5.1",
     "lzma-native": "^6.0.1",
     "lzutf8": "^0.5.6",
+    "moment": "^2.29.1",
+    "moment-timezone": "^0.5.33",
     "mongodb": "^3.6.3",
     "morgan": "^1.10.0",
     "nodemailer": "^6.4.16",
@@ -49,6 +51,7 @@
     "react-dom": "^17.0.1",
     "react-epic-spinners": "^0.5.0",
     "react-ga": "^3.3.0",
+    "react-i18next": "^11.8.15",
     "react-image-mapper": "0.0.15",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
@@ -75,13 +78,12 @@
     "eject": "react-scripts eject"
   },
   "//": {
-    "comment": "proxy serve per evitare errori CORS quando il server è su un porta diversa",
-    "proxy": "http://localhost:3001"
+    "proxy": "http://localhost:3001",
+    "comment": "proxy serve per evitare errori CORS quando il server è su un porta diversa"
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "react-app/jest"
+      "react-app"
     ]
   },
   "browserslist": {

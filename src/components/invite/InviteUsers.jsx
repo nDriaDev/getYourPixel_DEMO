@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Table } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import Const from '../../util/Costanti';
 import { Modal } from '../modal/Modal';
@@ -8,6 +9,8 @@ import { ShareLink } from './ShareLink';
 
 
 export const InviteUsers = (props) => {
+    const { t } = useTranslation();
+
     const [data, setData] = useState('');
     const [showModal, setShowModal] = useState(false);
 
@@ -76,13 +79,13 @@ export const InviteUsers = (props) => {
     return (
         <div className="mx-auto mb-5" style={{ maxWidth: '408px', border: '2px solid #FFFFFF80', borderRadius: '5%' }}>
             <div className="mt-2" align="center">
-                <h1 style={{ color: '#28a745' }}>Invita</h1>
+                <h1 style={{ color: '#28a745' }}>{t('manage.invite.title')}</h1>
             </div>
             <div className="mx-auto" style={{ textAlign: 'center', width: '85%' }}>
                 <form noValidate className="mx-auto mt-3 mb-4">
                     <div className="row mb-5">
                         <div className="col-12">
-                            <label htmlFor="promoCode" className="form-label" style= {{color: 'white', fontSize: '1em'}}>Codice Promo</label>
+                            <label htmlFor="promoCode" className="form-label" style= {{color: 'white', fontSize: '1em'}}>{t('manage.invite.subTitle')}</label>
                         </div>
                         <div className="col-6 offset-3">
                             <input
@@ -101,7 +104,7 @@ export const InviteUsers = (props) => {
                     </div>
                     <button type="button" className="btn btn-success" style={{ width: '65%' }} onClick={openModal}>
                         <i className="fas fa-share"></i>
-                        Condividi link
+                        {t('manage.invite.shareLink')}
                     </button>
                 </form>
                 <div className="row" style={{ overflowY: 'scroll'}}>
@@ -110,8 +113,8 @@ export const InviteUsers = (props) => {
                             <tr>
                             <th><i className="fas fa-user" /></th>
                                 <th>Username</th>
-                                <th>Punti</th>
-                                <th>Stato</th>
+                                <th>{t('manage.invite.table.caption1')}</th>
+                                <th>{t('manage.invite.table.caption2')}</th>
                             </tr>
                         </thead>
                         <tbody style={{ color: 'white' }}>
@@ -139,7 +142,7 @@ export const InviteUsers = (props) => {
                         data?.referred?.length === 0 ?
                             <div className="mb-3">      
                                 <span>
-                                    Non ci sono elementi da visualizzare
+                                    {t('manage.invite.table.noData')}
                                 </span>
                             </div>
                             :

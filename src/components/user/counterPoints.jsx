@@ -4,8 +4,11 @@ import { toast } from 'react-toastify';
 import Const from './../../util/Costanti';
 import axios from 'axios';
 import TrackingGA from './../utils/Tracking';
+import { useTranslation } from 'react-i18next';
 
-const CounterPoints = ({spinnerCommand}) => {
+const CounterPoints = ({ spinnerCommand }) => {
+  const { t } = useTranslation();
+  
   const [data, setData]  = useState({
     number: null,
     list: null,
@@ -56,7 +59,7 @@ const CounterPoints = ({spinnerCommand}) => {
     data.number != null &&
       <div className="mx-auto mb-5" style={{maxWidth:'570px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
         <div className="mt-2" align="center">
-          <h1  style={{color:'#28a745'}}>Punti Totalizzati</h1>
+          <h1  style={{color:'#28a745'}}>{t('manage.points.title')}</h1>
         </div>
         <div className="mx-auto mt-1 mb-1" style={{textAlign: 'center', width: '85%'}}>
           <Row>
@@ -69,9 +72,9 @@ const CounterPoints = ({spinnerCommand}) => {
               <thead>
                 <tr>
                 <th><i className="fas fa-ad"/></th>
-                  <th>Tipologia</th>
-                  <th>Dettaglio</th>
-                  <th>Punti</th>
+                  <th>{t('manage.points.table.caption1')}</th>
+                  <th>{t('manage.points.table.caption2')}</th>
+                  <th>{t('manage.points.table.caption3')}</th>
                 </tr>
               </thead>
               <tbody style={{color:'white'}}>
@@ -94,7 +97,7 @@ const CounterPoints = ({spinnerCommand}) => {
               data?.referred?.length === 0 ?
                 <div className="mb-3">
                   <span>
-                    Non ci sono elementi da visualizzare
+                  {t('manage.invite.table.noData')}
                   </span>
                 </div>
                 :

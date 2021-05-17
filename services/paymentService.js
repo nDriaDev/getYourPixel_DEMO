@@ -78,22 +78,22 @@ class Payment {
       }
     })
   }
-  createOrder(product, quantity) {
+  createOrder(product, data) {
     return new Promise((resolve, reject) => {
       log.info("START")
       stripe.checkout.sessions.create({
-        payment_method_types: ['card', 'sepa_debit'],
+        payment_method_types: data.currency === 'eur' ? ['card', 'sepa_debit'] : ['card'],
         line_items: [
           {
             price_data: {
-              currency: product.price.currency,
+              currency: data.currency,
               product_data: {
                 name: product.name,
                 images: product.images,
               },
-              unit_amount: product.price.unit_amount,
+              unit_amount: data.currency === 'eur' ? product.price.unit_amount : 2900,
             },
-            quantity: quantity ? quantity : 1,
+            quantity: data.quantity ? data.quantity : 1,
           },
         ],
         mode: 'payment',
@@ -103,7 +103,7 @@ class Payment {
         log.info("FINISH")
         resolve(result);
       }).catch(err => {
-        log.error(err);
+        log.error(err.message);
         reject(err);
       })
     })

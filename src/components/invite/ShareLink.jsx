@@ -5,8 +5,11 @@ import Messenger from './../../images/messenger.png';
 import Instagram from './../../images/instagram.png';
 import Whatsapp from './../../images/whatsapp.png';
 import Gmail from './../../images/gmail.png';
+import { useTranslation } from 'react-i18next';
 
 export const ShareLink = ({ promoCode }) => {
+    const { t, i18n } = useTranslation();
+
     const location = useLocation();
 
 
@@ -16,14 +19,17 @@ export const ShareLink = ({ promoCode }) => {
         // '<your baseURL here>'
         'http://localhost:3000/'
     ) + 'register?ref=' + promoCode;
+    
+    const copyText = i18n.language === 'it' ? 'Copia link...' : 'Copy link...';
+    const copiedText = i18n.langue === 'it' ? 'Link copiato!' : 'Link copied!';
 
-    const [text, setText] = useState('Copia link...')
+    const [text, setText] = useState(copyText)
 
     const copyPromo = () => {
         navigator.clipboard.writeText(link);
-        setText('Link copiato!')
+        setText(copiedText)
         setTimeout(() => {
-            setText('Copia link...')
+            setText(copyText)
         }, 800)
     }
 

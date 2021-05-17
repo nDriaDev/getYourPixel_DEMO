@@ -3,9 +3,12 @@ import ImageMapperPixels from './../square/imageMapperPixels';
 import { toast } from 'react-toastify';
 import Const from './../../util/Costanti';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 const Home = React.memo(({setAuth,enableSpinner, disableSpinner}) => {
-  const [data,setData] = useState({
+  const { t } = useTranslation();
+
+  const [data, setData] = useState({
       venduti: '',
       disponibili: '',
       canvas: ''
@@ -77,8 +80,18 @@ const Home = React.memo(({setAuth,enableSpinner, disableSpinner}) => {
     <>
       <div className="display-grid-blank-100">
         <div className="my-auto box-report" align="left">
-          <h5 style={h5_1}>Venduti:&nbsp; <strong>{data.venduti}</strong></h5>
-          <h5 style={h5_2}>Disponibili:&nbsp; <strong>{data.disponibili}</strong></h5>
+          <h5 style={h5_1}>{
+            t('home.venduti') + ' '}
+            <strong>
+              {data.venduti}
+            </strong>
+          </h5>
+          <h5 style={h5_2}>
+            {t('home.disponibili') + ' '}
+            <strong>
+              {data.disponibili}
+            </strong>
+          </h5>
         </div>
       </div>
       <div style={style1} align="center">

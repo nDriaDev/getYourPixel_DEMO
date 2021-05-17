@@ -7,8 +7,11 @@ import '@fortawesome/fontawesome-free/css/solid.min.css';
 import Const from './../../util/Costanti';
 import axios from 'axios';
 import TrackingGA from './../utils/Tracking';
+import { useTranslation } from 'react-i18next';
 
 const ForgotPassword = (props) => {
+  const { t } = useTranslation();
+  
   const [validated, setValidated] = useState(false);
   const history = useHistory();
   const [form, setForm] = useState({
@@ -73,7 +76,7 @@ const ForgotPassword = (props) => {
   }
 
   return (
-    <div className="mx-auto mb-5" style={{maxWidth:'370px',maxHeight:'240px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
+    <div className="mx-auto mb-5" style={{maxWidth:'370px',maxHeight:'260px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
       <div className="display-grid mt-3 mb-3 ml-3 mr-3" align="center">
         <h1  style={{color:'#28a745'}}>Reset Password</h1>
       </div>
@@ -96,7 +99,7 @@ const ForgotPassword = (props) => {
             {'Reset'}
           </Button>
           <Form.Group controlId="formBasicForgotPassword" style={{textAlign:'left'}}>
-            <Form.Label className="label-underline-link" onClick={()=> goTo("/login")}>Torna alla login</Form.Label>
+            <Form.Label className="label-underline-link" onClick={() => goTo("/login")}>{t('forgotPass.goToLogin')}</Form.Label>
           </Form.Group>
         </Form>
       </div>

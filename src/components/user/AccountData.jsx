@@ -1,11 +1,14 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import Const from '../../util/Costanti';
 import ChangePasswordModal from '../changePassword/changePasswordModal';
 import { Modal } from '../modal/Modal';
 
 export const AccountData = React.memo((props) => {
+    const { t } = useTranslation();
+
     const [validated, setValidated] = useState({ username: true, email: true, })
     const [form, setForm] = useState({ username: '', email: '', password: '' });
     const [showModal, setShowModal] = useState(false);
@@ -182,7 +185,7 @@ export const AccountData = React.memo((props) => {
         form.username !== '' &&
         <div className="mx-auto mb-5" style={{ maxWidth: '408px', border: '2px solid #FFFFFF80', borderRadius: '5%' }}>
             <div className="mt-2" align="center">
-                <h1 style={{ color: '#28a745' }}>Dati Account</h1>
+                <h1 style={{ color: '#28a745' }}>{t('manage.accountData.title')}</h1>
             </div>
             <div className="mx-auto" style={{ textAlign: 'center', width: '85%' }}>
                 <form noValidate className="mx-auto mt-3" onSubmit={onSubmit}>
@@ -271,7 +274,7 @@ export const AccountData = React.memo((props) => {
                     </div>
                     <button className="btn btn-success" type="submit">
                         <i className="fas fa-save" style={{ paddingRight: '4%' }}></i>
-                        {'Aggiorna'}
+                        {t('manage.accountData.button')}
                     </button>
                 </form>
             </div>

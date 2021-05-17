@@ -6,9 +6,12 @@ import '@fortawesome/fontawesome-free/css/solid.min.css';
 import Const from './../../util/Costanti';
 import ManageRoute from './manageRoute';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 const Manage = (props) => {
   const history = useHistory();
+  const { t } = useTranslation();
+
   const [active,setActive] = useState(() => {
       let pathSpli = window.location.pathname.split('/');
       if(pathSpli[pathSpli.length-1] === 'manage') {
@@ -159,7 +162,7 @@ const Manage = (props) => {
                       onClick={()=>activing(0)}>
                       <Link style={{textAlign:'left'}} to={`${path}/saveClient`}>
                         <i className="fas fa-user-plus" style={{paddingRight:'4%'}}></i>
-                        Nuovo Cliente
+                          {t('manage.menus.newClient')}
                       </Link>
                     </li>
                     :
@@ -171,7 +174,7 @@ const Manage = (props) => {
                       onClick={()=>activing(1)}>
                       <Link style={{textAlign:'left'}} to={`${path}/editClient`}>
                         <i className="fas fa-user-edit" style={{paddingRight:'4%'}}></i>
-                        Modifica Cliente
+                          {t('manage.menus.editClient')}
                       </Link>
                     </li>
                     :
@@ -183,7 +186,7 @@ const Manage = (props) => {
                       onClick={()=>activing(2)}>
                       <Link style={{textAlign:'left'}} to={`${path}/removeClient`}>
                         <i className="fas fa-user-times" style={{paddingRight:'4%'}}></i>
-                        Elimina Cliente
+                          {t('manage.menus.deleteClient')}
                       </Link>
                     </li>
                     :
@@ -195,7 +198,7 @@ const Manage = (props) => {
                       onClick={()=>activing(3)}>
                       <Link style={{textAlign:'left'}} to={`${path}/addAdmin`}>
                         <i className="fas fa-hands-helping" style={{paddingRight:'4%'}}></i>
-                        Aggiungi Admin
+                          {t('manage.menus.addAdmin')}
                       </Link>
                     </li>
                     :
@@ -207,7 +210,7 @@ const Manage = (props) => {
                       onClick={()=>activing(4)}>
                       <Link style={{textAlign:'left'}} to={`${path}/removeAdmin`}>
                         <i className="fas fa-hands-wash" style={{paddingRight:'4%'}}></i>
-                        Elimina Admin
+                          {t('manage.menus.deleteAdmin')}
                       </Link>
                     </li>
                     :
@@ -219,7 +222,7 @@ const Manage = (props) => {
                       onClick={()=>activing(5)}>
                       <Link style={{textAlign:'left'}} to={`${path}/counterUsers`}>
                         <i className="fas fa-users" style={{paddingRight:'4%'}}></i>
-                        Utenti Registrati
+                          {t('manage.menus.registeredUsers')}
                       </Link>
                     </li>
                     :
@@ -231,7 +234,7 @@ const Manage = (props) => {
                         onClick={() => activing(7)}>
                         <Link style={{ textAlign: 'left' }} to={`${path}/accountData`}>
                           <i className="fas fa-user-circle" style={{ paddingRight: '4%' }}></i>
-                      Dati Account
+                          {t('manage.menus.accountData')}
                     </Link>
                       </li>
                       :
@@ -243,7 +246,7 @@ const Manage = (props) => {
                       onClick={()=>activing(6)}>
                       <Link style={{textAlign:'left'}} to={`${path}/counterPoints`}>
                         <i className="fas fa-trophy" style={{paddingRight:'4%'}}></i>
-                        Punti
+                          {t('manage.menus.points')}
                       </Link>
                     </li>
                     :
@@ -255,7 +258,7 @@ const Manage = (props) => {
                         onClick={() => activing(9)}>
                         <Link style={{ textAlign: 'left' }} to={`${path}/inviteUsers`}>
                           <i className="fas fa-user-circle" style={{ paddingRight: '4%' }}></i>
-                      Invita
+                          {t('manage.menus.invite')}
                     </Link>
                       </li>
                       :
@@ -267,7 +270,7 @@ const Manage = (props) => {
                         onClick={() => activing(8)}>
                         <Link style={{ textAlign: 'left' }} to={`${path}/changePassword`}>
                           <i className="fas fa-lock" style={{ paddingRight: '4%' }}></i>
-                      Cambia Password
+                      {t('manage.menus.changePassword')}
                     </Link>
                       </li>
                       :

@@ -6,9 +6,12 @@ import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
 import '@fortawesome/fontawesome-free/css/solid.min.css';
 import Const from './../../util/Costanti';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 
-const RemoveAdmin = ({spinnerCommand}) => {
+const RemoveAdmin = ({ spinnerCommand }) => {
+  const { t } = useTranslation();
+
   const history = useHistory();
   const [form, setForm] = useState({
     email: '',
@@ -118,7 +121,7 @@ const RemoveAdmin = ({spinnerCommand}) => {
     form.usersList &&
       <div className="mx-auto mb-5" style={{maxWidth:'408px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
         <div className="mt-2" align="center">
-          <h1  style={{color:'#28a745'}}>Elimina Admin</h1>
+          <h1  style={{color:'#28a745'}}>{t('manage.removeAdmin.title')}</h1>
         </div>
         <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
           <Form noValidate validated={valid} onSubmit={onSubmit}>
@@ -141,7 +144,7 @@ const RemoveAdmin = ({spinnerCommand}) => {
             </Form.Group>
             <Button variant="success" type="submit">
               <i className="fas fa-hands-wash" style={{paddingRight:'4%'}}></i>
-              {'Rimuovi'}
+                {t('manage.removeAdmin.button')}
             </Button>
           </Form>
         </div>

@@ -1,0 +1,222 @@
+{
+    "logoButton": {
+        "descrizioneLogo": "Reach the unreachable",
+        "testoButton": "BUY"
+    },
+    "header": {
+        "navbarWinButtonEurope": "Win 500'000",
+        "navbarWinButtonForeign": "Win 600'000",
+        "navbarBuyMenu": "Buy",
+        "navbarContactMenu": "Contact Us",
+        "navbarHowWorkMenu": "How Work",
+        "navbarInviteFriendsMenu": "Invite Friends",
+        "navbarRegisterMenu": "Sign In"
+    },
+    "home": {
+        "venduti": "Sold:",
+        "disponibili": "Available:",
+        "modalTitle": "Warning",
+        "modalBody1": "It appears that you are not logged in.",
+        "modalBody2": "Are you sure you want to continue?",
+        "modalButtonClose": "Cancel",
+        "modalButtonContinue": "Continue",
+        "tooltipText": "Go to site"
+    },
+    "footer": {
+        "copyright": "All rights reserved. I am not responsible for the content of external sites."
+    },
+    "howWork": {
+        "subTitle": "Reach the unreachable",
+        "desc1": "Get your pixels is a digital center where you can show your product, your company, your website or whatever you like. The platform, in fact, offers accessible advertising space for your needs. Once you have selected the number of pixels you wish to purchase, you simply need to head to the",
+        "desc2": " page, enter the required details and in a couple of minutes you will own one of the most unique and exclusive spaces on the web!",
+        "descLeft1": "Pay once and never again!",
+        "descLeft2": "This is the only system that allows you to pay for your advertising",
+        "descLeft3": "only once and continue to use it forever!",
+        "descRight1": "Two payment options",
+        "descRight2": "You can make a purchase through our secure payment system, in the",
+        "descRight3": " section,supported by Stripe (one of the world's largest companies that allows individuals and businesses to send and receive payments via the Internet), using any credit/debit card or using PayPal.",
+        "descRight4": "Alternatively, for larger orders, always through the",
+        "descRight5": " section, you can pay by sending a SEPA transfer.",
+        "buy": "PURCHASE",
+        "descCenter1": "How it works",
+        "descCenter2": "Upon receipt of your payment, we will send you an email asking for all the required information to complete the operation. Please attach in your email reply the image which will replace the blank space of the pixels, and the link to your web page, that will be connected to your space. In addition, you can tell us the coordinates of the squares you would like to purchase. If no preference is expressed, they will be assigned randomly. For any concerns, feel free to contact us via email. We will be happy to assist you! Should you be interested, you will always have the option in the future to send us a new image to replace the current one and/or a new link to be attached. Furthermore, at the end of each semester, we will send you a report so that you can analyze the performance of your advertising campaign with your own eyes.",
+        "descFooter1": "Please note!",
+        "descFooter2": "On our website you can buy 1 million pixels for {{price1}} each, but this price will not be forever. Once the first half of available pixel is sold out, the price will double to {{price2}} per pixel and will increase again for the last 250'000 pixel available. The cost increase will help to fund the contest that will bring one of you (maybe you who are reading this) to win between {{price3}} and {{price4}}!",
+        "descFooter3": "To learn how to win this amount visit the page ",
+        "descFooter4": "If you have any doubts or problems do not hesitate to contact us through the dedicated section!",
+        "winEurope": "Win 500'000",
+        "winForeign": "Win 600'000"
+    },
+    "contact": {
+        "title": "Contact Us",
+        "description": "Should you have any questions, concerns or queries, please do not hesitate to contact us by submitting the form below. A member of our team will get back to you within 24 hours at the email address you provided.",
+        "name": "Name *",
+        "phone": "Number phone *",
+        "email": "Email *",
+        "oggetto": "Object *",
+        "mess": "Message *",
+        "feedName": "Insert name",
+        "feedPhone": "Insert number phone",
+        "feedEmail": "Insert email",
+        "feedOggetto": "Insert object",
+        "feedMess": "Insert message",
+        "send": "Send"
+    },
+    "win": {
+        "title": "WIN FROM {{price1}} TO {{price2}} WITHOUT SPENDING A CENT!",
+        "desc1": "Once the first half of the available pixels is sold out, you will be given the chance to participate in our contest! By following a few simple steps, you will be included in the list from which we will draw 5 lucky users who will be awarded {{price3}} each! The process is very simple. All you have to do, after logging in with your credentials, is check out the advertisements on the homepage. Each advertisement viewed will award the user 1 point. The more points you have the more times your name will be included in the lottery list. For example, by visiting one advertisement your name will be entered once, by visiting 20 advertisements your name will be entered 20 times. If the same user visits an advertisement they have visited before, they will not earn additional points.",
+        "desc2": "To keep track of the advertisements you have already checked out, after logging in, you will see a little square in the lower right corner of each image. That square will be red if you haven't visited the sponsored page yet, while it will be green if you have already visited it and therefore have already earned the point.",
+        "desc3": "Here are the steps to follow:",
+        "desc311": "Sign In.",
+        "click": "Click here",
+        "desc312": "and enter your username, email and password.",
+        "desc32": "Click on the advertisements and visit the sponsored pages. Each advertisement you visit will award you 1 point.",
+        "desc33": "Keep track of your points by visiting your profile under the account tab.",
+        "desc34": "The day of the drawing (which will take place in the presence of a notary or authorized person) 5 usernames will be selected randomly by a system. The same username may be drawn several times.",
+        "desc35": "Winners will be contacted via the email used for registration and will be given information regarding the prize delivery.",
+        "desc4": "PLEASE NOTE!",
+        "desc41": "Even before the contest is officially started, the points will already be counted. So, we suggest you start browsing, get as many points as possible and don't leave any advertisement behind! Also, on this page you can find the contest rules, starting from the day of its official start.",
+        "desc42": "For legal purposes, the prize will be awarded in the form of gold bars (it will be possible to convert it immediately upon delivery). Don't worry! We will still be available to assist you in the required procedures to convert your prize into money.",
+        "desc43": "Good luck!"
+    },
+    "invite": {
+        "title": "Invite Friends",
+        "button": "Invite Friends",
+        "span1": "Share your promo code! Get 25 points for each friend who completes the registration process by entering your code in the space provided.",
+        "span2": "Once you have sent the invitation link, your friends will simply have to click on it and follow the procedure for signing in.",
+        "span3": "All they need to do is watch a single advertisement and your bonus will be unlocked.",
+        "span4": "Your friends will also receive 5 points after watching the first advertisement.",
+        "span5": "Currently, you can get a bonus for each friend up to 50 times! In this case, you will earn 1200 points thus increasing you chances of being drawn and win our fantastic prize."
+    },
+    "register": {
+        "title": "Sign In",
+        "promo": "I have a promo code",
+        "send": "Send",
+        "promoPlaceholder": "Insert promo code"
+    },
+    "login": {
+        "forgotPassword": "Forgot password"
+    },
+    "forgotPass": {
+        "goToLogin": "Go to login"
+    },
+    "buy": {
+        "unit": 1.16,
+        "5x5": 2900,
+        "description": "Start using our platform now.\nYou too can finally reach millions of people!\nChoose your space size and insert your data, after pressing the button below.\nYou will receive an order confirmation email where we will ask you to provide the necessary information to complete the operation:\nimage, link to your page, etc. \n \nDon't worry now,\nwe will be happy to solve all your concerns!",
+        "buttonPayment": "Credit card"
+    },
+    "manage": {
+        "home": {
+            "setting": "Setting",
+            "description": "View possible actions from the menu bar"
+        },
+        "menus": {
+            "newClient": "New Client",
+            "editClient": "Edit Client",
+            "deleteClient": "Delete Client",
+            "addAdmin": "Add Admin",
+            "deleteAdmin": "Delete Admin",
+            "registeredUsers": "Registered Users",
+            "accountData": "Account Data",
+            "points": "Points",
+            "invite": "Invite",
+            "changePassword": "Change Password"
+        },
+        "accountData": {
+            "title": "Account Data",
+            "button": "Update"
+        },
+        "points": {
+            "title": "Points Scored",
+            "table": {
+                "caption1": "Tipology",
+                "caption2": "Detail",
+                "caption3": "Points"
+            }
+        },
+        "invite": {
+            "title": "Invite",
+            "subTitle": "Promo code",
+            "shareLink": " Share link",
+            "table": {
+                "caption1": "Points",
+                "caption2": "State",
+                "noData": "No elements to show"
+            }
+        },
+        "newClient": {
+            "title": "New Client",
+            "subTitle": "Pixels Available",
+            "form": {
+                "emailClient": "Client Email *",
+                "advertising": "Site to Advertise *",
+                "companyClient": "Client Company",
+                "image": "Image *",
+                "imageLoad": "Load",
+                "verticalPixels": "Vertical Pixels *",
+                "horizontalPixels": "Horizontal Pixels *",
+                "rowGridPosition": "Grid position: Row",
+                "colGridPosition": "Grid position: Col",
+                "button": "Save"
+            }
+        },
+        "editClient": {
+            "title" : "Edit Client",
+            "filters": {
+                "filterBy": "Filter by",
+                "filterEmail": "Client email",
+                "filterPage": "Advertised site",
+                "filterCompany": "Client company",
+                "select": "Select",
+                "Azienda cliente": "Client company",
+                "Pagina pubblicizzata": "Advertised site",
+                "Email cliente": "Client email"
+            }
+        },
+        "removeClient": {
+            "title": "Remove Client",
+            "filters": {
+                "filterBy": "Filter by",
+                "filterEmail": "Client email",
+                "filterPage": "Advertised site",
+                "filterCompany": "Client company",
+                "select": "Select",
+                "Azienda cliente": "Client company",
+                "Pagina pubblicizzata": "Advertised site",
+                "Email cliente": "Client email"
+            },
+            "button": "Remove"
+        },
+        "addAdmin": {
+            "title": "Add Admin",
+            "ruolo": "Role",
+            "button": "Add"
+        },
+        "removeAdmin": {
+            "title": "Remove Admin",
+            "button": "Remove"
+        },
+        "counterUsers": {
+            "title": "Registered Users",
+            "table": {
+                "caption1": "Points"
+            }
+        },
+        "changePassword": {
+            "title": "Change Password",
+            "form": {
+                "current": "Current Password",
+                "new": "New Password",
+                "confirm": "Confirm Password",
+                "passwordDifferent": "Password are different",
+                "passwordWrong": "Password is wrong",
+                "button": "Update"
+            }
+        }
+    },
+    "registerSuccess": {
+        "title": "Thank you for signing in!",
+        "description": "You will shortly receive a confirmation email with a link to activate your account. If you don't see the email in your inbox, check your SPAM folder"
+    }
+}

@@ -6,9 +6,12 @@ import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
 import '@fortawesome/fontawesome-free/css/solid.min.css';
 import Const from './../../../util/Costanti';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 
 const RemoveClient = ({spinnerCommand}) => {
+  const { t } = useTranslation();
+
   const [validated, setValidated] = useState(false);
   const [selectSpinner, setSelectSpinner] = useState({enabled:true});
   const [form, setForm] = useState({
@@ -109,7 +112,7 @@ const RemoveClient = ({spinnerCommand}) => {
   return (
     <div className="mx-auto mb-5" style={{maxWidth:'640px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
       <div className="mt-2" align="center">
-        <h1 style={{color:'#28a745'}}>Elimina Cliente</h1>
+        <h1 style={{ color: '#28a745' }}>{t('manage.removeClient.title')}</h1>
       </div>
       <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
         <Form noValidate validated={validated} onSubmit={onSubmit}>
@@ -119,7 +122,7 @@ const RemoveClient = ({spinnerCommand}) => {
                 padding: 'calc(.375rem + 1px) 15px'
               }}>
                 <Col sm="12" style={{padding:'0',textAlign: 'left'}}>
-                  <Form.Label style={{color:'white'}}>Filtra per</Form.Label>
+                  <Form.Label style={{ color: 'white' }}>{t('manage.removeClient.filters.filterBy')}</Form.Label>
                 </Col>
               </Row>
               <Form.Control
@@ -130,9 +133,9 @@ const RemoveClient = ({spinnerCommand}) => {
                 onChange={e => handleInputChange(e)}
                 required>
                 <option></option>
-                <option>Email cliente</option>
-                <option>Pagina pubblicizzata</option>
-                <option>Azienda cliente</option>
+                <option>{t('manage.removeClient.filters.filterEmail')}</option>
+                <option>{t('manage.removeClient.filters.filterPage')}</option>
+                <option>{t('manage.removeClient.filters.filterCompany')}</option>
               </Form.Control>
             </Col>
             <Col sm="7" md={{span:7,offset:1}} style={{padding:'0'}}>
@@ -141,7 +144,7 @@ const RemoveClient = ({spinnerCommand}) => {
               }}>
                 <Col sm="10" style={{padding:'0',textAlign: 'left'}}>
                   <Form.Label style={{color:'white'}}>
-                  {'Seleziona ' + form.filtro}
+                    {t('manage.removeClient.filters.select') + ' ' + t(form.filtro)}
                   </Form.Label>
                 </Col>
                 <Col sm="2">
@@ -173,7 +176,7 @@ const RemoveClient = ({spinnerCommand}) => {
           </Row>
           <Button variant="success" type="submit">
             <i className="fas fa-user-times" style={{paddingRight:'4%'}}></i>
-            {'Rimuovi'}
+            {t('manage.removeClient.button')}
           </Button>
         </Form>
       </div>

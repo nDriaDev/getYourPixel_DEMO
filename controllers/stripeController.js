@@ -18,7 +18,7 @@ class Stripe {
     try {
       log.info("START")
       const product = await stripe.getProduct();
-      stripe.createOrder(product, req.body.quantity).then(result => {
+      stripe.createOrder(product, { quantity: req.body.quantity, currency: req.body.currency }).then(result => {
         log.info("END")
         res.status(200).send({id: result.id})
       }).catch(err => {

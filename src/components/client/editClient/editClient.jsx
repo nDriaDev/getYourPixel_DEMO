@@ -6,9 +6,12 @@ import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
 import '@fortawesome/fontawesome-free/css/solid.min.css';
 import Const from './../../../util/Costanti';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 
 const EditClient = ({spinnerCommand}) => {
+  const { t } = useTranslation();
+  
   const [validated, setValidated] = useState(false);
   const [selectSpinner, setSelectSpinner] = useState([{enabled:true},{enabled:true}]);
   const [form, setForm] = useState({
@@ -318,7 +321,7 @@ const EditClient = ({spinnerCommand}) => {
   return (
     <div className="mx-auto mb-5" style={{maxWidth:'640px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
       <div className="mt-2" align="center">
-        <h1 style={{color:'#28a745'}}>Modifica Cliente</h1>
+        <h1 style={{color:'#28a745'}}>{t('manage.editClient.title')}</h1>
       </div>
       <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
         <Form noValidate validated={validated} onSubmit={onSubmit}>
@@ -328,7 +331,7 @@ const EditClient = ({spinnerCommand}) => {
                 padding: 'calc(.375rem + 1px) 15px'
               }}>
                 <Col sm="12" style={{padding:'0',textAlign: 'left'}}>
-                  <Form.Label style={{color:'white'}}>Filtra per</Form.Label>
+                  <Form.Label style={{color:'white'}}>{t('manage.editClient.filters.filterBy')}</Form.Label>
                 </Col>
               </Row>
               <Form.Control
@@ -339,9 +342,9 @@ const EditClient = ({spinnerCommand}) => {
                 onChange={e => handleInputChange(e)}
                 required>
                 <option></option>
-                <option>Email cliente</option>
-                <option>Pagina pubblicizzata</option>
-                <option>Azienda cliente</option>
+                <option>{t('manage.editClient.filters.filterEmail')}</option>
+                <option>{t('manage.editClient.filters.filterPage')}</option>
+                <option>{t('manage.editClient.filters.filterCompany')}</option>
               </Form.Control>
             </Col>
             <Col sm="7" md={{span:7,offset:1}} style={{padding:'0'}}>
@@ -350,7 +353,7 @@ const EditClient = ({spinnerCommand}) => {
               }}>
                 <Col sm="10" style={{padding:'0',textAlign: 'left'}}>
                   <Form.Label style={{color:'white'}}>
-                  {'Seleziona ' + form.filtro}
+                    {t('manage.editClient.filters.select') + ' ' + t(form.filtro)}
                   </Form.Label>
                 </Col>
                 <Col sm="2">
@@ -396,14 +399,14 @@ const EditClient = ({spinnerCommand}) => {
             :
             <>
               <div className="mt-2" align="center">
-                <h4 style={{color:'white'}}>Pixels disponibili</h4>
+                <h4 style={{color:'white'}}>{t('manage.newClient.subTitle')}</h4>
                 <h2 style={{color:'white'}}>{pixelNumber}</h2>
               </div>
               <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
                 <Row>
                   <Col sm="6">
                     <Form.Group controlId="formBasicEmail">
-                      <Form.Label style={{float: 'left', color:'white'}}>Email Cliente *</Form.Label>
+                      <Form.Label style={{float: 'left', color:'white'}}>{t('manage.newClient.form.emailClient')}</Form.Label>
                       <Form.Control
                         type="email"
                         name="email"
@@ -416,7 +419,7 @@ const EditClient = ({spinnerCommand}) => {
                   </Col>
                   <Col sm="6">
                     <Form.Group controlId="formBasicCompany">
-                      <Form.Label style={{float: 'left', color:'white'}}>Sito da Pubblicizzare *</Form.Label>
+                        <Form.Label style={{ float: 'left', color: 'white' }}>{t('manage.newClient.form.advertising')}</Form.Label>
                       <Form.Control
                         type="text"
                         name="url"
@@ -431,7 +434,7 @@ const EditClient = ({spinnerCommand}) => {
                 <Row>
                   <Col sm="6">
                     <Form.Group controlId="formBasicCompany">
-                      <Form.Label style={{float: 'left', color:'white'}}>Azienda Cliente</Form.Label>
+                        <Form.Label style={{ float: 'left', color: 'white' }}>{t('manage.newClient.form.companyClient')}</Form.Label>
                       <Form.Control
                         type="text"
                         name="company"
@@ -442,21 +445,21 @@ const EditClient = ({spinnerCommand}) => {
                     </Form.Group>
                   </Col>
                   <Col sm="6" style={{padding:'0'}}>
-                    <Form.Label column sm="12" style={{textAlign: 'left', color:'white', paddingTop:'0'}}>Immagine *</Form.Label>
+                      <Form.Label column sm="12" style={{ textAlign: 'left', color: 'white', paddingTop: '0' }}>{t('manage.newClient.form.image')}</Form.Label>
                     <Col sm="12">
                       <Form.File id="formBasicFile" custom>
                         <Form.File.Input
                           name="file"
                           onChange={e => handleInputChange(e)}
                           />
-                        <Form.File.Label className={"position-label " + validFile} data-browse="Carica">{form.file.name }</Form.File.Label>
+                          <Form.File.Label className={"position-label " + validFile} data-browse={t('manage.newClient.form.imageLoad')}>{form.file.name }</Form.File.Label>
                       </Form.File>
                     </Col>
                   </Col>
                 </Row>
                 <Row style={{marginBottom:'.8rem'}}>
                   <Col sm="6" style={{padding:'0'}}>
-                    <Form.Label column sm="12" style={{textAlign: 'left', color:'white', paddingTop:'0'}}>{'Pixels in verticale *'}</Form.Label>
+                      <Form.Label column sm="12" style={{ textAlign: 'left', color: 'white', paddingTop: '0' }}>{t('manage.newClient.form.verticalPixels')}</Form.Label>
                     <Col sm="8">
                       <Form.Control
                         type="text"
@@ -469,7 +472,7 @@ const EditClient = ({spinnerCommand}) => {
                     </Col>
                   </Col>
                   <Col sm="6" style={{padding:'0'}}>
-                    <Form.Label column sm="12" style={{textAlign: 'left', color:'white', paddingTop:'0'}}>{'Pixels in orizzontale *'}</Form.Label>
+                      <Form.Label column sm="12" style={{ textAlign: 'left', color: 'white', paddingTop: '0' }}>{t('manage.newClient.form.horizontalPixels')}</Form.Label>
                     <Col sm="8">
                       <Form.Control
                         type="text"
@@ -484,7 +487,7 @@ const EditClient = ({spinnerCommand}) => {
                 </Row>
                 <Row style={{marginBottom:'.8rem'}}>
                   <Col sm="6" style={{padding:'0'}}>
-                    <Form.Label column sm="12" style={{textAlign: 'left', color:'white', paddingTop:'0'}}>{'Posizione in griglia: Riga'}</Form.Label>
+                      <Form.Label column sm="12" style={{ textAlign: 'left', color: 'white', paddingTop: '0' }}>{t('manage.newClient.form.rowGridPosition')}</Form.Label>
                     <Col sm="8">
                       <Form.Control
                         type="text"
@@ -496,7 +499,7 @@ const EditClient = ({spinnerCommand}) => {
                     </Col>
                   </Col>
                   <Col sm="6" style={{padding:'0'}}>
-                    <Form.Label column sm="12" style={{textAlign: 'left', color:'white', paddingTop:'0'}}>{'Posizione in griglia: Colonna'}</Form.Label>
+                      <Form.Label column sm="12" style={{ textAlign: 'left', color: 'white', paddingTop: '0' }}>{t('manage.newClient.form.colGridPosition')}</Form.Label>
                     <Col sm="8">
                       <Form.Control
                         type="text"
@@ -510,7 +513,7 @@ const EditClient = ({spinnerCommand}) => {
                 </Row>
                 <Button variant="success" type="submit">
                   <i className="fas fa-user-plus" style={{paddingRight:'4%'}}></i>
-                  {'Salva'}
+                    {t('manage.newClient.form.button')}
                 </Button>
               </div>
             </>

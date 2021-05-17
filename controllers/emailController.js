@@ -80,12 +80,14 @@ class Mailer {
       let activeToken = res.locals.result.activeToken;
       let message = res.locals.result.message;
       let username = res.locals.result.username;
+      let lang = res.locals.result.lang;
       delete res.locals.result;
       mailer.sendActivationEmail(
         req.headers.host,
         email,
         username,
         activeToken,
+        lang,
         (err, data) => {
         if (err) {
           log.error(err);

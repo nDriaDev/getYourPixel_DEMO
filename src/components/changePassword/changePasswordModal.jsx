@@ -5,9 +5,11 @@ import '@fortawesome/fontawesome-free/css/solid.min.css';
 import Const from './../../util/Costanti';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 
 const ChangePasswordModal = ({ setData, showModal}) => {
+  const { t } = useTranslation();
 
   const [validated,setValidated] = useState({
     oldPassword: true,
@@ -104,12 +106,12 @@ const ChangePasswordModal = ({ setData, showModal}) => {
     <div className="" style={{
       }}>
       <div className="mt-2" align="center">
-        <h1 style={{color:'#28a745', fontSize:'2em'}}>Cambia Password</h1>
+        <h1 style={{color:'#28a745', fontSize:'2em'}}>{t('manage.changePassword.title')}</h1>
       </div>
       <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
         <Form noValidate className="mx-auto mt-3" onSubmit={onSubmit}>
           <Form.Group controlId="formBasicOldPassword">
-            <Form.Label style={{float: 'left', color:'white'}}>Password attuale</Form.Label>
+            <Form.Label style={{ float: 'left', color: 'white' }}>{t('manage.changePassword.form.current')}</Form.Label>
             <Form.Control
               type="password"
               name="oldPassword"
@@ -120,11 +122,11 @@ const ChangePasswordModal = ({ setData, showModal}) => {
               required
             />
             <Form.Control.Feedback type="invalid">
-              {"La password corrente non e' corretta"}
+              {t('manage.changePassword.form.passwordWrong')}
             </Form.Control.Feedback>
           </Form.Group>
           <Form.Group controlId="formBasicPassword">
-            <Form.Label style={{float: 'left', color:'white'}}>Nuova password</Form.Label>
+            <Form.Label style={{ float: 'left', color: 'white' }}>{t('manage.changePassword.form.new')}</Form.Label>
             <Form.Control
               name="password"
               type="password"
@@ -136,7 +138,7 @@ const ChangePasswordModal = ({ setData, showModal}) => {
               />
           </Form.Group>
           <Form.Group controlId="formBasicConfirmPassword">
-            <Form.Label style={{float: 'left', color:'white'}}>Conferma password</Form.Label>
+            <Form.Label style={{ float: 'left', color: 'white' }}>{t('manage.changePassword.form.confirm')}</Form.Label>
             <Form.Control
               type="password"
               name="confirmPassword"
@@ -147,12 +149,12 @@ const ChangePasswordModal = ({ setData, showModal}) => {
               required
               />
               <Form.Control.Feedback type="invalid">
-                {'Le password non coincidono'}
+                {t('manage.changePassword.form.passwordDifferent')}
               </Form.Control.Feedback>
           </Form.Group>
           <button className="btn btn-success" type="submit" style={{width: 'fit-content'}}>
             <i className="fas fa-lock" style={{paddingRight:'4%'}}></i>
-            {'Aggiorna'}
+            {t('manage.changePassword.form.button')}
           </button>
         </Form>
       </div>

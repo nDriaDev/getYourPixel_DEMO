@@ -59,14 +59,15 @@ class MailChimpController{
 
     async addMemberToList(req, res, next) {
         log.info("START");
+        const { username, email, lang } = res.locals.result;
+        const template = lang === 'it' ? '/resources/templateActivationSuccess_IT.html' : '/resources/templateActivationSuccess_ENG.html';
         try {
-            const { username, email } = res.locals.result;
             delete res.locals.result;
-            await service.addMemberToList({username,email});
-            res.sendFile(appRoot + '/resources/templateActivationSuccess.html');
+            await service.addMemberToList({ username, email });
+            res.sendFile(appRoot + template);
         } catch (error) {
             log.error(error);
-            res.sendFile(appRoot + '/resources/templateActivationSuccess.html');
+            res.sendFile(appRoot + template);
         } finally {
             log.info("FINISH");
         }

@@ -11,11 +11,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import './css/style.css';
+import "./i18n";
 import reportWebVitals from './reportWebVitals';
+import { Suspense } from 'react';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Suspense fallback="">
+      <App />
+    </Suspense>
   </React.StrictMode>,
   document.getElementById('root')
 );

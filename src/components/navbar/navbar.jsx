@@ -6,6 +6,9 @@ import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
 import '@fortawesome/fontawesome-free/css/solid.min.css';
 import Const from './../../util/Costanti.js';
 import axios from 'axios';
+import moment from 'moment-timezone';
+import { Trans } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 var listen, prevLocation = null;
 
@@ -14,6 +17,7 @@ class NavbarCustom extends Component{
     super(props);
     let pathname = window.location.pathname;
     pathname = pathname === Const.PATH_ERROR ? 'error' : (pathname === '/' ? '' : (pathname === Const.PATH_BUY ? 'buy' : (pathname === Const.PATH_CONTACT ? 'contact' : (pathname === Const.PATH_HOW_WORK ? 'howWork' : (pathname === '/login' ? 'login' : (pathname === '/register' ? 'register' : (pathname === '/win' ? 'win' : (pathname === '/invite' ? 'invite' : 'error'))))))));
+    this.i18n = this.props.i18n;
     this.state = {
       origin: window.location.origin,
       paths : [Const.PATH_HOME,Const.PATH_BUY,Const.PATH_CONTACT,Const.PATH_HOW_WORK,Const.PATH_WIN,Const.PATH_LOGIN,Const.PATH_REGISTER,Const.PATH_MANAGE, Const.PATH_INVITE],
@@ -25,6 +29,7 @@ class NavbarCustom extends Component{
     this.logout = this.logout.bind(this);
     this.changeActiveAndHistoryPush = this.changeActiveAndHistoryPush.bind(this);
     this.collapseNavbar = this.collapseNavbar.bind(this);
+    this.changeLanguage = this.changeLanguage.bind(this);
   }
 
 
@@ -112,6 +117,12 @@ class NavbarCustom extends Component{
     this.collapseNavbar();
   }
 
+  changeLanguage(lang) {
+    if (this.i18n.language !== lang) {
+      this.i18n.changeLanguage(lang);
+    }
+    this.collapseNavbar();
+  }
 
   changeActive(menu){
     this.setState({
@@ -133,7 +144,8 @@ class NavbarCustom extends Component{
     }
   }
 
-  render(){
+  render() {
+    const isEurope = moment.tz.guess(true).indexOf("Europe") !== -1;
     return(
       <nav className="navbar navbar-expand-lg navbar-dark primary-color">
         <button id="btn-collapse" className="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
@@ -150,7 +162,13 @@ class NavbarCustom extends Component{
               data-toggle="collapse" data-target=".navbar-collapse.show"
               onClick={(e)=>this.changeActiveAndHistoryPush(e,5,'/win')}>
               <i className="fas fa-money-bill-alt" style={{paddingTop: '3%'}}></i>
-              &nbsp;Vinci 500'000€
+              &nbsp;
+              {isEurope ?
+                <Trans i18nKey="header.navbarWinButtonEurope" /> 
+                :
+                <Trans i18nKey="header.navbarWinButtonForeign" />
+              }
+              {isEurope ? '€' : '$'}
             </a>
           </menu>
         </span>
@@ -176,7 +194,7 @@ class NavbarCustom extends Component{
                 data-toggle="collapse" data-target=".navbar-collapse.show"
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,2,'/buy')}>
                 <i className="fas fa-shopping-bag" style={{paddingTop: '4%'}}></i>
-                &nbsp;Acquista
+                &nbsp;<Trans i18nKey="header.navbarBuyMenu"/>
               </a>
             </li>
             <li className={"nav-item " + (this.state.active === 3 ? 'active-nav-bar' : '')}>
@@ -186,7 +204,7 @@ class NavbarCustom extends Component{
                 data-toggle="collapse" data-target=".navbar-collapse.show"
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,3,'/contact')}>
                 <i className="fas fa-address-card" style={{paddingTop: '4%'}}></i>
-                &nbsp;Contattaci
+                &nbsp;<Trans i18nKey="header.navbarContactMenu" />
               </a>
             </li>
             <li className={"nav-item " + (this.state.active === 4 ? 'active-nav-bar' : '')}>
@@ -196,7 +214,7 @@ class NavbarCustom extends Component{
                 data-toggle="collapse" data-target=".navbar-collapse.show"
                 onClick={(e)=>this.changeActiveAndHistoryPush(e,4,'/howWork')}>
                 <i className="fas fa-cog" style={{paddingTop: '3%'}}></i>
-                &nbsp;Come funziona
+                &nbsp;<Trans i18nKey="header.navbarHowWorkMenu" />
               </a>
             </li>
             {Const.isMobileBrowser(navigator.userAgent) ?
@@ -209,7 +227,13 @@ class NavbarCustom extends Component{
                   data-toggle="collapse" data-target=".navbar-collapse.show"
                   onClick={(e)=>this.changeActiveAndHistoryPush(e,5,'/win')}>
                   <i className="fas fa-money-bill-alt" style={{paddingTop: '3%'}}></i>
-                  &nbsp;Vinci 500'000€
+                  &nbsp;
+                  {isEurope ?
+                    <Trans i18nKey="header.navbarWinButtonEurope" />
+                    :
+                    <Trans i18nKey="header.navbarWinButtonForeign" />
+                  }
+                  {isEurope ? '€' : '$'}
                 </a>
               </li>
             }
@@ -220,7 +244,7 @@ class NavbarCustom extends Component{
                 data-toggle="collapse" data-target=".navbar-collapse.show"
                 onClick={(e) => this.changeActiveAndHistoryPush(e, 5, '/invite')}>
                 <i className="fas fa-gift" style={{ paddingTop: '3%' }}></i>
-                  &nbsp;Invita Amici
+                  &nbsp;<Trans i18nKey="header.navbarInviteFriendsMenu" />
                 </a>
             </li>
           </ul>
@@ -250,7 +274,7 @@ class NavbarCustom extends Component{
                   data-toggle="collapse" data-target=".navbar-collapse.show"
                   onClick={(e)=>this.registrati(e)}>
                   <i className="fas fa-plus-square" style={{paddingTop: '4%'}}></i>
-                  &nbsp;Registrati
+                  &nbsp;<Trans i18nKey="header.navbarRegisterMenu" />
                 </a>
               </li>
             </ul>
@@ -290,10 +314,23 @@ class NavbarCustom extends Component{
             :
             null
           }
+          <ul id="menuLang" className="navbar-nav">
+            <li className="">
+              <div class="btn-group">
+                <a href="#" className="nav-link nav-bar-link" style={{ paddingRight: '0px' }} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i className="fas fa-language" style={{ fontSize: '27px' }}/>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" style={{minWidth: '1rem', backgroundColor:'grey'}}>
+                  <button class="dropdown-item" type="button" onClick={e =>this.changeLanguage('it')}>IT</button>
+                  <button class="dropdown-item" type="button" onClick={e => this.changeLanguage('en')}>EN</button>
+                </div>
+              </div>
+            </li>
+          </ul>
         </div>
       </nav>
     )
   }
 }
 
-export default withRouter(NavbarCustom);
+export default withRouter(withTranslation()(NavbarCustom));

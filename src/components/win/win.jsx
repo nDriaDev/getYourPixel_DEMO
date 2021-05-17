@@ -1,6 +1,13 @@
+import moment from 'moment-timezone';
 import {React, useEffect} from 'react';
+import { useTranslation } from 'react-i18next';
 
 const Win = (props) => {
+  const { t } = useTranslation();
+  const isEurope = moment.tz.guess(true).indexOf('Europe') !== -1 ? true : false;
+  const price1 = isEurope ? "100'000" : "120'000";
+  const price2 = isEurope ? "500'000€" : "600'000$";
+  const price3 = isEurope ? "100'000€" : "120'000$";
 
   useEffect(() => {
     props.disableSpinner();
@@ -9,32 +16,27 @@ const Win = (props) => {
   return (
     <div style={{height:'100%'}}>
     <div className="col-sm-12" style={{color:'#FFFFFF', height:'75vh', overflowY:'scroll'}}>
-      <h1 style={{textAlign:'center', color:'#28a745'}}>
-        VINCI DAI 100'000 AI 500'000€ SENZA SPENDERE UN CENTESIMO!
+        <h1 style={{ textAlign: 'center', color: '#28a745' }}>
+          {t('win.title', {price1: price1, price2: price2})}
       </h1>
       <br/>
       <br/>
       <br/>
       <br/>
-      <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
-        Una volta esaurita la prima met&agrave; dei pixel disponibili, avrete la possibilit&agrave; di partecipare al nostro concorso! Seguendo alcuni semplici passi, sarete inseriti in una lista dalla quale estrarremo 5 fortunati utenti che riceveranno 100'000 € ciascuno!
-        Il meccanismo &egrave; semplicissimo.
-        Tutto ci&ograve; che dovrete fare, dopo aver effettuato l'accesso con le vostre credenziali, sar&agrave; visitare le pubblicit&agrave; presenti nella homepage. Ogni pubblicit&agrave; visualizzata assegner&agrave; all’utente 1 punto. Pi&ugrave; punti hai pi&ugrave; volte il tuo nome verr&agrave; inserito nell’elenco per l’estrazione.
-        Ad esempio, visitando una pubblicit&agrave; il tuo nome verr&agrave; inserito una volta, visitando 20 pubblicit&agrave; il tuo nome verr&agrave; inserito 20 volte.
-        Se lo stesso utente visita una pubblicit&agrave; che ha gi&agrave; visitato in precedenza non guadagna punti aggiuntivi.
+        <span style={{ fontSize: '.95rem', textAlign: 'justify' }}>
+          {t('win.desc1', {price3: price3})}
       </span>
       <br/>
       <br/>
-      <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
-        Per evitare di fare confusione e non ricordare pi&ugrave; quale pubblicità avete gi&agrave; guardato, dopo aver effettuato l’accesso con le vostre credenziali, vedrete nell’angolo in basso a destra di ogni immagine un quadratino. Questo quadratino sar&agrave; di
-        colore rosso se non avete ancora visitato il sito sponsorizzato, mentre sar&agrave; di colore verde se l’avete gi&agrave; visitato e quindi avete gi&agrave; ottenuto il punto.
-      </span>
+        <span style={{ fontSize: '.95rem', textAlign: 'justify' }}>
+          {t('win.desc2')}
+        </span>
       <br/>
       <br/>
       <br/>
       <br/>
-      <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
-        Ecco gli step da seguire:
+        <span style={{ fontSize: '.95rem', textAlign: 'justify' }}>
+          {t('win.desc3')}
       </span>
       <br/>
         <ol>
@@ -43,44 +45,41 @@ const Win = (props) => {
               1-&nbsp;
             </span>
             <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
-              Registrati.
-              <a className="a-animated" href="/register"> Clicca qui </a>
-              e inserisci username, email e password.
+              {t('win.desc311')}
+              <a className="a-animated" href="/register"> {t('win.click')} </a>
+              {t('win.desc312')}
             </span>
           </li>
           <li>
             <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
               2-&nbsp;
             </span>
-            <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
-              Clicca sulle pubblicit&agrave; e visita le pagine sponsorizzate.
-              Ogni pubblicit&agrave; che visiti ti dar&agrave; 1 punto.
+            <span style={{ fontSize: '.95rem', textAlign: 'justify' }}>
+              {t('win.desc32')}
             </span>
           </li>
           <li>
             <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
               3-&nbsp;
             </span>
-            <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
-              Tieni il conto dei tuoi punti visitando il tuo profilo alla voce ACCOUNT
+            <span style={{ fontSize: '.95rem', textAlign: 'justify' }}>
+              {t('win.desc33')}
             </span>
           </li>
           <li>
             <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
               4-&nbsp;
             </span>
-            <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
-              Il giorno dell’estrazione (che avverr&agrave; in presenza di un notaio o figura
-                autorizzata) verranno selezionati casualmente da un sistema 5 nomi utente.
-                Lo stesso nome utente potrebbe essere estratto pi&ugrave; volte.
+            <span style={{ fontSize: '.95rem', textAlign: 'justify' }}>
+              {t('win.desc34')}
             </span>
           </li>
           <li>
             <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
               5-&nbsp;
             </span>
-            <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
-              I vincitori verranno contattati tramite l’email utilizzata per la registrazione per le informazioni riguardanti la consegna del premio.
+            <span style={{ fontSize: '.95rem', textAlign: 'justify' }}>
+              {t('win.desc35')}
             </span>
           </li>
         </ol>
@@ -88,17 +87,15 @@ const Win = (props) => {
         <br/>
         <br/>
         <h5>
-          ATTENZIONE!
+          {t('win.desc4')}
         </h5>
-        <span style={{fontSize:'.95rem', textAlign: 'justify'}}>
-          Anche prima che il concorso venga ufficialmente avviato, i punti saranno gi&agrave; conteggiati, quindi vi consigliamo di iniziare a visitare, ottenere pi&ugrave; punti possibile e non lasciarne indietro nessuno!
-          Sempre su questa pagina potrete trovare il regolamento del concorso, a partire dal giorno del suo inizio ufficiale.
-          <br/>
-          Per motivi legali, il premio verr&agrave; elargito sotto forma di lingotti d'oro (sar&agrave; possibile convertirlo immediatamente al momento della consegna).
-          Non preoccupatevi! Saremo comunque disponibili ad accompagnarvi nelle procedure necessarie a convertire in denaro il premio.
+        <span style={{ fontSize: '.95rem', textAlign: 'justify' }}>
+          {t('win.desc41')}
+          <br />
+          {t('win.desc42')}
         </span>
-        <h3 style={{marginTop:'.7rem'}}>
-          In bocca al lupo!
+        <h3 style={{ marginTop: '.7rem' }}>
+          {t('win.desc43')}
         </h3>
     </div>
     </div>

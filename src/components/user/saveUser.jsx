@@ -5,9 +5,12 @@ import { toast } from 'react-toastify';
 import Const from './../../util/Costanti';
 import axios from 'axios';
 import TrackingGA from './../utils/Tracking';
+import { useTranslation } from 'react-i18next';
 
 
 const SaveUser = (props) => {
+  const { t, i18n } = useTranslation();
+
   const history = useHistory();
   const location = useLocation();
 
@@ -57,7 +60,9 @@ const SaveUser = (props) => {
       setValidated(true);
     } else {
       enableSpinner();
-      axios.post(Const.SAVE_USER, form)
+      const body = JSON.parse(JSON.stringify(form));
+      body.lang = i18n.language;
+      axios.post(Const.SAVE_USER, body)
       .then(res => {
         if (res.data.code === 200) {
           if (form.promoCode !== '') {
@@ -100,7 +105,7 @@ const SaveUser = (props) => {
   return (
     <div className="mx-auto mb-5" style={{maxWidth:'408px',maxHeight:'466px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
       <div className="mt-2" align="center">
-        <h1 style={{color:'#28a745'}}>Registrati</h1>
+        <h1 style={{ color: '#28a745' }}>{t('register.title')}</h1>
       </div>
       <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
         <Form noValidate validated={validated} onSubmit={onSubmit}>
@@ -139,18 +144,18 @@ const SaveUser = (props) => {
               />
           </Form.Group>
           <Form.Group controlId="formBasicForgotPassword" style={{ textAlign: 'left', marginBottom: '0px' }}>
-            <Form.Label className="label-underline-link" onClick={setPromo}>Ho un codice promo</Form.Label>
+            <Form.Label className="label-underline-link" onClick={setPromo}>{t('register.promo')}</Form.Label>
           </Form.Group>
           {
             showPromo &&
             <Row>
-              <Col xs="6">
+              <Col xs="8">
                 <Form.Group controlId="formBasicPromoCode">
                   <Form.Control
                     name="promoCode"
                     type="text"
                     size="sm"
-                    placeholder="Inserisci codice promo"
+                    placeholder={t('register.promoPlaceholder')}
                     value={form.promoCode}
                     onChange={e => handleInputChange(e)}
                     required
@@ -160,7 +165,7 @@ const SaveUser = (props) => {
             </Row>
           }
           <Button variant="success" type="submit">
-            {'Invia'}
+            {t('register.send')}
           </Button>
         </Form>
       </div>

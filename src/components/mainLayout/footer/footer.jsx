@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Const from './../../../util/Costanti.js';
 import {useHistory} from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Footer = React.memo(() => {
+  const { t } = useTranslation();
+
   const history = useHistory();
 
   const [path,setPath] = useState(window.location.pathname);
@@ -71,7 +74,7 @@ const Footer = React.memo(() => {
         <div className="container-fluid footer" style={styleDiv}>
           <div className="div-left" style={styleCol}>
             <span style={styleSpan}>
-              Copyright &copy; 2021 Get your pixels. Tutti i diritti sono riservati. Non sono responsabile del contenuto di siti esterni.
+              Copyright &copy; 2021 Get your pixels.{' ' + t('footer.copyright')} 
               <span style={{color:'#FFFFFF',cursor:'pointer'}} onClick={()=>goToLegal()}>{' LEGAL'}</span>
             </span>
           </div>

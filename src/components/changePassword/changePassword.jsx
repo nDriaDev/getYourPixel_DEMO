@@ -6,9 +6,12 @@ import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
 import '@fortawesome/fontawesome-free/css/solid.min.css';
 import Const from './../../util/Costanti';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 
-const ChangePassword = ({spinnerCommand}) => {
+const ChangePassword = ({ spinnerCommand }) => {
+  const { t } = useTranslation();
+
   const history = useHistory();
 
   const [validated,setValidated] = useState({
@@ -139,12 +142,12 @@ const ChangePassword = ({spinnerCommand}) => {
   return (
     <div className="mx-auto mb-5" style={{maxWidth:'408px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
       <div className="mt-2" align="center">
-        <h1 style={{color:'#28a745'}}>Cambia Password</h1>
+        <h1 style={{color:'#28a745'}}>{t('manage.changePassword.title')}</h1>
       </div>
       <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
         <Form noValidate className="mx-auto mt-3" onSubmit={onSubmit}>
           <Form.Group controlId="formBasicOldPassword">
-            <Form.Label style={{float: 'left', color:'white'}}>Password attuale</Form.Label>
+            <Form.Label style={{ float: 'left', color: 'white' }}>{t('manage.changePassword.form.current')}</Form.Label>
             <Form.Control
               type="password"
               name="oldPassword"
@@ -156,7 +159,7 @@ const ChangePassword = ({spinnerCommand}) => {
               />
           </Form.Group>
           <Form.Group controlId="formBasicPassword">
-            <Form.Label style={{float: 'left', color:'white'}}>Nuova password</Form.Label>
+            <Form.Label style={{ float: 'left', color: 'white' }}>{t('manage.changePassword.form.new')}</Form.Label>
             <Form.Control
               name="password"
               type="password"
@@ -168,7 +171,7 @@ const ChangePassword = ({spinnerCommand}) => {
               />
           </Form.Group>
           <Form.Group controlId="formBasicConfirmPassword">
-            <Form.Label style={{float: 'left', color:'white'}}>Conferma password</Form.Label>
+            <Form.Label style={{ float: 'left', color: 'white' }}>{t('manage.changePassword.form.confirm')}</Form.Label>
             <Form.Control
               type="password"
               name="confirmPassword"
@@ -184,7 +187,7 @@ const ChangePassword = ({spinnerCommand}) => {
           </Form.Group>
           <Button variant="success" type="submit">
             <i className="fas fa-lock" style={{paddingRight:'4%'}}></i>
-            {'Aggiorna'}
+            {t('manage.changePassword.form.button')}
           </Button>
         </Form>
       </div>

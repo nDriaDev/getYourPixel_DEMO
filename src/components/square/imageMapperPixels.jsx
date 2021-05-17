@@ -5,8 +5,11 @@ import Const from './../../util/Costanti';
 import { toast } from 'react-toastify';
 import TrackingGA from './../utils/Tracking';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 const ImageMapperPixels = React.memo(({ enableSpinner, disableSpinner, canvas }) => {
+  const { t } = useTranslation();
+
   const [hoveredArea, setHoveredArea] = useState(null);
   const [show, setShow] = useState(false);
   const [url, setUrl] = useState(null);
@@ -91,7 +94,10 @@ const ImageMapperPixels = React.memo(({ enableSpinner, disableSpinner, canvas })
   }
 
   const getTipPosition = (area) => {
-    return { top: `${area.y}px`, left: `${area.x}px` };
+    let posX = Math.abs(window.innerWidth - area.x) <= 20 ? area.x - 30 : area.x;
+    posX = Math.abs(posX - 0) <= 20 ? posX + 30 : posX;
+    
+    return { top: `${area.y}px`, left: `${posX}px` };
   }
 
   useEffect(() => {
@@ -113,7 +119,7 @@ const ImageMapperPixels = React.memo(({ enableSpinner, disableSpinner, canvas })
           className="tooltip-map"
           style={{ ...getTipPosition(hoveredArea) }}
         >
-          {hoveredArea && hoveredArea.name}
+          {hoveredArea && hoveredArea.name === "Vai al sito" ? t('home.tooltipText') : hoveredArea.name }
         </span>
 
       }
@@ -125,16 +131,21 @@ const ImageMapperPixels = React.memo(({ enableSpinner, disableSpinner, canvas })
         animation={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Attenzione</Modal.Title>
+          <Modal.Title>{t('home.modalTitle')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {'Sembra che tu non sia loggato.\nSei sicuro di voler continuare?'}
+          {t('home.modalBody1') + '\n' + t('home.modalBody2')}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Annulla
+            {t('home.modalButtonClose')}
           </Button>
-          <Button variant="primary" style={{ backgroundColor: '#28a745', borderColor: '#28a745' }} onClick={callRedirect}>Continua</Button>
+          <Button
+            variant="primary"
+            style={{ backgroundColor: '#28a745', borderColor: '#28a745' }}
+            onClick={callRedirect}>
+            {t('home.modalButtonContinue')}
+          </Button>
         </Modal.Footer>
       </Modal>
     </>

@@ -1,16 +1,18 @@
+import moment from 'moment-timezone';
 import React, { useState, useEffect } from 'react';
 import Const from '../../util/Costanti';
 
 export const BuyManager = React.memo(({ component: Component, ...rest }) => {
     const [isLoaded, setIsLoaded] = useState(false);
-    
+    const isEurope = moment.tz.guess(true).indexOf('Europe') !== -1 ? true : false;
+
     useEffect(() => {
         rest.enableSpinner();
         const script = document.createElement('script');
         script.src = Const.PAYPAL.sdk + (process.env.REACT_APP_PAYPAL_CLIENT_ID ?
             process.env.REACT_APP_PAYPAL_CLIENT_ID :
             '<your clientID here>'
-        ) + '&currency=EUR';
+        ) + '&currency=' + (isEurope ? 'EUR' : 'USD');
 
         script.onload = () => {
             setIsLoaded(true);

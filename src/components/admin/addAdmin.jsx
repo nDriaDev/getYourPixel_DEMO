@@ -6,9 +6,12 @@ import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
 import '@fortawesome/fontawesome-free/css/solid.min.css';
 import Const from './../../util/Costanti';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 
-const AddAdmin = ({spinnerCommand}) => {
+const AddAdmin = ({ spinnerCommand }) => {
+  const { t } = useTranslation();
+
   const history = useHistory();
   const [validated, setValidated] = useState(false);
   const [form, setForm] = useState({
@@ -92,7 +95,7 @@ const AddAdmin = ({spinnerCommand}) => {
   return (
     <div className="mx-auto mb-5" style={{maxWidth:'408px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
       <div className="mt-2" align="center">
-        <h1 style={{color:'#28a745'}}>Aggiungi Admin</h1>
+        <h1 style={{color:'#28a745'}}>{t('manage.addAdmin.title')}</h1>
       </div>
       <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
         <Form noValidate validated={validated} onSubmit={onSubmit}>
@@ -120,7 +123,7 @@ const AddAdmin = ({spinnerCommand}) => {
               />
           </Form.Group>
           <Form.Group controlId="exampleForm.SelectCustom">
-          <Form.Label style={{float: 'left', color:'white'}}>Ruolo</Form.Label>
+          <Form.Label style={{float: 'left', color:'white'}}>{t('manage.addAdmin.ruolo')}</Form.Label>
             <Form.Control
               as="select"
               custom
@@ -135,7 +138,7 @@ const AddAdmin = ({spinnerCommand}) => {
           </Form.Group>
           <Button variant="success" type="submit">
             <i className="fas fa-hands-helping" style={{paddingRight:'4%'}}></i>
-            {'Aggiungi'}
+            {t('manage.addAdmin.button')}
           </Button>
         </Form>
       </div>

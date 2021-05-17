@@ -4,8 +4,11 @@ import Const from './../../util/Costanti';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import TrackingGA from './../utils/Tracking';
+import { useTranslation } from 'react-i18next';
 
 const Contact = React.memo((props) => {
+  const { t } = useTranslation();
+
   const [validated, setValidated] = useState(false);
   const [form,setForm] = useState({
     name: '',
@@ -87,22 +90,20 @@ const Contact = React.memo((props) => {
           borderRadius:'5%',
           overflowY:'auto'}}>
         <div className="mt-2" align="center">
-          <h2 style={{fontSize:'2.5rem',color:'#FFFFFF', paddingBottom:'0.7rem'}}>Contattaci</h2>
+          <h2 style={{fontSize:'2.5rem',color:'#FFFFFF', paddingBottom:'0.7rem'}}>{t('contact.title')}</h2>
         </div>
         <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
           <Form noValidate validated={validated} onSubmit={onSubmit}>
             <Form.Row>
               <span className="form-title" style={{textAlign: 'center',fontSize: '0.95rem',lineHeight:'1.4',color:'white'}}>
-                Per qualsiasi dubbio, problema o informazione, non esitare a contattarci completando il form
-                sottostante. Riceverai una risposta da un membro del nostro team entro 24 ore direttamente
-                all'indirizzo email da te indicato.
+                {t('contact.description')}
               </span>
             </Form.Row>
             <Form.Row>
               <Form.Group as={Col} md="6" controlId="validationCustom00">
                 <div className="form-input" >
                   <Form.Label style={{float:'left', fontSize:'14px', marginBottom:'0px'}}>
-                    Nome *
+                    {t('contact.name')}
                   </Form.Label>
                   <Form.Control
                     required
@@ -113,13 +114,13 @@ const Contact = React.memo((props) => {
                     className="form-input2 border-input"
                     onChange  ={e => handleInputChange(e)}
                     />
-                  <Form.Control.Feedback type="invalid">Inserisci nome</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid">{t('contact.feedName')}</Form.Control.Feedback>
                 </div>
               </Form.Group>
               <Form.Group as={Col} md="6" controlId="validationCustom01">
                 <div className="form-input" >
                   <Form.Label style={{ float: 'left', fontSize: '14px', marginBottom: '0px' }}>
-                    Numero di telefono *
+                    {t('contact.phone')}
                   </Form.Label>
                   <Form.Control
                     required
@@ -131,7 +132,7 @@ const Contact = React.memo((props) => {
                     onChange={e => handleInputChange(e)}
                     isInvalid={form.phoneNumber !== '' && !form.phoneNumber.match(/^[0-9]*$/g)}
                   />
-                  <Form.Control.Feedback type="invalid">Inserisci numero di telefono</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid">{t('contact.feedPhone')}</Form.Control.Feedback>
                 </div>
               </Form.Group>
             </Form.Row>
@@ -139,7 +140,7 @@ const Contact = React.memo((props) => {
               <Form.Group as={Col} md="12" controlId="validationCustom02">
                 <div className="form-input" >
                   <Form.Label style={{float:'left', fontSize:'14px', marginBottom:'0px'}}>
-                    Email *
+                    {t('contact.email')}
                   </Form.Label>
                   <Form.Control
                     required
@@ -150,7 +151,7 @@ const Contact = React.memo((props) => {
                     className="form-input2 border-input"
                     onChange  ={e => handleInputChange(e)}
                     />
-                  <Form.Control.Feedback type="invalid">Inserisci email</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid">{t('contact.feedEmail')}</Form.Control.Feedback>
                 </div>
               </Form.Group>
             </Form.Row>
@@ -158,7 +159,7 @@ const Contact = React.memo((props) => {
               <Form.Group as={Col} md="12" controlId="validationCustom03">
                 <div className="form-input" >
                   <Form.Label style={{float:'left', fontSize:'14px', marginBottom:'0px'}}>
-                    Oggetto *
+                    {t('contact.oggetto')}
                   </Form.Label>
                   <Form.Control
                     required
@@ -169,7 +170,7 @@ const Contact = React.memo((props) => {
                     className="form-input2 border-input"
                     onChange  ={e => handleInputChange(e)}
                     />
-                  <Form.Control.Feedback type="invalid">Inserisci Oggetto</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid">{t('contact.feedOggetto')}</Form.Control.Feedback>
                 </div>
               </Form.Group>
             </Form.Row>
@@ -177,7 +178,7 @@ const Contact = React.memo((props) => {
               <Form.Group as={Col} md="12" controlId="validationCustom04">
                 <div className="form-input">
                   <Form.Label style={{float:'left', fontSize:'14px', marginBottom:'0px'}}>
-                    Messaggio *
+                    {t('contact.mess')}
                   </Form.Label>
                   <Form.Control
                     required
@@ -189,14 +190,14 @@ const Contact = React.memo((props) => {
                     className="form-input2 border-input"
                     onChange  ={e => handleInputChange(e)}
                     />
-                  <Form.Control.Feedback type="invalid">Inserisci Messaggio</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid">{t('contact.feedMess')}</Form.Control.Feedback>
                 </div>
               </Form.Group>
             </Form.Row>
             <Form.Row>
               <Col md="4" className="mx-auto">
                 <button type="submit" className="btn-contact btn-success">
-                  Invia
+                  {t('contact.send')}
                   <i className="fa fa-long-arrow-right m-l-7" aria-hidden="false"></i>
                 </button>
               </Col>

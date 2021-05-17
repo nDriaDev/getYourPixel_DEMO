@@ -7,8 +7,11 @@ import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
 import '@fortawesome/fontawesome-free/css/solid.min.css';
 import axios from 'axios';
 import TrackingGA from './../utils/Tracking';
+import { useTranslation } from 'react-i18next';
 
-const Login = React.memo(({enableSpinner, disableSpinner, setAuth}) => {
+const Login = React.memo(({ enableSpinner, disableSpinner, setAuth }) => {
+  const { t } = useTranslation();
+
   const history = useHistory();
   const [validated, setValidated] = useState(false);
   const [form, setForm] = useState({
@@ -122,7 +125,7 @@ const Login = React.memo(({enableSpinner, disableSpinner, setAuth}) => {
               />
           </Form.Group>
           <Form.Group controlId="formBasicForgotPassword" style={{textAlign:'left'}}>
-            <Form.Label className="label-underline-link" onClick={forgotPasswordRedirect}>Password dimenticata</Form.Label>
+            <Form.Label className="label-underline-link" onClick={forgotPasswordRedirect}>{t('login.forgotPassword')}</Form.Label>
           </Form.Group>
           <Button variant="success" type="submit">
             <i className="fas fa-sign-in-alt" style={{paddingRight: '4%'}}></i>

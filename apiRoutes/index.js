@@ -138,7 +138,7 @@ try {
     controllers.mainController.deleteUser
   )
   .get(
-    '/activeUser/:activeToken',
+    '/activeUser/:lang/:activeToken',
     controllers.mainController.activeUser,
     controllers.mailChimpController.addMemberToList,
   )

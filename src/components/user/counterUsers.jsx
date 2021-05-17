@@ -6,9 +6,12 @@ import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
 import '@fortawesome/fontawesome-free/css/solid.min.css';
 import Const from './../../util/Costanti';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 
-const CounterUsers = ({spinnerCommand}) => {
+const CounterUsers = ({ spinnerCommand }) => {
+  const { t } = useTranslation();
+
   const history = useHistory();
   const [data, setData]  = useState({
     number: null,
@@ -101,7 +104,7 @@ const CounterUsers = ({spinnerCommand}) => {
     data.number &&
       <div className="mx-auto mb-5" style={{maxWidth:'446px',border:'2px solid #FFFFFF80', borderRadius:'5%'}}>
         <div className="mt-2" align="center">
-          <h1  style={{color:'#28a745'}}>Utenti Registrati</h1>
+          <h1  style={{color:'#28a745'}}>{t('manage.counterUsers.title')}</h1>
         </div>
         <div className="mx-auto" style={{textAlign: 'center', width: '85%'}}>
           <Row>
@@ -116,7 +119,7 @@ const CounterUsers = ({spinnerCommand}) => {
             <th><i className="fas fa-user"/></th>
             <th onClick={()=>sort("username")} style={{cursor:'pointer'}}>Username</th>
             <th onClick={()=>sort("email")} style={{cursor:'pointer'}}>Email</th>
-            <th onClick={()=>sort("punti")} style={{cursor:'pointer'}}>Punti</th>
+            <th onClick={()=>sort("punti")} style={{cursor:'pointer'}}>{t('manage.counterUsers.table.caption1')}</th>
             </tr>
             </thead>
             <tbody style={{color:'white'}}>

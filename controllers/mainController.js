@@ -124,8 +124,9 @@ class MainController {
       log.info("START");
       service.initialize(req.app.locals.db);
       service.saveUser(req.body)
-      .then(result => {
-        res.locals.result = result;
+        .then(result => {
+          res.locals.result = result;
+          res.locals.result.lang = req.body.lang;
         next();
       })
       .catch(e => {
@@ -168,9 +169,11 @@ class MainController {
       .then(result => {
         if (result) {
           res.locals.result = result;
+          res.locals.result.lang = req.params.lang;
           next();
         } else {
-          res.sendFile(appRoot + '/resources/templateActivationFail.html');
+          const template = req.params.lang === 'it' ? '/resources/templateActivationFail_IT.html' : '/resources/templateActivationFail_ENG.html';
+          res.sendFile(appRoot + template);
         }
       })
       .catch(err => {

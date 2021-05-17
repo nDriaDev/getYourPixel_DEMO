@@ -1,0 +1,222 @@
+{
+    "logoButton": {
+        "descrizioneLogo": "Raggiungi l'irraggiungibile",
+        "testoButton": "ACQUISTA"
+    },
+    "header": {
+        "navbarWinButtonEurope": "Vinci 500'000",
+        "navbarWinButtonForeign": "Vinci 600'000",
+        "navbarBuyMenu": "Acquista",
+        "navbarContactMenu": "Contattaci",
+        "navbarHowWorkMenu": "Come Funziona",
+        "navbarInviteFriendsMenu": "Invita Amici",
+        "navbarRegisterMenu": "Registrati"
+    },
+    "home": {
+        "venduti": "Venduti:",
+        "disponibili": "Disponibili:",
+        "modalTitle": "Attenzione",
+        "modalBody1": "Sembra che tu non sia loggato.",
+        "modalBody2": "Sei sicuro di voler continuare?",
+        "modalButtonClose": "Annulla",
+        "modalButtonContinue": "Continua",
+        "tooltipText" : "Vai al sito"
+    },
+    "footer": {
+        "copyright": "Tutti i diritti sono riservati. Non sono responsabile del contenuto di siti esterni."
+    },
+    "howWork": {
+        "subTitle": "Raggiungi l'irraggiungibile",
+        "desc1": "Get Your Pixels è una piazza digitale dove mostrare a tutti il proprio prodotto, la propria azienda, il proprio sito o qualunque cosa si voglia. Il sito infatti offre spazi acquistabili da utilizzare come pubblicità. Una volta selezionato il numero di pixel che desideri acquistare, sarà sufficiente dirigerti alla pagina di",
+        "desc2": ", inserire i dati necessari e in un paio di minuti sarai proprietario di uno degli spazi più unici ed esclusivi del web!",
+        "descLeft1": "Paga una volta e mai più!",
+        "descLeft2": "Questo è l’unico sistema che ti permette di pagare la pubblicità",
+        "descLeft3": "una volta soltanto e continuare ad utilizzarla per sempre!",
+        "descRight1": "Due metodi di pagamento",
+        "descRight2": "Puoi acquistare attraverso il nostro sistema sicuro di pagamenti, tramite la sezione",
+        "descRight3": ", che si appoggia a Stripe (una delle più grandi aziende al mondo che permette a privati e imprese di inviare e ricevere pagamenti via Internet), utilizzando una qualiasi carta di credito o utilizzando Paypal.",
+        "descRight4": "In alternativa per quanto riguarda ordini di portata maggiore, sempre tramite la sezione",
+        "descRight5": " sarà possibile pagare effettuando un bonifico SEPA.",
+        "buy": "ACQUISTA",
+        "descCenter1": "Come funziona",
+        "descCenter2": "Una volta ricevuto il tuo pagamento, ti invieremo una email nella quale richiederemo tutti i dati necessari per concludere l’operazione. Basterà allegare nell'email di risposta un’immagine, che andrà a sostituire lo spazio bianco dei pixel, e un link, che verrà collegato al tuo spazio. Inoltre, potrai segnalarci le coordinate dei quadratini che preferisci acquistare. In alternativa ti verranno assegnati casualmente. Per ogni dubbio potrai contattarci via email. Rimarremo a tua completa disposizione! In futuro, nel caso ti interessasse, avrai sempre la possibilità di inviarci una nuova immagine per sostituire quella presente e/o un nuovo link da collegare.",
+        "descFooter1": "Attenzione!",
+        "descFooter2": "Sul sito sono acquistabili 1 milione di pixel al prezzo di {{price1}} ciascuno, ma questo prezzo non sarà per sempre. Esaurita la prima metà di pixel disponibili il prezzo raddoppierà, arrivando quindi a {{price2}} per pixel, e aumenterà nuovamente per gli ultimi 250'000 pixel disponibili. L'aumento di prezzo aiuterà a finanziare il concorso che porterà qualcuno di voi (magari proprio te che stai leggendo) a vincere dai {{price3}} ai {{price4}}!",
+        "descFooter3": "Per sapere come vincere questa cifra visita la pagina ",
+        "descFooter4": "Per qualsiasi dubbio o problema non esitare a contattarci tramite la sezione dedicata!",
+        "winEurope": "Vinci 500'000",
+        "winForeign": "Vinci 600'000"
+    },
+    "contact": {
+        "title": "Contattaci",
+        "description" : "Per qualsiasi dubbio, problema o informazione, non esitare a contattarci completando il form sottostante. Riceverai una risposta da un membro del nostro team entro 24 ore direttamente all'indirizzo email da te indicato.",
+        "name": "Nome *",
+        "phone": "Numero di telefono *",
+        "email": "Email *",
+        "oggetto": "Oggetto *",
+        "mess": "Messaggio *",
+        "feedName": "Inserisci nome",
+        "feedPhone": "Inserisci numero di telefono",
+        "feedEmail": "Inserisci email",
+        "feedOggetto": "Inserisci oggetto",
+        "feedMess": "Inserisci Messaggio",
+        "send": "Invia"
+    },
+    "win": {
+        "title": "VINCI DAI {{price1}} AI {{price2}} SENZA SPENDERE UN CENTESIMO!",
+        "desc1": "Una volta esaurita la prima metà dei pixel disponibili, avrete la possibilità di partecipare al nostro concorso! Seguendo alcuni semplici passi, sarete inseriti in una lista dalla quale estrarremo 5 fortunati utenti che riceveranno {{price3}} ciascuno! Il meccanismo è semplicissimo. Tutto ciò che dovrete fare, dopo aver effettuato l'accesso con le vostre credenziali, sarà visitare le pubblicità presenti nella homepage. Ogni pubblicità visualizzata assegnerà all’utente 1 punto. Più punti hai più volte il tuo nome verrà inserito nell’elenco per l’estrazione. Ad esempio, visitando una pubblicità il tuo nome verrà inserito una volta, visitando 20 pubblicità il tuo nome verrà inserito 20 volte. Se lo stesso utente visita una pubblicità che ha già visitato in precedenza non guadagna punti aggiuntivi.",
+        "desc2": "Per evitare di fare confusione e non ricordare più quale pubblicità avete già guardato, dopo aver effettuato l’accesso con le vostre credenziali, vedrete nell’angolo in basso a destra di ogni immagine un quadratino. Questo quadratino sarà di colore rosso se non avete ancora visitato il sito sponsorizzato, mentre sarà di colore verde se l’avete già visitato e quindi avete già ottenuto il punto.",
+        "desc3": "Ecco gli step da seguire:",
+        "desc311": "Registrati.",
+        "click": "Clicca qui",
+        "desc312": "e inserisci username, email e password.",
+        "desc32": "Clicca sulle pubblicità e visita le pagine sponsorizzate. Ogni pubblicità che visiti ti darà 1 punto.",
+        "desc33": "Tieni il conto dei tuoi punti visitando il tuo profilo alla voce ACCOUNT",
+        "desc34": "Il giorno dell’estrazione (che avverrà in presenza di un notaio o figura autorizzata) verranno selezionati casualmente da un sistema 5 nomi utente. Lo stesso nome utente potrebbe essere estratto più volte.",
+        "desc35": "I vincitori verranno contattati tramite l’email utilizzata per la registrazione per le informazioni riguardanti la consegna del premio.",
+        "desc4": "ATTENZIONE!",
+        "desc41": "Anche prima che il concorso venga ufficialmente avviato, i punti saranno già conteggiati, quindi vi consigliamo di iniziare a visitare, ottenere più punti possibile e non lasciarne indietro nessuno! Sempre su questa pagina potrete trovare il regolamento del concorso, a partire dal giorno del suo inizio ufficiale.",
+        "desc42": "Per motivi legali, il premio verrà elargito sotto forma di lingotti d'oro (sarà possibile convertirlo immediatamente al momento della consegna). Non preoccupatevi! Saremo comunque disponibili ad accompagnarvi nelle procedure necessarie a convertire in denaro il premio.",
+        "desc43": "In bocca al lupo!"
+    },
+    "invite" : {
+        "title": "Invita Amici",
+        "button": "Invita Amici",
+        "span1": "Condivi il tuo codice promo e ottieni 25 punti per ogni amico che completerà la registrazione inserendolo nell'apposito spazio.",
+        "span2": "Una volta ricevuto l'invito, il tuo amico dovrà cliccare sul link e seguire la procedura per completare la registrazione.",
+        "span3": "Sarà sufficiente poi che visualizzi una singola pubblicità per sbloccare il bonus.",
+        "span4": "Gli amici che si registreranno utilizzando il tuo codice riceveranno a loro volta 5 punti dopo aver guardato la prima pubblicità.",
+        "span5": "Attualmente puoi ottenere il bonus fino a 50 volte! Questo vorrebbe dire superare i 1200 punti e aumentare di molto le probabilità di essere estratto."
+    },
+    "register": {
+        "title": "Registrati",
+        "promo": "Ho un codice promo",
+        "send": "Invia",
+        "promoPlaceholder": "Inserisci codice promo"
+    },
+    "login": {
+        "forgotPassword" : "Password dimenticata"
+    },
+    "forgotPass": {
+        "goToLogin": "Torna alla login"
+    },
+    "buy": {
+        "unit": 1,
+        "5x5": 2500,
+        "description": "Inizia subito ad utilizzare la nostra piattaforma.\nAnche tu potrai finalmente raggiungere milioni di persone!\nScegli la dimensione del tuo spazio e inserisci i dati, dopo aver premuto il pulsante qua sotto. \nRiceverai un'email di conferma dell'ordine dove ti chiederemo di specificare i dati necessari per concludere l'operazione:\nimmagine, link della tua pagina ecc. \n \nNon ti preoccupare ora,\nper ogni dubbio saremo a tua disposizione!",
+        "buttonPayment": "Carta/Bonifico"
+    },
+    "manage": {
+        "home": {
+            "setting": "Impostazioni",
+            "description": "Visualizza le azioni possibili dalla barra dei menu"
+        },
+        "menus": {
+            "newClient": "Nuovo Cliente",
+            "editClient": "Modifica Cliente",
+            "deleteClient": "Elimina Cliente",
+            "addAdmin": "Aggiungi Admin",
+            "deleteAdmin": "Elimina Admin",
+            "registeredUsers": "Utenti registrati",
+            "accountData": "Dati Account",
+            "points": "Punti",
+            "invite": "Invita",
+            "changePassword": "Cambia Password"
+        },
+        "accountData": {
+            "title": "Dati Account",
+            "button": "Aggiorna"
+        },
+        "points": {
+            "title":"Punti Totalizzati",
+            "table": {
+                "caption1": "Tipologia",
+                "caption2": "Dettaglio",
+                "caption3": "Punti"
+            }
+        },
+        "invite": {
+            "title": "Invita",
+            "subTitle": "Codice Promo",
+            "shareLink": " Condividi link",
+            "table": {
+                "caption1": "Punti",
+                "caption2": "Stato",
+                "noData": "Non ci sono elementi da visualizzare"
+            }
+        },
+        "newClient": {
+            "title" : "Nuovo Cliente",
+            "subTitle": "Pixels disponibili",
+            "form": {
+                "emailClient": "Email Cliente *",
+                "advertising": "Sito da Pubblicizzare *",
+                "companyClient": "Azienda Cliente",
+                "image": "Immagine *",
+                "imageLoad": "Carica",
+                "verticalPixels": "Pixels in verticale *",
+                "horizontalPixels": "Pixels in orizzontale *",
+                "rowGridPosition": "Posizione in griglia: Riga",
+                "colGridPosition": "Posizione in griglia: Colonna",
+                "button": "Salva"
+            }
+        },
+        "editClient": {
+            "title": "Modifica Client",
+            "filters": {
+                "filterBy": "Filtra per",
+                "filterEmail": "Email cliente",
+                "filterPage": "Pagina pubblicizzata",
+                "filterCompany": "Azienda cliente",   
+                "select": "Seleziona",
+                "Azienda cliente": "Azienda cliente",
+                "Pagina pubblicizzata": "Pagina pubblicizzata",
+                "Email cliente": "Email cliente"
+            }
+        },
+        "removeClient": {
+            "title": "Elimina Cliente",
+            "filters": {
+                "filterBy": "Filtra per",
+                "filterEmail": "Email cliente",
+                "filterPage": "Pagina pubblicizzata",
+                "filterCompany": "Azienda cliente",
+                "select": "Seleziona",
+                "Azienda cliente": "Azienda cliente",
+                "Pagina pubblicizzata": "Pagina pubblicizzata",
+                "Email cliente": "Email cliente"
+            },
+            "button": "Elimina"
+        },
+        "addAdmin": {
+            "title": "Aggiungi Admin",
+            "ruolo": "Ruolo",
+            "button": "Aggiungi"
+        },
+        "removeAdmin": {
+            "title": "Elimina Admin",
+            "button": "Elimina"
+        },
+        "counterUsers": {
+            "title": "Utenti Registrati",
+            "table": {
+                "caption1": "Points"
+            }
+        },
+        "changePassword": {
+            "title": "Cambia Password",
+            "form": {
+                "current": "Password attuale",
+                "new": "Nuova Password",
+                "confirm": "Conferma Password",
+                "passwordDifferent": "Le password non coincidono",
+                "passwordWrong": "La password non e' corretta",
+                "button": "Aggiorna"
+            }
+        }
+    },
+    "registerSuccess": {
+        "title": "Grazie per esserti registrato!",
+        "description": "Riceverai a breve un'email di conferma con un link per attivare il tuo account. Se non visualizzi l'email nella posta ricevuta, controlla nella cartella SPAM"
+    }
+}

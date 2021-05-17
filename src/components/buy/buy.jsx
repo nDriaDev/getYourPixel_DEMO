@@ -6,10 +6,17 @@ import Const from './../../util/Costanti';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import TrackingGA from './../utils/Tracking';
+import { useTranslation } from 'react-i18next';
+import moment from 'moment-timezone';
 
 const stripePromise = loadStripe(process.env.REACT_APP_PUB_KEY_STRIPE);
 
 const ProductDisplay = React.memo(({ buttonDisabled, product, quantity, handleQuantityChange, handleManualQuantityChange, handleClick, PayPalButton, createOrder, onApprove, onError, onCancel }) => {
+  const { t } = useTranslation();
+  const isEurope = moment.tz.guess(true).indexOf('Europe') !== -1 ? true : false;
+  const currency = isEurope ? 'eur' : 'usd';
+  const productPrice = isEurope ? 2500 : 2900;
+
   return (
     <div style={{
         width: '92vw',
@@ -39,8 +46,8 @@ const ProductDisplay = React.memo(({ buttonDisabled, product, quantity, handleQu
               }
             </div>
           </div>
-          <h2 className="font-weight-bold my-2">{Const.setDecimalCurrencyNumber(product.price.unit_amount * quantity, product.price.currency)}</h2>
-          <h5 className="grey-text" style={{fontSize: '.95rem'}}>{product.description}</h5>
+          <h2 className="font-weight-bold my-2">{Const.setDecimalCurrencyNumber(productPrice * quantity, currency)}</h2>
+          <h5 className="grey-text" style={{fontSize: '.95rem'}}>{t('buy.description')}</h5>
           <div className="qt-plus-minut my-2">
             <button onClick={e=>handleQuantityChange(e)}><i name="minus" className="fa fa-minus" aria-hidden="true" style={{fontSize: '0.9rem'}}></i></button>
               <input className="qt-input" style={{ fontSize: '1.8rem' }} name="quantity" value={quantity} type="text" onChange={handleManualQuantityChange}/>
@@ -52,8 +59,8 @@ const ProductDisplay = React.memo(({ buttonDisabled, product, quantity, handleQu
                   className="btn-success btn-checkout"
                   onClick={handleClick}
                   disabled={buttonDisabled}
-                  style={{opacity: buttonDisabled ? '0.33' : '1', pointerEvents: buttonDisabled ? 'none' : 'auto' }}
-                >Carta/Bonifico</button>
+                  style={{height:'fit-content', minHeight:'50px', opacity: buttonDisabled ? '0.33' : '1', pointerEvents: buttonDisabled ? 'none' : 'auto' }}
+                >{t('buy.buttonPayment')}</button>
               </div>
             <div className="col-sm-6" style={{ opacity: buttonDisabled ? '0.33' : '1', pointerEvents: buttonDisabled ? 'none' : 'auto'  }}>
                 <PayPalButton
@@ -75,6 +82,10 @@ const ProductDisplay = React.memo(({ buttonDisabled, product, quantity, handleQu
 const Buy = React.memo(({enableSpinner, disableSpinner}) => {
 
   const PayPalButton = window.paypal.Buttons.driver("react", { React, ReactDOM });
+  const isEurope = moment.tz.guess(true).indexOf('Europe') !== -1 ? true : false;
+  const currency = isEurope ? 'eur' : 'usd';
+  const productPrice = isEurope ? 2500 : 2900;
+
   const [quantity, setQuantity] = useState(1);
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [product, setProduct] = useState({
@@ -174,7 +185,7 @@ const Buy = React.memo(({enableSpinner, disableSpinner}) => {
       enableSpinner();
       TrackingGA.event("Client", "reindirizzamento alla pagina di checkout", "click sul pulsante checkout all'interno della pagina di acquisto")
       const stripe = await stripePromise;
-      const response = await axios.post(Const.PAYMENT_CREATE_SESSION, {quantity});
+      const response = await axios.post(Const.PAYMENT_CREATE_SESSION, {quantity, currency});
       const result = await stripe.redirectToCheckout({
         sessionId: response.data.id,
       });
@@ -224,9 +235,9 @@ const Buy = React.memo(({enableSpinner, disableSpinner}) => {
         purchase_units: [
           {
             amount: {
-              value: Const.setDecimalNumber(product.price.unit_amount * quantity),
+              value: Const.setDecimalNumber(productPrice * quantity),
             },
-            currency_code: 'EUR'
+            currency_code: isEurope ? 'EUR' : 'USD'
           },
         ],
       });
