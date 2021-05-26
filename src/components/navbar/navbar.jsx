@@ -318,7 +318,8 @@ class NavbarCustom extends Component{
             <li className="">
               <div class="btn-group">
                 <a href="#" className="nav-link nav-bar-link" style={{ paddingRight: '0px' }} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i className="fas fa-language" style={{ fontSize: '27px' }}/>
+                  <i className="fas fa-language" style={{ paddingTop:'7%' }}/>
+		  &nbsp;IT/EN
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" style={{minWidth: '1rem', backgroundColor:'grey'}}>
                   <button class="dropdown-item" type="button" onClick={e =>this.changeLanguage('it')}>IT</button>
