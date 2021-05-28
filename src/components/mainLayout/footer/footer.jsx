@@ -22,17 +22,19 @@ const Footer = React.memo(() => {
       let idUls = ['ulNavSx', 'ulNavDx1', 'ulNavDx2', 'ulNavDx3', 'ulNavDx4'];
       let trovato = false;
       for (let i in idUls) {
-        let children = document.getElementById(idUls[i]).childNodes;
-        let array = Array.from(children);
-        for (let j in array) {
-          if (array[j].classList.contains('active-nav-bar')) {
-            array[j].classList.remove('active-nav-bar');
-            trovato = true;
+        let children = document.getElementById(idUls[i])?.childNodes;
+        if (children !== undefined) {
+          let array = Array.from(children);
+          for (let j in array) {
+            if (array[j].classList.contains('active-nav-bar')) {
+              array[j].classList.remove('active-nav-bar');
+              trovato = true;
+              break;
+            }
+          }
+          if (trovato) {
             break;
           }
-        }
-        if (trovato) {
-          break;
         }
       }      
     }

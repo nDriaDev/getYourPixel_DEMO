@@ -101,6 +101,7 @@ body {
 #navbar > li {
   float: left;
 }
+
 li > a {
   display: block;
   color: white;
@@ -110,6 +111,41 @@ li > a {
   font-family: 'sans-serif';
   font-weight: bold;
 }
+
+li > div > a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-family: 'sans-serif';
+  font-weight: bold;
+}
+
+.dropdown-menu > .dropdown-item {
+  display: block;
+  color: #FFFFFF80;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 14px;
+  font-family: 'sans-serif';
+  font-weight: bold;
+}
+
+.active-drop {
+  background-color: transparent;
+  color: white !important;
+  text-decoration: none;
+}
+
+.dropdown-menu > .dropdown-item:hover:not(.active) {
+  background-color: #111;
+}
+.active {
+  background-color: #e5e5e5;
+}
+
 li a:hover:not(.active) {
   background-color: #111;
 }
@@ -559,11 +595,22 @@ li.active-nav-bar a {
   vertical-align: sub;
 }
 
+.shad-on-off {
+  
+  animation: testing 1.5s linear infinite; }
+
+@keyframes testing {
+  25% { 
+    box-shadow: 0 0 15px #dc3545; }
+  75% {
+    box-shadow: 0 0 0 transparent; }
+}
+
 /*----------------------------------------------------------------------------*/
 /* ------------------------------- SIDEBAR -----------------------------------*/
 .vertical-bar {
   height: calc(100vh - 100px);
-  width: 99vw;
+  width: 98vw;
   /* margin-bottom: 2%;
   margin-top: 1.5%;
   padding-left: 1.5%; */
@@ -689,8 +736,8 @@ li.active-v-bar a {
 .terms-page{
   background-color: #FFFFFF;
   width: 60%;
-  padding-top: 10%;
-  padding-bottom: 10%;
+  padding-top: 3%;
+  padding-bottom: 6%;
 }
 
 .terms-page li{

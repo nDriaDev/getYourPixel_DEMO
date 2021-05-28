@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import {Form, Button, Col, Row} from 'react-bootstrap';
 import { toast } from 'react-toastify';
@@ -21,6 +21,7 @@ const SaveUser = (props) => {
     email: '',
     password: '',
     promoCode: '',
+    checkbox: true,
   })
 
   const {enableSpinner, disableSpinner} = props;
@@ -42,13 +43,26 @@ const SaveUser = (props) => {
     disableSpinner();
   },[])
 
+  const goToPrivacyPolicy = useCallback(() => {
+    history.push("/legal")
+  }, [history]);
+
+  const goToTermAndConditions = useCallback(() => {
+    history.push("/legal/termsAndConditions")
+  }, [history])
+
+
   const setPromo = () => {
     setShowPromo(true);
   }
 
   const handleInputChange = event => {
-    let {name, value} = event.target;
-    setForm({...form, [name]:value});
+    let { name, value } = event.target;
+    if (name === "checkbox") {
+      setForm({ ...form, [name]: event.target.checked });
+    } else {
+      setForm({...form, [name]:value});
+    }
   }
 
   const onSubmit = (event) => {
@@ -57,6 +71,7 @@ const SaveUser = (props) => {
     event.preventDefault();
     event.stopPropagation();
     if (formSet.checkValidity() === false) {
+      setForm({ ...form, checkbox: false });
       setValidated(true);
     } else {
       enableSpinner();
@@ -76,6 +91,7 @@ const SaveUser = (props) => {
             email: '',
             password: '',
             promoCode: '',
+            checkbox: true
           });
 
           history.push({
@@ -164,6 +180,46 @@ const SaveUser = (props) => {
               </Col>
             </Row>
           }
+          <Row>
+            <Col xs="12">
+              <Form.Check type="checkbox" id="formBasicCheckBox" style={{textAlign:"left"}}>
+                <Form.Check.Input
+                  type="checkbox"
+                  name="checkbox"
+                  onChange={e => handleInputChange(e)}
+                  required
+                  style={{
+                    display: 'block',
+                    outline: validated && !form.checkbox ? '1px solid #dc3545' : 'none'
+                  }}
+                />
+                <Form.Check.Label 
+                  style={{ display: 'unset', fontSize: '0.7rem', textAlign: 'justify', color: validated && !form.checkbox ? '#dc3545' : 'white' }}
+                >
+                    {t('accettazionePrivacyCookieTerms1')}
+                </Form.Check.Label>
+                <Form.Check.Label 
+                  style={{ display: 'unset', fontSize: '0.7rem', textAlign: 'justify', color: validated && !form.checkbox ? '#dc3545' : 'white' }}
+                  className="label-underline-link" 
+                  onClick={goToPrivacyPolicy}
+                >
+                  {`Privacy Policy`}
+                </Form.Check.Label>
+                <Form.Check.Label 
+                  style={{ display: 'unset', fontSize: '0.7rem', textAlign: 'justify', color: validated && !form.checkbox ? '#dc3545' : 'white' }}
+                >
+                  {t('accettazionePrivacyCookieTerms2')}
+                </Form.Check.Label>
+                <Form.Check.Label 
+                  style={{ display: 'unset', fontSize: '0.7rem', textAlign: 'justify', color: validated && !form.checkbox ? '#dc3545' : 'white' }}
+                  className="label-underline-link" 
+                  onClick={goToTermAndConditions}
+                >
+                  {t('accettazionePrivacyCookieTerms3') + '.'}
+                </Form.Check.Label>
+              </Form.Check>
+            </Col>
+          </Row>
           <Button variant="success" type="submit">
             {t('register.send')}
           </Button>

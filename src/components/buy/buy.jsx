@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import { useHistory, useLocation } from 'react-router-dom'
-import {loadStripe} from '@stripe/stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 import Const from './../../util/Costanti';
 import { toast } from 'react-toastify';
 import axios from 'axios';
@@ -11,7 +11,7 @@ import moment from 'moment-timezone';
 
 const stripePromise = loadStripe(process.env.REACT_APP_PUB_KEY_STRIPE);
 
-const ProductDisplay = React.memo(({ buttonDisabled, product, quantity, handleQuantityChange, handleManualQuantityChange, handleClick, PayPalButton, createOrder, onApprove, onError, onCancel }) => {
+const ProductDisplay = React.memo(({ buttonDisabled, product, quantity, handleQuantityChange, handleManualQuantityChange, handleClick, PayPalButton, createOrder, onApprove, onError, onCancel, goToPrivacyPolicy, goToTermAndConditions, validated, checkbox, handleInputChange }) => {
   const { t } = useTranslation();
   const isEurope = moment.tz.guess(true).indexOf('Europe') !== -1 ? true : false;
   const currency = isEurope ? 'eur' : 'usd';
@@ -19,52 +19,73 @@ const ProductDisplay = React.memo(({ buttonDisabled, product, quantity, handleQu
 
   return (
     <div style={{
-        width: '92vw',
-        marginLeft: '4%',
-        marginRight: '4%',
-      }} align="center">
+      width: '92vw',
+      marginLeft: '4%',
+      marginRight: '4%',
+    }} align="center">
       <div id="griglia" style={{
         backgroundColor: 'white',
-        height:'75vh',
-        maxWidth:'480px',
-        border:'2px solid #FFFFFF',
-        borderRadius:'5%',
-        overflowY:'auto'}}>
+        height: '75vh',
+        maxWidth: '480px',
+        border: '2px solid #FFFFFF',
+        borderRadius: '5%',
+        overflowY: 'auto'
+      }}>
         <div className="mx-auto">
-        <div className="card-body">
-          <h1 className="mb-2" style={{fontSize:'2.7rem'}}>{product.name}</h1>
-          <div className="d-flex justify-content-center mb-2">
-            <div className="card-circle d-flex justify-content-center align-items-center">
-              {product.images[0] ?
-                <img
-                  src={product.images[0]}
-                  alt="The product"
-                  style={{width: '60%'}}
+          <div className="card-body">
+            <h1 className="mb-2" style={{ fontSize: '2.7rem' }}>{product.name}</h1>
+            <div className="d-flex justify-content-center mb-2">
+              <div className="card-circle d-flex justify-content-center align-items-center">
+                {product.images[0] ?
+                  <img
+                    src={product.images[0]}
+                    alt="The product"
+                    style={{ width: '60%' }}
                   />
-                :
-                null
-              }
+                  :
+                  null
+                }
+              </div>
             </div>
-          </div>
-          <h2 className="font-weight-bold my-2">{Const.setDecimalCurrencyNumber(productPrice * quantity, currency)}</h2>
-          <h5 className="grey-text" style={{fontSize: '.95rem'}}>{t('buy.description')}</h5>
-          <div className="qt-plus-minut my-2">
-            <button onClick={e=>handleQuantityChange(e)}><i name="minus" className="fa fa-minus" aria-hidden="true" style={{fontSize: '0.9rem'}}></i></button>
-              <input className="qt-input" style={{ fontSize: '1.8rem' }} name="quantity" value={quantity} type="text" onChange={handleManualQuantityChange}/>
-            <button onClick={e=>handleQuantityChange(e)} ><i name="plus" className="fa fa-plus" aria-hidden="true" style={{fontSize: '1.0rem'}}></i></button>
+            <h2 className="font-weight-bold my-2">{Const.setDecimalCurrencyNumber(productPrice * quantity, currency)}</h2>
+            <h5 className="grey-text" style={{ fontSize: '.95rem' }}>{t('buy.description')}</h5>
+            <div className="qt-plus-minut my-2">
+              <button onClick={e => handleQuantityChange(e)}><i name="minus" className="fa fa-minus" aria-hidden="true" style={{ fontSize: '0.9rem' }}></i></button>
+              <input className={`qt-input ${quantity === null || quantity === "" || quantity === 0 ? 'shad-on-off' : ''}`} style={{ fontSize: '1.8rem' }} name="quantity" value={quantity} type="text" onChange={handleManualQuantityChange} />
+              <button onClick={e => handleQuantityChange(e)} ><i name="plus" className="fa fa-plus" aria-hidden="true" style={{ fontSize: '1.0rem' }}></i></button>
+            </div>
+            <div className="row mb-2">
+              <div className="col-sm-12">
+                <div className="form-check" style={{ textAlign: 'left' }}>
+                  <input type="checkbox" id="checkbox" name="checkBox" className={`form-check-input ${!checkbox?'shad-on-off' :''}`} style={{ display: 'block', marginTop: '.4rem', boxShadow: validated && !checkbox ? '0 0 15px #dc3545' : 'none' }} onChange={handleInputChange} required />
+                  <label htmlFor="checkBox" className="form-check-label" style={{ display: 'unset', fontSize: '0.8rem', textAlign: 'justify', color: validated && !checkbox ? '#dc3545' : 'black' }}>
+                    {t('accettazionePrivacyCookieTerms1')}
+                  </label>
+                  <label htmlFor="checkBox" className="form-check-label label-underline-link" style={{ display: 'unset', fontSize: '0.8rem', textAlign: 'justify', color: validated && !checkbox ? '#dc3545' : 'black' }} onClick={goToPrivacyPolicy}>
+                    {`Privacy Policy`}
+                  </label>
+                  <label htmlFor="checkBox" className="form-check-label" style={{ display: 'unset', fontSize: '0.8rem', textAlign: 'justify', color: validated && !checkbox ? '#dc3545' : 'black' }}>
+                    {t('accettazionePrivacyCookieTerms2')}
+                  </label>
+                  <label htmlFor="checkBox" className="form-check-label label-underline-link" style={{ display: 'unset', fontSize: '0.8rem', textAlign: 'justify', color: validated && !checkbox ? '#dc3545' : 'black' }} onClick={goToTermAndConditions}>
+                    {t('accettazionePrivacyCookieTerms3') + '.'}
+                  </label>
+                </div>
+              </div>
             </div>
             <div className="row">
               <div className="col-sm-6">
-                <button 
+                <button
+                  id="btnStandard"
                   className="btn-success btn-checkout"
                   onClick={handleClick}
                   disabled={buttonDisabled}
-                  style={{height:'fit-content', minHeight:'50px', opacity: buttonDisabled ? '0.33' : '1', pointerEvents: buttonDisabled ? 'none' : 'auto' }}
+                  style={{ height: 'fit-content', minHeight: '50px', opacity: buttonDisabled ? '0.33' : '1', pointerEvents: buttonDisabled ? 'none' : 'auto' }}
                 >{t('buy.buttonPayment')}</button>
               </div>
-            <div className="col-sm-6" style={{ opacity: buttonDisabled ? '0.33' : '1', pointerEvents: buttonDisabled ? 'none' : 'auto'  }}>
+              <div className="col-sm-6" id="paypalDiv" style={{ opacity: buttonDisabled ? '0.33' : '1', pointerEvents: buttonDisabled ? 'none' : 'auto' }}>
                 <PayPalButton
-                  style={{ layout: "horizontal", height: 50, tagline:'false' }}
+                  style={{ layout: "horizontal", height: 50, tagline: 'false' }}
                   createOrder={(data, actions) => createOrder(data, actions)}
                   onApprove={(data, actions) => onApprove(data, actions)}
                   onError={err => onError(err)}
@@ -72,14 +93,14 @@ const ProductDisplay = React.memo(({ buttonDisabled, product, quantity, handleQu
                 ></PayPalButton>
               </div>
             </div>
+          </div>
         </div>
-      </div>
       </div>
     </div>
   );
 })
 
-const Buy = React.memo(({enableSpinner, disableSpinner}) => {
+const Buy = React.memo(({ enableSpinner, disableSpinner }) => {
 
   const PayPalButton = window.paypal.Buttons.driver("react", { React, ReactDOM });
   const isEurope = moment.tz.guess(true).indexOf('Europe') !== -1 ? true : false;
@@ -87,29 +108,55 @@ const Buy = React.memo(({enableSpinner, disableSpinner}) => {
   const productPrice = isEurope ? 2500 : 2900;
 
   const [quantity, setQuantity] = useState(1);
-  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [validated, setValidated] = useState(false);
+  const [checkbox, setCheckbox] = useState(false);
+
+  const [buttonDisabled, setButtonDisabled] = useState(true);
   const [product, setProduct] = useState({
-    images:[],
-    name:'',
-    description:'',
-    price:{
-      unit_amount:'',
-      currency:'',
+    images: [],
+    name: '',
+    description: '',
+    price: {
+      unit_amount: '',
+      currency: '',
     }
   });
   const location = useLocation();
   const history = useHistory();
 
-  const getProduct = ()=>{
-    return new Promise((resolve,reject) =>{
-      axios.post(Const.GET_PRODUCT).then(resp=>{
+  const goToPrivacyPolicy = useCallback(() => {
+    history.push("/legal")
+  }, [history]);
+
+  const goToTermAndConditions = useCallback(() => {
+    history.push("/legal/termsAndConditions")
+  }, [history])
+
+  const handleInputChange = (e) => {
+    const val = e.target.checked;
+    if (val) {
+      if (buttonDisabled && quantity >= 1) {
+        setButtonDisabled(false);
+      }
+    } else {
+      if (!buttonDisabled) {
+        setButtonDisabled(true);
+      }
+    }
+    setCheckbox(val);
+  }
+
+  const getProduct = () => {
+    return new Promise((resolve, reject) => {
+      axios.post(Const.GET_PRODUCT).then(resp => {
         resolve(resp.data);
       }).catch(err => {
         reject(err.message);
       })
     })
   }
-  useEffect(()=>{
+
+  useEffect(() => {
     enableSpinner();
     let query = new URLSearchParams(location.search);
     if (query.get("success")) {
@@ -150,31 +197,34 @@ const Buy = React.memo(({enableSpinner, disableSpinner}) => {
     }).catch(err => {
       disableSpinner();
     })
-  },[])
+
+  }, [])
 
   const handleQuantityChange = (event) => {
     let qt = quantity;
-    if(event.target.className === "fa fa-minus"){
+    if (event.target.className === "fa fa-minus") {
       qt--;
     } else {
       qt++;
     }
-    if(qt===0 || qt < 0){
+    if (qt === 0 || qt < 0) {
       return;
-    }else{
+    } else {
       setQuantity(qt);
-      setButtonDisabled(false);
+      if (buttonDisabled && checkbox) {
+        setButtonDisabled(false);
+      }
     }
   }
 
   const handleManualQuantityChange = event => {
     if (event.target.value !== '-' && !isNaN(event.target.value)) {
-      setQuantity(event.target.value);
+      setQuantity(event.target.value === "" ? event.target.value : + event.target.value);
     }
     if (event.target.value === "" || event.target.value === "0") {
       setButtonDisabled(true);
     } else {
-      if (buttonDisabled) {
+      if (buttonDisabled && checkbox) {
         setButtonDisabled(false);
       }
     }
@@ -182,10 +232,17 @@ const Buy = React.memo(({enableSpinner, disableSpinner}) => {
 
   const handleClick = async (event) => {
     try {
+      setValidated(false);
+      if (!checkbox) {
+        event.preventDefault();
+        event.stopPropagation();
+        setValidated(true);
+        return;
+      }
       enableSpinner();
       TrackingGA.event("Client", "reindirizzamento alla pagina di checkout", "click sul pulsante checkout all'interno della pagina di acquisto")
       const stripe = await stripePromise;
-      const response = await axios.post(Const.PAYMENT_CREATE_SESSION, {quantity, currency});
+      const response = await axios.post(Const.PAYMENT_CREATE_SESSION, { quantity, currency });
       const result = await stripe.redirectToCheckout({
         sessionId: response.data.id,
       });
@@ -227,9 +284,13 @@ const Buy = React.memo(({enableSpinner, disableSpinner}) => {
     }
   };
 
-
   const createOrder = (data, actions) => {
     try {
+      setValidated(false);
+      if (!checkbox) {
+        setValidated(true);
+        return;
+      }
       enableSpinner();
       return actions.order.create({
         purchase_units: [
@@ -276,7 +337,7 @@ const Buy = React.memo(({enableSpinner, disableSpinner}) => {
       progress: undefined,
     });
   }
-  
+
   const onCancel = (data, actions) => {
     TrackingGA.execption("Acquisto con Paypal cancellato")
     disableSpinner();
@@ -291,8 +352,24 @@ const Buy = React.memo(({enableSpinner, disableSpinner}) => {
     });
   }
 
-  return(
-    product.description !== '' && <ProductDisplay buttonDisabled={buttonDisabled} product={product} quantity={quantity} handleQuantityChange={handleQuantityChange} handleManualQuantityChange={handleManualQuantityChange} handleClick={handleClick} PayPalButton={PayPalButton} createOrder={createOrder} onApprove={onApprove} onError={onError} onCancel={onCancel}/>
+  return (
+    product.description !== '' &&
+    <ProductDisplay
+      buttonDisabled={buttonDisabled}
+      product={product}
+      quantity={quantity}
+      handleQuantityChange={handleQuantityChange}
+      handleManualQuantityChange={handleManualQuantityChange}
+      handleClick={handleClick} PayPalButton={PayPalButton}
+      createOrder={createOrder} onApprove={onApprove}
+      onError={onError}
+      onCancel={onCancel}
+      goToPrivacyPolicy={goToPrivacyPolicy}
+      goToTermAndConditions={goToTermAndConditions}
+      validated={validated}
+      checkbox={checkbox}
+      handleInputChange={handleInputChange}
+    />
   )
 })
 

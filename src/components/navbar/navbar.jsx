@@ -11,17 +11,27 @@ import { Trans } from 'react-i18next';
 import { withTranslation } from 'react-i18next';
 
 var listen, prevLocation = null;
+const changeIcon = (e) => {
 
+  let icon = document.querySelector('#legalParent').lastElementChild;
+  if(icon.classList.contains("fa-chevron-right")) {
+    icon.classList.remove("fa-chevron-right");
+    icon.classList.add("fa-chevron-down")
+  } else {
+    icon.classList.remove("fa-chevron-down");
+    icon.classList.add("fa-chevron-right");
+  }
+}
 class NavbarCustom extends Component{
   constructor(props){
     super(props);
     let pathname = window.location.pathname;
-    pathname = pathname === Const.PATH_ERROR ? 'error' : (pathname === '/' ? '' : (pathname === Const.PATH_BUY ? 'buy' : (pathname === Const.PATH_CONTACT ? 'contact' : (pathname === Const.PATH_HOW_WORK ? 'howWork' : (pathname === '/login' ? 'login' : (pathname === '/register' ? 'register' : (pathname === '/win' ? 'win' : (pathname === '/invite' ? 'invite' : 'error'))))))));
+    pathname = pathname === Const.PATH_ERROR ? 'error' : (pathname === '/' ? '' : (pathname === Const.PATH_BUY ? 'buy' : (pathname === Const.PATH_CONTACT ? 'contact' : (pathname === Const.PATH_HOW_WORK ? 'howWork' : (pathname === '/login' ? 'login' : (pathname === '/register' ? 'register' : (pathname === '/win' ? 'win' : (pathname === '/invite' ? 'invite' : (pathname === '/legal' ? 'legal' : (pathname === '/legal/cookiePolicy' ? 'cookiePolicy' : (pathname === '/legal/termsAndConditions' ? 'termsAndConditions' : 'error')))))))))));
     this.i18n = this.props.i18n;
     this.state = {
       origin: window.location.origin,
-      paths : [Const.PATH_HOME,Const.PATH_BUY,Const.PATH_CONTACT,Const.PATH_HOW_WORK,Const.PATH_WIN,Const.PATH_LOGIN,Const.PATH_REGISTER,Const.PATH_MANAGE, Const.PATH_INVITE],
-      active: pathname === 'error' ? 0 : (pathname === '' ? 1 : (pathname === 'buy' ? 2 : (pathname === 'contact' ? 3 : (pathname === 'howWork' ? 4 : (pathname === 'win' ? 5 : (pathname === 'login' ? 6 : (pathname === 'invite' ? 7 : 8))))))),
+      paths : [Const.PATH_HOME,Const.PATH_BUY,Const.PATH_CONTACT,Const.PATH_HOW_WORK,Const.PATH_WIN,Const.PATH_LOGIN,Const.PATH_REGISTER,Const.PATH_MANAGE, Const.PATH_INVITE, Const.PATH_LEGAL, Const.PATH_COOKIE_POLICY , Const.PATH_TERM_AND_CONDITIONS],
+      active: pathname === 'error' ? 0 : (pathname === '' ? 1 : (pathname === 'buy' ? 2 : (pathname === 'contact' ? 3 : (pathname === 'howWork' ? 4 : (pathname === 'win' ? 5 : (pathname === 'login' ? 6 : (pathname === 'invite' ? 7 : (pathname === 'legal' ? 9 : (pathname === 'cookiePolicy' ? 10 : (pathname === 'termsAndConditions' ? 11 : 8)))))))))),
     }
     this.changeActive = this.changeActive.bind(this);
     this.changeActiveMenu = this.changeActiveMenu.bind(this);
@@ -34,8 +44,12 @@ class NavbarCustom extends Component{
 
 
   componentDidMount() {
+    let icon = document.querySelector('#legalParent');
+    if(icon) {
+      icon.addEventListener("click", changeIcon, false);
+    }
       listen = this.props.history.listen((location, action) => {
-        if((prevLocation && prevLocation !== location.pathname) || !prevLocation) {
+        if ((prevLocation && prevLocation !== location.pathname) || !prevLocation) {
           prevLocation = location.pathname;
           this.changeActiveMenu(location.pathname);
         }
@@ -44,17 +58,24 @@ class NavbarCustom extends Component{
 
   componentWillUnmount() {
     listen();
+    let icon = document.querySelector('#legalParent');
+    if (icon) {
+      icon.removeEventListener("click", changeIcon);
+    }
   }
 
   changeActiveMenu(path) {
     let newPath = path === '/' ? '/' : '/' + path.split('/')[1];
+    if (newPath === "/legal" && path.split('/')[2] !== '' && path.split('/')[2] !== null && path.split('/')[2] !== undefined) {
+      newPath = '/'+path.split('/')[2];
+    }
     if(this.state.paths.includes(newPath)) {
       this.getActiveFromPath(newPath.split('/')[1]);
     }
   }
 
   getActiveFromPath(pathname) {
-    let active = pathname === 'error' ? 0 : (pathname === '' ? 1 : (pathname === 'buy' ? 2 : (pathname === 'contact' ? 3 : (pathname === 'howWork' ? 4 : (pathname === 'win' ? 5 : (pathname === 'login' ? 6 : (pathname === 'invite' ? 7 : 8)))))));
+    let active = pathname === 'error' ? 0 : (pathname === '' ? 1 : (pathname === 'buy' ? 2 : (pathname === 'contact' ? 3 : (pathname === 'howWork' ? 4 : (pathname === 'win' ? 5 : (pathname === 'login' ? 6 : (pathname === 'invite' ? 7 : (pathname === 'legal' ? 9 : (pathname === 'cookiePolicy' ? 10 : (pathname === 'termsAndConditions' ? 11 : 8))))))))));
     this.changeActive(active);
   }
 
@@ -135,6 +156,12 @@ class NavbarCustom extends Component{
     event.stopPropagation();
     // this.changeActive(menu);
     this.props.history.push(path);
+    if(['/legal','/legal/cookiePolicy','/legal/termsAndConditions'].includes(path)) {
+      let parent = document.querySelector('#legalParent');
+      if(parent.getAttribute("aria-expanded")) {
+        parent.click();
+      }
+    }
     this.collapseNavbar();
   }
 
@@ -247,6 +274,24 @@ class NavbarCustom extends Component{
                   &nbsp;<Trans i18nKey="header.navbarInviteFriendsMenu" />
                 </a>
             </li>
+            {
+              this.props.location.pathname.indexOf("legal") !== -1 ?
+                <li className={"nav-item " + ([9,10,11].includes(this.state.active) ? 'active-nav-bar' : '')}>
+                  <div className="btn-group">
+                    <a href="" id="legalParent" className="nav-link nav-bar-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i className="fas fa-file-contract" style={{ paddingTop:'7%' }}/>
+                      &nbsp;Legal&nbsp;<i className="fas fa-chevron-right" style={{paddingTop: '7%', paddingLeft:'1%'}}></i>
+                    </a>
+                    <div className="dropdown-menu dropdown-menu-right" style={{ minWidth: '1rem', borderColor:'#292423', backgroundColor: 'black'}}>
+                      <button className={`dropdown-item ${this.state.active === 9 ? 'active-drop': ''}`} type="button" onClick={(e) => this.changeActiveAndHistoryPush(e, 5, '/legal')}>Privacy Policy</button>
+                      <button className={`dropdown-item ${this.state.active === 10 ? 'active-drop': ''}`} type="button" onClick={(e) => this.changeActiveAndHistoryPush(e, 5, '/legal/cookiePolicy')}>Cookie Policy</button>
+                      <button className={`dropdown-item ${this.state.active === 11 ? 'active-drop' : ''}`} type="button" onClick={(e) => this.changeActiveAndHistoryPush(e, 5, '/legal/termsAndConditions')}>Terms & Conditions</button>
+                    </div>
+                  </div>
+                </li>                 
+                :
+                null
+            }
           </ul>
           {this.props.isAuth || this.props.isAuthBasic ?
             <ul id="ulNavDx1" className="navbar-nav ">
@@ -316,14 +361,14 @@ class NavbarCustom extends Component{
           }
           <ul id="menuLang" className="navbar-nav">
             <li className="">
-              <div class="btn-group">
-                <a href="#" className="nav-link nav-bar-link" style={{ paddingRight: '0px' }} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <div className="btn-group">
+                <a href="#" className="nav-link nav-bar-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i className="fas fa-language" style={{ paddingTop:'7%' }}/>
-		  &nbsp;IT/EN
+		              &nbsp;IT/EN
                 </a>
-                <div class="dropdown-menu dropdown-menu-right" style={{minWidth: '1rem', backgroundColor:'grey'}}>
-                  <button class="dropdown-item" type="button" onClick={e =>this.changeLanguage('it')}>IT</button>
-                  <button class="dropdown-item" type="button" onClick={e => this.changeLanguage('en')}>EN</button>
+                <div className="dropdown-menu dropdown-menu-right" style={{ minWidth: '1rem', borderColor: '#292423', backgroundColor: 'black'}}>
+                  <button className="dropdown-item" type="button" onClick={e =>this.changeLanguage('it')}>IT</button>
+                  <button className="dropdown-item" type="button" onClick={e => this.changeLanguage('en')}>EN</button>
                 </div>
               </div>
             </li>

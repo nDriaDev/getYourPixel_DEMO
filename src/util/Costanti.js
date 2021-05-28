@@ -10,6 +10,7 @@ const Const = {
   PATH_LOGIN: '/login',
   PATH_REGISTER: '/register',
   PATH_TERM_AND_CONDITIONS: '/termsAndConditions',
+  PATH_COOKIE_POLICY: '/cookiePolicy',
   PATH_LEGAL: '/legal',
   PATH_ERROR: '/error',
   PATH_REGISTRATION_SUCCESS: '/registrationSuccess',

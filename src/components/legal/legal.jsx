@@ -50,6 +50,8 @@ const Legal = (props) => {
   return (
     <>
       <div className="row vertical-bar mx-auto">
+        {
+        /*
         <div className="col-lg-2 col-md-2 col-sm-1 col-xs-1 background-v-nav">
           <nav className="navbar navbar-expand-lg navbar-dark primary-color">
             <button id="btn-collapse2" className="navbar-toggler btn-v-bar" type="button" data-toggle="collapse" data-target="#verticalNav"
@@ -89,7 +91,10 @@ const Legal = (props) => {
             </div>
           </nav>
         </div>
-        <div className="col-lg-10 col-md-10 col-sm-11 col-xs-11" style={{height:'inherit'}}>
+        */
+        }
+        {/*<div className="col-lg-10 col-md-10 col-sm-11 col-xs-11" style={{height:'inherit'}}> */}
+        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" style={{height:'inherit'}}>
           <div className="container-fluid container-v-bar" style={{height:'inherit'}}>
             <LegalRoute spinner={spinner} spinnerCommand={spinnerCommand} />
           </div>
