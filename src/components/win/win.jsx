@@ -1,6 +1,7 @@
 import moment from 'moment-timezone';
 import {React, useEffect} from 'react';
 import { useTranslation } from 'react-i18next';
+import FacebookTracer from './../utils/trackingFacebook';
 
 const Win = (props) => {
   const { t } = useTranslation();
@@ -10,6 +11,9 @@ const Win = (props) => {
   const price3 = isEurope ? "100'000€" : "120'000$";
 
   useEffect(() => {
+    FacebookTracer.initTracer();
+    FacebookTracer.tracePage();
+    
     props.disableSpinner();
   }, []);
 

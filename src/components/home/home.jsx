@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import Const from './../../util/Costanti';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+import FacebookTracer from './../utils/trackingFacebook';
 
 const Home = React.memo(({setAuth,enableSpinner, disableSpinner}) => {
   const { t } = useTranslation();
@@ -73,6 +74,9 @@ const Home = React.memo(({setAuth,enableSpinner, disableSpinner}) => {
 
   useEffect(() => {
     getData();
+    FacebookTracer.initTracer();
+    FacebookTracer.tracePage();
+    
   },[getData])
 
   return(
