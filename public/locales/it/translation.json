@@ -64,8 +64,8 @@
     },
     "win": {
         "title": "VINCI DAI {{price1}} AI {{price2}} SENZA SPENDERE UN CENTESIMO!",
-        "desc1": "Una volta esaurita la prima metà dei pixel disponibili, avrete la possibilità di partecipare al nostro concorso! Seguendo alcuni semplici passi, sarete inseriti in una lista dalla quale estrarremo 5 fortunati utenti che riceveranno {{price3}} ciascuno! Il meccanismo è semplicissimo. Tutto ciò che dovrete fare, dopo aver effettuato l'accesso con le vostre credenziali, sarà visitare le pubblicità presenti nella homepage. Ogni pubblicità visualizzata assegnerà all’utente 1 punto. Più punti hai più volte il tuo nome verrà inserito nell’elenco per l’estrazione. Ad esempio, visitando una pubblicità il tuo nome verrà inserito una volta, visitando 20 pubblicità il tuo nome verrà inserito 20 volte. Se lo stesso utente visita una pubblicità che ha già visitato in precedenza non guadagna punti aggiuntivi.",
-        "desc2": "Per evitare di fare confusione e non ricordare più quale pubblicità avete già guardato, dopo aver effettuato l’accesso con le vostre credenziali, vedrete nell’angolo in basso a destra di ogni immagine un quadratino. Questo quadratino sarà di colore rosso se non avete ancora visitato il sito sponsorizzato, mentre sarà di colore verde se l’avete già visitato e quindi avete già ottenuto il punto.",
+        "desc1": "Una volta esaurita la prima metà dei pixel disponibili, avrete la possibilità di partecipare al nostro concorso! Seguendo alcuni semplici passi, sarete inseriti nella lista dalla quale estrarremo 5 fortunati utenti che riceveranno {{price3}} ciascuno! Il meccanismo è semplicissimo. Tutto ciò che dovrete fare, dopo aver effettuato l'accesso con le vostre credenziali, sarà visitare le pubblicità presenti nella homepage. Ogni pubblicità visualizzata assegnerà all’utente 1 punto. Più punti hai più volte il tuo nome verrà inserito nell’elenco per l’estrazione. Ad esempio, visitando una pubblicità il tuo nome verrà inserito una volta, visitando 20 pubblicità il tuo nome verrà inserito 20 volte. Se lo stesso utente visita una pubblicità che ha già visitato in precedenza non guadagna punti aggiuntivi.",
+        "desc2": "Per evitare di fare confusione e non ricordare più quale pubblicità avete già guardato, sempre dopo aver effettuato l’accesso con le vostre credenziali, vedrete nell’angolo in basso a destra di ogni immagine un quadratino. Questo quadratino sarà di colore rosso se non avete ancora visitato il sito sponsorizzato, mentre sarà di colore verde se l’avete già visitato e quindi avete già ottenuto il punto.",
         "desc3": "Ecco gli step da seguire:",
         "desc311": "Registrati.",
         "click": "Clicca qui",
@@ -84,9 +84,9 @@
         "button": "Invita Amici",
         "span1": "Condivi il tuo codice promo e ottieni 25 punti per ogni amico che completerà la registrazione inserendolo nell'apposito spazio.",
         "span2": "Una volta ricevuto l'invito, il tuo amico dovrà cliccare sul link e seguire la procedura per completare la registrazione.",
-        "span3": "Sarà sufficiente poi che visualizzi una singola pubblicità per sbloccare il bonus.",
+        "span3": "Sarà sufficiente poi che guardi una singola pubblicità affinché il tuo bonus venga sbloccato.",
         "span4": "Gli amici che si registreranno utilizzando il tuo codice riceveranno a loro volta 5 punti dopo aver guardato la prima pubblicità.",
-        "span5": "Attualmente puoi ottenere il bonus fino a 50 volte! Questo vorrebbe dire superare i 1200 punti e aumentare di molto le probabilità di essere estratto."
+        "span5": "Attualmente puoi ottenere il bonus fino a 50 volte! Invitando questo numero di persone supereresti i 1200 punti, aumentando di molto le probabilità di essere estratto come vincitore del nostro premio."
     },
     "register": {
         "title": "Registrati",

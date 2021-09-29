@@ -65,7 +65,7 @@
     "win": {
         "title": "WIN FROM {{price1}} TO {{price2}} WITHOUT SPENDING A CENT!",
         "desc1": "Once the first half of the available pixels is sold out, you will be given the chance to participate in our contest! By following a few simple steps, you will be included in the list from which we will draw 5 lucky users who will be awarded {{price3}} each! The process is very simple. All you have to do, after logging in with your credentials, is check out the advertisements on the homepage. Each advertisement viewed will award the user 1 point. The more points you have the more times your name will be included in the lottery list. For example, by visiting one advertisement your name will be entered once, by visiting 20 advertisements your name will be entered 20 times. If the same user visits an advertisement they have visited before, they will not earn additional points.",
-        "desc2": "To keep track of the advertisements you have already checked out, after logging in, you will see a little square in the lower right corner of each image. That square will be red if you haven't visited the sponsored page yet, while it will be green if you have already visited it and therefore have already earned the point.",
+        "desc2": "To keep track of the advertisements you have already checked out, always after logging in, you will see a little square in the lower right corner of each image. That square will be red if you haven't visited the sponsored page yet, while it will be green if you have already visited it and therefore have already earned the point.",
         "desc3": "Here are the steps to follow:",
         "desc311": "Sign In.",
         "click": "Click here",
