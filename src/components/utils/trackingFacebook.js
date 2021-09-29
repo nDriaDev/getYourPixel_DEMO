@@ -1,11 +1,12 @@
 import ReactPixel from 'react-facebook-pixel';
 
 class FacebookTracer {
+    
     constructor(){
-        this.tracer;
-        this.id = process.env.REACT_APP_FB_TRACKING_ID 
-        ??
+        this.tracer = null;
+        this.id  = process.env.REACT_APP_FB_TRACKING_ID ?? 
         '<insert your trackID here>'
+        ;
     }
 
     initTracer() {
