@@ -51,7 +51,7 @@
         "title": "Contact Us",
         "description": "Should you have any questions, concerns or queries, please do not hesitate to contact us by submitting the form below. A member of our team will get back to you within 24 hours at the email address you provided.",
         "name": "Name *",
-        "phone": "Number phone *",
+        "phone": "Number phone",
         "email": "Email *",
         "oggetto": "Object *",
         "mess": "Message *",
@@ -64,7 +64,7 @@
     },
     "win": {
         "title": "WIN FROM {{price1}} TO {{price2}} WITHOUT SPENDING A CENT!",
-        "desc1": "Once the first half of the available pixels is sold out, you will be given the chance to participate in our contest! By following a few simple steps, you will be included in the list from which we will draw 5 lucky users who will be awarded {{price3}} each! The process is very simple. All you have to do, after logging in with your credentials, is check out the advertisements on the homepage. Each advertisement viewed will award the user 1 point. The more points you have the more times your name will be included in the lottery list. For example, by visiting one advertisement your name will be entered once, by visiting 20 advertisements your name will be entered 20 times. If the same user visits an advertisement they have visited before, they will not earn additional points.",
+        "desc1": "By following a few simple steps, you will be included in the list from which we will draw 5 lucky users who will be awarded {{price3}} each! The process is very simple. All you have to do, after logging in with your credentials, is check out the advertisements on the homepage. Each advertisement viewed will award the user 1 point. The more points you have the more times your name will be included in the lottery list. For example, by visiting one advertisement your name will be entered once, by visiting 20 advertisements your name will be entered 20 times. If the same user visits an advertisement they have visited before, they will not earn additional points.",
         "desc2": "To keep track of the advertisements you have already checked out, always after logging in, you will see a little square in the lower right corner of each image. That square will be red if you haven't visited the sponsored page yet, while it will be green if you have already visited it and therefore have already earned the point.",
         "desc3": "Here are the steps to follow:",
         "desc311": "Sign In.",
@@ -74,9 +74,12 @@
         "desc33": "Keep track of your points by visiting your profile under the account tab.",
         "desc34": "The day of the drawing (which will take place in the presence of a notary or authorized person) 5 usernames will be selected randomly by a system. The same username may be drawn several times.",
         "desc35": "Winners will be contacted via the email used for registration and will be given information regarding the prize delivery.",
+        "desc36": "Another way to get points is to invite friends to register on the site! Find out more on the ",
+        "inviteClick": "INVITE FRIENDS",
+        "desc37": " page",
         "desc4": "PLEASE NOTE!",
-        "desc41": "Even before the contest is officially started, the points will already be counted. So, we suggest you start browsing, get as many points as possible and don't leave any advertisement behind! Also, on this page you can find the contest rules, starting from the day of its official start.",
-        "desc42": "For legal purposes, the prize will be awarded in the form of gold bars (it will be possible to convert it immediately upon delivery). Don't worry! We will still be available to assist you in the required procedures to convert your prize into money.",
+        "desc41": "The contest will officially begin after half of the available spaces have been sold but, even before the contest is started, the points will already be counted. So, we suggest you start browsing, get as many points as possible and don't leave any advertisement behind! Also, on this page you can find the contest rules, starting from the day of its official start.",
+        "desc42": "For legal purposes, the prize will be awarded in the form of gold bars. Don't worry! We will still be available to assist you in the required procedures to convert your prize into money (it will be possible to convert it immediately upon delivery).",
         "desc43": "Good luck!"
     },
     "invite": {
@@ -130,7 +133,7 @@
         "points": {
             "title": "Points Scored",
             "table": {
-                "caption1": "Tipology",
+                "caption1": "Type",
                 "caption2": "Detail",
                 "caption3": "Points"
             }

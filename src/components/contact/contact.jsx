@@ -123,7 +123,6 @@ const Contact = React.memo((props) => {
                     {t('contact.phone')}
                   </Form.Label>
                   <Form.Control
-                    required
                     name="phoneNumber"
                     type="text"
                     placeholder=""

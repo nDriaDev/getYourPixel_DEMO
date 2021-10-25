@@ -51,7 +51,7 @@
         "title": "Contattaci",
         "description" : "Per qualsiasi dubbio, problema o informazione, non esitare a contattarci completando il form sottostante. Riceverai una risposta da un membro del nostro team entro 24 ore direttamente all'indirizzo email da te indicato.",
         "name": "Nome *",
-        "phone": "Numero di telefono *",
+        "phone": "Numero di telefono",
         "email": "Email *",
         "oggetto": "Oggetto *",
         "mess": "Messaggio *",
@@ -64,7 +64,7 @@
     },
     "win": {
         "title": "VINCI DAI {{price1}} AI {{price2}} SENZA SPENDERE UN CENTESIMO!",
-        "desc1": "Una volta esaurita la prima metà dei pixel disponibili, avrete la possibilità di partecipare al nostro concorso! Seguendo alcuni semplici passi, sarete inseriti nella lista dalla quale estrarremo 5 fortunati utenti che riceveranno {{price3}} ciascuno! Il meccanismo è semplicissimo. Tutto ciò che dovrete fare, dopo aver effettuato l'accesso con le vostre credenziali, sarà visitare le pubblicità presenti nella homepage. Ogni pubblicità visualizzata assegnerà all’utente 1 punto. Più punti hai più volte il tuo nome verrà inserito nell’elenco per l’estrazione. Ad esempio, visitando una pubblicità il tuo nome verrà inserito una volta, visitando 20 pubblicità il tuo nome verrà inserito 20 volte. Se lo stesso utente visita una pubblicità che ha già visitato in precedenza non guadagna punti aggiuntivi.",
+        "desc1": "Seguendo alcuni semplici passi, sarete inseriti nella lista dalla quale estrarremo 5 fortunati utenti che riceveranno {{price3}} ciascuno! Il meccanismo è semplicissimo. Tutto ciò che dovrete fare, dopo aver effettuato l'accesso con le vostre credenziali, sarà visitare le pubblicità presenti nella homepage. Ogni pubblicità visualizzata assegnerà all’utente 1 punto. Più punti hai più volte il tuo nome verrà inserito nell’elenco per l’estrazione. Ad esempio, visitando una pubblicità il tuo nome verrà inserito una volta, visitando 20 pubblicità il tuo nome verrà inserito 20 volte. Se lo stesso utente visita una pubblicità che ha già visitato in precedenza non guadagna punti aggiuntivi.",
         "desc2": "Per evitare di fare confusione e non ricordare più quale pubblicità avete già guardato, sempre dopo aver effettuato l’accesso con le vostre credenziali, vedrete nell’angolo in basso a destra di ogni immagine un quadratino. Questo quadratino sarà di colore rosso se non avete ancora visitato il sito sponsorizzato, mentre sarà di colore verde se l’avete già visitato e quindi avete già ottenuto il punto.",
         "desc3": "Ecco gli step da seguire:",
         "desc311": "Registrati.",
@@ -74,9 +74,12 @@
         "desc33": "Tieni il conto dei tuoi punti visitando il tuo profilo alla voce ACCOUNT",
         "desc34": "Il giorno dell’estrazione (che avverrà in presenza di un notaio o figura autorizzata) verranno selezionati casualmente da un sistema 5 nomi utente. Lo stesso nome utente potrebbe essere estratto più volte.",
         "desc35": "I vincitori verranno contattati tramite l’email utilizzata per la registrazione per le informazioni riguardanti la consegna del premio.",
+        "desc36": "Un altro modo per ottenere punti è invitare amici e amiche a registrarti sul sito!\nScopri di più sulla pagina ",
+        "inviteClick": "INVITA AMICI",
+        "desc37": "",
         "desc4": "ATTENZIONE!",
-        "desc41": "Anche prima che il concorso venga ufficialmente avviato, i punti saranno già conteggiati, quindi vi consigliamo di iniziare a visitare, ottenere più punti possibile e non lasciarne indietro nessuno! Sempre su questa pagina potrete trovare il regolamento del concorso, a partire dal giorno del suo inizio ufficiale.",
-        "desc42": "Per motivi legali, il premio verrà elargito sotto forma di lingotti d'oro (sarà possibile convertirlo immediatamente al momento della consegna). Non preoccupatevi! Saremo comunque disponibili ad accompagnarvi nelle procedure necessarie a convertire in denaro il premio.",
+        "desc41": "Il concorso inizierà ufficialmente dopo che saranno stati venduti metà degli spazi disponibili ma, anche prima che il concorso venga avviato, i punti saranno già conteggiati, quindi vi consigliamo di iniziare a visitare, ottenere più punti possibile e non lasciarne indietro nessuno! Sempre su questa pagina potrete trovare il regolamento del concorso, a partire dal giorno del suo inizio ufficiale.",
+        "desc42": "Per motivi legali, il premio verrà elargito sotto forma di lingotti d'oro. Non preoccupatevi! Saremo comunque disponibili ad accompagnarvi nelle procedure necessarie a convertire in denaro il premio (sarà possibile convertirlo immediatamente al momento della consegna).",
         "desc43": "In bocca al lupo!"
     },
     "invite" : {

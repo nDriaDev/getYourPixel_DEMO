@@ -1255,7 +1255,7 @@ class MainService {
             } else {
               resolve({
                 code: 404,
-                message: "Utente inesistente"
+                message: "Utente inesistente. Potresti dover ancora confermare l'email che ti abbiamo mandato;User not exist. You may still need to confirm the email we sent you"
               })
             }
           })
@@ -1773,7 +1773,7 @@ class MainService {
             } else {
               resolve({
                 code: 404,
-                message: "Utente inesistente"
+                message: "Utente inesistente. Potresti dover ancora confermare l'email che ti abbiamo mandato;User not exist. You may still need to confirm the email we sent you"
               })
             }
           })
@@ -1890,7 +1890,7 @@ class MainService {
             } else {
               resolve({
                 code: 404,
-                message: "Utente inesistente"
+                message: "Utente inesistente. Potresti dover ancora confermare l'email che ti abbiamo mandato;User not exist. You may still need to confirm the email we sent you"
               })
             }
           })
@@ -2234,6 +2234,7 @@ class MainService {
                     if (result1) {
                       if (!result1.urls.includes(urlClicked)) {
                         let urls = result1.urls;
+                        let points = result1.points ? !isNaN(result1.points) ? result1.points : 0 : 0;
                         urls.push(urlClicked);
                         this.db
                         .collection(COLLECTION_CLICK)
@@ -2243,7 +2244,7 @@ class MainService {
                         }, {
                           "$set": {
                             "urls": urls,
-                            "points": result1.points + 1
+                            "points": points + 1
                           }
                         }, {
                           "upsert": false
@@ -2367,7 +2368,7 @@ class MainService {
             } else {
               resolve({
                 code: 404,
-                message: "Utente inesistente"
+                message: "Utente inesistente. Potresti dover ancora confermare l'email che ti abbiamo mandato;User not exist. You may still need to confirm the email we sent you"
               })
             }
           })
@@ -2492,7 +2493,7 @@ class MainService {
         })
         .then(result => {
           if(result) {
-            if(result.points) {
+            if(result.points && !isNaN(result.points)) {
               resolve({list:result.urls, points: result.points})
             } else {
             resolve({list:result.urls, points: 0})
@@ -2809,24 +2810,24 @@ class MainService {
           ])
           .toArray();
           if(referred && referred[0].referreal) {
-            obj.push({tipologia: "Codice Promo", dettaglio: referred[0].referreal, punti: BONUS_POINTS.referred})
+            obj.push({tipologia: "Codice Promo; Promo Code", dettaglio: referred[0].referreal, punti: BONUS_POINTS.referred})
           }
           if(referred && referred[0].exist) {
             for(let i in referred[0].exist) {
               for(let j in referred[0].existClick) {
                 if(referred[0].exist[i].username === referred[0].existClick[j].username) {
-                  obj.push({ tipologia: "Invito ad utente", dettaglio: referred[0].exist[i].username, punti: BONUS_POINTS.referreal });
+                  obj.push({ tipologia: "Invito ad Utente;User invitation", dettaglio: referred[0].exist[i].username, punti: BONUS_POINTS.referreal });
                 }
               }
             }
           }
           for(let i in user.urls) {
-            obj.push({ tipologia: "Pubblicita'", dettaglio: user.urls[i], punti: 1 })
+            obj.push({ tipologia: "Pubblicita';Advertisement", dettaglio: user.urls[i], punti: 1 })
           }
           return Promise.resolve({ list: obj.length === 0 ? [{ tipologia: '', dettaglio: '', punti: '' }] : obj, points: user.points})
         } else { 
           for(let i in user.urls) {
-            obj.push({ tipologia: "Pubblicita'", dettaglio: user.urls[i], punti: 1 })
+            obj.push({ tipologia: "Pubblicita';Advertisement", dettaglio: user.urls[i], punti: 1 })
           }
           return Promise.resolve({list: obj.length === 0 ? [{tipologia:'', dettaglio: '', punti: ''}] : obj, points: 0})
         }

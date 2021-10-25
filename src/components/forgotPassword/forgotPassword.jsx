@@ -10,7 +10,7 @@ import TrackingGA from './../utils/Tracking';
 import { useTranslation } from 'react-i18next';
 
 const ForgotPassword = (props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   
   const [validated, setValidated] = useState(false);
   const history = useHistory();
@@ -62,7 +62,7 @@ const ForgotPassword = (props) => {
       }).catch(err => {
         TrackingGA.execption("reset password non riuscito: " + err.message); 
         disableSpinner();
-        toast.error(err.message != null ? err.message : "ERRORE", {
+        toast.error(err.message != null ? i18n.language === 'it' ? err.message.split(';')[0]: err.message.split(';')[1] : "ERRORE", {
           position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,

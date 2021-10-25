@@ -1,6 +1,4 @@
 import {React, useEffect} from 'react';
-import $ from 'jquery';
-import 'animate.css/animate.min.css';
 import Img from './../../images/logo.png';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment-timezone';
@@ -16,158 +14,19 @@ const HowWork = (props) => {
 
   const ids=['#logo','#descr','#leftDescr','#rightDescr','#centerDescr','#footerDescr'];
 
-  const isElementInView = (element, fullyInView) => {
-    var pageTop = $(window).scrollTop();
-    var pageBottom = pageTop + $(window).height();
-    var elementTop = $(element).offset().top;
-    var elementBottom = elementTop + $(element).height();
-
-    if (fullyInView === true) {
-        return ((pageTop < elementTop) && (pageBottom > elementBottom));
-    } else {
-        return ((elementTop <= pageBottom) && (elementBottom >= pageTop));
-    }
-  }
-
-  const confAnimation = (elem, mode) => {
-    switch (elem) {
-      case '#logo':
-        if(mode) {
-          if($(elem).hasClass("animate__backOutLeft")) {
-            $(elem).toggleClass("animate__backOutLeft")
-          }
-          if(!$(elem).hasClass("animate__backInLeft")) {
-            $(elem).toggleClass("animate__backInLeft");
-          }
-        } else {
-          if($(elem).hasClass("animate__backInLeft")) {
-            $(elem).toggleClass("animate__backInLeft")
-          }
-          if(!$(elem).hasClass("animate__backOutLeft")) {
-            $(elem).toggleClass("animate__backOutLeft");
-          }
-        }
-        break;
-      case '#descr':
-        if(mode) {
-          if($(elem).hasClass("animate__backOutRight")) {
-            $(elem).toggleClass("animate__backOutRight")
-          }
-          if(!$(elem).hasClass("animate__backInRight")) {
-            $(elem).toggleClass("animate__backInRight");
-          }
-        } else {
-          if($(elem).hasClass("animate__backInRight")) {
-            $(elem).toggleClass("animate__backInRight")
-          }
-          if(!$(elem).hasClass("animate__backOutRight")) {
-            $(elem).toggleClass("animate__backOutRight");
-          }
-        }
-        break;
-        case '#leftDescr':
-          if(mode) {
-            if($(elem).hasClass("animate__backOutLeft")) {
-              $(elem).toggleClass("animate__backOutLeft")
-            }
-            if(!$(elem).hasClass("animate__backInLeft")) {
-              $(elem).toggleClass("animate__backInLeft");
-            }
-          } else {
-            if($(elem).hasClass("animate__backInLeft")) {
-              $(elem).toggleClass("animate__backInLeft")
-            }
-            if(!$(elem).hasClass("animate__backOutLeft")) {
-              $(elem).toggleClass("animate__backOutLeft");
-            }
-          }
-          break;
-        case '#rightDescr':
-          if(mode) {
-            if($(elem).hasClass("animate__backOutRight")) {
-              $(elem).toggleClass("animate__backOutRight")
-            }
-            if(!$(elem).hasClass("animate__backInRight")) {
-              $(elem).toggleClass("animate__backInRight");
-            }
-          } else {
-            if($(elem).hasClass("animate__backInRight")) {
-              $(elem).toggleClass("animate__backInRight")
-            }
-            if(!$(elem).hasClass("animate__backOutRight")) {
-              $(elem).toggleClass("animate__backOutRight");
-            }
-          }
-          break;
-        case '#centerDescr':
-          if(mode) {
-            if($(elem).hasClass("animate__backOutLeft")) {
-              $(elem).toggleClass("animate__backOutLeft")
-            }
-            if(!$(elem).hasClass("animate__backInLeft")) {
-              $(elem).toggleClass("animate__backInLeft");
-            }
-          } else {
-            if($(elem).hasClass("animate__backInLeft")) {
-              $(elem).toggleClass("animate__backInLeft")
-            }
-            if(!$(elem).hasClass("animate__backOutLeft")) {
-              $(elem).toggleClass("animate__backOutLeft");
-            }
-          }
-          break;
-          case '#footerDescr':
-            if(mode) {
-              if($(elem).hasClass("animate__backOutRight")) {
-                $(elem).toggleClass("animate__backOutRight")
-              }
-              if(!$(elem).hasClass("animate__backInRight")) {
-                $(elem).toggleClass("animate__backInRight");
-              }
-            } else {
-              if($(elem).hasClass("animate__backInRight")) {
-                $(elem).toggleClass("animate__backInRight")
-              }
-              if(!$(elem).hasClass("animate__backOutRight")) {
-                $(elem).toggleClass("animate__backOutRight");
-              }
-            }
-            break;
-        default:
-    }
-  }
-
-  const onScroll = (param=true) => {
-    for(let i in ids) {
-      if(isElementInView(ids[i], true)) {
-        confAnimation(ids[i], true);
-      } else {
-        if(param){
-          confAnimation(ids[i], false);
-        }
-      }
-    }
-  }
 
   useEffect(() => {
     props.enableSpinner();
-    onScroll(false);
-    document.getElementById('container').addEventListener('scroll', onScroll);
     setTimeout(() => {
       props.disableSpinner();
     },100)
-    return () => {
-      let elem = document.getElementById('container');
-      if(elem) {
-        elem.removeEventListener('scroll', onScroll)
-      }
-    }
+    return () => {}
   }, []);
 
   return (
     <>
       <div id="container" className="row bodyWork" style={{paddingTop:'10%', paddingBottom:'25%'}}>
-        <div id="logo" className="col-sm-12 animate__animated" style={{marginTop:'5%',marginBottom:'5%', textAlign: 'center'}}>
+        <div id="logo" className="col-sm-12" style={{marginTop:'5%',marginBottom:'5%', textAlign: 'center'}}>
           <img style={{width:'75%'}} alt="logo" src={Img}/>
           <br/>
           <br/>
@@ -175,7 +34,7 @@ const HowWork = (props) => {
           <span style={{fontSize:'1.8rem'}}>{t('howWork.subTitle')}</span>
         </div>
 
-        <div id="descr" className="col-sm-12 animate__animated" style={{fontSize:'.9rem', textAlign: 'justify'}}>
+        <div id="descr" className="col-sm-12" style={{fontSize:'.9rem', textAlign: 'justify'}}>
           <h2>&nbsp;</h2>
           <h2>&nbsp;</h2>
           <span>
@@ -185,7 +44,7 @@ const HowWork = (props) => {
           </span>
         </div>
 
-        <div id="leftDescr" className="col-sm-6 animate__animated" style={{marginTop:'20%',marginBottom:'10%'}}>
+        <div id="leftDescr" className="col-sm-6" style={{marginTop:'20%',marginBottom:'5%'}}>
           <h2 style={{marginBottom: '1.2rem', fontSize: '1.8rem'}}>
             {t('howWork.descLeft1')}
           </h2>
@@ -198,7 +57,7 @@ const HowWork = (props) => {
           </span>
         </div>
 
-        <div id="rightDescr" className="col-sm-6 animate__animated" style={{marginTop:'20%',marginBottom:'10%',}}>
+        <div id="rightDescr" className="col-sm-6" style={{marginTop:'20%',marginBottom:'5%',}}>
           <h2 style={{marginBottom: '1.2rem', fontSize: '1.8rem'}}>
             {t('howWork.descRight1')}
           </h2>
@@ -215,7 +74,7 @@ const HowWork = (props) => {
           </span>
         </div>
 
-        <div id="centerDescr" className="col-sm-12 animate__animated" style={{marginTop:'20%',marginBottom:'5%'}}>
+        <div id="centerDescr" className="col-sm-12" style={{marginTop:'15%',marginBottom:'5%'}}>
           <h2 style={{marginBottom: '1.2rem', textAlign:'center', fontSize: '1.8rem'}}>
             {t('howWork.descCenter1')}
           </h2>
@@ -224,7 +83,7 @@ const HowWork = (props) => {
           </span>
         </div>
 
-        <div id="footerDescr" className="col-sm-12 animate__animated" style={{marginTop:'10%',marginBottom:'5%'}}>
+        <div id="footerDescr" className="col-sm-12" style={{marginTop:'10%',marginBottom:'5%'}}>
           <h2 style={{marginBottom: '1.2rem', fontSize: '1.8rem'}}>
             {t('howWork.descFooter1')}
           </h2>

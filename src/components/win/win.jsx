@@ -38,7 +38,6 @@ const Win = (props) => {
       <br/>
       <br/>
       <br/>
-      <br/>
         <span style={{ fontSize: '.95rem', textAlign: 'justify' }}>
           {t('win.desc3')}
       </span>
@@ -88,6 +87,13 @@ const Win = (props) => {
           </li>
         </ol>
         <br/>
+        <span style={{ fontSize: '.95rem', textAlign: 'justify' }}>
+          {t('win.desc36')}
+          <a className="a-animated" href="/invite"> {t('win.inviteClick')} </a>
+          {t('win.desc37')}
+      </span>
+        <br/>
+        <br/>
         <br/>
         <br/>
         <h5>
@@ -98,7 +104,7 @@ const Win = (props) => {
           <br />
           {t('win.desc42')}
         </span>
-        <h3 style={{ marginTop: '.7rem' }}>
+        <h3 style={{ marginTop: '1.7rem' }}>
           {t('win.desc43')}
         </h3>
     </div>

@@ -1,0 +1,102 @@
+{
+  "name": "getyourpixel",
+  "version": "3.8.0",
+  "private": true,
+  "engines": {
+    "node": "14.x"
+  },
+  "author": "4ndr3w_c0",
+  "dependencies": {
+    "@chilkat/ck-node14-linux64": "^9.50.84",
+    "@fortawesome/fontawesome-free": "^5.15.2",
+    "@mailchimp/mailchimp_marketing": "^3.0.41",
+    "@stripe/react-stripe-js": "^1.1.2",
+    "@stripe/stripe-js": "^1.11.0",
+    "animate.css": "^4.1.1",
+    "app-root-path": "^3.0.0",
+    "axios": "^0.21.0",
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
+    "bootstrap": "^4.5.3",
+    "buffer-image-size": "^0.6.4",
+    "canvas": "^2.7.0",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1",
+    "express-favicon": "^2.0.1",
+    "express-session": "^1.17.1",
+    "googleapis": "^67.0.0",
+    "handlebars": "^4.7.6",
+    "helmet": "^4.2.0",
+    "i18next": "^20.2.2",
+    "i18next-browser-languagedetector": "^6.1.1",
+    "i18next-http-backend": "^1.2.2",
+    "imagemin": "^7.0.1",
+    "imagemin-jpegtran": "^7.0.0",
+    "imagemin-pngquant": "^9.0.1",
+    "jimp": "^0.16.1",
+    "jquery": "^3.5.1",
+    "jsonwebtoken": "^8.5.1",
+    "lzma-native": "^6.0.1",
+    "lzutf8": "^0.5.6",
+    "moment": "^2.29.1",
+    "moment-timezone": "^0.5.33",
+    "mongodb": "^3.6.3",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.4.16",
+    "path": "^0.12.7",
+    "popper.js": "^1.16.1",
+    "react": "^17.0.1",
+    "react-bootstrap": "^1.4.0",
+    "react-dom": "^17.0.1",
+    "react-epic-spinners": "^0.5.0",
+    "react-facebook-pixel": "^1.0.4",
+    "react-ga": "^3.3.0",
+    "react-i18next": "^11.8.15",
+    "react-image-mapper": "0.0.15",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^4.0.3",
+    "react-toastify": "^6.1.0",
+    "react-virtualized-auto-sizer": "^1.0.2",
+    "react-window": "^1.8.6",
+    "resize-image-buffer": "^1.0.0",
+    "session-file-store": "^1.5.0",
+    "stripe": "^8.126.0",
+    "uuid": "^8.3.2",
+    "web-vitals": "^0.2.4",
+    "winston": "^3.3.3"
+  },
+  "scripts": {
+    "start": "npm run delete-session-files && npm run delete-map-files && node server.js",
+    "start:devBuild": "npm run delete-session-files && node server.js",
+    "start:dev": "react-scripts start",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build",
+    "develop": "npm run build && npm run start",
+    "delete-map-files": "find ./build/static/js -name '*.map' -delete",
+    "delete-session-files": "find ./sessions -name '*.json' -delete",
+    "production": "GENERATE_SOURCEMAP=false react-scripts build && npm run delete-map-files && node server.js",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "//": {
+    "proxy": "http://localhost:3001",
+    "comment": "proxy serve per evitare errori CORS quando il server è su un porta diversa"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

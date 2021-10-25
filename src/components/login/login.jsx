@@ -10,7 +10,7 @@ import TrackingGA from './../utils/Tracking';
 import { useTranslation } from 'react-i18next';
 
 const Login = React.memo(({ enableSpinner, disableSpinner, setAuth }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const history = useHistory();
   const [validated, setValidated] = useState(false);
@@ -80,7 +80,7 @@ const Login = React.memo(({ enableSpinner, disableSpinner, setAuth }) => {
         .catch(err => {
           TrackingGA.execption("login non riuscita: " + err.message)
           disableSpinner();
-          toast.error(err.message != null ? err.message : "ERRORE", {
+          toast.error(err.message != null ? i18n.language === 'it' ? err.message.split(';')[0]: err.message.split(';')[1] : "ERRORE", {
             position: "top-center",
             autoClose: 5000,
             hideProgressBar: false,

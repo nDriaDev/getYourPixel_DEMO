@@ -61,7 +61,7 @@ exports.sendMail = (name, email, phoneNumber, subject, message, callback) => {
       let template = handlebars.compile(html);
       let replace = {
         name: name,
-        phoneNumber: phoneNumber,
+        phoneNumber: phoneNumber ? phoneNumber : '',
         subject: subject,
         message: message,
         email: email
