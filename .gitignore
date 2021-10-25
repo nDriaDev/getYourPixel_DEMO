@@ -42,6 +42,7 @@ package-lock.json
 node_modules/
 build/
 jspm_packages/
+.lh
 
 # TypeScript v1 declaration files
 typings/
