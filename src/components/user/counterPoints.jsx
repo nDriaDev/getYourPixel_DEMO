@@ -84,8 +84,8 @@ const CounterPoints = ({ spinnerCommand }) => {
                     <tr key={'tr_'+index}>
                     <td key={'td1_'+index}>{index+1}</td>
                       <td key={'td2_' + index}>{i18n.language === 'it' ? item.tipologia.split(';')[0] : item.tipologia.split(';')[1]}</td>
-                      <td key={'td2_' + index}>{i18n.language === 'it' ? item.dettaglio.split(';')[0]: item.dettaglio.split(';')[1]}</td>
-                      <td key={'td2_' + index}>{i18n.language === 'it' ? item.punti.split(';')[0]: item.punti.split(';')[1]}</td>
+                      <td key={'td2_' + index}>{item.dettaglio}</td>
+                      <td key={'td2_' + index}>{item.punti}</td>
                     </tr>
                   ))
                   :
